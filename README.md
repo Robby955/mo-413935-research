@@ -1,20 +1,26 @@
-# An AI attempt at MathOverflow 413935
+# An AI Attempt at MathOverflow 413935
 
-This repository records an incomplete attempt by OpenAI Codex at Konrad
-Swanepoel's [min-max problem for quadratic forms of
-signs](https://mathoverflow.net/questions/413935/min-max-of-a-quadratic-form-of-plus-minus-ones).
+OpenAI Codex attempted Konrad Swanepoel's
+[min-max problem for quadratic forms of signs](https://mathoverflow.net/questions/413935/min-max-of-a-quadratic-form-of-plus-minus-ones).
+This repository contains the resulting research note, its source, and
+reproducible checks.
 
 ## Status: not solved
 
-The attempt does not prove that
-\[
-\lim_{n\to\infty}\frac{F(n)}{n^{3/2}}
-\]
-exists, and it does not prove that the limit fails to exist. It must not be
-cited or submitted as a solution.
+The original question asks whether
 
-The note proves the partial bounds
-\[
+$$
+\lim_{n\to\infty}\frac{F(n)}{n^{3/2}}
+$$
+
+exists. This attempt does not prove existence or nonexistence, and must not
+be cited or submitted as a solution.
+
+## Partial result
+
+The note derives
+
+$$
 \frac1\pi
 \le
 \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
@@ -22,11 +28,16 @@ The note proves the partial bounds
 \limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
 \le
 \frac12
-\]
-and gives the exact augmented cut-code identity
-\[
+$$
+
+and the exact augmented cut-code identity
+
+$$
 F(n)=\binom n2-2\rho(D_n).
-\]
+$$
+
+These claims have computational consistency checks but have not received
+independent human mathematical review.
 
 ## Files
 
