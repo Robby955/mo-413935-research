@@ -1,0 +1,363 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+\usepackage{xcolor}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newcommand{\eps}{\{-1,1\}}
+\newcommand{\E}{\mathbb E}
+
+\hypersetup{
+  pdftitle={An AI Attempt at a Min-Max Problem for Quadratic Forms of Signs},
+  pdfauthor={OpenAI Codex},
+  pdfsubject={Partial results for MathOverflow question 413935},
+  pdfkeywords={quadratic forms, signs, discrepancy, conference matrices, cut codes}
+}
+
+\title{\textbf{An AI Attempt at a Min--Max Problem for\\
+Quadratic Forms of Signs}\\[4pt]
+\large Exact reformulations and the bounds \(1/\pi\) and \(1/2\)}
+\author{OpenAI Codex\\
+\small AI-generated research note}
+\date{25 July 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{red!65!black}{red!4}{
+\begin{minipage}{0.89\textwidth}
+\textbf{Status and nonclaim.}
+This note does not prove that the limit in Question~\ref{q:main} exists,
+and it does not prove that the limit fails to exist. It is an unsuccessful
+solution attempt containing several rigorous partial results. It should not
+be submitted or cited as a solution to the MathOverflow problem.
+\end{minipage}}
+\end{center}
+
+\begin{abstract}
+For
+\[
+ F(n)=\min_{a_{ij}\in\eps}
+ \max_{x\in\eps^n}
+ \left|\sum_{1\le i<j\le n}a_{ij}x_ix_j\right|,
+\]
+we give an exact covering-radius formulation and prove
+\[
+ \frac1\pi
+ \le \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
+ \le \limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
+ \le \frac12.
+\]
+The lower bound follows from two correlated Gaussian sign-roundings and
+the arcsine law. The upper bound follows from Paley conference matrices
+and principal submatrices. We also record why monotonicity and ordinary
+block composition do not settle convergence. The question whether the
+normalized sequence converges remains open in this attempt.
+\end{abstract}
+
+\section{The question}
+
+\label{q:main}
+The problem, posed on MathOverflow in 2021 \cite{mo}, asks whether
+\[
+ \lim_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\]
+exists. The emphasis is on existence, not merely on proving the
+\(\Theta(n^{3/2})\) scale.
+
+Given the coefficients \(a_{ij}\), let \(A\) be the symmetric matrix with
+zero diagonal and off-diagonal entries \(A_{ij}=a_{ij}\). Write
+\[
+ Q_A(x)=\sum_{i<j}a_{ij}x_ix_j=\frac12x^{\mathsf T}Ax,
+ \qquad
+ M(A)=\max_{x\in\eps^n}|Q_A(x)|.
+\]
+Then \(F(n)=\min_A M(A)\).
+
+\section{Switching and an exact code formulation}
+
+Changing \(x\) conjugates \(A\) by a diagonal sign matrix. Thus \(M(A)\)
+is the largest absolute total signed edge sum in the switching class of
+\(A\). The relation between switching classes and cosets of the cutset
+code is standard \cite{sole-zaslavsky}; the absolute-value version needed
+here has the following exact form.
+
+\begin{proposition}[Augmented cut-code identity]
+\label{prop:code}
+Put \(m=\binom n2\) and
+\[
+ c_x=(x_ix_j)_{i<j}\in\eps^m,\qquad
+ D_n=\{c_x:x\in\eps^n\}\cup\{-c_x:x\in\eps^n\}.
+\]
+If \(\rho(D_n)\) denotes the covering radius of \(D_n\) in the Hamming
+cube \(\eps^m\), then
+\[
+ \boxed{F(n)=m-2\rho(D_n).}
+\]
+\end{proposition}
+
+\begin{proof}
+For \(a\in\eps^m\),
+\[
+ \langle a,c_x\rangle=m-2d_H(a,c_x).
+\]
+Because \(D_n\) contains \(c_x\) and \(-c_x\),
+\[
+ \max_x|\langle a,c_x\rangle|
+ =m-2d_H(a,D_n).
+\]
+Minimizing the left side over \(a\) maximizes the final distance, giving
+the stated formula.
+\end{proof}
+
+In particular, the original question asks whether the second-order
+covering-radius deficit
+\[
+ \frac m2-\rho(D_n)=\frac{F(n)}2
+\]
+has an \(n^{3/2}\)-normalized limit.
+
+\section{A Gaussian-sign lower bound}
+
+The next argument is uniform over every admissible coefficient matrix.
+
+\begin{theorem}
+\label{thm:lower}
+For every \(n\ge2\),
+\[
+ \boxed{F(n)\ge \frac{n\sqrt{n-1}}{\pi}.}
+\]
+Consequently,
+\[
+ \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}\ge\frac1\pi.
+\]
+\end{theorem}
+
+\begin{proof}
+Fix \(A\), let \(g\sim N(0,I_n)\), and choose \(t>0\). Define
+\[
+ z^\pm=\left(I\pm\frac{t}{\sqrt n}A\right)g,
+ \qquad x_i^\pm=\operatorname{sgn}(z_i^\pm).
+\]
+Every coordinate of \(z^\pm\) has variance
+\[
+ d=1+t^2\frac{n-1}{n}.
+\]
+For \(i\ne j\),
+\[
+ \operatorname{Cov}(z_i^\pm,z_j^\pm)
+ =\pm\frac{2t}{\sqrt n}a_{ij}
+   +\frac{t^2}{n}(A^2)_{ij}.
+\]
+Let \(r_{ij}^\pm\) be the corresponding correlation and set
+\[
+ u_{ij}=\frac{a_{ij}t^2(A^2)_{ij}}{nd},
+ \qquad
+ v=\frac{2t}{\sqrt n\,d}.
+\]
+Then \(a_{ij}r_{ij}^\pm=u_{ij}\pm v\).
+
+For centered jointly Gaussian variables with correlation \(r\), the
+arcsine law states
+\[
+ \E[\operatorname{sgn}(Z_1)\operatorname{sgn}(Z_2)]
+ =\frac2\pi\arcsin r.
+\]
+For completeness, write
+\((Z_1,Z_2)=(G_1,rG_1+\sqrt{1-r^2}G_2)\) with independent standard
+Gaussians. The direction of \((G_1,G_2)\) is uniform on the circle, and
+the angular measure of the two same-sign sectors gives the displayed
+identity.
+Since \(\arcsin\) is odd and its derivative is at least \(1\) on
+\((-1,1)\),
+\[
+\begin{aligned}
+a_{ij}\left(\arcsin r_{ij}^+-\arcsin r_{ij}^-\right)
+ &=\arcsin(u_{ij}+v)-\arcsin(u_{ij}-v)\\
+ &\ge 2v.
+\end{aligned}
+\]
+The endpoints are valid correlations, so they lie in \([-1,1]\); the
+same inequality follows at an endpoint by continuity.
+
+Summing over \(m=\binom n2\) edges gives
+\[
+\begin{aligned}
+\E Q_A(x^+)-\E Q_A(x^-)
+ &=\frac2\pi\sum_{i<j}a_{ij}
+   \left(\arcsin r_{ij}^+-\arcsin r_{ij}^-\right)\\
+ &\ge\frac{4mv}{\pi}
+ =\frac{8tm}{\pi\sqrt n\,d}.
+\end{aligned}
+\]
+Both expectations belong to \([-M(A),M(A)]\). Therefore
+\[
+ M(A)\ge\frac{4tm}{\pi\sqrt n\,d}.
+\]
+The ratio \(t/(1+t^2(n-1)/n)\) is maximized at
+\(t=\sqrt{n/(n-1)}\), where \(d=2\). Substitution yields
+\[
+ M(A)\ge \frac{2m}{\pi\sqrt{n-1}}
+ =\frac{n\sqrt{n-1}}{\pi}.
+\]
+The bound holds for every \(A\), completing the proof.
+\end{proof}
+
+\paragraph{Independent check.}
+A separate finite verifier reconstructs the covariance entries for
+random sign matrices, checks the arcsine inequality edge by edge, checks
+the optimized algebra through order \(9999\), and includes corruption
+controls. This is a check of the displayed calculation, not a substitute
+for the proof.
+
+\section{A conference-matrix upper bound}
+
+\begin{theorem}
+\label{thm:upper}
+\[
+ \boxed{\limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}\le\frac12.}
+\]
+\end{theorem}
+
+\begin{proof}
+A symmetric conference matrix \(C\) of order \(N\) has zero diagonal,
+off-diagonal entries in \(\eps\), and
+\[
+ C^2=(N-1)I.
+\]
+For every \(x\in\eps^N\),
+\[
+ |Q_C(x)|
+ =\frac12|x^{\mathsf T}Cx|
+ \le\frac12\|x\|_2\|Cx\|_2
+ =\frac12N\sqrt{N-1}.
+\]
+
+The Paley construction supplies such a matrix of order \(q+1\) whenever
+\(q\) is a prime power with \(q\equiv1\pmod4\); see, for example,
+\cite{cameron}. The prime number theorem in arithmetic progressions
+allows, for each sufficiently large \(n\), a prime
+\(q\equiv1\pmod4\) with \(q+1\ge n\) and \((q+1)/n\to1\).
+
+Take any \(n\)-by-\(n\) principal submatrix \(A\) of the conference
+matrix of order \(q+1\). Compression cannot increase operator norm, so
+\(\|A\|_{\mathrm{op}}\le\sqrt q\). Hence
+\[
+ F(n)\le M(A)
+ \le\frac12n\sqrt q
+ =\left(\frac12+o(1)\right)n^{3/2}.
+\]
+\end{proof}
+
+\section{Elementary regularity and the composition wall}
+
+\begin{proposition}
+\label{prop:monotone}
+For every \(n\ge2\),
+\[
+ F(n)\le F(n+1)\le F(n)+n.
+\]
+\end{proposition}
+
+\begin{proof}
+Restrict a signing on \(n+1\) vertices to its first \(n\) vertices.
+For fixed \(x\in\eps^n\), its restricted energy is the average of the
+two full energies obtained by setting the final sign to \(1\) and
+\(-1\). The restricted norm is therefore no larger than the full norm,
+which proves the first inequality after minimization.
+
+For the second inequality, extend an optimal \(n\)-vertex signing by
+arbitrary incident signs \(b_i\). If \(L(x)=\sum_i b_ix_i\), then
+\[
+ \max_{s\in\eps}|Q_A(x)+sL(x)|=|Q_A(x)|+|L(x)|
+ \le F(n)+n.
+\]
+\end{proof}
+
+This regularity is too weak to force convergence. A direct block
+construction also loses at leading order. If optimal arrays of orders
+\(n\) and \(k\) are joined by independently chosen cross-edge signs,
+a union bound gives a cross discrepancy of order
+\[
+ \sqrt{2(\log2)\,nk(n+k)}.
+\]
+When \(n\) and \(k\) are comparable, this is of order
+\((n+k)^{3/2}\), exactly the target scale. Thus neither Fekete's lemma
+nor ordinary approximate subadditivity applies.
+
+The analogous rectangular switching game is also governed by
+unimodular bilinear forms and has a long discrepancy literature
+\cite{brown-spencer,pellegrino-raposo}. Those bounds do not provide the
+lossless symmetric composition needed here.
+
+\section{What remains}
+
+Combining Theorems~\ref{thm:lower} and~\ref{thm:upper} gives the proved
+partial result
+\[
+\boxed{
+\frac1\pi
+\le \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\le \limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\le\frac12.
+}
+\]
+Proposition~\ref{prop:code} gives an exact second description:
+\[
+\boxed{F(n)=\binom n2-2\rho(D_n).}
+\]
+
+The first missing implication is still a limit theorem. One needs either
+an asymptotically lossless amplification taking a near-optimal signing
+at one order to a dense set of larger orders, or a different
+interpolation that keeps the cross-block contribution at the same
+optimized constant. The direct block, tensor, and annealed
+partition-function approaches examined in this attempt all incur a
+leading-order loss.
+
+\medskip
+\noindent\textbf{Final status.}
+This note narrows the possible asymptotic interval and supplies an exact
+coding formulation. It does not answer the question posed on
+MathOverflow.
+
+\begin{thebibliography}{9}
+
+\bibitem{mo}
+A.~Kontorovich,
+\emph{Min-max of a quadratic form of plus-minus ones},
+MathOverflow question 413935, 2021.
+\url{https://mathoverflow.net/questions/413935/}
+
+\bibitem{sole-zaslavsky}
+P.~Sol\'e and T.~Zaslavsky,
+\emph{A coding approach to signed graphs},
+SIAM J. Discrete Math. \textbf{7} (1994), 544--553.
+\url{https://doi.org/10.1137/S0895480189174374}
+
+\bibitem{cameron}
+P.~J. Cameron,
+\emph{Conference matrices}, lecture notes.
+\url{https://webspace.maths.qmul.ac.uk/p.j.cameron/csgnotes/conftalk.pdf}
+
+\bibitem{brown-spencer}
+T.~A. Brown and J.~H. Spencer,
+\emph{Minimization of \(\pm1\) matrices under line shifts},
+Colloq. Math. \textbf{23} (1971), 165--171.
+
+\bibitem{pellegrino-raposo}
+D.~Pellegrino and A.~Raposo Jr.,
+\emph{Upper bounds for the constants of Bennett's inequality and the
+Gale--Berlekamp switching game},
+arXiv:2111.00445, 2022.
+\url{https://arxiv.org/abs/2111.00445}
+
+\end{thebibliography}
+
+\end{document}
