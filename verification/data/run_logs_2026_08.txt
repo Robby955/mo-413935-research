@@ -1,0 +1,197 @@
+# Raw computation logs, 2026-08-01. Produced by exact_fn.c, conference_max.c, ext_chain.c.
+
+## exact_fn n=3..9 (single run, with oscillation)
+n=3 fixbits=0 fixval=0 classes=2
+F_abs=3 witness_mask=0 ties=2
+F_plus=1 witness_mask=1 ties=1
+Osc=4 witness_mask=0 ties=2
+audit=PASSED
+n=4 fixbits=0 fixval=0 classes=8
+F_abs=4 witness_mask=1 ties=6
+F_plus=2 witness_mask=7 ties=1
+Osc=8 witness_mask=0 ties=8
+audit=PASSED
+n=5 fixbits=0 fixval=0 classes=64
+F_abs=4 witness_mask=13 ties=12
+F_plus=2 witness_mask=63 ties=1
+Osc=8 witness_mask=13 ties=12
+audit=PASSED
+n=6 fixbits=0 fixval=0 classes=1024
+F_abs=5 witness_mask=220 ties=12
+F_plus=3 witness_mask=1023 ties=1
+Osc=10 witness_mask=220 ties=12
+audit=PASSED
+n=7 fixbits=0 fixval=0 classes=32768
+F_abs=9 witness_mask=828 ties=3240
+F_plus=3 witness_mask=32767 ties=1
+Osc=16 witness_mask=828 ties=3240
+audit=PASSED
+n=8 fixbits=0 fixval=0 classes=2097152
+F_abs=10 witness_mask=53014 ties=4200
+F_plus=4 witness_mask=2097151 ties=1
+Osc=20 witness_mask=53014 ties=4200
+audit=PASSED
+n=9 fixbits=0 fixval=0 classes=268435456
+F_abs=12 witness_mask=898008 ties=1607760
+F_plus=4 witness_mask=268435455 ties=1
+Osc=24 witness_mask=445880 ties=1970640
+audit=PASSED
+
+## exact_fn n=10 (8 fixed-prefix slices)
+n=10 fixbits=3 fixval=0 classes=8589934592
+F_abs=13 witness_mask=229890161 ties=69120
+F_plus=9 witness_mask=3723476863 ties=3
+Osc=26 witness_mask=227429300 ties=82080
+audit=PASSED
+n=10 fixbits=3 fixval=1 classes=8589934592
+F_abs=13 witness_mask=8703683753 ties=97920
+F_plus=7 witness_mask=12313411455 ties=1
+Osc=26 witness_mask=8703683753 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=2 classes=8589934592
+F_abs=13 witness_mask=17287309772 ties=97920
+F_plus=7 witness_mask=23336574911 ties=1
+Osc=26 witness_mask=17284340692 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=3 classes=8589934592
+F_abs=13 witness_mask=25785755052 ties=97920
+F_plus=7 witness_mask=34359738367 ties=1
+Osc=26 witness_mask=25785621708 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=4 classes=8589934592
+F_abs=13 witness_mask=34467592281 ties=97920
+F_plus=7 witness_mask=41733058527 ties=1
+Osc=26 witness_mask=34463951796 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=5 classes=8589934592
+F_abs=13 witness_mask=42965838961 ties=97920
+F_plus=7 witness_mask=51539607551 ties=1
+Osc=26 witness_mask=42963250353 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=6 classes=8589934592
+F_abs=13 witness_mask=51555546794 ties=97920
+F_plus=7 witness_mask=60129542143 ties=1
+Osc=26 witness_mask=51553089613 ties=113760
+audit=PASSED
+n=10 fixbits=3 fixval=7 classes=8589934592
+F_abs=13 witness_mask=60143036557 ties=69120
+F_plus=5 witness_mask=68719476735 ties=1
+Osc=26 witness_mask=60143036557 ties=82080
+audit=PASSED
+
+## conference maxima
+order=6 source=paley_q5 maximum=5 maxS=5 minS=-5 ratio=0.340206909 spectral_ceiling=0.456435465 witness_x=0
+order=10 source=petersen maximum=15 maxS=15 minS=-15 ratio=0.474341649 spectral_ceiling=0.474341649 witness_x=0
+order=14 source=paley_q13 maximum=21 maxS=21 minS=-21 ratio=0.400891863 spectral_ceiling=0.481812056 witness_x=54
+order=18 source=paley_q17 maximum=33 maxS=33 minS=-33 ratio=0.432120811 spectral_ceiling=0.485912658 witness_x=126
+order=26 source=gf25 maximum=65 maxS=65 minS=-65 ratio=0.490290338 spectral_ceiling=0.490290338 witness_x=2046
+order=30 source=paley_q29 maximum=75 maxS=75 minS=-75 ratio=0.456435465 spectral_ceiling=0.491596040 witness_x=53222
+
+## restriction chains (order 30)
+chain=0
+  k=5 max=6 ratio=0.536656
+  k=6 max=7 ratio=0.476290
+  k=7 max=13 ratio=0.701934
+  k=8 max=16 ratio=0.707107
+  k=9 max=18 ratio=0.666667
+  k=10 max=19 ratio=0.600833
+  k=11 max=21 ratio=0.575613
+  k=12 max=26 ratio=0.625463
+  k=13 max=28 ratio=0.597369
+  k=14 max=29 ratio=0.553613
+  k=15 max=33 ratio=0.568038
+  k=16 max=38 ratio=0.593750
+  k=17 max=40 ratio=0.570672
+  k=18 max=43 ratio=0.563067
+  k=19 max=43 ratio=0.519204
+  k=20 max=48 ratio=0.536656
+  k=21 max=50 ratio=0.519566
+  k=22 max=55 ratio=0.533002
+  k=23 max=57 ratio=0.516753
+  k=24 max=60 ratio=0.510310
+  k=25 max=64 ratio=0.512000
+  k=26 max=67 ratio=0.505376
+  k=27 max=69 ratio=0.491817
+  k=28 max=70 ratio=0.472456
+  k=29 max=72 ratio=0.461037
+  k=30 max=75 ratio=0.456435
+chain=1
+  k=5 max=8 ratio=0.715542
+  k=6 max=9 ratio=0.612372
+  k=7 max=11 ratio=0.593944
+  k=8 max=14 ratio=0.618718
+  k=9 max=14 ratio=0.518519
+  k=10 max=17 ratio=0.537587
+  k=11 max=23 ratio=0.630433
+  k=12 max=24 ratio=0.577350
+  k=13 max=28 ratio=0.597369
+  k=14 max=29 ratio=0.553613
+  k=15 max=33 ratio=0.568038
+  k=16 max=38 ratio=0.593750
+  k=17 max=38 ratio=0.542138
+  k=18 max=43 ratio=0.563067
+  k=19 max=45 ratio=0.543353
+  k=20 max=48 ratio=0.536656
+  k=21 max=50 ratio=0.519566
+  k=22 max=55 ratio=0.533002
+  k=23 max=59 ratio=0.534885
+  k=24 max=60 ratio=0.510310
+  k=25 max=62 ratio=0.496000
+  k=26 max=65 ratio=0.490290
+  k=27 max=69 ratio=0.491817
+  k=28 max=70 ratio=0.472456
+  k=29 max=72 ratio=0.461037
+  k=30 max=75 ratio=0.456435
+chain=2
+  k=5 max=8 ratio=0.715542
+  k=6 max=9 ratio=0.612372
+  k=7 max=11 ratio=0.593944
+  k=8 max=14 ratio=0.618718
+  k=9 max=14 ratio=0.518519
+  k=10 max=19 ratio=0.600833
+  k=11 max=19 ratio=0.520792
+  k=12 max=24 ratio=0.577350
+  k=13 max=26 ratio=0.554700
+  k=14 max=29 ratio=0.553613
+  k=15 max=33 ratio=0.568038
+  k=16 max=34 ratio=0.531250
+  k=17 max=40 ratio=0.570672
+  k=18 max=41 ratio=0.536877
+  k=19 max=45 ratio=0.543353
+  k=20 max=48 ratio=0.536656
+  k=21 max=48 ratio=0.498784
+  k=22 max=53 ratio=0.513620
+  k=23 max=57 ratio=0.516753
+  k=24 max=60 ratio=0.510310
+  k=25 max=60 ratio=0.480000
+  k=26 max=65 ratio=0.490290
+  k=27 max=69 ratio=0.491817
+  k=28 max=70 ratio=0.472456
+  k=29 max=72 ratio=0.461037
+  k=30 max=75 ratio=0.456435
+
+## beam extension chain from exact F(10) witness
+n=10 start_max=13 (expect 13)
+n=11 upper_bound=19 ratio=0.520792 ext_mask=6
+n=12 upper_bound=22 ratio=0.529238 ext_mask=451
+n=13 upper_bound=24 ratio=0.512031 ext_mask=349
+n=14 upper_bound=27 ratio=0.515432 ext_mask=599
+n=15 upper_bound=31 ratio=0.533611 ext_mask=161
+n=16 upper_bound=34 ratio=0.531250 ext_mask=1701
+final_matrix_rows:
+0++++++++++-----
++0-+++---+--+-++
++-0+++--+--+--+-
++++0---++-++-+++
++++-0-+--+++--++
++++--0--++++++--
++---+-0++++---++
++--+--+0+++-++--
++-++-+++0++--+++
+++--+++++0+++-+-
++--+++++++0++++-
+--++++---++0++++
+-+---+-+-+++0+++
+---+-+-++-+++0++
+-++++-+-++++++0+
+-+-++-+-+--++++0

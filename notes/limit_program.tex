@@ -1,0 +1,852 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+\usepackage{microtype}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newcommand{\eps}{\{-1,1\}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Osc}{\mathrm{Osc}}
+
+\title{\textbf{The minimax quadratic sign problem:\\
+exact values, oscillation superadditivity,\\ and the two-scale barrier}\\[4pt]
+\large A continuation of the study of MathOverflow question 413935}
+\author{mo-413935-ai-attempt repository, second research note}
+\date{1 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For
+\[
+ F(n)=\min_{a_{ij}\in\eps}\max_{x\in\eps^n}
+ \Bigl|\sum_{1\le i<j\le n}a_{ij}x_ix_j\Bigr|,
+\]
+the question whether $F(n)/n^{3/2}$ converges remains open. This note
+extends the July 2026 note in this repository. New content: the exact
+values $F(2),\dots,F(10)=1,3,4,4,5,9,10,12,13$; a proof that the
+Gaussian-rounding method of the July note, fully optimized, computes
+exactly the oscillation functional
+$\Osc_{1/2}(n)=\tfrac12\min_A(\max_xS_A-\min_xS_A)$, which lies in
+$[F(n)/2,\,F(n)]$ and is superadditive; a merge theorem
+$F(n+m)\le F(n)+F(m)+(1+o(1))\,n\sqrt m$ with a matching block floor of
+order $n\sqrt m$; a resulting continuity theory for
+$G(n)=F(n)/n^{3/2}$, including the statement that the limit exists if
+and only if it exists along conference orders; the observation that
+symmetric conference matrices attain their spectral ceiling exactly at
+orders $q+1$ with $q$ an even prime power ($q=9,25$ verified), so no
+uniform conference deficit exists; and an explicit bounded divergent
+profile satisfying every inequality proved here and in the July note,
+which shows that all such local inequalities together cannot decide
+convergence. The sharpest remaining target is a one-scale-to-all-scales
+amplification inequality. The question stays open.
+\end{abstract}
+
+\section{The problem and what is new}
+
+Throughout, $A$ is a symmetric matrix with zero diagonal and
+off-diagonal entries $a_{ij}\in\eps$, called a signing of $K_n$. Write
+\[
+ S_A(x)=\sum_{i<j}a_{ij}x_ix_j,\qquad
+ M(A)=\max_{x\in\eps^n}|S_A(x)|,\qquad
+ F(n)=\min_AM(A),\qquad
+ G(n)=\frac{F(n)}{n^{3/2}}.
+\]
+MathOverflow question 413935, posed by Paata Ivanisvili in January
+2022, asks whether $\lim_nG(n)$ exists. The July 2026 note in this
+repository proves
+\[
+ \frac1\pi\le\liminf G\le\limsup G\le\frac12
+\]
+and the covering-radius identity $F(n)=\binom n2-2\rho(D_n)$. Those
+proofs were re-audited for the present note and stand; see
+\texttt{AUDIT.md}.
+
+New results proved below.
+
+\begin{enumerate}
+\item Exact values $F(2),\dots,F(10)$ and the exact one-sided and
+oscillation optima for $n\le10$, none previously recorded
+(Section~\ref{sec:exact}).
+\item An even-odd inequality: for every signing, every vertex
+bipartition, and every pair $(x,y)$,
+$M\ge|S_P(x)+S_R(y)|+|x^{\mathsf T}Cy|$, giving a floor of order
+$n\sqrt m$ for every two-block structure (Section~\ref{sec:evenodd}).
+\item A merge theorem $F(n+m)\le F(n)+F(m)+\sqrt{nm\,q(n)}$ with
+$q(n)=(1+o(1))n$, hence a modulus of continuity for $G$ on
+multiplicative windows, the interval structure of the limit set, and
+the reduction of the limit question to conference orders
+(Section~\ref{sec:merge}).
+\item The oscillation functional $\Osc(n)$ is superadditive, satisfies
+$F\le\Osc\le2F$, and equals the exact value of the July note's
+Gaussian-rounding method when that method is optimized over all
+correlation matrices; the constant $1/\pi$ is the value of the linear
+slice, and no polynomial slice can beat it on flat-spectrum signings
+(Section~\ref{sec:osc}).
+\item A fixed-temperature equivalence: for every fixed $\beta>0$ the
+free-energy version of the problem differs from $G(n)$ by at most
+$\log2/(\beta\sqrt n)$, so the zero-temperature limit is harmless and
+the entire difficulty is the $n\to\infty$ interpolation
+(Section~\ref{sec:beta}).
+\item Relaxations collapse: couplings in $[-1,1]^{\binom n2}$ give
+optimum $0$; couplings on the Euclidean sphere of radius
+$\sqrt{\binom n2}$ give optimum exactly $\sqrt{\binom n2}=\Theta(n)$;
+near-optimal signings converge to the zero graphon
+(Section~\ref{sec:relax}).
+\item Symmetric conference matrices attain their spectral ceiling
+exactly at orders $10$ and $26$, and in general at any order $q+1$,
+$q$ an even power of an odd prime, whose switching class contains a
+suitable regular graph. The July note's ``conference matrices do not
+attain their spectral ceiling'' is therefore an artifact of
+$\sqrt q\notin\mathbb Z$ at the orders then checked
+(Section~\ref{sec:attain}).
+\item A consistency barrier: an explicit bounded divergent profile
+satisfies every inequality about the values $F(n)$ proved here and in
+the July note. Local estimates alone, however sharpened, cannot settle
+the question (Section~\ref{sec:barrier}).
+\end{enumerate}
+
+Section~\ref{sec:programs} organizes three proof programs with their
+exact targets and failure points, and Section~\ref{sec:wall} states
+the sharpest remaining wall and the single recommended next lemma.
+All finite claims are reproducible from
+\texttt{verification/}; see the appendix.
+
+\section{Exact values and structural data}\label{sec:exact}
+
+\begin{proposition}[Parity]\label{prop:parity}
+Every value $S_A(x)$, hence $M(A)$ and $F(n)$, is congruent to
+$\binom n2$ modulo $2$.
+\end{proposition}
+\begin{proof}
+$S_A(x)$ is a sum of $\binom n2$ odd terms.
+\end{proof}
+
+\begin{theorem}[Exact values]\label{thm:exact}
+By exhaustive enumeration of switching classes (representatives with
+all edges at one vertex positive; the maximum is a switching-class
+invariant),
+\[
+\begin{array}{c|ccccccccc}
+n&2&3&4&5&6&7&8&9&10\\\hline
+F(n)&1&3&4&4&5&9&10&12&13\\
+G(n)&0.354&0.577&0.500&0.358&0.340&0.486&0.442&0.444&0.411
+\end{array}
+\]
+Witness signings are recorded in
+\texttt{verification/data/results\_2026\_08.json} and reverified by an
+independent script.
+\end{theorem}
+
+Remarks on the data.
+
+\begin{enumerate}
+\item $G$ is not monotone in either direction and oscillates through
+$n=10$. The smallest ratios in the exact range occur at $n=6$ and
+$n=5$, the conference two-graph and its one-point deletion; among
+$7\le n\le10$ the smallest is the conference order $n=10$.
+\item At $n=5,6$ the optimal switching classes are exactly the
+conference-derived two-graphs: the Seidel spectra of the optimizers
+are $\{\pm\sqrt5^{(2)},0\}$ and $\{\pm\sqrt5^{(3)}\}$.
+\item At $n=10$ the optimum $F(10)=13$ is strictly better than the
+conference class, whose maximum is $15$ (Section~\ref{sec:attain}),
+and the optimal spectrum $\{\pm\sqrt{17},\pm3.387^{(2)},\pm1.590^{(2)}\}$
+is far from flat. Spectral flatness and minimax optimality diverge
+already at $n=10$.
+\item One-sided optimum. Enumeration gives
+$\min_A\max_xS_A(x)=\lfloor n/2\rfloor$ for $3\le n\le10$, attained
+uniquely by the all-negative class. This matches the theorem of
+Petersdorf \cite{petersdorf} that the maximum frustration index of a
+signing of $K_n$ is $\lfloor(n-1)^2/4\rfloor$, attained only by the
+all-negative class: via the cut-code dictionary the two statements are
+equivalent. The one-sided problem is therefore $\Theta(n)$, while the
+two-sided problem is $\Theta(n^{3/2})$: the absolute value is the
+entire content of the $n^{3/2}$ scale. In coding terms, the cut code
+has covering radius $\binom n2/2-\Theta(n)$, while appending the
+all-ones word (the code $D_n$ of the July note is the cut code
+extended by complementation, a linear code) drops the covering radius
+to $\binom n2/2-\Theta(n^{3/2})$.
+\item Certified upper bounds beyond the exact range, from principal
+submatrices of Paley conference matrices, from the exact tensor
+computation below, and from a beam extension search:
+$F(11)\le19$, $F(12)\le18$, $F(13)\le20$, $F(14)\le21$, $F(15)\le29$,
+$F(16)\le32$, $F(17)\le32$, $F(20)\le44$.
+\end{enumerate}
+
+\section{The even-odd inequality and block floors}\label{sec:evenodd}
+
+\begin{lemma}[Even-odd split]\label{lem:evenodd}
+Let $B$ be a signing of $K_{n+m}$, let $(P,R)$ be a bipartition of the
+vertices with $|P|=n$, $|R|=m$, with induced signings $A$ on $P$, $A'$
+on $R$ and cross block $C\in\eps^{n\times m}$. Then for all
+$x\in\eps^P$, $y\in\eps^R$,
+\[
+ M(B)\;\ge\;|S_A(x)+S_{A'}(y)|+|x^{\mathsf T}Cy|.
+\]
+\end{lemma}
+\begin{proof}
+$S_B(x\oplus y)=e+c$ and $S_B((-x)\oplus y)=e-c$ with
+$e=S_A(x)+S_{A'}(y)$ and $c=x^{\mathsf T}Cy$, because $S_A$ is even in
+$x$ while the cross term is odd. Now
+$\max(|e+c|,|e-c|)=|e|+|c|$.
+\end{proof}
+
+\begin{corollary}[Block floor]\label{cor:floor}
+For every signing $B$ of $K_{n+m}$ and every bipartition as above,
+\[
+ M(B)\;\ge\;\max_{x,y}|x^{\mathsf T}Cy|
+ \;\ge\;\max\bigl(n\mu_m,\;m\mu_n\bigr),
+ \qquad \mu_k:=\E\Bigl|\sum_{i=1}^k\varepsilon_i\Bigr|,
+\]
+where $\varepsilon_i$ are independent uniform signs. Since
+$\mu_k\ge\sqrt{k/3}$ and $\mu_k=\sqrt{2k/\pi}\,(1+O(1/k))$, every
+two-block construction on $n+m$ vertices pays a cross cost of order
+$n\sqrt m$, and for balanced blocks a cost at least
+$(\sqrt{2/\pi}-o(1))(N/2)^{3/2}=(0.28\ldots)N^{3/2}$, which is at the
+target scale. Optimizing the bipartition size reproduces the July
+note's bipartite-exposure bound
+$\liminf G\ge\tfrac23\sqrt{2/(3\pi)}\approx0.3071$.
+\end{corollary}
+\begin{proof}
+Take $y$ uniform and $x=\operatorname{sgn}(Cy)$ coordinatewise:
+$\E_y\|Cy\|_1=\sum_{i\in P}\E|\langle c_i,y\rangle|=n\mu_m$. The bound
+$\mu_k\ge k^{3/2}/\sqrt{\E S_k^4}\ge\sqrt{k/3}$ follows from
+H\"older with $\E S_k^2=k$, $\E S_k^4=3k^2-2k$. The rest is
+Lemma~\ref{lem:evenodd} with the even part discarded.
+\end{proof}
+
+\begin{remark}
+The even part cannot currently be exploited: at the maximizing
+$(x,y)$ of the cross term, the designer of $B$ can arrange the block
+energies to be $O(n)$, since block energies at a fixed pair of points
+have no lower bound at scale $n^{3/2}$. Converting the additive
+$|e|$ term into a gain requires anticoncentration of block energies at
+rounded points, which is exactly the missing landscape control
+discussed in Section~\ref{sec:programs}.
+\end{remark}
+
+\section{Merging, continuity, and subsequence reductions}\label{sec:merge}
+
+Let $q(n)$ denote the least prime $q\equiv1\pmod4$ with $q\ge n-1$. By
+the prime number theorem for arithmetic progressions,
+$q(n)=(1+o(1))n$.
+
+\begin{theorem}[Merge]\label{thm:merge}
+For $1\le m\le n$,
+\[
+ F(n+m)\;\le\;F(n)+F(m)+\sqrt{nm\,q(n)}
+ \;=\;F(n)+F(m)+(1+o(1))\,n\sqrt m .
+\]
+\end{theorem}
+\begin{proof}
+Join optimal signings $A^*_n$, $A^*_m$ by a cross block $C$ equal to
+any $n\times m$ submatrix of a symmetric conference matrix of order
+$q(n)+1$; then
+$\|C\|_{\mathrm{op}}\le\sqrt{q(n)}$ and
+$|x^{\mathsf T}Cy|\le\sqrt{nm}\,\|C\|_{\mathrm{op}}$. Apply the triangle
+inequality to $S=S_{A^*_n}+S_{A^*_m}+x^{\mathsf T}Cy$.
+\end{proof}
+
+By Corollary~\ref{cor:floor}, no choice of cross block can beat this
+by more than the constant: the cross cost of any two-block
+construction is between $(\sqrt{2/\pi}-o(1))\,n\sqrt m$ and
+$(1+o(1))\,n\sqrt m$. Block composition is thus exactly a
+$\Theta(n\sqrt m)$ mechanism: cheap only for $m=o(n)$, and structurally
+incapable of reaching balanced scales, in agreement with the wall
+recorded in the July note.
+
+\begin{theorem}[Continuity on multiplicative windows]\label{thm:cont}
+Let $\bar G=\sup_kG(k)$, which is finite. For every
+$\varepsilon\in(0,1]$,
+\[
+ \limsup_{n\to\infty}\;
+ \sup_{n\le n'\le(1+\varepsilon)n}\;|G(n')-G(n)|
+ \;\le\;\Bigl(1+\tfrac52\,\bar G\Bigr)\sqrt\varepsilon .
+\]
+\end{theorem}
+\begin{proof}
+Write $n'=n+m$, $m\le\varepsilon n$. Upward:
+by Theorem~\ref{thm:merge},
+$G(n')\le\bigl[G(n)+G(m)(m/n)^{3/2}+(1+o(1))\sqrt{m/n}\bigr]
+(1+m/n)^{-3/2}
+\le G(n)+\bar G\,\varepsilon^{3/2}+(1+o(1))\sqrt\varepsilon$.
+Downward: $F$ is nondecreasing (restriction of a signing does not
+increase the maximum, by averaging over the last sign), so
+$G(n')\ge G(n)(n/n')^{3/2}\ge G(n)(1-\tfrac32\varepsilon)$, giving
+$G(n)-G(n')\le\tfrac32\bar G\,\varepsilon$. Combine, using
+$\varepsilon\le\sqrt\varepsilon$.
+\end{proof}
+
+\begin{corollary}[Interval limit set]\label{cor:interval}
+$|G(n+1)-G(n)|\to0$, so the set of limit points of $(G(n))$ is a
+closed interval $[L^-,L^+]\subseteq[1/\pi,1/2]$. Convergence fails if
+and only if $L^-<L^+$, in which case every value in $(L^-,L^+)$ is hit
+infinitely often.
+\end{corollary}
+
+\begin{corollary}[Log-dense subsequences suffice]\label{cor:subseq}
+Let $(n_k)$ be any sequence with $n_{k+1}/n_k\to1$, for example the
+conference orders $\{q+1:q\ \text{prime},\ q\equiv1\ (\mathrm{mod}\ 4)\}$.
+If $G(n_k)$ converges, then $G(n)$ converges to the same limit.
+In particular the limit exists if and only if it exists along
+conference orders.
+\end{corollary}
+\begin{proof}
+Bracket $n\in[n_k,n_{k+1}]$ and apply Theorem~\ref{thm:cont} with
+$\varepsilon_k=n_{k+1}/n_k-1\to0$. For the conference orders, gaps
+between consecutive primes $\equiv1\pmod4$ are $o(x)$ by the prime
+number theorem in arithmetic progressions.
+\end{proof}
+
+\begin{corollary}[Amplification criterion]\label{cor:amp}
+Suppose there are $n_j\to\infty$ with $G(n_j)\to L:=\liminf G$ and
+$\eta(n_j)\to0$ such that
+\[
+ F(N)\;\le\;(N/n_j)^{3/2}F(n_j)+\eta(n_j)\,N^{3/2}
+ \qquad\text{for all }N\ge n_j .
+\]
+Then $\lim G=L$. The same holds with $\liminf$ replaced by $\limsup$
+and the inequality reversed for restrictions.
+\end{corollary}
+\begin{proof}
+$G(N)\le G(n_j)+\eta(n_j)$ for all $N\ge n_j$; let $N\to\infty$, then
+$j\to\infty$.
+\end{proof}
+
+The criterion demands control from one scale to all larger scales.
+Section~\ref{sec:barrier} shows that this uniformity cannot be
+weakened to comparisons at any fixed ratio.
+
+\section{The oscillation functional}\label{sec:osc}
+
+Define, for a signing $A$ and for the minimax problem,
+\[
+ \operatorname{osc}(A)=\max_xS_A(x)-\min_xS_A(x),\qquad
+ \Osc(n)=\min_A\operatorname{osc}(A),\qquad
+ \Osc_{1/2}(n)=\tfrac12\Osc(n).
+\]
+
+\begin{proposition}\label{prop:oscbasic}
+For every $A$: $\tfrac12\operatorname{osc}(A)\le M(A)\le\operatorname{osc}(A)$,
+hence $F(n)/2\le\Osc_{1/2}(n)\le F(n)$.
+\end{proposition}
+\begin{proof}
+$\sum_xS_A(x)=0$, so $\max S\ge0\ge\min S$; then
+$M=\max(\max S,-\min S)$ lies between the average and the sum of the
+two nonnegative numbers $\max S$ and $-\min S$. For the right-hand
+inequality over minima, evaluate $\operatorname{osc}$ at an
+$F$-optimal signing.
+\end{proof}
+
+\begin{theorem}[Superadditivity]\label{thm:oscsuper}
+For every signing $B$ of $K_{n+m}$ and every bipartition $(P,R)$,
+$\operatorname{osc}(B)\ge\operatorname{osc}(B|_P)+\operatorname{osc}(B|_R)$.
+Consequently
+\[
+ \Osc(n+m)\ \ge\ \Osc(n)+\Osc(m)
+ \qquad\text{and}\qquad
+ F(n+m)\ \ge\ \Osc_{1/2}(n)+\Osc_{1/2}(m).
+\]
+\end{theorem}
+\begin{proof}
+Let $x^+$ maximize $S_{B|_P}$ and $y^+$ maximize $S_{B|_R}$. Since the
+cross term is odd under $x\mapsto-x$ while both block terms are even,
+one of $(\pm x^+,y^+)$ has cross term $\ge0$, so
+$\max S_B\ge\max S_{B|_P}+\max S_{B|_R}$. Symmetrically
+$\min S_B\le\min S_{B|_P}+\min S_{B|_R}$. Subtract. The second display
+follows by evaluating at optimal signings and using
+Proposition~\ref{prop:oscbasic}.
+\end{proof}
+
+\begin{theorem}[Exact value of the Gaussian-rounding method]\label{thm:varid}
+For correlation matrices $R^\pm$ (unit diagonal, positive
+semidefinite) and $\arcsin$ applied entrywise,
+\[
+ M(A)\;\ge\;\frac1{2\pi}\,
+ \bigl\langle A,\ \arcsin R^+-\arcsin R^-\bigr\rangle ,
+\]
+and the supremum of the right side over all pairs $(R^+,R^-)$ equals
+$\tfrac12\bigl(\max_xS_A-\min_xS_A\bigr)$. Hence the strongest bound
+obtainable from pairs of Gaussian sign roundings is exactly
+$F(n)\ge\Osc_{1/2}(n)$, and by Proposition~\ref{prop:oscbasic} this
+method loses at most a factor $2$ and is exact whenever some optimal
+signing has symmetric spread.
+\end{theorem}
+\begin{proof}
+Realize $R$ as the correlation matrix of a Gaussian vector $z$, set
+$x=\operatorname{sgn}(z)$, and use
+$\E[\operatorname{sgn}z_i\operatorname{sgn}z_j]=\tfrac2\pi\arcsin R_{ij}$:
+then $\E S_A(x)=\tfrac1\pi\langle A,\arcsin R\rangle$ up to the
+$i<j$ normalization, and $|\E S_A|\le M(A)$; subtract the two choices.
+For the supremum: any candidate value is
+$\tfrac12(\E^+S_A-\E^-S_A)\le\tfrac12(\max S-\min S)$ since each
+expectation lies in $[\min S,\max S]$; the rank-one choices
+$R^\pm=x^\pm(x^\pm)^{\mathsf T}$ with $x^+$ maximizing and $x^-$
+minimizing $S_A$ give
+$\arcsin R^\pm=\tfrac\pi2x^\pm(x^\pm)^{\mathsf T}$ and attain it.
+\end{proof}
+
+\begin{proposition}[The linear slice and its optimality]\label{prop:slice}
+The July note's choice
+$R^\pm=\operatorname{corr}\bigl((I\pm tA/\sqrt n)g\bigr)$ with the
+optimal $t$ yields $F(n)\ge n\sqrt{n-1}/\pi$. More generally, for any
+symmetric $W$ with zero diagonal and $(W^2)_{ii}$ constant in $i$,
+the slice $R^\pm=\operatorname{corr}\bigl((I\pm W)g\bigr)$ has
+linear-response value
+\[
+ \frac2\pi\cdot
+ \frac{\operatorname{tr}(AW)}
+      {1+\tfrac1n\operatorname{tr}(W^2)}
+ \;\le\;\frac2\pi\cdot
+ \frac{\|A\|_F\,\|W\|_F}{1+\tfrac1n\|W\|_F^2}
+ \;\le\;\frac{n\sqrt{n-1}}\pi ,
+\]
+by Cauchy--Schwarz, $\|A\|_F^2=n(n-1)$, and
+$\sigma/(1+\sigma^2)\le\tfrac12$ with $\sigma^2=\|W\|_F^2/n$, with
+equality only for $W\propto A$. In particular no matrix function of
+$A$, and no other spectrally defined choice of $W$, improves the
+constant $1/\pi$ at this order. The curvature corrections from
+$\arcsin$ are nonnegative, and for quadratic slices they are
+controlled by the spectral excess
+$X(A)=\sum_i\lambda_i^4/(n(n-1)^2)-1\ge0$: they vanish exactly on
+conference matrices, via
+$\bigl\langle A,\,A B+BA\bigr\rangle=2\operatorname{tr}(A^2B)
+=2n(n-1)^2X(A)$ for $B=A^2-(n-1)I$.
+\end{proposition}
+\begin{proof}
+The first claim is the July note's Theorem 2, reverified. For the
+second, expand $\Sigma^\pm=(I\pm W)^2=I\pm2W+W^2$, whose diagonal
+$d=1+(W^2)_{ii}$ is constant by hypothesis, so
+$\langle A,R^+-R^-\rangle=4\operatorname{tr}(AW)/d$ (the diagonal of
+$A$ vanishes). When $W$ is sign-aligned with $A$
+(that is, $a_{ij}W_{ij}\ge0$ for all $i<j$, as for $W=tA/\sqrt n$),
+the per-edge bound $\arcsin(u+v)-\arcsin(u-v)\ge2v$ of the July note
+applies with $v_{ij}=2a_{ij}W_{ij}/d\ge0$ and certifies the displayed
+value; without sign alignment the per-edge bound degrades on the
+misaligned edges, so the certified value is no larger. In either case
+Cauchy--Schwarz bounds the display by $n\sqrt{n-1}/\pi$. The trace
+identity for the curvature term is a direct computation.
+\end{proof}
+
+\begin{remark}[Why this matters]
+Three consequences. First, $1/\pi$ is not a ceiling of the
+Gaussian-rounding method; it is the value of its simplest slice. The
+full method computes $\Osc_{1/2}(n)$, which the data below place at
+$F(n)-O(1)$ for $n\le10$. Second, the adversary against every
+polynomial slice is a flat-spectrum signing, and actual flat-spectrum
+signings (conference matrices) have true value far above $1/\pi$
+(Section~\ref{sec:attain}); the loss happens because polynomial slices
+cannot see Boolean structure, only spectra. Third, replacing
+$\arcsin R$ by $R$ (the semidefinite relaxation) is provably lossy:
+the Grothendieck-type gap on $K_n$ is $\Theta(\log n)$
+\cite{ammn,charikar-wirth}, so any argument through the linearized
+functional must lose a $\log n$ factor in general; the arcsine
+nonlinearity, or the restriction to the minimizing $A$, must be used.
+\end{remark}
+
+Enumeration gives the oscillation optima
+\[
+\begin{array}{c|cccccccc}
+n&3&4&5&6&7&8&9&10\\\hline
+\Osc(n)&4&8&8&10&16&20&24&26\\
+2F(n)&6&8&8&10&18&20&24&26
+\end{array}
+\]
+so $\Osc=2F$ whenever parity permits and $\Osc=2F-2$ otherwise
+($n=3,7$). The superadditivity of Theorem~\ref{thm:oscsuper} is
+strict in the data.
+
+\begin{conjecture}[Symmetric spread]\label{conj:spread}
+$\Osc_{1/2}(n)=F(n)-O(n)$; equivalently, some near-optimal signings
+have $\max S\approx-\min S$. Under this conjecture $F$ is
+asymptotically superadditive:
+$F(n+m)\ge F(n)+F(m)-O(n)$.
+\end{conjecture}
+
+Even granting Conjecture~\ref{conj:spread}, superadditivity does not
+force convergence at the superextensive scale $n^{3/2}$: summing
+$k$ blocks of size $n$ captures only $k\,n^{3/2}$ of the
+$(kn)^{3/2}=k^{3/2}n^{3/2}$ target, so Fekete-type arguments are
+vacuous in both directions. This is quantified in
+Section~\ref{sec:barrier}.
+
+\section{Fixed-temperature equivalence}\label{sec:beta}
+
+\begin{proposition}\label{prop:beta}
+For $\beta>0$ let
+$\Phi_{n,\beta}
+=\min_A\frac1{\beta n^{3/2}}\log\sum_{x\in\eps^n}e^{\beta|S_A(x)|}$.
+Then
+\[
+ 0\;\le\;\Phi_{n,\beta}-G(n)\;\le\;\frac{\log2}{\beta\sqrt n}.
+\]
+Hence for every fixed $\beta>0$ (indeed whenever
+$\beta_n\sqrt n\to\infty$), $\liminf$, $\limsup$, and existence of the
+limit coincide for $\Phi_{n,\beta}$ and $G(n)$. The same holds for the
+sign-augmented partition function
+$\sum_{x,s}e^{\beta sS_A(x)}$ with error $\log(2^{n+1})/(\beta n^{3/2})$.
+\end{proposition}
+\begin{proof}
+$e^{\beta M}\le\sum_xe^{\beta|S|}\le2^ne^{\beta M}$ for each $A$; take
+$\log$, divide, minimize.
+\end{proof}
+
+Two of the concerns listed against the finite-temperature route are
+therefore empty: no uniformity in $\beta$ is needed, and the absolute
+value can be handled exactly. What remains open is precisely the
+$n\to\infty$ behavior at fixed $\beta$ with adversarial couplings. The
+July note's annealed obstruction is confirmed quantitatively: for a
+balanced merge the annealed cross cost is
+$nm\log\cosh\beta/(\beta N^{3/2})\asymp\beta N^{1/2}$, which requires
+$\beta\sqrt N\to0$, while the sandwich above requires
+$\beta\sqrt N\to\infty$. The window is empty, and this is structural
+for annealing, not an artifact.
+
+\section{Relaxations collapse}\label{sec:relax}
+
+\begin{proposition}[Box and sphere]\label{prop:relax}
+Let $m=\binom n2$ and let $\chi(x)=(x_ix_j)_{i<j}$.
+\begin{enumerate}
+\item $\displaystyle\min_{a\in[-1,1]^m}\max_x|\langle a,\chi(x)\rangle|=0$,
+attained at $a=0$; every convex relaxation of the coupling cube whose
+feasible set contains $0$ has optimum $0$.
+\item $\displaystyle\min_{\|a\|_2=\sqrt m}\max_x|\langle a,\chi(x)\rangle|
+=\sqrt m$, attained by concentrating all mass on a single edge:
+$|\langle a,\chi\rangle|\equiv\sqrt m$ for $a=\sqrt m\,e_{\{1,2\}}$.
+The lower bound is
+$\max_x\langle a,\chi\rangle^2\ge\E_x\langle a,\chi\rangle^2=\|a\|_2^2$.
+\end{enumerate}
+\end{proposition}
+
+So the $\pm1$ coupling constraint plays two distinct roles at once:
+it fixes the total mass and it forces the mass to spread over all
+$m$ edges. Dropping either role collapses the value from
+$\Theta(n^{3/2})$ to $O(n)$. The integrality gap of any relaxation of
+this kind is the entire phenomenon, and rounding a relaxed optimizer
+back to signs must inject, not preserve, the $n^{3/2}$ scale. This
+disposes of the relaxed-couplings attack in its natural formulations.
+
+\begin{theorem}[Zero graphon]\label{thm:graphon}
+If $M(A_n)=O(n^{3/2})$, then the cut norm satisfies
+$\|A_n\|_\square\le4M(A_n)=O(n^{3/2})=o(n^2)$: every sequence of
+near-optimal signings converges to the zero graphon, and every
+functional continuous in the dense graph (cut-metric) topology is
+blind to the problem. Any limit theory that could express
+$\lim G$ must live at the $n^{3/2}$ fluctuation scale, for which no
+compactness theorem is currently available.
+\end{theorem}
+\begin{proof}
+$\|A\|_\square\le\max_{x,y\in\eps^n}|x^{\mathsf T}Ay|$ by writing
+indicators as $(1+x)/2$; polarization and multilinearity of the
+zero-diagonal quadratic form give
+$\max_{x,y}|x^{\mathsf T}Ay|\le2\max_z|z^{\mathsf T}Az|=4M(A)$.
+\end{proof}
+
+\section{Conference matrices at their ceiling}\label{sec:attain}
+
+\begin{theorem}[Attainment]\label{thm:attain}
+Let $C$ be a symmetric conference matrix of order $N$. Then
+$M(C)\le\tfrac12N\sqrt{N-1}$, with equality if and only if some
+$x\in\eps^N$ is an eigenvector of $C$, necessarily with eigenvalue
+$\pm\sqrt{N-1}\in\mathbb Z$. Equality holds at $N=10$ (Petersen
+two-graph, $x=\mathbf1$ for the Petersen-form Seidel matrix, value
+$15$) and at $N=26$ (Paley over $\mathbb F_{25}$, value $65$), both
+verified exactly. Equality is impossible whenever $N-1$ is not a
+perfect square, in particular at the orders $6,14,18,30$ checked in
+the July note, where the exact values are $5,21,33,75$ and the
+normalized ratios $0.340,0.401,0.432,0.456$ increase toward $1/2$.
+\end{theorem}
+\begin{proof}
+Cauchy--Schwarz: $|x^{\mathsf T}Cx|\le\|x\|\,\|Cx\|=N\sqrt{N-1}$, with
+equality iff $Cx\parallel x$; integrality of $x^{\mathsf T}Cx$ forces
+$\sqrt{N-1}\in\mathbb Q$. A $\pm1$ eigenvector with eigenvalue
+$\sqrt{N-1}$ exists iff the switching class contains a graph that is
+regular of degree $(N-1-\sqrt{N-1})/2$ (switch by the eigenvector and
+read off constant row sums): degree $3$ at $N=10$ (Petersen), degree
+$10$ at $N=26$ (a Paulus graph). The stated values are exhaustive
+computations with recorded witnesses.
+\end{proof}
+
+Consequences.
+
+\begin{enumerate}
+\item There is no uniform conference deficit. The July note's wall
+``small Paley examples do not attain the spectral ceiling'' is
+explained entirely by $\sqrt{N-1}\notin\mathbb Z$ at those orders. At
+orders $q+1$ with $q$ an even power of an odd prime, whenever the
+switching class contains a regular graph of degree $(q-\sqrt q)/2$,
+the construction value is exactly $\tfrac12(q+1)\sqrt q$, of
+normalized ratio $\tfrac12\sqrt{q/(q+1)}\to\tfrac12$. Candidate orders
+$10,26,50,82,\dots$; whether infinitely many contain such regular
+descendants is a known open-ended question in the theory of regular
+two-graphs.
+\item Improving $\limsup G\le\tfrac12$ therefore requires either
+non-conference matrices or a proof that the minimum beats the
+conference class at scale. The datapoint $F(10)=13<15$ shows the
+minimum does beat the conference class at $n=10$, by a non-flat
+signing. The upper-bound program should not fixate on spectrally flat
+matrices.
+\item The certification barrier remains: for a random signing the true
+maximum is $(0.7632\ldots)n^{3/2}$ (the Parisi ground state, universal
+for $\pm1$ couplings \cite{parisi-gs,gt}), while no known efficient
+certificate goes below the spectral $n^{3/2}$; and for structured
+matrices every known certificate below the spectral value is exhausted
+by exact enumeration. New certification ideas (Krawtchouk or Delsarte
+arguments on the coset structure of the extended cut code) are listed
+as an open direction, with the caution that the code's dual weight
+spectrum is too rich for the standard external-distance bound.
+\end{enumerate}
+
+\section{The consistency barrier}\label{sec:barrier}
+
+Everything proved so far constrains $G$ only locally in scale. The
+next proposition shows this is a hard limitation of the entire
+inequality set, not of the sharpness of individual constants.
+
+\begin{proposition}[A divergent profile consistent with all proved
+inequalities]\label{prop:barrier}
+Define
+\[
+ \widetilde G(n)=\frac25+\frac1{20}
+ \sin\bigl(2\pi\log_2\log_2n\bigr)\quad(n\ge4),
+ \qquad
+ \widetilde F(n)=\widetilde G(n)\,n^{3/2}.
+\]
+Then, for all sufficiently large $n$ and all $1\le m\le n$:
+$\widetilde F$ is strictly increasing;
+$\widetilde F(n+1)\le\widetilde F(n)+n$;
+$\widetilde F(n+m)\le\widetilde F(n)+\widetilde F(m)+1.01\,n\sqrt m$;
+$\widetilde F(n+m)\ge\widetilde F(n)+\widetilde F(m)$;
+$\widetilde F(n)/n^{3/2}\in[1/\pi,1/2]$;
+and $\widetilde G$ satisfies the conclusions of
+Theorems~\ref{thm:cont} and Corollaries~\ref{cor:interval},
+\ref{cor:subseq} vacuously or with margin. Yet
+$\widetilde G(n)$ diverges: its limit set is $[0.35,0.45]$.
+\end{proposition}
+\begin{proof}
+All verifications are elementary calculus from
+$\widetilde G'(n)=O\bigl(1/(n\log n)\bigr)$, so that
+$\widetilde G$ is asymptotically constant on any window of bounded
+ratio, together with
+$\tfrac d{dn}\widetilde F=n^{1/2}\bigl(\tfrac32\widetilde G+o(1)\bigr)
+\in[0.5\,n^{1/2},\,0.7\,n^{1/2}]$. Monotonicity and the Lipschitz
+bound follow at once. For the merge inequality, the left side minus
+$\widetilde F(n)$ is $\tfrac32\widetilde G\,\varepsilon n^{3/2}(1+o(1))$
+with $\varepsilon=m/n$, which is at most
+$\widetilde G(m)m^{3/2}+1.01\,n\sqrt m$ because
+$0.7\varepsilon\le1.01\sqrt\varepsilon$; superadditivity holds because
+$0.5\varepsilon n^{3/2}\ge0.45\,\varepsilon^{3/2}n^{3/2}$ for
+$\varepsilon\le1$. The oscillation of $\log_2\log_2n$ is unbounded
+while its increment over $[n,2n]$ is $O(1/\log n)$, so the limit set
+is the full interval. Numerical verification of every inequality with
+explicit margins for $n\le10^6$ is included in the verification
+suite.
+\end{proof}
+
+The profile also satisfies the oscillation chain of
+Section~\ref{sec:osc} with $\widetilde\Osc:=2\widetilde F$, and
+Conjecture~\ref{conj:spread}. Conclusion: the union of all inequalities
+proved in this repository, even sharpened by constants, cannot decide
+the question. Deciding it requires an inequality that couples scale
+$n$ to scales $N$ with $N/n\to\infty$, such as the amplification
+criterion of Corollary~\ref{cor:amp}. Comparisons at any fixed ratio
+$\lambda$, for instance a proof that $G(2n)-G(n)\to0$, would still not
+suffice: $\widetilde G$ satisfies that too.
+
+\section{Three proof programs}\label{sec:programs}
+
+\subsection*{Program 1: elliptope slices (lower bound)}
+Target lemma: a map $A\mapsto(R^+(A),R^-(A))$ into correlation-matrix
+pairs, analyzable uniformly in $A$, with
+$\tfrac1{2\pi}\langle A,\arcsin R^+-\arcsin R^-\rangle
+\ge(1/\pi+\delta)\,n^{3/2}$ for some $\delta>0$. By
+Theorem~\ref{thm:varid} the program is complete in principle: the full
+supremum equals $\Osc_{1/2}(n)\ge F(n)/2$, and empirically
+$\Osc_{1/2}=F-O(1)$. Failure points identified: every polynomial slice
+degenerates on flat-spectrum signings
+(Proposition~\ref{prop:slice}); rank-one slices require knowing
+extremal Boolean vectors, which is circular; the linearized functional
+is off by $\Theta(\log n)$ in general \cite{ammn}. Repair directions:
+mixtures of a polynomial slice with low-rank Boolean-structured
+corrections, controlled by an anticoncentration statement for block
+energies at rounded points (the missing landscape lemma), or slices
+adapted to the bipartite exposure structure of
+Lemma~\ref{lem:evenodd} (Rademacher rather than Gaussian roundings).
+The obstruction appears structural for slices defined by spectral data
+alone, and technical, possibly movable, for Boolean-aware slices.
+
+\subsection*{Program 2: amplification (upper bound)}
+Target lemma (Corollary~\ref{cor:amp}): from one good signing at size
+$n$, signings at all $N\ge\Lambda(n)$ with
+$G(N)\le G(n)+o_n(1)$. Exact losses of the known lifts:
+block merges cost $\Theta(n\sqrt m)$ exactly
+(Theorem~\ref{thm:merge} and Corollary~\ref{cor:floor}), fatal at
+balanced scales; iterated one-vertex extension is far weaker in
+practice (beam search from the exact $F(10)$ optimizer reaches only
+ratio $\approx0.52$ by $n=14$, worse than conference restrictions);
+tensor doubling $A\otimes H_2$ (intra-pair edges refilled) does not
+preserve the constant: exact values move the ratios
+$0.358\to0.411$, $0.340\to0.433$, $0.486\to0.477$, $0.442\to0.500$,
+$0.411\to0.492$ at $n=5,6,7,8,10$. The data are consistent with
+iterated tensoring converging to its own fixed constant near $1/2$
+rather than preserving the base ratio: misaligned block vectors let
+the adversary realize Gram-relaxation values, and the loss is a
+Grothendieck-type constant, not $o(1)$. Repair directions: lifts along
+structured algebraic extensions (subfield towers of Paley matrices,
+where the added symmetry may rule out misaligned adversaries), or
+merge trees whose cross blocks are chosen adaptively against the
+blocks' own near-maximizers rather than obliviously. The oblivious
+version of the obstruction is proved (Corollary~\ref{cor:floor});
+whether adaptive cross blocks can beat $n\sqrt m$ is open and is the
+sharpest open sub-question of this program.
+
+\subsection*{Program 3: adversarial thermodynamic interpolation}
+Target: at fixed $\beta$, an interpolation between $\Phi_{N,\beta}$
+and block free energies with normalized cost $o(1)$. Status: the
+sandwich of Proposition~\ref{prop:beta} makes the temperature exchange
+exact; the annealed route has an empty parameter window (verified
+quantitatively in Section~\ref{sec:beta}); the Guerra--Toninelli
+mechanism \cite{gt} needs a disorder average and Gaussian integration
+by parts to produce a signed overlap term, and the minimum over
+couplings supplies neither: the derivative of a minimum runs through
+the argmin, whose structure is exactly what is unknown. A quenched
+interpolation with adversarial couplings would need a new convexity
+input in the coupling variable. Note that the natural convexity is
+absent: $A\mapsto\log\sum e^{\beta|S_A|}$ is convex, so its minimum
+over the cube is attained at vertices (consistent with the collapse of
+Proposition~\ref{prop:relax}), but minima of convex functions do not
+interpolate. The obstruction appears structural.
+
+\section{The sharpest wall and the next lemma}\label{sec:wall}
+
+The problem is now reduced, with proofs, to the following statement.
+All local behavior of $G$ is understood at the level needed: $G$ has
+an interval limit set inside $[1/\pi,1/2]$, is continuous on bounded
+multiplicative windows, and its limit exists iff it exists along
+conference orders. Every additive composition mechanism is exactly
+priced: merges cost $\Theta(n\sqrt m)$, oscillation is superadditive,
+and the superextensive scale makes both Fekete directions vacuous. The
+value class of all proved inequalities admits divergent profiles
+(Proposition~\ref{prop:barrier}), so no refinement of these local
+estimates decides the question.
+
+What is missing is a single scale-coupling inequality. The recommended
+target, the most constrained version consistent with everything above:
+
+\begin{conjecture}[Amplification lemma]\label{conj:amp}
+There is a function $\eta$ with $\eta(n)\to0$ such that for every $n$
+and every $N\ge n^2$,
+\[
+ F(N)\;\le\;(N/n)^{3/2}\,F(n)\;+\;\eta(n)\,N^{3/2}.
+\]
+\end{conjecture}
+
+By Corollary~\ref{cor:amp} this implies convergence. The exponent
+$2$ in $N\ge n^2$ is inessential; any threshold $\Lambda(n)<\infty$
+works. The evidence: tensor and merge lifts fail by constants, not by
+scale, and the failure constant shrinks as the base ratio approaches
+the tensor fixed point; the conjecture only requires lossless
+amplification from optimal bases, whose structure (exact witnesses
+above) is rigid and highly symmetric at small $n$. The first concrete
+test: construct, from the exact $F(10)$ optimizer or the order-$26$
+conference class, signings at $n\approx10^2$ with ratio provably below
+$0.46$. A disproof of Conjecture~\ref{conj:amp} in a strong form
+(a lower-bound mechanism active only at special scales) is the only
+currently visible route to nonconvergence, and nothing in the data
+suggests such a mechanism: the upper envelope moves smoothly, and all
+known algebraic families exist at log-dense orders, which
+Corollary~\ref{cor:subseq} then smooths out.
+
+\appendix
+
+\section{Computational protocol}
+
+All computations are exhaustive or witness-carrying; none are
+heuristic except the beam search, which only produces upper bounds
+that are then verified exactly.
+
+\begin{itemize}
+\item \texttt{exact\_fn.c}: exact $F(n)$, one-sided optimum, and
+$\Osc(n)$ for $n\le10$ by Gray-code enumeration of all switching
+classes (normalized representatives), with periodic from-scratch
+recomputation and a final independent audit of reported minima.
+$n=10$ (about $6.9\cdot10^{10}$ class evaluations) was run as $8$
+disjoint fixed-prefix slices, each auditing its own minima.
+\item \texttt{conference\_max.c}: symmetric conference matrices at
+orders $6,10,14,18,26,30$ (Paley over prime fields, Petersen Seidel
+form, Paley over $\mathbb F_{25}$), verified to satisfy
+$C^2=(N-1)I$, exact Boolean maxima with witnesses, signed spreads,
+and nested restriction chains inside order $30$.
+\item \texttt{ext\_chain.c}: beam extension upper bounds from the
+exact $F(10)$ witness.
+\item \texttt{verify\_new\_results.py}: independent reverification of
+every table in this note from recorded witnesses, full independent
+enumeration for $n\le6$, parity checks, Petersdorf check, tensor
+recomputation, the finite merge instance, numerical margins for
+Proposition~\ref{prop:barrier} up to $n=10^6$, and corruption
+controls that must fail when data are perturbed.
+\end{itemize}
+
+Restriction-chain data (order 30, three random nested chains):
+normalized ratios decrease monotonically in the subgraph size from
+about $0.7$ at $k=8$ to $0.456$ at $k=30$. Restrictions of good large
+signings are relatively poor small signings; the naive
+restriction-decay route to the reversed amplification criterion fails
+on conference matrices.
+
+\begin{thebibliography}{9}
+
+\bibitem{petersdorf}
+M.~Petersdorf,
+\emph{Einige Bemerkungen \"uber vollst\"andige Bigraphen},
+Wiss. Z. Techn. Hochsch. Ilmenau \textbf{12} (1966), 257--260.
+
+\bibitem{ammn}
+N.~Alon, K.~Makarychev, Y.~Makarychev, and A.~Naor,
+\emph{Quadratic forms on graphs},
+Invent. Math. \textbf{163} (2006), 499--522.
+
+\bibitem{charikar-wirth}
+M.~Charikar and A.~Wirth,
+\emph{Maximizing quadratic programs: extending Grothendieck's
+inequality}, FOCS 2004, 54--60.
+
+\bibitem{parisi-gs}
+A.~Auffinger and W.-K.~Chen,
+\emph{Parisi formula for the ground state energy in the mixed p-spin
+model}, Ann. Probab. \textbf{45} (2017), 4617--4631.
+
+\bibitem{gt}
+F.~Guerra and F.~L.~Toninelli,
+\emph{The thermodynamic limit in mean field spin glass models},
+Comm. Math. Phys. \textbf{230} (2002), 71--79.
+
+\bibitem{sole-zaslavsky}
+P.~Sol\'e and T.~Zaslavsky,
+\emph{A coding approach to signed graphs},
+SIAM J. Discrete Math. \textbf{7} (1994), 544--553.
+
+\bibitem{dmp}
+A.~Defant, M.~Masty\l{}o, and A.~P\'erez,
+\emph{On the Fourier spectrum of functions on Boolean cubes},
+Math. Ann. \textbf{374} (2019), 653--680.
+
+\bibitem{seidel}
+J.~J.~Seidel,
+\emph{A survey of two-graphs},
+Colloquio Internazionale sulle Teorie Combinatorie (Rome, 1973),
+Tomo I, 481--511.
+
+\end{thebibliography}
+
+\end{document}
