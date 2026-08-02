@@ -1,6 +1,6 @@
 # Second proof-search ledger
 
-Status date: 2026-08-01
+Status date: 2026-08-02
 Status: **the limit question remains open in this attempt**
 
 This file preserves the new derivations, counterexamples, and stopped routes.
@@ -898,9 +898,16 @@ retaining the exact edgewise difference yields Theorem 17 of
 \]
 
 This has two genuine consequences.  It proves $F(21)\ge32$ after an exact
-parity rounding, and it forces any sequence attaining the lower constant
-$1/\pi$ to be conference-like in the Frobenius sense
+parity rounding, while the parity theorem for
+$\Delta(A)=\|A^2-(n-1)I\|_F^2$ also proves $F(20)\ge30$.  It forces any
+sequence attaining the lower constant $1/\pi$ to satisfy
 $\|A^2-(n-1)I\|_F=o(n^2)$.
+
+The earlier draft called this condition conference-like.  That wording was
+too strong: a uniform random signing has
+$\mathbb E\Delta=n(n-1)(n-2)=\Theta(n^3)$ and satisfies the stated
+normalization in probability.  The proved conclusion is only vanishing
+normalized Gram defect.
 
 **Leading-order wall.**  The universal nonlinear gain is only
 $\Theta(\sqrt n)$.  The trace-four excess can contribute at leading order for
@@ -908,12 +915,13 @@ matrices far from conference structure, but a minimizer may have excess
 $o(n^4)$.  Therefore this refinement does not separate the liminf from
 $1/\pi$ and does not prove convergence.
 
-**Possible repair.**  Combine the necessary conference-like condition with a
-rigidity/classification theorem for approximate symmetric conference
-matrices.  To change the state of the limit problem, such a theorem would need
-either an order-dependent obstruction of size $\Omega(n^4)$ along a
-subsequence or a construction/composition theorem for all sufficiently dense
-orders.  No such theorem is presently available.
+**Closed subroute.**  Optimizing the full parameter $s$ does not repair this.
+If $G_n$ is the minimax value of the complete nonlinear right side after
+optimizing $s$, then Theorem 22 proves
+$G_n/n^{3/2}\to1/\pi$.  Principal blocks of Paley conference matrices of
+order $n+o(n)$ give the matching upper barrier uniformly in $s$.  Any further
+Gaussian route must combine laws in a way not reducible to this one-parameter
+certificate or its ordinary convex combinations.
 
 ## 13. Multivertex weighted covering state
 
@@ -938,7 +946,8 @@ $\sqrt{nk(n+k)}$ cost as the old random cross-block argument.  Requiring
 $\Xi=o(n+k)$ is also too crude: balanced repeated composition can tolerate a
 linear entropy only if its constant matches the internal energy profile.
 
-**Settling target.**  It is enough to find internal blocks $B,D$ with
+**Disproved target, retained for the ledger.**  The earlier proposal was to
+find internal blocks $B,D$ with
 
 \[
  L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
@@ -946,16 +955,31 @@ linear entropy only if its constant matches the internal energy profile.
  +O((n+k)^{3/2-\varepsilon}).
 \]
 
-This would give the power-saving near-subadditivity of $F^{2/3}$ proved
-sufficient in Theorem 13.  The target is stronger and more quantitative than
-ordinary entropy suppression: it asks for the correct constant-level trade
-between internal energy and the weighted rank-one landscape.
+It would have given the power-saving near-subadditivity of $F^{2/3}$.
+Proposition 23 proves it impossible: the left side is always at least
+$\sqrt{2nk(n+k)\log2}$.  For balanced blocks this has constant
+$2\sqrt{\log2}$, strictly above the required asymptotic ceiling $\sqrt2$.
+Retaining the discarded cross term in the same all-state Hoeffding sum has
+the same leading obstruction.
+
+**Replacement target.**  Fix a low-operator-norm cross seed $C_0$ and retain
+its row-and-column switching orbit.  With
+$c(U)=|\langle C_0,U\rangle|$ and internal profile $h(R)$, the bad shifts at
+target $K$ are exactly
+
+\[
+ \mathcal B_K=\bigcup_R R\{U:c(U)>K-h(R)\}.
+\]
+
+Prove $\mathcal B_K\ne\mathcal R_{n,k}$ at the power-saving composition
+threshold.  This weighted noncoverage problem preserves the higher-order
+dependence erased by the union bound.
 
 The exact one-vertex increment additionally implies density-one control:
 Bellman-optimal predecessors have both internal slack and covering deficit at
-most $g(N)\sqrt N$ for all but $O(N/g(N))$ orders in $[N,2N]$.  The remaining
-obstruction is sparse exceptional orders.  Monotonicity alone does not spread
-the density-one estimate strongly enough to eliminate them.
+most $g(N)\sqrt N$ for all but $O(N/g(N))$ orders in $[N,2N]$.  This is not
+the decisive scalar obstruction: Section 15 records a nonconvergent
+countermodel with $O(\sqrt n)$ Bellman cost at every order.
 
 ## 14. Order-nine state-compression experiment
 
@@ -978,7 +1002,69 @@ It is evidence, not a theorem of sufficiency: higher-order collisions may
 appear at larger orders, and even a complete finite overlap hierarchy still
 needs an asymptotic composition law.
 
-**Best next ground-state lemma.**  Prove the constant-matching profile law in
-Section 13 for a composable near-optimal family, or first prove it for balanced
-doubling $n=k$ with a uniform power saving.  This is now the most concrete
-alternative to the fixed-temperature quenched minimax free-energy lemma.
+**Best next ground-state lemma.**  Prove the switching-orbit noncoverage
+statement in Section 13 for a composable near-optimal family, first for
+balanced doubling if necessary.  Any first-moment replacement must be checked
+against the exact order-four diagnostic, where two good orbit shifts exist
+despite a mean of $17/4$ violated constraints.
+
+## 15. Exact scalar Bellman wall
+
+Write
+
+\[
+ r_n=F(n+1)-F(n)-(n\bmod2)=\sigma_n+2\delta_n.
+\]
+
+The density-one result was initially interpreted as leaving sparse exceptional
+orders.  A stronger countermodel disproves that diagnosis.  Starting from the
+certified prefix through order ten and parity-rounding the increments of
+
+\[
+ t^{3/2}\left[\frac25+\frac1{25}\sin\log\log(t+e^2)\right]
+\]
+
+produces an integer sequence satisfying parity, monotonicity, the Gaussian
+lower bound, the trivial upper bound, both scalar cavity consequences, and
+$r_n=O(\sqrt n)$ at every order, while its normalized liminf and limsup are
+$0.36$ and $0.44$.  This is an abstract scalar countermodel, not a family of
+sign matrices.
+
+The precise one-vertex diagnostic is
+
+\[
+ A_N=N^{-3/2}\sum_{n=N}^{2N-1}r_n.
+\]
+
+The normalized sequence converges if and only if $A_N$ converges; if
+$A_N\to\Lambda$, its limit is $\Lambda/(2^{3/2}-1)$.  A useful sufficient
+target is stabilization of the Cesaro mean
+
+\[
+ \frac1N\sum_{n\le N}\frac{r_n}{\sqrt n}.
+\]
+
+Actual matrix geometry must establish this stabilization; scalar magnitude
+bounds cannot.
+
+## 16. Order-ten temperature phases
+
+The full rooted order-ten catalogue contains 274,668 records and 6,012
+distinct absolute-energy histograms.  Exact polynomial comparison reduces
+the minimax partition function to three phases.  With
+$z=4\sinh^2t$, their difference polynomials factor as
+
+\[
+ P_0-P_1=8z^2(z-2)(z+1)(z+3)(z+4)^2,
+\]
+
+\[
+ P_1-P_2=4z^2(z+4)^2(z^3+z^2-10z-8).
+\]
+
+Thus a conference signing with maximum 15 minimizes for
+$0<t<0.658478948\ldots$, an intermediate maximum-15 signing minimizes until
+$t=0.792460762\ldots$, and an order-ten ground-state signing with maximum 13
+minimizes thereafter.  At $t=0$ every signing ties.  This exact finite result
+shows that the outer minimizer changes with temperature; it does not prove an
+asymptotic phase transition.

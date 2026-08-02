@@ -1,6 +1,6 @@
 # Continued attack after the second research note
 
-Status date: 2026-08-01
+Status date: 2026-08-02
 Status: **new finite-temperature structure, no solution of the limit problem**
 
 This ledger starts after `RESEARCH_LEDGER.md`.  It does not replace either
@@ -1750,8 +1750,8 @@ The excess has the exact sum-of-squares form
 
 Thus any sequence with
 $M(A_n)=(1/\pi+o(1))n^{3/2}$ must obey
-$\|A_n^2-(n-1)I\|_F=o(n^2)$.  This is a necessary conference-like stability
-condition, not an existence theorem for such a sequence.  The universal gain
+$\|A_n^2-(n-1)I\|_F=o(n^2)$.  This is vanishing normalized Gram defect, not a
+conference-rigidity condition or an existence theorem.  The universal gain
 in (17.2) over the earlier linearized bound is only $\Theta(\sqrt n)$ and does
 not change the leading constant.  It does have exact finite consequences.
 For $n=21$, (17.2) is strictly greater than 30 and every quadratic energy is
@@ -1921,8 +1921,10 @@ instead find $B,D$ for every large $n,k$ such that, for some $\varepsilon>0$,
 \]
 
 It would imply power-saving near-subadditivity of $F^{2/3}$ and hence
-convergence by Theorem 13.  Equation (19.2) is a settling target, not a proved
-estimate.
+convergence by Theorem 13.  This was initially recorded as a settling target.
+Proposition 23 below proves that (19.2) is in fact impossible for every
+$B,D$: the left side has a larger universal leading constant.  It is retained
+here to make the failed route and its correction auditable.
 
 ### Proposition 20 (density-one control of Bellman-optimal predecessors)
 
@@ -1966,8 +1968,10 @@ Markov's inequality applied to the nonnegative quantities
 $\sigma_n+2\delta_n$ proves (20.3). $\square$
 
 This is real asymptotic control of the exact Bellman state on a density-one
-set.  It does not control sparse exceptional orders, which may still have
-linear-size deficits, and therefore does not prove convergence.
+set.  Theorem 24 below shows that sparse exceptional orders are not the
+decisive scalar issue: even a uniform $O(\sqrt n)$ scalar Bellman cost is
+compatible with nonconvergence.  A proof must stabilize the normalized
+Bellman cost using matrix geometry not present in Proposition 20.
 
 ### Complete order-9 weighted-geometry computation
 
@@ -2017,6 +2021,583 @@ stream digest, independently samples the graph6 decoder with NetworkX,
 checks all weighted radii against direct extension enumeration, and includes
 the two explicit collision records.
 
+## 8. New corrections and structural results
+
+The next results close two apparent routes from the preceding section and
+replace them with narrower targets.  They do not settle the original limit.
+
+### Theorem 21 (parity of the Gram defect)
+
+For an order-$n$ signing put
+
+\[
+ \Delta(A)=\|A^2-(n-1)I\|_F^2
+ =\sum_{i\ne j}(A^2)_{ij}^2.
+\]
+
+Then
+
+\[
+ \boxed{
+ \Delta(A)\ge
+ \begin{cases}
+ n(n-1),&n\text{ odd},\\
+ 2n(n-2),&n\equiv0\pmod4,\\
+ 0,&n\equiv2\pmod4.
+ \end{cases}}
+ \tag{21.1}
+\]
+
+The three bounds are sharp on infinite Paley-derived subsequences: use a
+symmetric conference matrix itself, or delete one or two vertices.
+
+#### Proof
+
+If $n$ is odd, every off-diagonal entry of $A^2$ is a sum of the odd number
+$n-2$ of signs.  It is therefore a nonzero odd integer, and summing its
+square over the $n(n-1)$ ordered pairs proves the first line.
+
+Suppose $n\equiv0\pmod4$ and write $a_{ij}=(-1)^{e_{ij}}$.  Put
+$d_i=\sum_{j\ne i}e_{ij}\pmod2$.  Direct reduction modulo four gives
+
+\[
+ \frac{(A^2)_{ij}}2\equiv1+d_i+d_j\pmod2.
+ \tag{21.2}
+\]
+
+Thus $|(A^2)_{ij}|\ge2$ whenever $d_i=d_j$.  If $r$ of the $d_i$ are one,
+the handshake lemma makes $r$ even, and
+
+\[
+ \Delta(A)\ge
+ 8\left[\binom r2+\binom{n-r}2\right]\ge2n(n-2).
+\]
+
+There is no positive universal bound when $n\equiv2\pmod4$, because a
+symmetric conference matrix has $\Delta=0$.
+
+For sharpness in the other two cases, take a conference matrix $C$ of order
+$L$.  If one vertex is deleted, the retained principal block $A$ has every
+off-diagonal entry of $A^2$ equal to a sign, so
+$\Delta=n(n-1)$.  If two vertices are deleted, write the deleted columns as
+an $n$ by $2$ matrix $U$.  The two columns of $U$ are orthogonal, so half of
+its row products are $1$ and half are $-1$.  Hence precisely
+$n(n-2)/2$ ordered row pairs have inner product of magnitude two, giving
+$\Delta=2n(n-2)$.  Paley conference orders supply infinitely many examples.
+$\square$
+
+Combining (21.1) with (17.3) yields a second exact finite improvement:
+
+\[
+ \boxed{F(20)\ge30.}
+ \tag{21.3}
+\]
+
+Indeed the right side of (17.3), using $\Delta\ge720$, is
+
+\[
+ \frac{380}{\pi}\arcsin\frac1{\sqrt{19}}
+ {}+\frac{90}{19\pi\,18^{3/2}}>28.
+\]
+
+This strict inequality has a rational certificate.  Put $x=39/170$.
+Then $x<1/\sqrt{19}$, $1/\sqrt{18}>70/297$,
+$\arcsin x>x+x^3/6$, and $\pi<22/7$.  After multiplying by $\pi$, the
+remaining margin is exactly
+
+\[
+ 380\left(x+\frac{x^3}{6}\right)
+ {}+\frac5{19}\frac{70}{297}-88
+ =\frac{8798941}{2772405900}>0.
+\]
+
+Order-20 energies are even, so a strict lower bound above $28$ rounds to
+$30$.  The earlier linear Gaussian bound rounds only to $28$.
+
+### Theorem 22 (optimized nonlinear certificate and its sharp barrier)
+
+Let $q=n-1$ and
+
+\[
+ \varepsilon(A)=\frac{\Delta(A)}{nq^3}.
+\]
+
+For every $0\le w<1$, define
+
+\[
+ a=\frac{1+w}{2}\sqrt{\varepsilon(A)},\qquad
+ d=\frac{\sqrt{1-w^2}}{\sqrt q}.
+\]
+
+Then the full nonlinear bound (17.1) implies
+
+\[
+ \boxed{
+ M(A)\ge\frac{nq}{2\pi}
+ \left[\arcsin(a+d)-\arcsin(a-d)\right].}
+ \tag{22.1}
+\]
+
+Consequently, if $\varepsilon(A_n)\to\varepsilon<1$, then
+
+\[
+ \boxed{
+ \liminf_n\frac{M(A_n)}{n^{3/2}}
+ \ge\frac1\pi\sqrt{\frac{2}{1+\sqrt{1-\varepsilon}}}.}
+ \tag{22.2}
+\]
+
+#### Proof
+
+Set $t=qs^2$ and $w=(t-1)/(t+1)$.  Negative $w$ is dominated by $-w$,
+because it has the same $d$ and smaller nonnegative offsets.  For
+$0\le w<1$,
+
+\[
+ d_s=d,\qquad z_{ij,s}=\frac{1+w}{2q}|(A^2)_{ij}|.
+\]
+
+For fixed $d$, let $f_d(z)=\arcsin(z+d)-\arcsin(z-d)$ and
+$G(u)=f_d(\sqrt u)$.  The function $G$ is convex on the correlation domain.
+Indeed, with $z=\sqrt u$,
+
+\[
+ G''(u)=\frac{zf_d''(z)-f_d'(z)}{4z^3}.
+\]
+
+If $h(v)=v(1-v^2)^{-3/2}$, then
+$f_d''(z)=h(z+d)-h(z-d)$.  Moreover
+$f_d'''(z)=h'(z+d)-h'(z-d)\ge0$, because $h'$ is even and increases with
+absolute value.  Thus
+$P(z)=zf_d''(z)-f_d'(z)$ satisfies $P(0)=0$ and
+$P'(z)=zf_d'''(z)\ge0$.  Continuity handles $z=0$.
+
+The mean of $z_{ij,s}^2$ over the $\binom n2$ edges is $a^2$, since
+$2\sum_{i<j}(A^2)_{ij}^2=\Delta(A)$.  Thus $a$ is the root-mean-square of
+the offsets and $a\le\max z_{ij,s}$, so $|a\pm d|\le1$.  Jensen's
+inequality proves (22.1), with boundary cases obtained by continuity.
+For fixed $w$ and $n\to\infty$, its normalized right side tends to
+
+\[
+ \frac1\pi\,
+ \frac{\sqrt{1-w^2}}
+ {\sqrt{1-\varepsilon(1+w)^2/4}}.
+\]
+
+Optimizing the ratio squared,
+
+\[
+ \frac{1-w^2}{1-\varepsilon(1+w)^2/4},
+\]
+
+gives $1+w=2/(1+\sqrt{1-\varepsilon})$ and yields (22.2).
+$\square$
+
+There is also a sharp limitation on this entire one-parameter mechanism.  Let
+$B_s(A)$ denote the right side of (17.1), and put
+
+\[
+ G_n=\min_A\sup_{s\ge0}B_s(A).
+\]
+
+Then
+
+\[
+ \boxed{\lim_{n\to\infty}\frac{G_n}{n^{3/2}}=\frac1\pi.}
+ \tag{22.4}
+\]
+
+The lower bound follows by taking $s=1/\sqrt q$.  For the upper bound, embed
+order $n$ as a principal block of a Paley conference matrix of order
+$n+r$, where $r=o(n)$.  If $U$ is the deleted block, then for $i\ne j$,
+$|(A^2)_{ij}|=|(UU^{\mathsf T})_{ij}|\le r$.  Uniformly in $s$,
+
+\[
+ z_{ij,s}\le\frac rq=o(1),\qquad d_s\le\frac1{\sqrt q}.
+\]
+
+Writing the arcsine difference as an integral therefore gives
+
+\[
+ B_s(A)\le
+ \frac{nq}{\pi\sqrt q}\,(1+o(1))
+ =\left(\frac1\pi+o(1)\right)n^{3/2}
+\]
+
+uniformly in $s$.  This proves (22.4).  In particular, optimizing $s$,
+retaining all the $A^2$ offsets, or taking ordinary convex combinations of
+these certificates cannot improve the universal leading constant.
+
+The earlier consequence
+$\|A_n^2-(n-1)I\|_F=o(n^2)$ at constant $1/\pi$ should be described as
+vanishing $n^{-2}$-normalized Gram defect, not as conference rigidity.
+A uniform random signing has
+
+\[
+ \mathbb E\Delta(A)=n(n-1)(n-2)=\Theta(n^3)
+\]
+
+and therefore satisfies that weaker normalization in probability.
+
+### Proposition 23 (the weighted-entropy target is impossible)
+
+Let
+
+\[
+ E_{\rm ent}(B,D)
+ =L(B,D)+\sqrt{2nk\bigl(\Xi(B,D)+\log4\bigr)}.
+\]
+
+For every pair of internal blocks,
+
+\[
+ \boxed{
+ E_{\rm ent}(B,D)\ge\sqrt{2nk(n+k)\log2}.}
+ \tag{23.1}
+\]
+
+#### Proof
+
+There are $2^{n+k-2}$ projective rank-one words, and
+$0\le w(R)\le L/2$.  Hence
+
+\[
+ \Xi\ge(n+k-2)\log2-\frac{L^2}{2nk}.
+\]
+
+Put $b=\sqrt{2nk(n+k)\log2}$.  If $L\le b$, then
+
+\[
+ E_{\rm ent}\ge L+\sqrt{b^2-L^2}\ge b;
+\]
+
+if $L>b$, the conclusion is immediate.  This proves (23.1). $\square$
+
+For $n=k=N$, the unavoidable constant in (23.1) is
+$2\sqrt{\log2}=1.665109\ldots$.  By the Paley upper bound, the right side of
+the proposed target (19.2) is at most
+$(\sqrt2+o(1))N^{3/2}$.  The gap
+
+\[
+ 2\sqrt{\log2}-\sqrt2=0.250895\ldots
+\]
+
+is leading order.  Thus (19.2) is false for every choice of $B,D$, even with
+an $O(N^{3/2-\eta})$ error.  Retaining the discarded cross term inside the
+same Hoeffding union sum does not repair it: for a target $K\ge L$, that sum
+is
+
+\[
+ U_K=2\sum_R
+ \exp\left(-\frac{(K-h(R))^2}{2nk}\right),
+ \qquad h(R)=|Q_B(x)+Q_D(y)|,
+\]
+
+and
+
+\[
+ U_K\ge2^{n+k-1}\exp\left(-\frac{K^2}{2nk}\right).
+\]
+
+Therefore this certificate cannot be below one unless
+$K^2>2nk(n+k-1)\log2$.
+
+The exact replacement keeps the dependence among the bad events.  Regard
+$G=\mathcal R_{n,k}$ as a group under entrywise multiplication.  Fix a cross
+seed $C_0$, put
+
+\[
+ c(U)=|\langle C_0,U\rangle|,\qquad
+ h(R)=|Q_B(x)+Q_D(y)|,
+\]
+
+and let $C_g=C_0\odot g$ range over its row-and-column switching orbit.  Then
+
+\[
+ \boxed{
+ J_{\rm orb}(C_0;B,D)
+ =\min_{g\in G}\max_{R\in G}[h(R)+c(gR)].}
+ \tag{23.2}
+\]
+
+For $K\ge L$, define $C_t=\{U:c(U)>t\}$.  The bad shifts are exactly
+
+\[
+ \boxed{\mathcal B_K=\bigcup_{R\in G}R\,C_{K-h(R)}.}
+ \tag{23.3}
+\]
+
+Thus this orbit succeeds precisely when $\mathcal B_K\ne G$.  Equations
+(23.2)--(23.3) turn the missing composition estimate into a weighted sumset,
+or max-plus convolution, problem on $\mathbb F_2^{n+k-2}$.  Unlike (19.1),
+it preserves all intersections among bad events.
+
+The first nontrivial correction to a union bound is also exact.  Let $C$ have
+independent uniform sign entries and let
+$E_R=\{|\langle C,R\rangle|>u_R\}$.  If two rank-one words have projective
+distance $d$, orient them to have ordinary distance $d$ and put $N_0=nk$.
+Then
+
+\[
+\begin{aligned}
+ p_{N_0,d}(u,v)
+ =2^{-N_0}
+ \sum_{a=0}^{N_0-d}\sum_{b=0}^{d}
+ &\binom{N_0-d}{a}\binom db\\
+ {}\times\mathbf1\{&
+ |N_0-2(a+b)|>u,\\
+ &|N_0-2d-2a+2b|>v\}.
+\end{aligned}
+ \tag{23.4}
+\]
+
+This is $\Pr(E_R\cap E_S)$: $a$ and $b$ count negative cross signs on the
+coordinates where $R,S$ agree and disagree.  Consequently Hunter's
+spanning-tree inequality gives, for every spanning tree $\mathcal T$ on the
+rank-one words,
+
+\[
+ \Pr\left(\bigcup_RE_R\right)
+ \le\sum_R\Pr(E_R)
+ -\sum_{\{R,S\}\in\mathcal T}
+ p_{N_0,d(R,S)}(u_R,u_S).
+ \tag{23.5}
+\]
+
+Thus the full labelled energy-coloured distance graph supplies the edge
+weights for a second-order inclusion--exclusion certificate.  The aggregate
+two-point invariant from the order-nine experiment motivates this data but
+need not determine the best spanning tree.  No asymptotic estimate strong
+enough for composition has yet been proved from (23.5).
+
+An exact $4+4$ diagnostic shows why higher dependence is genuinely relevant.
+For
+
+\[
+ B=\begin{pmatrix}
+ 0&1&1&1\\
+ 1&0&1&-1\\
+ 1&1&0&1\\
+ 1&-1&1&0
+ \end{pmatrix},
+\]
+
+the internal profile over the 64 projective rank-one states is
+
+\[
+ \#\{h=0,2,4,6,8\}=(14,24,16,8,2),
+\]
+
+and exhaustive cross-centre enumeration gives $J(B,B)=10$.  The exact iid
+union sums at targets $10,12,14$ are respectively
+
+\[
+ \frac{17973}{4096},\qquad
+ \frac{6073}{4096},\qquad
+ \frac{1653}{4096};
+\]
+
+the first-moment argument certifies only $14$.  For an adaptive optimal seed,
+the switching orbit has two good projective shifts at target $10$ even though
+the mean number of violated constraints is $17/4$.  This finite example
+rules out treating the first moment as a proxy for noncoverage.
+
+### Theorem 24 (scalar Bellman control still does not force convergence)
+
+Put
+
+\[
+ r_n=\sigma_n+2\delta_n
+ =F(n+1)-F(n)-(n\bmod2).
+ \tag{24.1}
+\]
+
+There is an explicit integer sequence $f(n)$ which agrees with the certified
+values through order ten and satisfies all of the following:
+
+1. $f(n+1)-f(n)\equiv n\pmod2$ and
+   $0\le f(n+1)-f(n)\le n$;
+2. $f(n)\ge n\sqrt{n-1}/\pi$ and $f(n)\le\binom n2$;
+3. both scalar hereditary consequences of Theorems 11 and 12;
+4. a numerically admissible scalar Bellman decomposition with $\sigma_n=0$ and
+   $0\le r_n\le3\sqrt n$ at every $n\ge10$;
+5. $\liminf f(n)/n^{3/2}=0.36$ and
+   $\limsup f(n)/n^{3/2}=0.44$.
+
+Hence even uniform $O(\sqrt n)$ control of the scalar Bellman cost is
+insufficient.  This countermodel is not claimed to arise from sign matrices;
+it proves that additional matrix geometry is logically necessary.
+
+#### Construction and proof
+
+Let $T=e^2$ and
+
+\[
+ g(t)=t^{3/2}\left[
+ \frac25+\frac1{25}\sin\bigl(\log\log(t+T)\bigr)\right].
+\]
+
+Use the exact prefix
+
+\[
+ f(1),\ldots,f(10)=0,1,3,4,4,5,9,10,12,13.
+\]
+
+For $n\ge10$, let $d_n$ be the least positive integer congruent to
+$n$ modulo two and at least $g(n+1)-g(n)$, and set
+$f(n+1)=f(n)+d_n$.  For $t\ge10$,
+
+\[
+ 0.52\sqrt t\le g'(t)\le0.68\sqrt t.
+\]
+
+Indeed the oscillatory derivative contributes at most
+$\frac1{50}\sqrt t$, because
+$t/((t+T)\log(t+T))\le1/2$.  It follows that
+
+\[
+ 0\le d_n-[g(n+1)-g(n)]<2,\qquad d_n\le3\sqrt n\le n.
+\]
+
+Set $\sigma_n=0$ and
+$\delta_n=[d_n-(n\bmod2)]/2$.  Parity makes $\delta_n$ a nonnegative
+integer, while $d_n\le n$ gives
+$\delta_n\le\lfloor n/2\rfloor$, the admissible weighted-deficit range.
+This proves the parity, increment, and Bellman assertions.  Summation gives
+$f(n)=13+g(n)-g(10)+O(n)$, proving the two normalized subsequential limits.
+Indeed $\phi(t)=\log\log(t+e^2)$ is continuous, increasing, and unbounded,
+while $\phi(n+1)-\phi(n)\to0$; integer subsequences therefore approach the
+phases $\pi/2$ and $3\pi/2$ modulo $2\pi$.
+The lower envelope $0.36n^{3/2}+13-0.44\,10^{3/2}$ exceeds
+$n^{3/2}/\pi$ for $n\ge10$; the finite prefix is checked directly.
+The upper bound follows inductively from $d_n\le n$.
+
+For the squared hereditary inequality, note that $f(t)\ge t-1$.  If
+$s\ge10$, every tail increment is positive, so
+$f(s+k)-f(s)\ge k$.  If $s<10\le s+k$, then
+$f(s+k)\ge s+k+3$ while the exact prefix has $f(s)\le s+3$, giving the
+same inequality.  Cases with $s+k<10$ are direct.  Hence
+
+\[
+ f(s+k)^2-f(s)^2
+ \ge k(2s+k-2)
+ \ge\binom k2+k(s\bmod2).
+\]
+
+For Theorem 12, $f(s+k)-f(s)\ge k\ge\mu_k$ when $s$ is odd, again with the
+finite prefix checked directly.  This completes the construction.
+
+The exact one-vertex diagnostic is instead
+
+\[
+ A_N=\frac1{N^{3/2}}\sum_{n=N}^{2N-1}r_n.
+ \tag{24.2}
+\]
+
+Then $F(n)/n^{3/2}$ converges if and only if $A_N$ converges.  If
+$A_N\to\Lambda$, the limit is
+
+\[
+ \boxed{\frac{\Lambda}{2^{3/2}-1}.}
+ \tag{24.3}
+\]
+
+Indeed, with $c_N=F(N)/N^{3/2}$ and $q=2^{-3/2}$, telescoping (24.1) gives
+
+\[
+ c_{2N}=q\,c_N+q\,A_N+O(N^{-1/2}).
+\]
+
+The implication from $c_N$ to $A_N$ is immediate.  Conversely, for arbitrary
+$n$ put $m=\lfloor n/2\rfloor$.  The even recurrence above and
+$F(2m+1)-F(2m)=O(m)$ give
+
+\[
+ c_n=q[c_m+\Lambda]+o(1).
+\]
+
+If $C=\Lambda/(2^{3/2}-1)$ and $e_n=c_n-C$, boundedness of $c_n$ yields
+$\limsup|e_n|\le q\limsup|e_n|$, hence $\limsup|e_n|=0$.  This proves
+all-order convergence.  A useful sufficient target is the Bellman--Cesaro law
+
+\[
+ \frac1N\sum_{n\le N}\frac{r_n}{\sqrt n}\longrightarrow a.
+ \tag{24.4}
+\]
+
+Abel summation then gives
+$\sum_{n<N}r_n=(2a/3)N^{3/2}+o(N^{3/2})$, and therefore
+$F(N)/N^{3/2}\to2a/3$.
+
+### Complete order-10 finite-temperature phase diagram
+
+For an order-10 signing let $H=(h_0,\ldots,h_{22})$ be its projective
+absolute-energy histogram, where $h_j$ counts states with
+$|Q_A|=2j+1$.  Put
+
+\[
+ z=4\sinh^2t,\qquad R_0=1,\quad R_1=z+1,\quad
+ R_{j+1}=(z+2)R_j-R_{j-1}.
+\]
+
+Then
+$\cosh((2j+1)t)=\cosh(t)R_j(z)$, so the augmented partition function is the
+common factor $4\cosh t$ times
+
+\[
+ P_H(z)=\sum_jh_jR_j(z).
+\]
+
+Exhaustion of all 274,668 root-normalized order-10 records gives 6,012
+distinct histograms.  Every resulting polynomial coefficientwise dominates
+at least one of the following three:
+
+\[
+\begin{array}{c|l|l}
+&\text{nonzero histogram entries}&P(z)\text{ coefficients, low to high}\\
+\hline
+P_0&(h_0,h_3,h_4,h_7)=(180,180,140,12)
+ &(512,2816,4512,3680,2120,792,156,12)\\
+P_1&(108,88,96,84,60,48,24,4)
+ &(512,2816,5280,4704,2232,576,76,4)\\
+P_2&(h_1,h_2,h_5,h_6)=(200,192,80,40)
+ &(512,2816,5792,5600,2520,520,40).
+\end{array}
+\]
+
+Here the unlabelled $P_1$ tuple lists $h_0,\ldots,h_7$ in order.
+The first phase contains one rooted conference record and has $M=15$; the
+second has $M=15$; the third consists of ground-state records with $M=13$.
+Exactly
+
+\[
+ P_0-P_1=8z^2(z-2)(z+1)(z+3)(z+4)^2,
+\]
+
+\[
+ P_1-P_2=4z^2(z+4)^2(z^3+z^2-10z-8).
+\]
+
+The cubic has a unique positive root
+$\zeta=3.083872\ldots$.  Therefore the minimizing histogram is $P_0$ for
+
+\[
+ 0<t<\operatorname{arsinh}(1/\sqrt2),
+\]
+
+$P_1$ until
+
+\[
+ t=\operatorname{arsinh}(\sqrt\zeta/2)=0.792460\ldots,
+\]
+
+and $P_2$ thereafter, with adjacent ties at the two thresholds.  This is an
+exact finite catalogue theorem, conditional only on the asserted nauty stream
+completeness; it is not an asymptotic phase-transition claim.  It proves that
+the outer minimizer genuinely changes with temperature and that neither the
+high-temperature conference optimizer nor the ground-state optimizer alone
+controls the full minimax free-energy curve.
+
 ### Consequence for the convergence program
 
 The finite obstruction does not refute asymptotic near-subadditivity: the
@@ -2025,16 +2606,23 @@ proof that composes arbitrary exact minimizers or records only their scalar
 maximum. The ground-state state space must retain a composability profile, or
 allow subleading internal slack before optimizing the cross block.
 
-A sharper settling target is therefore the following. Find
-$r_n=o(n^{3/2})$, $C<\infty$, and $\delta>0$ such that
+A sharper settling target is therefore the following.  Define
 
 \[
- K_{n,m}\bigl(F(n)+r_n,F(m)+r_m\bigr)^{2/3}
+ K_{n,m}(u,v)=
+ \min_{\substack{M(B)\le u\\M(D)\le v}}J(B,D).
+\]
+
+Find nonnegative $\eta_n=o(n^{3/2})$, $C<\infty$, and $\delta>0$ such that
+
+\[
+ K_{n,m}\bigl(F(n)+\eta_n,F(m)+\eta_m\bigr)^{2/3}
  \le F(n)^{2/3}+F(m)^{2/3}
  +C(n+m)^{1-\delta}.
 \]
 
-Since $F(n+m)\le K_{n,m}(u,v)$ for every $u,v$, Theorem 13 would then prove
+For these feasible budgets,
+$F(n+m)\le K_{n,m}(F(n)+\eta_n,F(m)+\eta_m)$, so Theorem 13 would then prove
 convergence. This target permits the exact kind of internal sacrifice forced
 by the $(2,8)$ example while still requiring it to vanish on the normalized
 scale.
@@ -2064,7 +2652,7 @@ pairs. No result from an uncompleted pair is used, and no exact value of
 $F(11)$ is inferred. This is a solver boundary, not evidence that the missing
 pairs are mathematically harder or have larger values.
 
-## 8. Current best continuation targets
+## 9. Current best continuation targets
 
 The most concrete finite-temperature settling lemma is the negative-replica
 limit. For
@@ -2103,13 +2691,14 @@ while bounding the two pieces separately incurs a leading $N^{3/2}$ cost.
 Theorems 11 and 12 give hereditary lower information but no such
 optimizer-compatible upper construction.
 
-Theorem 18 and Proposition 19 make this alternative more precise.  The exact
-cross-block state is the weighted covering landscape of the projective
-rank-one code, and the explicit constant-matching target is (19.2).  The
-generic entropy estimate still has leading cost, so the new result isolates
-the missing profile law rather than proving it.  Proposition 20 controls the
-one-vertex state on a density-one set of orders, but a convergence argument
-must still eliminate or bridge the sparse exceptional orders.
+Theorem 18 gives an exact cross-block state, but Proposition 23 proves that
+the weighted-entropy target (19.2) is impossible by a leading constant gap.
+The live multivertex target is instead the switching-orbit noncoverage
+statement (23.3), or another estimate that exploits the intersections among
+bad rank-one constraints.  Proposition 20 controls the one-vertex state on a
+density-one set, while Theorem 24 shows that even uniform scalar
+$O(\sqrt n)$ control would not suffice.  The one-vertex target is
+stabilization of (24.2), for example through the Bellman--Cesaro law (24.4).
 
 The alternative structural target is an optimizer-specific stability theorem
 for the Bellman state.  It would supplement

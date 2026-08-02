@@ -107,6 +107,35 @@ def quantitative_rhs(matrix: Matrix) -> float:
     ) + excess / (8.0 * math.pi * (order - 1) * (order - 2) ** 1.5)
 
 
+def optimized_jensen_rhs(matrix: Matrix, transformed_parameter: float) -> float:
+    """Jensen compression of the full nonlinear certificate.
+
+    The transformed parameter is w=(q*s^2-1)/(q*s^2+1), restricted here to
+    0 <= w < 1.  This is the range relevant to the optimized lower bound.
+    """
+    order = len(matrix)
+    if order < 3 or not 0.0 <= transformed_parameter < 1.0:
+        raise ValueError("optimized Jensen check requires n >= 3 and 0 <= w < 1")
+    q = order - 1
+    defect, _ = trace_four_excess(matrix)
+    epsilon = defect / (order * q**3)
+    displacement = math.sqrt(1.0 - transformed_parameter**2) / math.sqrt(q)
+    offset = 0.5 * (1.0 + transformed_parameter) * math.sqrt(epsilon)
+    arguments = (offset + displacement, offset - displacement)
+    if any(abs(argument) > 1.0 + 1e-12 for argument in arguments):
+        raise AssertionError(("invalid Jensen correlation", order, arguments))
+    upper, lower = (max(-1.0, min(1.0, value)) for value in arguments)
+    return order * q / (2.0 * math.pi) * (math.asin(upper) - math.asin(lower))
+
+
+def parity_defect_lower_bound(order: int) -> int:
+    if order % 2:
+        return order * (order - 1)
+    if order % 4 == 0:
+        return 2 * order * (order - 2)
+    return 0
+
+
 def projective_distance(left: Vector, right: Vector) -> int:
     ordinary = sum(a != b for a, b in zip(left, right))
     return min(ordinary, len(left) - ordinary)
@@ -167,8 +196,9 @@ def multivertex_data(left: Matrix, right: Matrix) -> tuple[int, int, int, float]
     return direct_value, radius_value, weighted_radius, entropy_upper
 
 
-def verify_nonlinear_bounds() -> int:
+def verify_nonlinear_bounds() -> tuple[int, int]:
     checked = 0
+    jensen_checked = 0
     nonconference_seen = False
     for order in range(2, 6):
         for matrix in signings(order):
@@ -189,9 +219,50 @@ def verify_nonlinear_bounds() -> int:
             if order >= 3 and quantitative_rhs(matrix) > value + 1e-10:
                 raise AssertionError(("quantitative Gaussian bound", order))
 
+            if order >= 3:
+                q = order - 1
+                for transformed_parameter in (0.0, 0.25, 0.6, 0.9):
+                    jensen = optimized_jensen_rhs(matrix, transformed_parameter)
+                    parameter = math.sqrt(
+                        (1.0 + transformed_parameter)
+                        / (q * (1.0 - transformed_parameter))
+                    )
+                    exact = nonlinear_rhs(matrix, parameter)
+                    if jensen > exact + 1e-10 or exact > value + 1e-10:
+                        raise AssertionError(
+                            (
+                                "optimized Jensen bound",
+                                order,
+                                transformed_parameter,
+                                jensen,
+                                exact,
+                                value,
+                            )
+                        )
+                    jensen_checked += 1
+
     if not nonconference_seen:
         raise AssertionError("trace-four corruption control had no witness")
-    return checked
+    return checked, jensen_checked
+
+
+def verify_parity_defect() -> tuple[int, bool]:
+    checked = 0
+    zero_defect_even_order_seen = False
+    for order in range(2, 7):
+        lower = parity_defect_lower_bound(order)
+        for matrix in signings(order):
+            defect, off_diagonal_square = trace_four_excess(matrix)
+            if defect != off_diagonal_square or defect < lower:
+                raise AssertionError(("parity defect", order, defect, lower))
+            zero_defect_even_order_seen |= order % 4 == 2 and defect == 0
+            checked += 1
+
+    # A deliberately false positive lower bound in the 2 mod 4 case is
+    # detected by the order-6 conference signing.
+    if not zero_defect_even_order_seen:
+        raise AssertionError("2 mod 4 parity-defect corruption went undetected")
+    return checked, zero_defect_even_order_seen
 
 
 def verify_multivertex_identity() -> tuple[int, bool]:
@@ -245,16 +316,56 @@ def verify_order_21_rounding() -> tuple[float, float, int]:
     return old, new, rounded
 
 
+def verify_order_20_rounding() -> tuple[float, float, int]:
+    order = 20
+    baseline = order * (order - 1) / math.pi * math.asin(1.0 / math.sqrt(order - 1))
+    defect_lower = parity_defect_lower_bound(order)
+    strengthened = baseline + defect_lower / (
+        8.0 * math.pi * (order - 1) * (order - 2) ** 1.5
+    )
+    parity = (order * (order - 1) // 2) % 2
+    rounded = min(
+        value
+        for value in range(100)
+        if value % 2 == parity and value + 1e-12 >= strengthened
+    )
+
+    # Exact certificate that the strengthened numerator exceeds 28*pi.
+    # We use x=39/170 < 1/sqrt(19), asin(x)>x+x^3/6,
+    # 1/sqrt(18)>70/297, and pi<22/7.
+    x = Fraction(39, 170)
+    if Fraction(170, 39) ** 2 - 19 != Fraction(1, 1521):
+        raise AssertionError("order-20 square comparison corrupted")
+    if Fraction(99, 70) ** 2 - 2 != Fraction(1, 4900):
+        raise AssertionError("order-20 square-root comparison corrupted")
+    margin = 380 * (x + x**3 / 6) + Fraction(5, 19) * Fraction(70, 297) - 88
+    if margin != Fraction(8798941, 2772405900) or margin <= 0:
+        raise AssertionError(("order-20 rational margin", margin))
+    if not 28.0 < strengthened < 30.0 or rounded != 30:
+        raise AssertionError(("order-20 parity improvement", strengthened, rounded))
+    return baseline, strengthened, rounded
+
+
 def main() -> None:
-    nonlinear_checks = verify_nonlinear_bounds()
+    nonlinear_checks, jensen_checks = verify_nonlinear_bounds()
+    parity_checks, parity_corruption = verify_parity_defect()
     multivertex_checks, corruption = verify_multivertex_identity()
+    order_20_baseline, order_20_strengthened, order_20_rounded = (
+        verify_order_20_rounding()
+    )
     old, new, rounded = verify_order_21_rounding()
     print(f"nonlinear_arcsine_checks={nonlinear_checks}")
+    print(f"optimized_jensen_checks={jensen_checks}")
+    print(f"parity_defect_signings_checked={parity_checks}")
     print(f"multivertex_bellman_checks={multivertex_checks}")
+    print(f"order_20_baseline={order_20_baseline:.12f}")
+    print(f"order_20_strengthened={order_20_strengthened:.12f}")
+    print(f"order_20_parity_rounded={order_20_rounded}")
     print(f"order_21_old_bound={old:.12f}")
     print(f"order_21_new_bound={new:.12f}")
     print(f"order_21_parity_rounded={rounded}")
     print(f"ordinary_distance_corruption_detected={str(corruption).upper()}")
+    print(f"parity_defect_corruption_detected={str(parity_corruption).upper()}")
     print("deterministic_seed=413935")
     print("nonlinear_bellman_verification=PASSED")
 

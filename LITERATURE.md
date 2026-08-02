@@ -129,6 +129,15 @@ independent row and column switches, the prototype of
   rectangular term is a new leading-order \(n^{3/2}\) cost, not a negligible
   remainder.
 
+The exact cross-seed orbit in Proposition 23 is a weighted version of this
+same switching game.  Its cross profile
+\(c(xy^{\mathsf T})=|x^{\mathsf T}C_0y|\) is precisely the
+Gale--Berlekamp orbit profile, but the internal energy
+\(h(xy^{\mathsf T})\) turns the composition problem into the max-plus
+convolution \(\min_g\max_R[h(R)+c(gR)]\).  Brown--Spencer controls the
+cross-only term; it does not supply the weighted noncoverage theorem needed
+here.
+
 Modern work on Bennett's inequality gives constructive constant bounds for
 sign bilinear forms and improves Gale--Berlekamp constants.
 

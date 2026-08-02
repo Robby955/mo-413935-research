@@ -509,10 +509,10 @@ two-unit slack. The full computation and its dependency boundary are in
 
 This kills exact-optimizer heredity, not asymptotic composition with
 subleading internal slack. A live ground-state target is to prove, for some
-$r_n=o(n^{3/2})$ and $\delta>0$,
+nonnegative $\eta_n=o(n^{3/2})$ and $\delta>0$,
 
 \[
- K_{n,m}(F(n)+r_n,F(m)+r_m)^{2/3}
+ K_{n,m}(F(n)+\eta_n,F(m)+\eta_m)^{2/3}
  \le F(n)^{2/3}+F(m)^{2/3}
  +O((n+m)^{1-\delta}).
 \]
@@ -617,10 +617,32 @@ At $s=1/\sqrt{n-1}$, convexity of the arcsine difference gives
  {8\pi(n-1)(n-2)^{3/2}}.
 \]
 
-Consequently $F(21)\ge32$, and any sequence attaining the asymptotic lower
-constant $1/\pi$ must satisfy
-$\|A_n^2-(n-1)I\|_F=o(n^2)$. The universal gain is only
-$\Theta(\sqrt n)$, so this does not improve the leading lower constant.
+The parity defect theorem gives
+
+\[
+ \|A^2-(n-1)I\|_F^2\ge
+ \begin{cases}
+ n(n-1),&n\text{ odd},\\
+ 2n(n-2),&n\equiv0\pmod4,\\
+ 0,&n\equiv2\pmod4,
+ \end{cases}
+\]
+
+and consequently $F(20)\ge30$ and $F(21)\ge32$.  A sequence attaining the
+asymptotic lower constant $1/\pi$ must satisfy
+$\|A_n^2-(n-1)I\|_F=o(n^2)$, but this is only vanishing normalized Gram
+defect; uniform random signings satisfy it in probability.
+
+This entire one-parameter route has a sharp barrier. If $G_n$ is the minimax
+value of the full displayed arcsine certificate after optimizing $s$, then
+
+\[
+ \lim_nG_n/n^{3/2}=1/\pi.
+\]
+
+Paley conference principal blocks of order $n+o(n)$ prove the upper bound
+uniformly in $s$. Do not retry parameter optimization or ordinary convex
+combinations of these certificates as a route to a larger universal constant.
 
 ### 3.12 Exact multivertex Bellman state
 
@@ -671,22 +693,43 @@ A weighted Hamming-ball union bound proves
  J(B,D)\le L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}.
 \]
 
-The generic estimate $\Xi\le(n+k-2)\log2$ still pays the full leading
-cross-block cost. A precise sufficient target is to construct $B,D$ with
+The bound is correct, but the originally proposed use of it is impossible.
+For every $B,D$,
 
 \[
  L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
- \le(F(n)^{2/3}+F(k)^{2/3})^{3/2}
- +O((n+k)^{3/2-\varepsilon}).
+ \ge\sqrt{2nk(n+k)\log2}.
 \]
 
-Do not replace this constant-matching law by the unrealistically crude demand
-$\Xi=o(n+k)$ without checking repeated balanced composition.
+For balanced blocks the left side has constant at least
+$2\sqrt{\log2}$, while the required target has asymptotic ceiling $\sqrt2$.
+The leading gap is $0.250895\ldots$. Retaining the discarded cross term in
+the same all-state Hoeffding union sum has the same obstruction.
+
+The live replacement retains dependence. Regard
+$G=\mathcal R_{n,k}$ as a group, fix a cross seed $C_0$, and put
+$c(U)=|\langle C_0,U\rangle|$ and
+$h(R)=|Q_B(x)+Q_D(y)|$. At target $K$, the bad switching shifts are exactly
+
+\[
+ \mathcal B_K=\bigcup_{R\in G}R\{U:c(U)>K-h(R)\}.
+\]
+
+Prove $\mathcal B_K\ne G$ at the power-saving composition threshold. This is
+a weighted sumset or max-plus convolution problem, not an entropy first
+moment.
 
 For one-vertex Bellman-optimal predecessors, exact telescoping also proves
 that for every $g(N)\to\infty$, all but $O(N/g(N))$ orders in $[N,2N]$ have
 internal slack at most $g(N)\sqrt N$ and weighted deficit at most
-$\frac12g(N)\sqrt N$. Sparse exceptional orders remain uncontrolled.
+$\frac12g(N)\sqrt N$. An explicit abstract countermodel still oscillates
+with $O(\sqrt n)$ scalar Bellman cost at every order, so sparse exceptions are
+not the decisive wall. The exact diagnostic is stabilization of
+
+\[
+ N^{-3/2}\sum_{n=N}^{2N-1}
+ [F(n+1)-F(n)-(n\bmod2)].
+\]
 
 ### 3.14 Complete order-nine state test
 
@@ -707,6 +750,23 @@ The complete energy-coloured two-point distribution separates all weighted
 deficits at order 9. This is finite evidence only. Test any proposed finite
 overlap-state closure against higher orders before treating it as an
 asymptotic theorem.
+
+### 3.15 Complete order-ten temperature test
+
+The complete rooted order-ten catalogue has 274,668 records and 6,012
+absolute-energy histograms. The minimax partition function has exactly three
+positive-temperature histogram phases. Their maxima are $15,15,13$, and the
+transitions occur at
+
+\[
+ t=0.658478948\ldots,\qquad t=0.792460762\ldots.
+\]
+
+The high-temperature phase is conference, the middle phase is not a ground
+state, and the low-temperature phase attains $F(10)=13$. At $t=0$ all
+signings tie. Therefore the outer optimizer genuinely changes with
+temperature. Any interpolation must allow optimizer phase changes rather than
+track a single signing across all $\beta$.
 
 ## 4. Known failed mechanisms that require a material change
 
@@ -752,6 +812,15 @@ Do not simply repeat any of the following:
 15. Adding only the pair-distance law of exact maximizers to that histogram:
     the explicit order-9 records `GHOgmo` and `Gxd?Dc` still have different
     extension values.
+16. Optimizing the parameter in the full nonlinear square-covariance
+    certificate, or taking ordinary convex combinations of those
+    certificates: its minimax asymptotic constant is exactly $1/\pi$.
+17. The constant-matching weighted-entropy target formerly stated after the
+    multivertex Bellman identity: a universal leading floor
+    $2\sqrt{\log2}$ in balanced blocks exceeds the required $\sqrt2$.
+18. Pointwise or density-one scalar Bellman-cost bounds by themselves: an
+    explicit nonconvergent scalar model has $O(\sqrt n)$ cost at every order
+    while satisfying all currently proved scalar cross-order inequalities.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -843,20 +912,19 @@ realize this bound by direct completion. The more realistic constructive
 target is the Pareto-profile inequality
 
 \[
- K_{n,m}(F(n)+r_n,F(m)+r_m)^{2/3}
+ K_{n,m}(F(n)+\eta_n,F(m)+\eta_m)^{2/3}
  \le F(n)^{2/3}+F(m)^{2/3}+O((n+m)^{1-\delta})
 \]
 
-with $r_n=o(n^{3/2})$. Determine what state, beyond the scalar maximum,
+with $\eta_n=o(n^{3/2})$. Determine what state, beyond the scalar maximum,
 controls membership in the composable near-optimum family.
 
 The exact multivertex identity supplies a sharper version of this program.
-Attack the constant-matching weighted-entropy inequality in Section 3.13,
-first for balanced doubling if necessary. Calculate both $L(B,D)$ and
-$\Xi(B,D)$ jointly; optimizing either one separately recreates the leading
-block wall. Explore whether the energy-coloured two-point law, or a controlled
-hierarchy of coloured overlap laws, gives a variational bound for $\Xi$ that
-is stable under composition.
+Do not attack the disproved weighted-entropy inequality from Section 3.13.
+Instead prove the switching-orbit noncoverage statement there, first for
+balanced doubling if necessary. Explore whether the energy-coloured two-point
+law, a controlled hierarchy of coloured overlap laws, or additive-combinatorial
+structure of the rank-one group can certify noncoverage with a power saving.
 
 ### Program E: nonexistence
 

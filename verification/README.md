@@ -108,23 +108,51 @@ $H(n)=F(n)^{2/3}$ at $2+2=4$. Expected output:
 
 The nonlinear-Bellman checker exhausts every signing through order 5 at four
 covariance parameters, verifies the trace-four sum-of-squares identity and
-the quantitative arcsine bound, and compares the multivertex weighted-radius
-identity against direct block enumeration in 23 small cases. It also checks
-the weighted entropy upper bound and includes an exact rational certificate
-for the parity-rounded consequence `F(21) >= 32`. Expected output:
+the quantitative and optimized-Jensen arcsine bounds, and exhausts the parity
+Gram-defect theorem through order 6. It compares the multivertex
+weighted-radius identity against direct block enumeration in 23 small cases
+and includes exact rational certificates for `F(20) >= 30` and
+`F(21) >= 32`. Expected output:
 
     nonlinear_arcsine_checks=4392
+    optimized_jensen_checks=4384
+    parity_defect_signings_checked=33866
     multivertex_bellman_checks=23
+    order_20_baseline=27.998982684199
+    order_20_strengthened=28.018726463062
+    order_20_parity_rounded=30
     order_21_old_bound=29.894026823521
     order_21_new_bound=30.148921557028
     order_21_parity_rounded=32
     ordinary_distance_corruption_detected=TRUE
+    parity_defect_corruption_detected=TRUE
     deterministic_seed=413935
     nonlinear_bellman_verification=PASSED
 
-Only the displayed arcsine values use floating point. The strict order-21
-comparison is separately certified using rational arithmetic and the
-alternating Taylor bound for sine.
+Only the displayed arcsine values use floating point. Both strict finite
+comparisons are separately certified using rational arithmetic.
+
+`verify_frontier_walls.py` uses exact arithmetic to check the universal
+weighted-entropy floor, exhausts all 32,768 projective cross centres for the
+order-four block diagnostic, and checks 200,000 orders of the abstract
+Bellman countermodel. Floating point is used only for the displayed logarithm
+constant and the smooth countermodel phase. Expected output:
+
+    entropy_floor_exact_checks=1401
+    balanced_entropy_leading_gap=0.250895659942
+    b4_cross_centers_checked=32768
+    b4_orbit_shifts_checked=128
+    b4_height_profile=0:14,2:24,4:16,6:8,8:2
+    b4_iid_union_sums=K10:17973/4096,K12:6073/4096,K14:1653/4096
+    b4_cross_optimum=10
+    b4_optimal_projective_centers=92
+    countermodel_orders_checked=200000
+    countermodel_hereditary_checks=251500
+    dyadic_identities_checked=100000
+    maximum_increment_over_sqrt_n=1.264911064067
+    deterministic_seed=413935
+    corruption_controls=entropy_sign,adaptive_seed,union_threshold,increment_parity,dyadic_parity
+    frontier_walls_verification=PASSED
 
 ## Exact cross-block composition
 
@@ -243,6 +271,38 @@ and stream digest asserted. Switching-class counts trust NetworkX graph
 isomorphism. The weighted-radius values and direct extension optima do not use
 a SAT, MILP, or floating-point solver. Separation by the energy-coloured
 two-point invariant is an order-9 finite fact only.
+
+## Complete order-10 temperature phases
+
+`research_order10_temperature.py` requires nauty `geng` and NumPy. It
+reuses the independently audited graph6 parser from
+`research_exact_small_n.py` and fail-closes on the complete stream count and
+digest:
+
+```bash
+python3 verification/research_order10_temperature.py
+```
+
+It evaluates all 274,668 root-normalized records, obtains 6,012 distinct
+absolute-energy histograms, and proves the three-phase envelope using exact
+integer polynomial arithmetic. Expected output:
+
+    order_10_root_records=274668
+    order_10_absolute_energy_histograms=6012
+    phase_records=1,4,4
+    phase_maxima=15,15,13
+    phase_transition_z=2,root(z^3+z^2-10z-8)
+    positive_cubic_root=3.083872359436
+    temperature_thresholds=0.658478948462,0.792460761565
+    extensive_beta_thresholds=2.082293268414,2.505980962859
+    geng_stream_sha256=ce9c5d4d27c8e55de5f0c6348ec781a650382e16bdff26b6c3418fa00a9cfcf9
+    independent_recomputation=PASSED
+    corruption_controls=histogram,coefficientwise_direction,phase_factorization
+    order_10_temperature_phases=PASSED
+
+Catalogue completeness trusts nauty plus the asserted count and digest. The
+phase envelope and thresholds use no floating-point comparison except for
+the displayed decimal approximations.
 
 ## Exhaustive values through n = 10
 
