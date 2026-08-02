@@ -3863,3 +3863,530 @@ The deterministic checks are
 `verification/verify_paley_least_nonresidue.py`. They verify the finite
 identities, exact witnesses, order statistics, and corruption controls. The
 prime-sequence conclusion rests on the analytic proof, not finite sampling.
+
+## 11. Exact profile criteria and limits of scalar concentration
+
+### Theorem 34 (exact cumulant criterion for relative-profile composition)
+
+Retain the notation of Theorem 32 and put the uniform measure on each of
+$\Omega_A,\Omega_B$, and the projective rectangular state space. For three
+independent uniform local states define
+
+\[
+ X=e_A+e_B+e_C.
+\]
+
+The product state space has size $2^{2N-2}$, while every fiber of $\pi$ has
+size $2^{N-1}$. Consequently, for every $t>0$ and every real $T$ satisfying
+
+\[
+ tT\ge (N-1)\log2+\log\mathbb E e^{tX},                 \tag{34.1}
+\]
+
+there is a relative gauge $g$ for which $M(Y_g)\le T$. In particular,
+
+\[
+ \boxed{
+ \min_gM(Y_g)
+ \le \inf_{t>0}
+ \frac{(N-1)\log2+\log\mathbb E e^{tX}}{t}.}
+                                                                    \tag{34.2}
+\]
+
+This is exactly the canonical form of the microcanonical bound (32.3), not
+a new relaxation. Indeed, independence and $e_A=M(A)-d_A$, and similarly
+for the other two factors, give
+
+\[
+ \mathbb E e^{tX}
+ =2^{-(2N-2)}e^{tL}D_A(t)D_B(t)D_C(t),                  \tag{34.3}
+\]
+
+so substituting (34.3) into (34.2) recovers (32.3).
+
+To prove (34.1), exponential counting gives
+
+\[
+ \#\{\omega:X(\omega)>T\}
+ <2^{2N-2}e^{-tT}\mathbb E e^{tX}\le2^{N-1}.
+\]
+
+There are therefore not enough triples above $T$ to meet every fiber. A
+fiber which is missed has every one of its energies at most $T$, and (32.1)
+identifies its maximum with $M(Y_g)$.
+
+The mean-field normalization makes the remaining scalar question precise.
+For $t=\beta/\sqrt N$, set
+
+\[
+ \kappa_N(\beta)=\frac1N
+ \log\mathbb E\exp\left(\frac{\beta X}{\sqrt N}\right).
+\]
+
+Then (34.2) reads
+
+\[
+ \frac{\min_gM(Y_g)}{N^{3/2}}
+ \le \inf_{\beta>0}
+ \frac{(1-N^{-1})\log2+\kappa_N(\beta)}{\beta}.          \tag{34.4}
+\]
+
+Thus, if $\kappa_N(\beta)$ converges along a composable near-optimal family
+with enough local uniformity to pass to the infimum, its scalar profile
+upper bound is
+
+\[
+ \inf_{\beta>0}\frac{\log2+\kappa(\beta)}{\beta}.       \tag{34.5}
+\]
+
+Equivalently, a target $T=\theta N^{3/2}$ is certified whenever
+
+\[
+ \kappa_N(\beta)-\beta\theta
+ \le-(1-N^{-1})\log2.                                  \tag{34.6}
+\]
+
+The missing information is the full leading-scale cumulant function. Its
+mean and variance alone cannot decide (34.6).
+
+### Theorem 35 (the universal quadratic-cumulant certificate floor)
+
+Take a balanced split $n=k=r$. Let $\mu=\mathbb EX$. Walsh orthogonality
+gives
+
+\[
+ \operatorname{Var}(e_A)=\binom r2,\qquad
+ \operatorname{Var}(e_B)=\binom r2.
+\]
+
+The three local variables are independent, and hence
+
+\[
+ \operatorname{Var}(X)\ge r(r-1).                       \tag{35.1}
+\]
+
+Also
+
+\[
+ 0\le\mu=\mathbb E|x^{\mathsf T}Cy|
+ \le\sqrt{\mathbb E(x^{\mathsf T}Cy)^2}=r.              \tag{35.2}
+\]
+
+Suppose one tries to prove (34.1) only through a global quadratic bound
+
+\[
+ \log\mathbb E e^{t(X-\mu)}\le\frac{v_rt^2}{2}
+ \qquad(t>0).                                            \tag{35.3}
+\]
+
+Necessarily $v_r\ge\operatorname{Var}(X)$, by taking second derivatives at
+zero. The best threshold which (35.3) can insert into (34.2) is
+
+\[
+ \mu+\sqrt{2v_r(2r-1)\log2}.
+\]
+
+Consequently every such quadratic-cumulant certificate has normalized
+threshold at least
+
+\[
+ \boxed{
+ \liminf_{r\to\infty}
+ \frac{\mu+\sqrt{2v_r(2r-1)\log2}}{(2r)^{3/2}}
+ \ge\sqrt{\frac{\log2}{2}}
+ =0.588705011\ldots .}                                  \tag{35.4}
+\]
+
+This is strictly above the known asymptotic upper constant $1/2$. Equation
+(35.4) is a no-go theorem for quadratic or subgaussian cumulant
+*certificates*. It is not a lower bound on the true profile quantile or on
+$F$: higher cumulants and the non-Gaussian far tail can lower the exact
+right side of (34.2).
+
+### Theorem 36 (ordinary degree-two hypercontractivity misses the entropy scale)
+
+For every order-$n$ signing $A$ and every $p\ge2$, the degree-two Bonami
+inequality gives
+
+\[
+ \|Q_A\|_p\le(p-1)\|Q_A\|_2
+ =(p-1)\sqrt{\binom n2}.                                 \tag{36.1}
+\]
+
+Therefore, at a fixed leading-scale threshold $u=cn^{3/2}$,
+
+\[
+ \mathbb P\{|Q_A|\ge cn^{3/2}\}
+ \le\inf_{p\ge2}
+ \left(
+ \frac{(p-1)\sqrt{\binom n2}}{cn^{3/2}}
+ \right)^p
+ =\exp\left[-\left(\frac{c\sqrt2}{e}+o(1)\right)
+ \sqrt n\right].                                       \tag{36.2}
+\]
+
+For completeness, put
+$a_n=\sqrt{\binom n2}/(cn^{3/2})$. The logarithm of the expression being
+minimized is $p\log(a_n(p-1))$. Its stationary point has
+$p-1=(e a_n)^{-1}+O(1)$, which proves the last equality in (36.2); restricting
+to integer $p$ changes only the $o(\sqrt n)$ term.
+
+The profile criterion must distinguish fewer than $2^{N-1}$ points out of
+$2^{2N-2}$, an $\exp(-\Theta(N))$ tail. The ordinary degree-two estimate
+(36.2) supplies only $\exp(-\Theta(\sqrt n))$. This rules out that standard
+hypercontractive certificate at the required scale. It does not assert that
+the actual tail is this large, and leaves open refined inequalities using
+the signing's special spectrum or higher local geometry.
+
+### Theorem 37 (PSD-shift operator-mgf bound)
+
+Let $A$ be a symmetric zero-diagonal sign matrix of order $n$, and put
+$\rho_A=\|A\|_{\mathrm{op}}>0$. For
+$0<t<(2\rho_A)^{-1}$,
+
+\[
+ \boxed{
+ \log\mathbb E_x e^{tQ_A(x)}
+ \le
+ \frac{t^2\{n(n-1)+n\rho_A^2\}}
+ {4(1-2t\rho_A)}.}                                      \tag{37.1}
+\]
+
+The same bound holds for the augmented variable $\sigma Q_A(x)$. To prove
+it, set $B=A+\rho_AI\succeq0$. Gaussian linearization and
+$\cosh u\le e^{u^2/2}$ give
+
+\[
+\begin{aligned}
+ \mathbb E_xe^{tQ_A(x)}
+ &=e^{-t\rho_An/2}
+   \mathbb E_g\mathbb E_x
+   e^{\sqrt t\,g^{\mathsf T}B^{1/2}x}\\
+ &\le e^{-t\rho_An/2}
+   \mathbb E_g e^{tg^{\mathsf T}Bg/2}
+ =e^{-t\rho_An/2}\det(I-tB)^{-1/2}.
+\end{aligned}                                            \tag{37.2}
+\]
+
+If $b_i$ are the eigenvalues of $B$, then
+$0\le b_i\le2\rho_A$, $\sum_i b_i=n\rho_A$, and
+
+\[
+\begin{aligned}
+ \log\mathbb E_xe^{tQ_A(x)}
+ &\le\frac12\sum_i[-\log(1-tb_i)-tb_i]\\
+ &\le\frac{t^2\sum_i b_i^2}{4(1-2t\rho_A)}.
+\end{aligned}
+\]
+
+Finally,
+$\sum_i b_i^2=\operatorname{tr}A^2+n\rho_A^2
+=n(n-1)+n\rho_A^2$, proving (37.1). Applying the argument to $-A$ and
+averaging proves the augmented assertion.
+
+There is an analogous rectangular bound. If $C$ is $n$ by $k$,
+$N=n+k$, and $\rho_C=\|C\|_{\mathrm{op}}$, then, for
+$0<t<(2\rho_C)^{-1}$,
+
+\[
+ \log\mathbb E_{x,y}e^{t|x^{\mathsf T}Cy|}
+ \le\log2+
+ \frac{t^2\{2nk+N\rho_C^2\}}{4(1-2t\rho_C)}.           \tag{37.3}
+\]
+
+Indeed, apply (37.1)'s proof, with $\operatorname{tr}S^2$ in place of
+$n(n-1)$, to
+
+\[
+ S=\begin{pmatrix}0&C\\C^{\mathsf T}&0\end{pmatrix},
+ \qquad \operatorname{tr}S^2=2nk,
+\]
+
+and use $e^{t|z|}\le e^{tz}+e^{-tz}$.
+
+Combining (37.1) and (37.3) with Theorem 34 yields the completely explicit
+composition certificate
+
+\[
+ \min_gM(Y_g)\le
+ \inf_{0<t<(2\rho_*)^{-1}}
+ \frac{N\log2+V_A(t)+V_B(t)+V_C(t)}t,                   \tag{37.4}
+\]
+
+where $\rho_*=\max(\rho_A,\rho_B,\rho_C)$ and the three $V$ terms are the
+rational terms in (37.1) and (37.3). This estimate is structurally clean but
+its constants are useless for closure. For a balanced split, even assuming
+
+\[
+ \rho_A,\rho_B,\rho_C\le\kappa\sqrt r,
+\]
+
+and setting $t=c/\sqrt r$, (37.4) gives only
+
+\[
+ \frac{\min_gM(Y_g)}{r^{3/2}}
+ \le\inf_{0<c<(2\kappa)^{-1}}
+ \left[
+ \frac{2\log2}{c}+
+ \frac{c(1+\kappa^2)}{1-2\kappa c}
+ \right]+o(1).                                          \tag{37.5}
+\]
+
+At the conference-scale value $\kappa=1$, the infimum is
+$6.102807\ldots$ (at $c=0.312390\ldots$), far above the needed
+$\sqrt2+o(1)$. Thus the PSD shift is a valid operator-mgf theorem, not a
+solution of the composition problem.
+
+### Theorem 38 (exact remaining microcanonical entropy-profile lemma)
+
+For a chosen triple $A,B,C$, define exact shell counts
+
+\[
+ H_A(d)=\#\{a:d_A(a)=d\},\qquad
+ H_B(d)=\#\{b:d_B(b)=d\},\qquad
+ H_C(d)=\#\{r:d_C(r)=d\}.
+\]
+
+All supported deficits are nonnegative even integers. Put
+
+\[
+ \mathcal S_N(s)=\frac1N
+ \max_{d_A+d_B+d_C<sN^{3/2}}
+ \bigl[\log H_A(d_A)+\log H_B(d_B)+\log H_C(d_C)\bigr], \tag{38.1}
+\]
+
+where $\log0=-\infty$ and the maximum of an empty set is $-\infty$.
+Since each deficit takes only $O(N^2)$ values,
+
+\[
+ \mathcal S_N(s)
+ \le\frac1N\log
+ \#\{(a,b,r):d_A(a)+d_B(b)+d_C(r)<sN^{3/2}\}
+ \le\mathcal S_N(s)+\frac{6\log(N+1)}N.                 \tag{38.2}
+\]
+
+The constant 6 is deliberately crude and uniform. Thus the following
+finite statement is sufficient and is the sharp remaining scalar lemma. Let
+$T_N$ be any real sequence satisfying
+
+\[
+ T_N=
+ \left[F(n)^{2/3}+F(k)^{2/3}\right]^{3/2}
+ +O(N^{3/2-\delta}),\qquad
+ s_N=\frac{M(A)+M(B)+B_C-T_N}{N^{3/2}}.                 \tag{38.3}
+\]
+
+If one can choose the local signings so that
+
+\[
+ \boxed{
+ \mathcal S_N(s_N)+\frac{6\log(N+1)}N
+ <(1-N^{-1})\log2,}                                    \tag{38.4}
+\]
+
+uniformly over the required proportional splits, then Theorem 32 gives
+
+\[
+ F(N)\le
+ \left[F(n)^{2/3}+F(k)^{2/3}\right]^{3/2}
+ +O(N^{3/2-\delta}).                                    \tag{38.5}
+\]
+
+Equivalently, $F(N)^{2/3}$ is near-subadditive with error
+$O(N^{1-\delta})$, the power-saving form needed for the standard balanced
+iteration and interpolation between orders.
+
+In a genuine limiting shell theory, if, along supported lattice points with
+the required locally uniform control,
+
+\[
+ h_A(a)=\lim\frac1N\log H_A(aN^{3/2})
+\]
+
+and similarly for $B,C$ (with harmless rounding to the relevant support),
+then the left exponent in (38.2) becomes
+
+\[
+ \Sigma(s)=\sup_{a+b+c<s}
+ [h_A(a)+h_B(b)+h_C(c)].                                \tag{38.6}
+\]
+
+A strict inequality $\Sigma(s)<\log2$ gives a fixed exponential margin.
+At the settling boundary one needs a quantitative version strong enough to
+imply (38.4), not merely pointwise convergence of the three profiles.
+
+This formulation isolates what is still unknown. Parity, variance, a
+bounded number of exact maximizers, and the empirical thinness of the
+maximizer set do not control the exponentially rare $2^{-N}$ tail in
+(38.2). If (38.4) fails, the additive labels and relative-switching geometry
+discarded by $\mathcal S_N$ remain available through (32.1) and (32.4); the
+failure of the scalar lemma would not disprove convergence.
+
+## 12. Dense cut discrepancy and conference eigenspace geometry
+
+### Theorem 39 (fixed-half-density cut-deviation equivalence)
+
+Put $m=\binom n2$ and define
+
+\[
+ H_n=\min_{\substack{G\text{ on }[n]\\e(G)=\lfloor m/2\rfloor}}
+ \max_{S\subseteq[n]}
+ \left|e_G(S,S^c)-\frac12|S||S^c|\right|.
+\]
+
+Then, for every $n\ge2$,
+
+\[
+ \boxed{F(n)-1\le4H_n\le F(n)+\sqrt m+2.}              \tag{39.1}
+\]
+
+In particular, $F(n)/n^{3/2}$ converges if and only if
+$4H_n/n^{3/2}$ converges, and the limits agree.
+
+For the proof, associate to a signing $A$ the graph $G_A$ of its negative
+edges and write $t=\sum_{i<j}a_{ij}=m-2e(G_A)$. If $x_S$ is positive on $S$
+and negative on its complement, $k=|S|(n-|S|)$, and
+$e_S=e_G(S,S^c)$, then exactly
+
+\[
+ Q_A(x_S)=t-2k+4e_S.                                   \tag{39.2}
+\]
+
+Let $t_0=0$ for even $m$ and $t_0=1$ for odd $m$. On the layer
+$e(G)=\lfloor m/2\rfloor$, equation (39.2) gives
+
+\[
+ e_S-k/2=(Q_A(x_S)-t_0)/4,
+\]
+
+and hence
+
+\[
+ |4\operatorname{cdisc}_{1/2}(G_A)-M(A)|\le1.          \tag{39.3}
+\]
+
+Starting from an $F(n)$ optimizer, switch by $z\in\{\pm1\}^n$. Its new total
+sum is $Q_A(z)$. Walsh orthogonality gives
+
+\[
+ \mathbb E_zQ_A(z)=0,\qquad \mathbb E_zQ_A(z)^2=m,
+\]
+
+so some switch has $|t|\le\sqrt m$. Since $t\equiv t_0\pmod2$, flip
+$|t-t_0|/2$ edges of the required sign. There are enough such edges because
+their number is $(m+|t|)/2$, and each flip changes every $Q_A(x)$ by at most
+2. The resulting fixed-density signing has maximum at most
+$F(n)+\sqrt m+1$. Combining this with (39.3) proves (39.1).
+
+Backurs and Bavarian's all-cuts, density-centered discrepancy theorem applies
+to this layer and recovers an $\Omega(n^{3/2})$ bound, but its constant is
+nonsharp and it gives no cross-order limit theorem. The earlier
+Erdos--Goldberg--Pach--Spencer balanced bipartite discrepancy is related but
+is not the same absolute all-cuts parameter.
+
+### Theorem 40 (conference eigenspace formula)
+
+Let $C=C^{\mathsf T}$ be a conference matrix of order $n$, put
+$r=\sqrt{n-1}$, and define
+
+\[
+ E_\pm=\ker(C\mp rI),\qquad
+ \alpha_\pm=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+
+Then exactly
+
+\[
+ \boxed{
+ \frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+^2-1,2\alpha_-^2-1\}.}                \tag{40.1}
+\]
+
+For any orthogonal projection $P$ onto a subspace $E$,
+
+\[
+ \max_{x\in\{\pm1\}^n}x^{\mathsf T}Px
+ =\left(\sup_{\substack{v\in E\\\|v\|_2=1}}\|v\|_1\right)^2. \tag{40.2}
+\]
+
+Indeed, $\|Px\|_2=\sup_{v\in E,\|v\|_2=1}\langle v,x\rangle$, and maximizing
+over $x$ turns the last expression into $\|v\|_1$. Apply (40.2) to
+$P_\pm=(I\pm C/r)/2$. The positive maximum of $x^{\mathsf T}Cx$ uses
+$P_+$ and the negative maximum uses $P_-$, proving (40.1). Both signs are
+essential because $M$ contains an absolute value.
+
+Cauchy gives $\alpha_\pm\le1$, with equality exactly for a flat Boolean
+eigenvector. More quantitatively, for a unit $v$ and
+$s_i=\operatorname{sign}(v_i)$,
+
+\[
+ \left\|v-\frac{s}{\sqrt n}\right\|_2^2
+ =2\left(1-\frac{\|v\|_1}{\sqrt n}\right).
+\]
+
+Thus conference spectral alignment is equivalent to one eigenspace
+approaching a cube direction. If both $\alpha_\pm^2\le1-\eta$, then
+$M(C)\le(1/2-\eta)n\sqrt{n-1}$. This is a precise possible obstruction to
+universal conference alignment; no theorem banked here rules it out.
+
+### Proposition 41 (dense Paley rigidity is full closure)
+
+Let $n_j=p_j+1$ be the multiplicatively dense Paley sequence in Theorem 33,
+so that
+
+\[
+ M(C_{n_j})/n_j^{3/2}\longrightarrow1/2.
+\]
+
+Then
+
+\[
+ F(n_j)\ge(1-o(1))M(C_{n_j})                           \tag{41.1}
+\]
+
+holds if and only if
+
+\[
+ \lim_{n\to\infty}F(n)/n^{3/2}=1/2.                   \tag{41.2}
+\]
+
+If (41.1) holds, monotonicity gives, for $n_j\le n<n_{j+1}$,
+
+\[
+ \frac{F(n)}{n^{3/2}}
+ \ge\frac{F(n_j)}{n_j^{3/2}}
+ \left(\frac{n_j}{n}\right)^{3/2}=\frac12-o(1).
+\]
+
+Multiplicative density and the global limsup $1/2$ prove (41.2). Conversely,
+if (41.2) holds, both $F(n_j)/n_j^{3/2}$ and
+$M(C_{n_j})/n_j^{3/2}$ tend to $1/2$, so their ratio tends to one.
+
+This corrects the route ranking. Paley leakage and (40.1) identify a
+candidate extremal geometry, but (41.1) is not an easier intermediate lemma:
+it contains the entire value-$1/2$ lower-bound problem.
+
+### Exact balanced-split calibration
+
+`verification/research_relative_profile_calibration.py` exhausts every
+balanced split of four stored optimal witnesses: two rooted encodings of the
+same order-12 optimum, one order-13 principal submatrix of $C_{14}$, and
+$C_{14}$ itself. The exact ranges are
+
+\[
+\begin{array}{c|c|c|c|c}
+N&\Lambda&L-\Lambda&(L-F(N))-\Lambda&
+\#\{X>\text{target}\}/2^{N-1}\\ \hline
+12&0\ldots10&24\ldots26&6\ldots8&213312\ldots269122/2048\\
+13&2\ldots10&28\ldots30&8\ldots10&436864\ldots495632/4096\\
+14&6\ldots10&31\ldots33&10\ldots12&231581\ldots305465/8192.
+\end{array}
+\]
+
+The exact target lattice energies are 16, 20, and 27. Thus the scalar
+condition fails for every tested split, while additive labels supply another
+6--12 units of gain. The best scalar bounds exceed the real near-subadditive
+targets by only $9.858\ldots$, $8.476\ldots$, and $5.544\ldots$.
+These data are compatible with an $O(N)$ defect, which would be an acceptable
+power saving. They therefore do not close Theorem 38 in either direction.

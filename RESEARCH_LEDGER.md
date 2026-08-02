@@ -1530,3 +1530,249 @@ Two failed strengthenings are recorded rather than erased.
 The arithmetic progression is therefore part of the construction, not a
 technical convenience. Novelty is stated only as new to this repository;
 specialist priority has not been established.
+
+## 25. Fixed-half discrepancy, exact profile tails, and conference rigidity
+
+This entry consolidates three routes that became precise only after the
+relative-profile theorem. It records the exact reductions, retains the failed
+concentration shortcuts with their proper scope, and separates the remaining
+scalar and geometric lemmas.
+
+### Fixed-half cut discrepancy is equivalent at the target scale
+
+Put $m=\binom n2$ and
+
+\[
+ H(n)=\min_{\substack{G\text{ on }[n]\\
+                       e(G)=\lfloor m/2\rfloor}}
+ \max_{S\subseteq[n]}
+ \left|e_G(S,S^{\mathsf c})-\frac12|S||S^{\mathsf c}|\right|.
+\]
+
+If the negative coefficients of a signing $A$ are the edges of $G$, write
+$t=\sum_{i<j}a_{ij}=m-2e(G)$. For the spin which is positive on $S$ and
+negative on $S^{\mathsf c}$,
+
+\[
+ Q_A(x_S)=t-2|S||S^{\mathsf c}|+4e_G(S,S^{\mathsf c}).       \tag{25.1}
+\]
+
+On the fixed-half layer, $t=t_0\in\{0,1\}$, so (25.1) identifies the two
+maxima up to one unit. For an arbitrary optimizer, random switching replaces
+$t$ by $Q_A(z)$, and
+
+\[
+ \mathbb E_zQ_A(z)=0,\qquad \mathbb E_zQ_A(z)^2=m.
+\]
+
+Some switch therefore has $|t|\le\sqrt m$. Flipping
+$|t-t_0|/2$ coefficient signs reaches the fixed-half layer and changes every
+quadratic energy by at most $|t-t_0|$. Consequently
+
+\[
+ \boxed{-1\le 4H(n)-F(n)\le\sqrt{\binom n2}+2.}             \tag{25.2}
+\]
+
+Thus $F(n)/n^{3/2}$ converges if and only if $4H(n)/n^{3/2}$ converges, and
+the limits agree. Existing dense cut-discrepancy theorems recover the
+$n^{3/2}$ scale but supply neither a sharp constant nor a relation between
+orders. The reformulation is exact at the required scale, not a convergence
+theorem.
+
+### The scalar cumulant criterion is exact
+
+For a split $N=n+k$, retain the local augmented graph energies $e_A,e_B$ and
+the absolute rectangular energy $e_C$. If the three local states are uniform
+and independent, put
+
+\[
+ X=e_A+e_B+e_C.
+\]
+
+The product space has $2^{2N-2}$ states and the relative-gauge map has
+$2^{N-1}$ equal fibers. Strict exponential counting gives, for every $t>0$,
+
+\[
+ \boxed{
+ \min_gM(Y_g)\le
+ \frac{(N-1)\log2+\log\mathbb E e^{tX}}{t}.}              \tag{25.3}
+\]
+
+Equivalently, with
+
+\[
+ \kappa_N(\beta)=\frac1N\log\mathbb E
+ \exp\left(\frac{\beta X}{\sqrt N}\right),
+\]
+
+a threshold $\theta_NN^{3/2}$ is certified whenever
+
+\[
+ \kappa_N(\beta)-\beta\theta_N
+ \le-\left(1-\frac1N\right)\log2.                         \tag{25.4}
+\]
+
+This is exactly the canonical form of the microcanonical order-statistic
+bound. Indeed,
+
+\[
+ \mathbb E e^{tX}
+ =2^{-(2N-2)}e^{tL}D_A(t)D_B(t)D_C(t),
+\]
+
+so optimizing (25.3) recovers the earlier deficit-profile formula without an
+additional relaxation. The complete cumulant function remains a live scalar
+state.
+
+Two standard proxies do not retain enough of it.
+
+1. For balanced blocks $n=k=r$, any global quadratic majorant
+   \[
+    \log\mathbb E e^{t(X-\mathbb EX)}\le v_rt^2/2
+   \]
+   must have $v_r\ge r(r-1)$ by the second derivative at zero. Its optimized
+   normalized certificate is therefore at least
+   \[
+    \sqrt{\frac{\log2}{2}}=0.588705011\ldots>\frac12.
+   \]
+   This closes Gaussian, subgaussian, or purely quadratic-cumulant
+   certificates only. It is not a lower bound on the true profile quantile
+   or on $F$; higher cumulants can change the far tail.
+
+2. Ordinary degree-two hypercontractivity gives
+   \[
+    \|Q_A\|_p\le(p-1)\sqrt{\binom n2}.
+   \]
+   At threshold $cn^{3/2}$, optimizing in $p$ gives only
+   $\exp[-\Theta_c(\sqrt n)]$, whereas (25.3) needs an
+   $\exp[-\Theta(n)]$ tail. This rules out the standard degree-two moment
+   certificate, not spectrum-sensitive inequalities, a full cumulant
+   estimate, or the additive relative-gauge geometry.
+
+These scoped walls are retained; neither is evidence that the exact scalar
+criterion fails.
+
+### Exact finite calibration of the scalar profile
+
+The deterministic calibration exhausts every balanced vertex split of four
+stored optimal witnesses: two rooted encodings of the same order-12 optimum,
+one order-13 principal submatrix of $C_{14}$, and $C_{14}$. Let
+$L=M(A)+M(B)+B_C$, let $\Lambda$ be the microcanonical gain, and let
+$G=L-F(N)$ be the exact total relative-gauge gain. If $E_*$ denotes the
+smallest energy with the parity of $\binom N2$ strictly above
+
+\[
+ [F(n)^{2/3}+F(k)^{2/3}]^{3/2},
+\]
+
+the exact results are
+
+\[
+\begin{array}{c|c|c|c|c|c|c}
+N&\text{split}&\#\text{ splits}&\Lambda&L-\Lambda&G-\Lambda
+ &E_*:\ \#\text{ target triples}/2^{N-1}\\ \hline
+12&6+6&462\ \text{each}&0\ldots10&24\ldots26&6\ldots8
+ &16:\ 213312\ldots269122/2048\\
+13&6+7&1716&2\ldots10&28\ldots30&8\ldots10
+ &20:\ 436864\ldots495632/4096\\
+14&7+7&1716&6\ldots10&31\ldots33&10\ldots12
+ &27:\ 231581\ldots305465/8192
+\end{array}                                                \tag{25.5}
+\]
+
+The target count is the exact number of product triples with energy at least
+$E_*$, equivalently strictly above the real target. In every tested split it
+exceeds one fiber, so the unlabeled scalar pigeonhole theorem does not certify
+the zero-error target on these witnesses. Additive labels recover a further
+6--12 energy units.
+
+This is finite evidence only. The best scalar excesses over the target are
+$9.858\ldots$, $8.476\ldots$, and $5.544\ldots$; an $O(N)$ error would be a
+valid power saving at scale $N^{3/2}$. The computation covers the listed
+witnesses, not every optimal switching class at orders 13 and 14. Its true
+gain also uses the separately certified values $F(12)=18$, $F(13)=20$, and
+$F(14)=21$. Therefore (25.5) neither closes nor disproves the scalar route.
+
+### Conference alignment is an exact eigenspace problem
+
+Let $C=C^{\mathsf T}$ be a conference matrix of order $n$, put
+$r=\sqrt{n-1}$, and write
+
+\[
+ E_\pm=\ker(C\mp rI),\qquad
+ \alpha_\pm=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+
+For an orthogonal projection $P$ onto a subspace $E$,
+
+\[
+ \max_{x\in\{\pm1\}^n}x^{\mathsf T}Px
+ =\left(\sup_{\substack{v\in E\\\|v\|_2=1}}\|v\|_1\right)^2.
+\]
+
+Applying this to $P_\pm=(I\pm C/r)/2$ gives the exact formula
+
+\[
+ \boxed{
+ \frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+^2-1,\,2\alpha_-^2-1\}.}                 \tag{25.6}
+\]
+
+Both eigenspaces are necessary because $M$ contains an absolute value.
+Spectral saturation is equivalent to at least one eigenspace containing unit
+vectors with $\ell_1$ norm $(1-o(1))\sqrt n$. Thus a uniform gap of both
+$\ell_1$ suprema below $\sqrt n$ is the exact possible obstruction for an
+arbitrary conference family. The dense Paley construction proves alignment
+for a special family; it does not prove anything adversarial about $F$.
+
+On the multiplicatively dense aligned Paley sequence $n_j=p_j+1$,
+
+\[
+ F(n_j)\ge(1-o(1))M(C_{n_j})                              \tag{25.7}
+\]
+
+is equivalent to
+
+\[
+ \lim_{n\to\infty}\frac{F(n)}{n^{3/2}}=\frac12.          \tag{25.8}
+\]
+
+Indeed, (25.7), monotonicity, and $n_{j+1}/n_j\to1$ propagate the subsequence
+lower bound to every order, while the known limsup gives the reverse bound.
+Conversely, (25.8), Paley alignment, and $F(n_j)\le M(C_{n_j})$ force
+$F(n_j)/M(C_{n_j})\to1$. Dense Paley minimax rigidity is therefore not an
+easier intermediate statement: it is the entire value-$1/2$ closure in an
+equivalent form.
+
+### Sharp remaining lemmas
+
+The scalar route now has one precise target. For proportional splits, find a
+composable near-optimal family $A,B,C$ and $\delta>0$ such that fewer than
+$2^{N-1}$ product triples exceed
+
+\[
+ [F(n)^{2/3}+F(k)^{2/3}]^{3/2}+O(N^{3/2-\delta}).         \tag{25.9}
+\]
+
+Equivalently, prove (25.4) at this threshold using the full local cumulant
+function, not a quadratic proxy. This would give power-saving
+near-subadditivity of $F^{2/3}$.
+
+If the scalar quantile in (25.9) is too large, the sharp geometric target is
+a power-saving composition or variational theorem for the labelled
+relative-gauge convolution. It must control how the local near-maximal states
+occupy the additive fibers, or equivalently enough of the factored Fourier
+correlation hierarchy to prove
+
+\[
+ \min_gM(Y_g)
+ \le [F(n)^{2/3}+F(k)^{2/3}]^{3/2}+O(N^{3/2-\delta}).      \tag{25.10}
+\]
+
+The mixed four-cycle Hamiltonian is only the first nonzero layer; higher
+connected Eulerian terms cannot be discarded without a uniform estimate on
+the mean-field scale. Equations (25.9) and (25.10) are respectively the sharp
+scalar and geometric settling lemmas. The conference rigidity condition
+(25.7) is a separate value-specific equivalent formulation of full closure,
+not a shortcut around either composition problem.

@@ -23,6 +23,12 @@ The repository now goes substantially beyond those baseline results:
   Eulerian subgraphs, producing an exact signed MacWilliams formula.
 - Ordinary graphon and empirical spectral limits provably erase the relevant
   `n^(3/2)` information.
+- Up to an explicit additive `O(n)` error, the minimax problem is exactly the
+  minimum density-`1/2` cut discrepancy of a graph with half of all possible
+  edges. If `H(n)` denotes that graph parameter, then
+  `-1 <= 4H(n) - F(n) <= sqrt(choose(n,2)) + 2`. Known dense cut-discrepancy
+  bounds recover the correct scale but neither a sharp constant nor a relation
+  between different orders.
 - Exact finite computation gives
   `F(2), ..., F(14) = 1, 3, 4, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21`.
   The order-11 lower certificate scans all 12,005,168 unlabeled residual
@@ -107,6 +113,17 @@ The repository now goes substantially beyond those baseline results:
   labels are discarded. It replaces optimizer-count heuristics by a precise
   near-maximal-profile large-deviation target and has no known analogue of the
   failed weighted union bound's universal leading floor.
+- The equivalent scalar cumulant criterion is exact, but every centered
+  quadratic or Gaussian cumulant majorant has normalized certificate floor
+  `sqrt(log(2)/2) = 0.588705...`, above the global upper constant `1/2`.
+  Ordinary degree-two hypercontractivity gives only
+  `exp(-Theta(sqrt(n)))` tails where the theorem needs `exp(-Theta(n))`.
+  These close those shortcuts, not the full microcanonical profile.
+- Exact calibration over every balanced split of four stored optimal
+  witnesses at orders 12 through 14 finds scalar-to-true composition bonuses
+  of `6..8`, `8..10`, and `10..12`. The scalar profile misses the exact
+  near-subadditive target in every tested split, but by only an `O(n)`-sized
+  energy excess. This is finite evidence and does not close the scalar route.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not
@@ -125,6 +142,12 @@ The repository now goes substantially beyond those baseline results:
   The Paley alignment theorem is still only about a selected matrix family.
   A separate dense-order minimax rigidity lower bound is required to say
   anything decisive about the limit of `F(n)/n^(3/2)`.
+- Every symmetric conference matrix has the exact eigenspace formula
+  `2M(C)/(n sqrt(n-1)) = max(2 alpha_+^2 - 1, 2 alpha_-^2 - 1)`, where
+  `alpha_+` and `alpha_-` are the maximal normalized `l1` norms in its two
+  eigenspaces. This exposes a precise flat-vector obstruction. On the dense
+  aligned Paley sequence, the proposed minimax rigidity estimate is
+  equivalent to the full limit being `1/2`; it is not an easier lemma.
 - Density-one control of Bellman-optimal predecessors is not the decisive
   scalar wall. An explicit nonconvergent countermodel satisfies all current
   scalar cross-order inequalities even with `O(sqrt(n))` Bellman cost at every
@@ -165,7 +188,7 @@ the row-and-column switching orbit of a low-norm cross seed. This is a
 max-plus convolution problem on the projective rank-one group and retains the
 higher-order dependence lost by first moment estimates.
 
-The new scalar intermediate target is the microcanonical profile theorem:
+The scalar intermediate target is the full microcanonical profile theorem:
 construct near-optimal graph blocks and a cross seed for which fewer than
 `2^(n+k-1)` product triples lie below the deficit needed for power-saving
 near-subadditivity. Constantly many exact maximizers do not suffice; the
@@ -173,13 +196,23 @@ entire leading-scale near-maximal profile must be thin. If this quantile is
 too small, the additive labels in the exact relative-gauge convolution are
 the remaining geometric fallback.
 
-A separate value-specific route now has only one mathematical wall. The
+Variance, Gaussian cumulant bounds, ordinary degree-two hypercontractivity,
+and operator norm alone are now audited walls for this target. The precise
+remaining scalar question is a large-deviation law for the complete
+near-maximal deficit shells at probability `2^(-Theta(n))`. The order-12 to
+order-14 calibration does not decide whether its composition defect is
+`O(n)` or leading order.
+
+A separate value-specific route has an exact candidate mechanism but no
+logical shortcut. The
 least-nonresidue interval theorem supplies an asymptotically balanced Paley
 sign function with Fourier leakage `o(p)` on a multiplicatively dense prime
 sequence. What remains is minimax rigidity
 `F(p+1) >= (1-o(1)) M(C_{p+1})` on that sequence. The finite optimality of
 `C_6` and `C_14` does not establish this lower bound, and `F(10)<M(C_10)`
-shows that exact conference optimality is false at some orders.
+shows that exact conference optimality is false at some orders. Proving the
+dense rigidity statement would already prove the full limit and its value
+`1/2`.
 
 ## Research package
 
@@ -214,6 +247,10 @@ python3 verification/verify_frontier_walls.py
 python3 verification/verify_paley_subfield.py
 python3 verification/verify_negative_replica_transport_obstruction.py
 python3 verification/verify_negative_replica_alignment.py
+python3 verification/verify_relative_profile_composition.py
+python3 verification/verify_paley_least_nonresidue.py
+python3 verification/research_relative_profile_calibration.py
+python3 verification/verify_cut_discrepancy_equivalence.py
 python3 verification/research_order13_certify.py
 ```
 

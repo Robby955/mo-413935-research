@@ -53,7 +53,10 @@ For a symmetric zero-diagonal sign matrix \(A\), put
 \]
 The open question is whether \(F(n)/n^{3/2}\) converges.  We first audit the
 previous bounds \(1/\pi\le\liminf\le\limsup\le1/2\), the augmented cut-code
-identity, and one-vertex monotonicity; all survive audit.  We then show that
+identity, and one-vertex monotonicity; all survive audit.  We prove that the
+problem is equivalent up to an explicit $O(n)$ error to minimizing
+density-$1/2$ cut discrepancy over graphs with exactly half of all possible
+edges.  We then show that
 the proposed cube relaxation has the unique optimizer zero at zero temperature
 and at every fixed unscaled positive temperature, with a leading-order
 zero-temperature integrality gap.  In contrast, an elliptope relaxation has
@@ -93,6 +96,12 @@ microcanonical theorem nevertheless extracts a guaranteed composition gain:
 the relevant quantile is the $2^{n+k-1}$-st smallest sum of the three local
 energy deficits.  This is optimal after discarding the additive labels and
 turns near-maximal-state thinness into a precise large-deviation target.
+An equivalent cumulant criterion is exact, but every quadratic-cumulant
+majorant has normalized certificate floor
+$\sqrt{\log2/2}>1/2$; ordinary degree-two hypercontractivity also misses the
+required exponential tail scale.  Exact balanced-split calibration through
+order fourteen exhibits a substantial finite additive-geometry bonus without
+closing the scalar route asymptotically.
 We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
@@ -102,6 +111,10 @@ spectral saturation is equivalent to an asymptotically balanced Boolean
 function with asymptotically one-sided quadratic-character frequency energy.
 An interval construction controlled by the least quadratic nonresidue proves
 this condition on a multiplicatively dense sequence of prime orders.
+For arbitrary conference matrices we identify spectral alignment exactly
+with maximal $\ell_1$ norm in the two eigenspaces.  The remaining dense Paley
+minimax-rigidity estimate is equivalent, not merely sufficient, to the full
+limit having value $1/2$.
 Exhaustive source-built evaluation gives
 $M(C_{30})=75$, but a separate minimax rigidity lower bound would still be
 needed to turn this construction into a statement about the limit of $F$.
@@ -149,6 +162,78 @@ factor-of-two prose correction, is in \texttt{AUDIT.md}.  Nothing in
 All new statements below distinguish a proved identity from a proposed limit
 theorem.  Exact computations guide the search but are not used as asymptotic
 proofs.
+
+\section{An exact dense cut-discrepancy reformulation}
+
+The sign problem is, up to an additive linear term, precisely the extremal
+cut-discrepancy problem for graphs having half of all possible edges.  Put
+$m=\binom n2$.  For a graph $G$ on $[n]$, define
+\[
+ \operatorname{cdisc}_{1/2}(G)
+ =\max_{S\subseteq[n]}
+ \left|e_G(S,S^{\mathsf c})-\frac12|S||S^{\mathsf c}|\right|,
+\]
+and let
+\[
+ H(n)=\min\left\{\operatorname{cdisc}_{1/2}(G):
+                  e(G)=\left\lfloor\frac m2\right\rfloor\right\}.
+\]
+
+\begin{theorem}[Fixed-density cut-discrepancy equivalence]
+\label{thm:cut-discrepancy}
+For every $n\ge2$,
+\begin{equation}
+ -1\le 4H(n)-F(n)\le\sqrt{\binom n2}+2.
+ \label{eq:cut-discrepancy-equivalence}
+\end{equation}
+Consequently, $F(n)/n^{3/2}$ converges if and only if
+$4H(n)/n^{3/2}$ converges, and the two limits are equal.
+\end{theorem}
+
+\begin{proof}
+For a signing $A$, let $G_A$ contain the negative edges and put
+$t=\sum_{i<j}a_{ij}=m-2e(G_A)$.  If $x_S$ is positive on $S$ and negative
+on its complement, and $k=|S|(n-|S|)$, then
+\begin{equation}
+ Q_A(x_S)=t-2k+4e_{G_A}(S,S^{\mathsf c}).
+ \label{eq:cut-sign-exact}
+\end{equation}
+Let $t_0=0$ when $m$ is even and $t_0=1$ when $m$ is odd.  On the layer
+$e(G)=\lfloor m/2\rfloor$, equation \eqref{eq:cut-sign-exact} gives
+\[
+ e_G(S,S^{\mathsf c})-\frac k2=\frac{Q_A(x_S)-t_0}{4}.
+\]
+The vectors $x_S$ exhaust the Boolean cube modulo global sign, so
+\begin{equation}
+ \left|4\operatorname{cdisc}_{1/2}(G_A)-M(A)\right|\le |t_0|\le1.
+ \label{eq:cut-layer-error}
+\end{equation}
+
+It remains to compare the fixed-density layer with all signings.  If $A$
+minimizes $M$, switching by a uniformly random $z\in\eps^n$ replaces $t$
+by $Q_A(z)$.  Walsh orthogonality gives
+\[
+ \E_zQ_A(z)=0,\qquad \E_zQ_A(z)^2=m,
+\]
+so some switch has $|t|\le\sqrt m$.  Since $t\equiv t_0\pmod2$, flipping
+$|t-t_0|/2$ suitably chosen edge signs reaches total sum $t_0$.  Each edge
+flip changes every value of $Q_A$ by at most $2$, hence the new maximum is at
+most $F(n)+|t-t_0|\le F(n)+\sqrt m+1$.  Minimizing
+\eqref{eq:cut-layer-error} on the fixed-density layer proves
+\eqref{eq:cut-discrepancy-equivalence}.
+\end{proof}
+
+Backurs and Bavarian use the density-centered parameter
+\[
+ \max_S|e_G(S,S^{\mathsf c})-\rho_G|S||S^{\mathsf c}||
+\]
+and prove that it is
+$\Omega(\min(\rho_G,1-\rho_G)n^{3/2})$ for every graph
+\cite{backurs-bavarian}.  On the half-density layer this recovers the correct
+scale but neither a sharp constant nor an asymptotic limit.  Earlier graph
+discrepancy work of Erd\H{o}s, Goldberg, Pach, and Spencer is closely related,
+but its balanced bipartite discrepancy is not identical to the all-cuts,
+absolute parameter above \cite{egps}.
 
 \section{The relaxed-coupling program collapses}
 
@@ -2247,6 +2332,234 @@ leading-scale near-maximal profile is required.  If this scalar quantile is
 too small, the strict collision gains show exactly where the additive
 Fourier geometry can still recover information.
 
+There is an equivalent cumulant formulation that cleanly separates the live
+large-deviation problem from two insufficient shortcuts.  Let $(a,b,c)$ be
+uniform on the three local product spaces and put
+\[
+ X=e_A(a)+e_B(b)+e_C(c).
+\]
+
+\begin{proposition}[Exact scalar cumulant criterion]
+\label{prop:profile-cgf}
+For every $t>0$,
+\begin{equation}
+ \min_g M(Y_g)
+ \le
+ \frac{(N-1)\log2+\log\E e^{tX}}{t}.
+ \label{eq:profile-cgf}
+\end{equation}
+Equivalently, if
+\[
+ \kappa_N(\beta)=\frac1N\log\E
+ \exp\left(\frac{\beta X}{\sqrt N}\right),
+\]
+then a threshold $\theta_NN^{3/2}$ is certified whenever
+\begin{equation}
+ \kappa_N(\beta)-\beta\theta_N
+ \le-\left(1-\frac1N\right)\log2.
+ \label{eq:profile-cgf-mean-field}
+\end{equation}
+This criterion is exactly the exponential relaxation
+\eqref{eq:relative-profile-variational}, not a new loss.
+\end{proposition}
+
+\begin{proof}
+The product space has $2^{2N-2}$ points.  Strict exponential Markov counting
+gives
+\[
+ \#\{X>T\}<2^{2N-2}e^{-tT}\E e^{tX}.
+\]
+If $tT\ge(N-1)\log2+\log\E e^{tX}$, fewer than $2^{N-1}$ triples exceed
+$T$.  Since there are $2^{N-1}$ equal fibers, one fiber has no such triple,
+and its relative gauge has maximum at most $T$.  Finally,
+\[
+ \E e^{tX}
+ =2^{-(2N-2)}e^{tL}D_A(t)D_B(t)D_C(t),
+\]
+which proves the last assertion and the mean-field rescaling.
+\end{proof}
+
+The full cumulant function may still contain the needed tail information.
+A quadratic proxy provably does not.
+
+\begin{proposition}[Quadratic-cumulant certificate barrier]
+\label{prop:quadratic-cgf-floor}
+Take balanced blocks $n=k=r$.  Suppose one bounds the centered local sum by
+\[
+ \log\E e^{t(X-\E X)}\le\frac{v_rt^2}{2}\qquad(t>0).
+\]
+Every such bound has $v_r\ge r(r-1)$.  Consequently, optimizing
+\eqref{eq:profile-cgf} with this quadratic majorant gives a certified
+threshold whose normalized asymptotic constant is at least
+\begin{equation}
+ \sqrt{\frac{\log2}{2}}=0.588705011\ldots>\frac12.
+ \label{eq:quadratic-cgf-floor}
+\end{equation}
+This is a no-go theorem only for Gaussian or quadratic-cumulant
+certificates; it is not a lower bound on the actual order statistic
+$\Lambda$.
+\end{proposition}
+
+\begin{proof}
+The augmented graph energies have mean zero, and Walsh orthogonality gives
+\[
+ \operatorname{Var}(e_A)=\operatorname{Var}(e_B)=\binom r2.
+\]
+The three local states are independent, so
+$\operatorname{Var}(X)\ge r(r-1)$.  Comparison at the second derivative at
+zero forces $v_r\ge\operatorname{Var}(X)$.  Also
+$0\le\E X=\E|x^{\mathsf T}Cy|\le r$.  The optimized quadratic certificate is
+\[
+ \E X+\sqrt{2v_r(2r-1)\log2}.
+\]
+After division by $(2r)^{3/2}$, its second term has lower limit
+\eqref{eq:quadratic-cgf-floor}, while the mean is negligible.
+\end{proof}
+
+Ordinary degree-two hypercontractivity is weaker at the required tail scale.
+Indeed,
+\[
+ \|Q_A\|_p\le(p-1)\|Q_A\|_2
+ =(p-1)\sqrt{\binom n2},\qquad p\ge2.
+\]
+Optimized at a threshold $cn^{3/2}$, this yields only
+$\exp[-\Theta_c(\sqrt n)]$, whereas
+Theorem~\ref{thm:relative-profile} needs control at probability
+$2^{-\Theta(n)}$.  Thus this standard hypercontractive moment certificate
+does not resolve the microcanonical threshold.
+
+For completeness, there is also a structural operator-norm estimate.  It is
+rigorous but quantitatively too weak to close the profile criterion.
+
+\begin{proposition}[PSD-shift moment bound]
+\label{prop:psd-shift-mgf}
+Let $A$ be a symmetric zero-diagonal signing of order $n\ge2$ and
+$\rho=\|A\|_{\mathrm{op}}$.  For $0<t<(2\rho)^{-1}$,
+\begin{equation}
+ \log\E_xe^{tQ_A(x)}
+ \le
+ \frac{t^2\{n(n-1)+n\rho^2\}}{4(1-2t\rho)}.
+ \label{eq:psd-shift-mgf}
+\end{equation}
+The same estimate holds with $Q_A(x)$ replaced by the augmented variable
+$\sigma Q_A(x)$.
+If $C$ is an $n\times k$ sign matrix, $N=n+k$, and
+$\rho_C=\|C\|_{\mathrm{op}}$, then, for
+$0<t<(2\rho_C)^{-1}$,
+\begin{equation}
+ \log\E_{x,y}e^{t|x^{\mathsf T}Cy|}
+ \le\log2+
+ \frac{t^2\{2nk+N\rho_C^2\}}{4(1-2t\rho_C)}.
+ \label{eq:rect-psd-shift-mgf}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Put $B=A+\rho I\succeq0$.  Gaussian linearization followed by
+$\cosh u\le e^{u^2/2}$ gives
+\[
+ \E_xe^{tQ_A(x)}
+ \le e^{-t\rho n/2}\det(I-tB)^{-1/2}.
+\]
+If $b_i\in[0,2\rho]$ are the eigenvalues of $B$, the logarithm of the right
+side is
+\[
+ \frac12\sum_i[-\log(1-tb_i)-tb_i]
+ \le\frac{t^2\sum_i b_i^2}{4(1-2t\rho)}.
+\]
+Now $\sum_i b_i^2=n(n-1)+n\rho^2$, proving
+\eqref{eq:psd-shift-mgf}.  Applying it also to $-A$ and averaging proves the
+augmented assertion.  Apply the same argument to
+$\left(\begin{smallmatrix}0&C\\C^{\mathsf T}&0\end{smallmatrix}\right)$
+and use $e^{t|z|}\le e^{tz}+e^{-tz}$ to obtain
+\eqref{eq:rect-psd-shift-mgf}.
+\end{proof}
+
+Exact finite calibration shows both what the scalar theorem captures and what
+it currently misses.  The verifier exhausts every balanced split of the two
+stored rooted order-12 survivor encodings, one stored order-13 Paley
+principal witness, and the order-14 Paley witness.  In the table,
+$G=L-F(N)$ is the exact total gain, $E_*$ is the smallest energy of the
+correct parity strictly above
+$[F(n)^{2/3}+F(k)^{2/3}]^{3/2}$, and the last column counts product triples
+with energy at least $E_*$ against the fiber count $2^{N-1}$.
+\[
+\begin{array}{c|c|c|c|c|c|c}
+N&\text{split}&\#\text{ splits}&\Lambda&L-\Lambda&G-\Lambda&E_*:\ \#\!/2^{N-1}\\ \hline
+12&6+6&462\ \text{each}&0\ldots10&24\ldots26&6\ldots8&16:\ 213312\ldots269122/2048\\
+13&6+7&1716&2\ldots10&28\ldots30&8\ldots10&20:\ 436864\ldots495632/4096\\
+14&7+7&1716&6\ldots10&31\ldots33&10\ldots12&27:\ 231581\ldots305465/8192
+\end{array}
+\]
+Thus these particular scalar profiles do not certify the exact
+near-subadditive target: even the smallest target count exceeds one fiber by
+a factor greater than $28$.  The additive labels recover a further
+$6$--$12$ energy units.  This is finite evidence, not an asymptotic no-go:
+the best scalar excesses above the target are only
+$9.858\ldots$, $8.476\ldots$, and $5.544\ldots$, respectively, and an
+$O(N)$ composition error would be a valid power saving at the
+$N^{3/2}$ scale.
+
+\section{Conference alignment as an \texorpdfstring{$\ell_1$}{l1}-eigenspace problem}
+
+For every symmetric conference matrix, Boolean spectral alignment has an
+exact geometric form that treats both signs of the quadratic form.
+
+\begin{theorem}[Conference eigenspace formula]
+\label{thm:conference-eigenspace}
+Let $C$ be a symmetric conference matrix of order $n$, put
+$r=\sqrt{n-1}$, and let
+\[
+ E_\pm=\ker(C\mp rI),\qquad
+ \alpha_\pm=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+Then
+\begin{equation}
+ \frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+^2-1,\,2\alpha_-^2-1\}.
+ \label{eq:conference-eigenspace}
+\end{equation}
+In particular, along a sequence, asymptotic spectral saturation is equivalent
+to at least one eigenspace containing unit vectors whose $\ell_1$ norm is
+$(1-o(1))\sqrt n$.
+If instead both $\alpha_\pm^2\le1-\eta$, then
+\[
+ M(C)\le\left(\frac12-\eta\right)n\sqrt{n-1}.
+\]
+\end{theorem}
+
+\begin{proof}
+For an orthogonal projection $P$ onto a subspace $E$,
+\begin{equation}
+ \max_{x\in\eps^n}x^{\mathsf T}Px
+ =\left(\sup_{\substack{v\in E\\\|v\|_2=1}}\|v\|_1\right)^2.
+ \label{eq:projection-l1}
+\end{equation}
+Indeed,
+$\|Px\|_2=\sup_{v\in E,\|v\|_2=1}\langle v,x\rangle$, and maximizing over
+$x$ changes the inner supremum into $\|v\|_1$.  For
+$P_\pm=(I\pm C/r)/2$, trace zero gives
+$\operatorname{tr}P_\pm=n/2$, so $\alpha_\pm^2\ge1/2$.  Since
+$C=r(2P_+-I)$ and $-C=r(2P_--I)$, applying
+\eqref{eq:projection-l1} to the positive and negative maxima proves
+\eqref{eq:conference-eigenspace}.  Cauchy gives $\alpha_\pm\le1$ and the
+remaining claims follow.  Quantitatively, if $s_i=\operatorname{sign}(v_i)$,
+then
+\[
+ \left\|v-\frac{s}{\sqrt n}\right\|_2^2
+ =2\left(1-\frac{\|v\|_1}{\sqrt n}\right),
+\]
+so $\alpha\to1$ is precisely approach to a Boolean cube direction.
+\end{proof}
+
+Formula \eqref{eq:conference-eigenspace} identifies a concrete possible
+obstruction to universal conference alignment: the two eigenspaces could be
+uniformly Euclidean in the sense that both $\ell_1$ suprema stay below
+$(1-\eta)^{1/2}\sqrt n$.  No theorem used here rules this out for arbitrary
+conference matrices.  The Paley results below exhibit special eigenspaces
+that do approach cube directions.
+
 \section{A known square-order Paley ceiling theorem}
 
 The following classical regular-conference construction corrects an
@@ -2563,6 +2876,40 @@ $1/2$.  The exact
 optimality at orders 6 and 14 is finite evidence only; order 10 already shows
 that conference matrices need not be optimal.
 
+The remaining rigidity statement should not be mistaken for a simplification
+of the asymptotic problem.
+
+\begin{proposition}[Dense Paley rigidity is equivalent to the value-$1/2$ limit]
+\label{prop:paley-rigidity-equivalence}
+For the multiplicatively dense sequence $n_j=p_j+1$ in
+Theorem~\ref{thm:paley-least-nonresidue}, the estimate
+\[
+ F(n_j)\ge(1-o(1))M(C_{n_j})
+\]
+holds if and only if
+\[
+ \lim_{n\to\infty}\frac{F(n)}{n^{3/2}}=\frac12.
+\]
+\end{proposition}
+
+\begin{proof}
+If rigidity holds, then
+$F(n_j)/n_j^{3/2}\to1/2$.  For $n_j\le n<n_{j+1}$, monotonicity gives
+\[
+ \frac{F(n)}{n^{3/2}}
+ \ge\frac{F(n_j)}{n_j^{3/2}}\left(\frac{n_j}{n}\right)^{3/2}
+ =\frac12-o(1),
+\]
+because $n_{j+1}/n_j\to1$.  The global limsup bound supplies the reverse
+inequality.  Conversely, if the full limit is $1/2$, then both
+$F(n_j)/n_j^{3/2}$ and $M(C_{n_j})/n_j^{3/2}$ tend to $1/2$, while
+$F(n_j)\le M(C_{n_j})$; hence their ratio tends to one.
+\end{proof}
+
+Thus the Paley theorem identifies a candidate extremal family and an exact
+eigenspace mechanism, but the dense-sequence lower bound carries the entire
+value-specific difficulty of proving the limit $1/2$.
+
 \section{Seven proof programs and the sharp remaining lemma}
 
 The detailed derivations and failed variants are preserved in
@@ -2622,11 +2969,14 @@ would have to remain visible.
 \paragraph{F. Paley alignment and minimax rigidity.}
 Theorem~\ref{thm:paley-least-nonresidue} proves the Fourier leakage target
 along a multiplicatively dense sequence of prime Paley orders.  The remaining
-step is the independent minimax lower bound
+step is the remaining minimax lower bound
 \eqref{eq:paley-rigidity-target}.  This is the hard adversarial statement and
 cannot be inferred from the performance of a selected construction.  It
 would show that every signing, not merely the Paley signing, has asymptotic
-maximum at least the Paley value.
+maximum at least the Paley value.  Proposition
+\ref{prop:paley-rigidity-equivalence} shows that this dense-sequence rigidity
+is equivalent to the full value-$1/2$ conclusion; it is a concrete extremal
+reformulation, not a reduction in logical strength.
 
 \paragraph{G. Nonexistence.}
 To separate subsequences one needs order-specific lower bounds on \(F(n)\),
@@ -2669,11 +3019,13 @@ are documented in \texttt{verification/README.md}.  The literature map is in
 \texttt{LITERATURE.md}; the original and second proof-search ledgers are both
 preserved.
 
-The adversarial elliptope limit, the code dual and MacWilliams formula, the
+The fixed-density cut-discrepancy equivalence, the adversarial elliptope
+limit, the code dual and MacWilliams formula, the
 oriented covariance barrier, the graph-limit obstructions, finite
 non-heredity, the weighted covering-radius Bellman identity, the exact
 negative-replica recursion, the scalar transport no-go theorem, the exact
 conditional-alignment state, the microcanonical profile composition theorem,
+the quadratic-cumulant profile barrier, the conference eigenspace formula,
 the Paley Fourier-leakage identity and its least-nonresidue construction, and
 the values through order fourteen materially
 narrow the search.  They do not prove existence or nonexistence of the
@@ -2710,6 +3062,18 @@ N.~Alon and A.~Naor,
 \emph{Approximating the cut-norm via Grothendieck's inequality},
 SIAM J. Comput. \textbf{35} (2006), 787--803.
 \url{https://doi.org/10.1137/S0097539704441629}
+
+\bibitem{backurs-bavarian}
+A.~Backurs and M.~Bavarian,
+\emph{On the sum of $L_1$ influences},
+Electron. Colloq. Comput. Complex., Report TR13-039, revision 2 (2014).
+\url{https://eccc.weizmann.ac.il/report/2013/039/}
+
+\bibitem{egps}
+P.~Erd\H{o}s, M.~Goldberg, J.~Pach, and J.~Spencer,
+\emph{Cutting a graph into two dissimilar halves},
+J. Graph Theory \textbf{12} (1988), 121--131.
+\url{https://doi.org/10.1002/jgt.3190120113}
 
 \bibitem{nesterov}
 Y.~Nesterov,

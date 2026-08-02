@@ -93,6 +93,96 @@ scalar profiles can have zero order-statistic guarantee but different true
 relative-gauge gains. All decisions in this checker use integer or rational
 arithmetic.
 
+## Balanced relative-profile calibration at orders 12--14
+
+`research_relative_profile_calibration.py` computes the complete augmented
+graph-deficit and absolute rectangular-deficit histograms for every balanced
+vertex split of four banked optimal witnesses: the two rooted encodings of the
+same order-12 optimum, a principal order-13 submatrix of `C14`, and `C14`
+itself. It then convolves the three local histograms, evaluates the exact
+microcanonical order statistic `Lambda`, and compares the resulting scalar
+bound with the true gain:
+
+```bash
+python3 verification/research_relative_profile_calibration.py
+```
+
+Expected output:
+
+```text
+case=JCpVdXyxpz? order=12 partitions=462 profile_types=12 lambda=0..10 scalar_bound=24..26 geometry_gap=6..8 child_optimal_splits=7 best_bound=24 target=14.142135623731 excess=9.857864376269 target_lattice_energy=16 target_triples=213312..269122 fiber_count=2048 sha256=2c29479f48ff9644bfb860640ba35450af837502371b17f59153653b708fbc01
+gain_pairs=0/6:6,2/8:1,2/10:70,4/12:135,8/16:120,10/18:130
+case=JCpdUg{[dM? order=12 partitions=462 profile_types=12 lambda=0..10 scalar_bound=24..26 geometry_gap=6..8 child_optimal_splits=7 best_bound=24 target=14.142135623731 excess=9.857864376269 target_lattice_energy=16 target_triples=213312..269122 fiber_count=2048 sha256=5ff5291913cd0cf4db0e3cb2648934e99607fc59f184ff734abb9a765c31d444
+gain_pairs=0/6:6,2/8:1,2/10:70,4/12:135,8/16:120,10/18:130
+case=C14-minus-infinity order=13 partitions=1716 profile_types=9 lambda=2..10 scalar_bound=28..30 geometry_gap=8..10 child_optimal_splits=52 best_bound=28 target=19.524318098857 excess=8.475681901143 target_lattice_energy=20 target_triples=436864..495632 fiber_count=4096 sha256=b9ce312b08962293639003979cac33a0c6a852dd40209a00bd23653eb437d8aa
+gain_pairs=2/10:52,6/14:156,6/16:338,8/16:156,8/18:546,10/20:468
+case=C14 order=14 partitions=1716 profile_types=3 lambda=6..10 scalar_bound=31..33 geometry_gap=10..12 child_optimal_splits=624 best_bound=31 target=25.455844122716 excess=5.544155877284 target_lattice_energy=27 target_triples=231581..305465 fiber_count=8192 sha256=e96d8070d53fcdd2a47ce95eddb865d666c74dd02557df53ae8ec993d3fbd4b7
+gain_pairs=6/16:364,6/18:260,10/22:1092
+corruption_controls=balanced_double_count,cross_absolute_value
+relative_profile_calibration=PASSED
+```
+
+The real target for a split of orders `n + k` is
+
+```text
+(F(n)^(2/3) + F(k)^(2/3))^(3/2).
+```
+
+Every local product-triple energy has the parity of `binom(n+k,2)`. Exact
+rational inequalities place the three displayed targets strictly in the
+intervals `(14,16)`, `(18,20)`, and `(25,27)`. Thus the first admissible
+energy strictly above the target is exactly 16, 20, and 27, respectively.
+`target_triples` counts product triples at or above this lattice energy, so it
+is exactly the number whose energy is strictly above the real target; floating
+point is used only to display the target and excess. The verifier asserts the
+complete `(independent ceiling, Lambda, target count)` distribution embedded
+in its fixture, not only the printed range.
+
+The full product profile has `2^(2N-2)` entries and the relative-gauge map has
+`2^(N-1)` fibers. In all of these finite cases the target-triple count exceeds
+the fiber count, so the unlabeled scalar pigeonhole theorem alone does not
+reach the zero-error target. The observed scalar-to-true gaps of `6..8`,
+`8..10`, and `10..12` are finite evidence only. In particular, they do not
+rule out an asymptotically acceptable `O(N)` or other power-saving defect.
+
+The exact true-gain calculation uses the separately certified values
+`F(12)=18`, `F(13)=20`, and `F(14)=21`: the identity relative gauge is one of
+the scanned full signings, while every other gauge is another signing of the
+same order. This script scans all balanced splits of the listed witnesses; it
+does not certify that the displayed order-13 and order-14 witnesses exhaust
+all optimal switching classes. Here `profile_types` means distinct
+eight-scalar summary records, not distinct complete histogram triples.
+
+The corruption controls detect omission of the unordered-balanced-split guard
+and replacement of the absolute rectangular energy by a signed one. Exact
+partition counts, subset-labelled stream digests, gain-pair distributions,
+target-count distributions, and the equality of the two order-12 aggregate
+summary distributions provide additional fail-closed checks.
+
+## Fixed-half cut-discrepancy check
+
+The fixed-density equivalence is an analytic theorem. Its finite checker
+independently exhausts all signings through order six, recomputes `F(n)` and
+`4H(n)`, checks the pointwise fixed-layer identity and switching mean-square
+step, and deliberately corrupts the cut centering:
+
+```bash
+python3 verification/verify_cut_discrepancy_equivalence.py
+```
+
+Expected output:
+
+```text
+orders=2:F=1:4H=2,3:F=3:4H=4,4:F=4:4H=4,5:F=4:4H=4,6:F=5:4H=8
+fixed_layer_pointwise_checks=6711
+switching_mean_square_checks=33866
+corruption_control=wrong_cut_centering_detected
+cut_discrepancy_equivalence_verification=PASSED
+```
+
+All decisions use integer arithmetic. The finite exhaustion checks the proof's
+normalization and edge cases; it is not the proof of the all-order theorem.
+
 The new exact identity checker also needs only the standard library:
 
 ```bash

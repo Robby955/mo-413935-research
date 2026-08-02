@@ -124,7 +124,7 @@ listed separately so the original audit boundary remains explicit.
 | Two optimal classes among \(1{,}018{,}997{,}864\) imply probability about \(2\times10^{-9}\) under random signings. | flawed | same external report | The denominator counts root-normalized unlabeled residual representatives, not uniformly labelled signings. A probability statement requires automorphism-weighted multiplicities. |
 | \(M(C_{30})=75\), with 812 projective maximizers. | computational only | `verification/research_paley_alignment.c` | A source-built Gray-code scan exhausts all \(2^{29}\) projective Boolean states after verifying the Paley conference identity. The exact result was separately reproduced by a meet-in-the-middle evaluator during audit. It implies only \(F(30)\le75\). |
 | The Paley alignment ratios for \(q=5,13,17,29\) increase and therefore converge to 1. | flawed | `verification/research_paley_alignment.c`; `RESEARCH_CONTINUATION.md`, Theorem 31 | The four exact ratios are increasing, but four selected prime-field cases prove neither monotonicity nor an asymptotic decay law. Square-\(q\) ratios are identically 1, so no single smooth fit covers all conference orders. |
-| Paley spectral saturation is equivalent to asymptotic balance and vanishing minority-half Fourier leakage. | proved | `RESEARCH_CONTINUATION.md`, Theorem 31; `paper/second_attempt.tex`, Paley Fourier-leakage proposition | Additive Fourier diagonalization of the Paley core and exact optimization of the infinity sign give the conditions \(|S(f_q)|=o(q)\) and \(W(f_q)=o(q)\). This concerns \(M(C_{q+1})\), not the minimax \(F(q+1)\). A separate dense-order rigidity lower bound is still required. |
+| Paley spectral saturation is equivalent to asymptotic balance and vanishing minority-half Fourier leakage. | proved | `RESEARCH_CONTINUATION.md`, Theorem 31; `paper/second_attempt.tex`, Paley Fourier-leakage proposition | Additive Fourier diagonalization of the Paley core and exact optimization of the infinity sign give the conditions \(|S(f_q)|=o(q)\) and \(W(f_q)=o(q)\). This concerns \(M(C_{q+1})\), not the minimax \(F(q+1)\). On the proved multiplicatively dense sequence, the matching minimax lower bound would already be equivalent to the full limit \(1/2\), as shown below. |
 | The relative-gauge state is the balanced pushforward convolution of the two graph Gibbs laws and the rectangular Gibbs law. | proved | `RESEARCH_CONTINUATION.md`, Theorem 32; `paper/second_attempt.tex`, microcanonical composition theorem | The state-space cardinalities, homomorphism, fiber size, and finite-temperature density normalization are explicit. Fourier coefficients factor into three local correlation tensors. |
 | The \(2^{n+k-1}\)-st smallest product-triple deficit is a guaranteed block-composition gain. | proved | same theorem; `verification/verify_relative_profile_composition.py` | Exact max-plus identity plus one minimizing triple from each balanced fiber. The verifier exhausts all \(2+3\) block triples and includes a corrupted relative-orientation control. |
 | The microcanonical order statistic captures the complete alignment gain. | flawed | exact \(2+4\) collision in the same verifier | Both examples have scalar order statistic zero but true gains 4 and 2. The order statistic is optimal only after discarding additive labels; the group geometry can improve it. |
@@ -132,3 +132,156 @@ listed separately so the original audit boundary remains explicit.
 | A nonconstant Boolean function at prime order can have exact one-half Fourier support. | flawed | `paper/second_attempt.tex`, exact prime-order leakage obstruction | Vanishing at one nonzero frequency forces the coefficient polynomial to be \(\pm\Phi_p\), hence constant. The norm refinement gives \(W(f)\ge4(p-1)^2/p^3\). |
 | The interval construction proves \(W=o(p)\) uniformly over all primes \(p\equiv1\pmod4\). | flawed | `RESEARCH_CONTINUATION.md`, after Theorem 33 | Along primes \(p\equiv5\pmod{12}\), the opposite-character frequency pairs \(\pm1\) and \(\pm3\) force \(\liminf W/p\ge8/(9\pi^2)\). The specially selected progressions are essential. |
 | Heuristic witnesses at \(q=37,41,53,61\) disprove monotonicity of the exact Paley alignment ratio. | flawed | unbanked external search report audited 2026-08-02 | The displayed energies are certified lower bounds, not exact maxima. A lower best-found ratio at \(q=61\) cannot prove that the true maximum ratio falls. The witnesses may be useful finite evidence but no monotonicity claim follows. |
+| The minimax problem is, up to an explicit additive \(O(n)\) term, the minimum two-sided cut deviation of a graph with exactly half of all possible edges. | proved | proof below, “Fixed-half-density cut-deviation reduction”; `verification/verify_cut_discrepancy_equivalence.py` | With \(m=\binom n2\) and \(H_n\) as defined below, \(F(n)-1\le4H_n\le F(n)+\sqrt m+2\). Consequently \(F(n)/n^{3/2}\) converges iff \(4H_n/n^{3/2}\) converges, with the same limit. The script exhausts orders 2 through 6 and checks normalization and edge cases; the proof is analytic. |
+| The Backurs--Bavarian cut-deviation theorem applies to the fixed-half-density reformulation and gives \(H_n=\Omega(n^{3/2})\). | proved | `LITERATURE.md`, “Cut deviation is an exact reformulation” | Their constant is unspecified and nonsharp. The theorem supplies neither the candidate constant \(1/8\) for \(H_n\) nor a relation between different orders, so it does not address existence of the normalized limit. |
+| The Erdős--Goldberg--Pach--Spencer “bipartite discrepancy” is the same parameter as the all-cuts, two-sided cut deviation used here. | flawed | `LITERATURE.md`, same section | Their Section 3 parameter is a one-sided maximum over balanced complementary halves. Backurs--Bavarian revision 2, Definition 7.1, is the direct source for the absolute maximum over all cuts. |
+| For a symmetric conference matrix, the Boolean quadratic maximum is exactly controlled by the largest \(\ell_1\)-norm of a unit vector in either conference eigenspace. | proved | proof below, “Conference eigenspace formula” | If \(\alpha_\pm=n^{-1/2}\sup_{v\in E_\pm,\|v\|_2=1}\|v\|_1\), then \(2M(C)/(n\sqrt{n-1})=\max\{2\alpha_+^2-1,2\alpha_-^2-1\}\). Both signs are necessary because \(M\) contains an absolute value. |
+| Dense-order Paley minimax rigidity is a strictly weaker intermediate lemma toward convergence. | flawed | proof below, “Dense Paley rigidity is full closure” | On the multiplicatively dense sequence where the Paley maximum is \((1/2+o(1))n^{3/2}\), the lower bound \(F(n)\ge(1-o(1))M(C_n)\), together with monotonicity, already implies \(\lim F(n)/n^{3/2}=1/2\). Conversely that limit implies the rigidity ratio. It is an equivalent full-strength target, not an intermediate lemma. |
+
+## Fixed-half-density cut-deviation reduction
+
+Put \(m=\binom n2\), \(e_0=\lfloor m/2\rfloor\), and
+
+\[
+ H_n=\min_{\substack{G\text{ on }[n]\\ e(G)=e_0}}
+ \max_{S\subseteq[n]}
+ \left|e_G(S,S^c)-\frac12|S||S^c|\right|.
+\]
+
+Given a signing \(A\), let \(G\) contain exactly the pairs with \(a_{ij}=-1\),
+and write \(t=\sum_{i<j}a_{ij}=m-2e(G)\).  If \(x_S\) is \(+1\) on
+\(S\) and \(-1\) on \(S^c\), and \(k=|S||S^c|\), direct expansion gives
+
+\[
+ Q_A(x_S)=t-2k+4e_G(S,S^c).                                      \tag{A.1}
+\]
+
+First restrict to signings with total sum
+\(t_0=m-2e_0\in\{0,1\}\), and call their minimum maximum \(F_0(n)\).
+Equation (A.1) gives
+
+\[
+ 4\left(e_G(S,S^c)-\frac{k}{2}\right)=Q_A(x_S)-t_0.
+\]
+
+The vectors \(x_S\) exhaust the Boolean cube modulo global negation, so
+the elementary inequality
+\(\big|\max_x|u_x-c|-\max_x|u_x|\big|\le |c|\) yields
+
+\[
+ F_0(n)-1\le 4H_n\le F_0(n)+1.                                  \tag{A.2}
+\]
+
+It remains to compare \(F_0\) with \(F\).  Switching \(A\) by a sign vector
+\(z\) replaces its total sum by \(Q_A(z)\).  For uniform \(z\), Walsh
+orthogonality gives
+
+\[
+ \mathbb E Q_A(z)=0,
+ \qquad
+ \mathbb E Q_A(z)^2=m.
+\]
+
+Thus some switch has total sum \(t\) with \(|t|\le\sqrt m\).  Since
+\(t\equiv t_0\pmod2\), changing
+\(r=|t-t_0|/2\le(\sqrt m+1)/2\) edge signs reaches total sum \(t_0\).
+If \(t>t_0\) flip \(r\) positive coefficients, and if \(t<t_0\) flip \(r\)
+negative coefficients; the corresponding sign count is always at least
+\(r\).
+Each changed edge changes every value of \(Q_A\) by at most \(2\), hence
+changes \(M(A)\) by at most \(2r\).  Starting from an optimizer for \(F(n)\)
+therefore proves
+
+\[
+ F(n)\le F_0(n)\le F(n)+\sqrt m+1.                               \tag{A.3}
+\]
+
+Combining (A.2) and (A.3) gives the explicit one-sided finite bound
+
+\[
+ \boxed{F(n)-1\le4H_n\le F(n)+\sqrt{\binom n2}+2}.                \tag{A.4}
+\]
+
+The error is \(O(n)=o(n^{3/2})\), proving the normalized equivalence.
+
+## Conference eigenspace formula
+
+Let \(C=C^{\mathsf T}\) be a conference matrix of order \(n\), so
+\(C^2=(n-1)I\), and put \(r=\sqrt{n-1}\).  Since \(\operatorname{tr}C=0\),
+the eigenspaces \(E_\pm=\ker(C\mp rI)\) both have dimension \(n/2\), and
+
+\[
+ P_\pm=\frac12(I\pm C/r)
+\]
+
+are their orthogonal projections.  For any orthogonal projection \(P\) onto
+\(E\),
+
+\[
+ \max_{x\in\{\pm1\}^n}x^{\mathsf T}Px
+ =\left(\sup_{\substack{v\in E\\\|v\|_2=1}}\|v\|_1\right)^2.    \tag{A.5}
+\]
+
+Indeed, \((x^{\mathsf T}Px)^{1/2}=\|Px\|_2
+=\sup_{v\in E,\|v\|_2=1}\langle v,x\rangle\); maximize over \(x\),
+interchange the two suprema, and use
+\(\max_{x\in\{\pm1\}^n}\langle v,x\rangle=\|v\|_1\).
+
+Define
+
+\[
+ \alpha_\pm=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+
+The average of \(x^{\mathsf T}P_\pm x\) over the cube is
+\(\operatorname{tr}P_\pm=n/2\), so \(\alpha_\pm^2\ge1/2\).  Therefore
+no positive-part convention is hidden in the following calculation:
+
+\[
+ \max_x x^{\mathsf T}Cx=nr(2\alpha_+^2-1),
+ \qquad
+ \max_x(-x^{\mathsf T}Cx)=nr(2\alpha_-^2-1).
+\]
+
+Since \(Q_C(x)=x^{\mathsf T}Cx/2\),
+
+\[
+ \boxed{\frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+^2-1,\,2\alpha_-^2-1\}}.                       \tag{A.6}
+\]
+
+Moreover, \(\alpha_\pm=1\) exactly when the corresponding eigenspace
+contains a normalized sign vector.  Quantitatively, for a unit vector \(v\)
+and \(s_i=\operatorname{sgn}(v_i)\), with either sign chosen when \(v_i=0\),
+
+\[
+ \left\|v-\frac{s}{\sqrt n}\right\|_2^2
+ =2\left(1-\frac{\|v\|_1}{\sqrt n}\right).
+\]
+
+Thus conference spectral saturation is precisely asymptotic proximity of at
+least one eigenspace to a cube direction.  If instead both
+\(\alpha_\pm^2\le1-\eta\), then
+\(M(C)\le(1/2-\eta)n\sqrt{n-1}\); this is the exact geometric obstruction
+to a universal conference-alignment assertion.
+
+## Dense Paley rigidity is full closure
+
+Let \(n_j\) be the multiplicatively dense Paley orders supplied by the
+least-nonresidue construction, so \(n_{j+1}/n_j\to1\) and
+\(M(C_{n_j})=(1/2+o(1))n_j^{3/2}\).  If
+\(F(n_j)\ge(1-o(1))M(C_{n_j})\), then for
+\(n_j\le n<n_{j+1}\), monotonicity gives
+
+\[
+ \frac{F(n)}{n^{3/2}}
+ \ge \frac{F(n_j)}{n_j^{3/2}}\left(\frac{n_j}{n}\right)^{3/2}
+ =\frac12-o(1).
+\]
+
+Together with the audited limsup bound \(1/2\), this proves the full limit
+and its value.  Conversely, if the full limit equals \(1/2\), then along this
+sequence \(F(n_j)/M(C_{n_j})\to1\).  The dense-order rigidity statement is
+therefore equivalent to full closure at constant \(1/2\), conditional only on
+the already proved dense Paley alignment theorem.

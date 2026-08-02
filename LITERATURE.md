@@ -4,7 +4,8 @@
 
 This is a targeted map of results that bear directly on MathOverflow Question
 413935.  It is not an exhaustive bibliography.  Every external reference below
-is to a primary paper (or its official journal/arXiv page), and each entry
+is to a primary paper or standard reference (using its official journal,
+publisher, or arXiv page), and each entry
 separates what the cited theorem supplies from what it does **not** supply.
 
 Write
@@ -30,7 +31,7 @@ where \(A\) is symmetric, has zero diagonal, and has off-diagonal entries in
 | Signed graphs and cut codes | Switching classes are cosets of the cut/cocycle code, and frustration is a coset-leader problem. | The code here is the cut code augmented by the all-one word; no cited result gives its complete-graph covering-radius deficit to second order. |
 | Grothendieck/SDP | Boolean bilinear or quadratic optima have constant-factor semidefinite relaxations. | A fixed constant factor is leading-order at scale \(n^{3/2}\); convergence needs asymptotically lossless control. |
 | Dense graph limits | Cut-metric convergence controls normalized dense energies/free energies at scale \(n^2\). | Near-optimal signings are fluctuation objects at scale \(n^{3/2}\); ordinary graphons erase that scale. |
-| Seidel/conference matrices | Paley gives an infinite, dense family of symmetric conference matrices; the least-nonresidue interval theorem now proves asymptotic Boolean spectral alignment on a multiplicatively dense prime subsequence. | This is still a construction upper bound. It does not prove the minimax rigidity lower bound for \(F(n)\). |
+| Seidel/conference matrices | Paley gives an infinite, dense family of symmetric conference matrices; the least-nonresidue interval theorem now proves asymptotic Boolean spectral alignment on a multiplicatively dense prime subsequence. | This is still a construction upper bound. A matching minimax lower bound on that subsequence would already prove the full limit \(1/2\); it is not a weaker reduction. |
 | Vector balancing | Powerful theorems choose signs so a vector sum lies in a prescribed convex body. | Applied to the exponentially many spin constraints, their generic normalization/constant losses do not yield a lossless amplification theorem. |
 
 ## 1. Mean-field spin glasses and thermodynamic limits
@@ -147,6 +148,70 @@ zero-temperature slope is exactly the optimizer-composition gain, so treating
 it as a lower-order conditional-entropy correction would be incorrect.
 
 ## 2. Discrepancy and Boolean quadratic forms
+
+### Cut deviation is an exact reformulation
+
+Backurs and Bavarian use the following all-cuts, two-sided cut-deviation
+parameter.  For a graph \(G=(V,E)\) and \(0\le p\le1\),
+
+\[
+ D_p(G)=\max_{S\subseteq V}
+ \left|e_G(S,S^c)-p|S||S^c|\right|.
+\]
+
+This parameter gives an asymptotically exact reformulation of the present
+minimax problem.  Put \(m=\binom n2\), \(e_0=\lfloor m/2\rfloor\), and
+
+\[
+ H_n=\min_{\substack{G\text{ on }[n]\\e(G)=e_0}}D_{1/2}(G).
+\]
+
+The direct switching proof in `AUDIT.md` gives the explicit finite bound
+
+\[
+ F(n)-1\le4H_n\le F(n)+\sqrt{\binom n2}+2.                       \tag{2.1}
+\]
+
+Thus the MO limit exists if and only if \(4H_n/n^{3/2}\) has a limit, and
+the two limits are equal.  In particular, the value-$1/2$ conjecture for
+\(F(n)/n^{3/2}\) is equivalent to value $1/8$ for the normalized
+fixed-half-density cut deviation \(H_n/n^{3/2}\), up to the lower-order error
+in (2.1).
+
+Backurs and Bavarian prove that if
+\(\rho_G=e(G)/\binom n2\), then every graph satisfies
+
+\[
+ D_{\rho_G}(G)
+ =\Omega\!\left(\min(\rho_G,1-\rho_G)n^{3/2}\right).
+\]
+
+* Source: A. Backurs and M. Bavarian,
+  [*On the sum of L1 influences*](https://eccc.weizmann.ac.il/report/2013/039/revision/2/download/),
+  ECCC Report TR13-039, revision 2 (2014), Definition 7.1 and Theorem 7.2
+  (announced as Theorem 1.4).
+* Gives here: the correct all-cuts absolute parameter and a uniform
+  \(H_n=\Omega(n^{3/2})\) lower bound.  Indeed,
+  \(\rho_G=1/2+O(n^{-2})\) on the layer defining \(H_n\), and
+  \(|D_{1/2}(G)-D_{\rho_G}(G)|=O(1)\).
+* Does not give: a sharp constant, convergence of the normalized minimum, or
+  any comparison between different orders.  It therefore recovers only the
+  already known scale, not the candidate \(1/8\) constant for \(H_n\).
+
+The paper attributes the cut-deviation theorem to Erdős, Goldberg, Pach, and
+Spencer, whose earlier paper develops graph discrepancy and introduces a
+related parameter called bipartite discrepancy.
+
+* Source: P. Erdős, M. Goldberg, J. Pach, and J. Spencer,
+  [*Cutting a graph into two dissimilar halves*](https://doi.org/10.1002/jgt.3190120113),
+  *Journal of Graph Theory* 12 (1988), 121--131; an
+  [author-hosted copy](https://www.cs.rpi.edu/~goldberg/publications/discrep.pdf)
+  is available.
+* Important distinction: Section 3 of that paper defines a **one-sided**
+  maximum over **balanced complementary halves**.  That parameter and its
+  Conjecture 1 are not identical to the absolute maximum over all cuts above.
+  Backurs--Bavarian Definition 7.1 is the direct citation for the parameter
+  used in (2.1).  The two notions must not be conflated.
 
 ### Rectangular switching is close but not the same state space
 
@@ -377,6 +442,32 @@ A Seidel matrix is exactly a symmetric zero-diagonal \(\{\pm1\}\) matrix, so the
 algebraic literature studies the same ambient objects, although usually through
 switching classes, spectra, strongly regular graphs, or equiangular lines.
 
+There is an exact geometric formula for the Boolean maximum of a symmetric
+conference matrix.  If \(C^2=(n-1)I\), let \(E_\pm\) be its
+\(\pm\sqrt{n-1}\) eigenspaces and define
+
+\[
+ \alpha_\pm=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+
+The projection identity proved in `AUDIT.md` gives
+
+\[
+ \frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+^2-1,\,2\alpha_-^2-1\}.                        \tag{6.1}
+\]
+
+Both eigenspaces are essential: the first term controls
+\(\max_x x^{\mathsf T}Cx\), while the second controls
+\(\max_x(-x^{\mathsf T}Cx)\).  Formula (6.1) says that spectral saturation
+is equivalent to one eigenspace containing a unit vector asymptotically flat
+in absolute value.  Conversely, conference matrices for which both
+\(\alpha_\pm^2\le1-\eta\) would satisfy
+\(M(C)\le(1/2-\eta)n\sqrt{n-1}\).  This is a precise geometric obstruction
+to universal conference alignment; no cited conference or equiangular-frame
+theorem was found that rules it out.
+
 Paley's finite-field construction supplies symmetric conference matrices of
 order \(q+1\) for prime powers \(q\equiv1\pmod4\); such a matrix satisfies
 \(C^2=qI\).
@@ -430,7 +521,7 @@ The repository's exact Fourier-leakage identity diagonalizes the Paley core
 and shows that Boolean spectral alignment is equivalent to an asymptotically
 balanced sign function whose additive Fourier energy has $o(q)$ mass in one
 quadratic-character half. The new least-nonresidue construction closes this
-Fourier half on a multiplicatively dense sequence of prime orders. A balanced
+Fourier half on a multiplicatively dense sequence of prime-field sizes. A balanced
 half-interval has leakage at most $2p/(\ell(p)-1)$, and quadratic reciprocity
 makes $\ell(p)>j$ in the progression
 
@@ -448,9 +539,11 @@ concatenated while consecutive prime ratios tend to one.
   tending to zero. Quadratic reciprocity supplies the least-nonresidue
   condition; the Fourier estimate is proved directly in this repository.
 * Does not give: minimax rigidity. The conclusion is still about one Paley
-  signing. To force the original limit to be $1/2$, one must prove that every
-  signing at the same dense orders has maximum at least $(1-o(1))$ times the
-  Paley maximum.
+  signing. Moreover, proving that every signing at these dense orders has
+  maximum at least \((1-o(1))\) times the Paley maximum is not an intermediate
+  reduction: monotonicity between consecutive dense orders and the existing
+  limsup bound would immediately prove the full limit \(1/2\). Conversely,
+  that full limit implies the proposed rigidity ratio along this sequence.
 
 No primary source was found stating this interval/least-nonresidue argument
 in the Paley quadratic-alignment form. It is recorded as new to this

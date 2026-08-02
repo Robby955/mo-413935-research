@@ -83,6 +83,58 @@ global negation.  Then
 
 where $D_n\subseteq\mathbb F_2^m$ is the augmented cut code.
 
+There is also an asymptotically exact formulation as a fixed-density graph
+cut-discrepancy problem.  Put $m=\binom n2$, $e_0=\lfloor m/2\rfloor$, and
+
+\[
+ H_n=\min_{\substack{G\text{ on }[n]\\e(G)=e_0}}
+ \max_{S\subseteq[n]}
+ \left|e_G(S,S^c)-\frac12|S||S^c|\right|.
+\]
+
+Then the following explicit finite bound is proved:
+
+\[
+ \boxed{
+ F(n)-1\le4H_n\le F(n)+\sqrt{\binom n2}+2.}
+\]
+
+For the reduction, encode the negative entries of a signing by a graph $G$,
+write $t=\sum_{i<j}a_{ij}$ and $k=|S||S^c|$, and observe
+
+\[
+ Q_A(x_S)=t-2k+4e_G(S,S^c).
+\]
+
+Every switching class has a representative with $|t|\le\sqrt m$, because
+$\mathbb E_zQ_A(z)^2=m$.  Editing at most $(\sqrt m+1)/2$ edge signs reaches
+the layer $e(G)=e_0$, at a cost at most $\sqrt m+1$ in $M(A)$.  Thus
+existence of the original limit is equivalent to existence of
+$\lim 4H_n/n^{3/2}$, with the same value.
+
+Backurs and Bavarian define the all-cuts absolute parameter
+
+\[
+ D_p(G)=\max_S|e_G(S,S^c)-p|S||S^c||
+\]
+
+and prove
+
+\[
+ D_{\rho_G}(G)
+ =\Omega(\min(\rho_G,1-\rho_G)n^{3/2}).
+\]
+
+This applies to the layer defining $H_n$, since
+$\rho_G=1/2+O(n^{-2})$ and $D_{\rho_G}=D_{1/2}+O(1)$.  It proves only the
+correct order of magnitude with an unspecified nonsharp constant.  It gives
+neither the candidate $1/8$ lower constant for $H_n$, nor convergence, nor a
+cross-order inequality.  Use A. Backurs and M. Bavarian, “On the sum of L1
+influences,” ECCC TR13-039, revision 2 (2014), Definition 7.1 and Theorem 7.2, as the
+direct source.  Do not conflate this parameter with the one-sided maximum
+over balanced complementary halves called bipartite discrepancy by Erdős,
+Goldberg, Pach, and Spencer.
+
 ## 3. Results already obtained in the second attempt
 
 These results narrow the search.  Do not spend the attempt merely
@@ -969,12 +1021,173 @@ only the three local deficit histograms. The exact $2+4$ collision has
 $\Lambda=0$ in both cases but true gains 4 and 2, so group geometry can still
 improve the scalar guarantee.
 
-The live scalar target is a large-deviation estimate proving that fewer than
-$2^{n+k-1}$ triples lie below the deficit required for power-saving
-near-subadditivity. Constantly many exact maximizers are insufficient; the
-whole leading-scale near-maximal profile must be controlled. If this scalar
-quantile fails, use the factored Fourier labels of the convolution as the
-geometric fallback.
+The scalar large-deviation criterion is exact and should be used in its full
+form.  Put the uniform measure on the three local state spaces, write
+$e_A=M(A)-d_A$, $e_B=M(B)-d_B$, $e_C=B_C-d_C$, and let
+
+\[
+ X=e_A+e_B+e_C
+\]
+
+for three independent uniform local states.  The product space has
+$2^{2N-2}$ points and each relative-gauge fiber has $2^{N-1}$ points.
+Exponential counting therefore proves, for every $t>0$,
+
+\[
+ \boxed{
+ \min_gM(Y_g)
+ \le
+ \inf_{t>0}
+ \frac{(N-1)\log2+\log\mathbb E e^{tX}}{t}.}
+\]
+
+Equivalently, with
+
+\[
+ \kappa_N(\beta)=\frac1N\log\mathbb E
+ \exp\left(\frac{\beta X}{\sqrt N}\right),
+\]
+
+a target $\theta_NN^{3/2}$ is certified whenever
+
+\[
+ \kappa_N(\beta)-\beta\theta_N
+ \le-\left(1-\frac1N\right)\log2.
+\]
+
+This is the canonical exponential relaxation of the exact microcanonical
+order statistic, not the failed weighted Hamming-ball union bound. The
+unknown object is the complete leading-scale cgf or a matching far-upper-tail
+large-deviation theorem at probability $2^{-N+o(N)}$. Passing from a limiting
+cgf to an exact rate requires the relevant uniform
+Gärtner--Ellis/exponential-tightness hypotheses; do not call the two objects
+equivalent without proving them.
+
+Two scalar concentration shortcuts are closed, with limited scope:
+
+1. For balanced blocks $n=k=r$, any global centered quadratic majorant
+
+   \[
+    \log\mathbb E e^{t(X-\mathbb EX)}\le v_rt^2/2
+   \]
+
+   must have $v_r\ge r(r-1)$.  Optimizing the cgf criterion with such a
+   majorant has normalized certificate floor
+
+   \[
+    \sqrt{\frac{\log2}{2}}=0.588705011\ldots>\frac12.
+   \]
+
+   This rules out Gaussian, subgaussian, or variance-only cgf
+   certificates.  It is not a lower bound on the true profile quantile:
+   higher cumulants and the non-Gaussian far tail remain live.
+
+2. Ordinary degree-two Bonami hypercontractivity gives
+
+   \[
+    \|Q_A\|_p\le(p-1)\sqrt{\binom n2}
+   \]
+
+   and only an $\exp[-\Theta(\sqrt n)]$ upper tail at threshold
+   $cn^{3/2}$.  The fiber criterion needs $\exp[-\Theta(n)]$.  This rules
+   out the standard bounded-moment certificate, not signing-sensitive
+   higher-order inequalities or a full large-deviation theorem.
+
+The sharp remaining unlabeled scalar statement can be written using exact
+shell counts
+
+\[
+ H_A(d)=\#\{a:d_A(a)=d\},\quad
+ H_B(d)=\#\{b:d_B(b)=d\},\quad
+ H_C(d)=\#\{r:d_C(r)=d\}.
+\]
+
+Define
+
+\[
+ \mathcal S_N(s)=\frac1N
+ \max_{d_A+d_B+d_C<sN^{3/2}}
+ [\log H_A(d_A)+\log H_B(d_B)+\log H_C(d_C)].
+\]
+
+There are only polynomially many supported shell triples, so
+
+\[
+ \mathcal S_N(s)
+ \le\frac1N\log\#\{(a,b,r):
+ d_A(a)+d_B(b)+d_C(r)<sN^{3/2}\}
+ \le\mathcal S_N(s)+\frac{6\log(N+1)}N,
+\]
+
+where the middle count is over local state triples, not merely deficit
+values.  If
+
+\[
+ T_N=[F(n)^{2/3}+F(k)^{2/3}]^{3/2}+R_N,
+ \qquad |R_N|\le C N^{3/2-\delta},
+\]
+
+with $C,\delta>0$ uniform over the proportional splits, and
+
+\[
+ s_N=\frac{M(A)+M(B)+B_C-T_N}{N^{3/2}},
+\]
+
+then the sufficient scalar shell lemma is
+
+\[
+ \boxed{
+ \mathcal S_N(s_N)+\frac{6\log(N+1)}N
+ <\left(1-\frac1N\right)\log2.}
+\]
+
+It must hold uniformly over the proportional splits and a composable
+near-optimal choice of the three local signings.  Pointwise convergence of
+shell entropies without a strict or power-saving margin is insufficient.
+
+Exact balanced-split calibration has been carried out for every balanced
+vertex split of the banked optimum witnesses at orders 12, 13, and 14.  The
+unlabeled scalar profile bounds are respectively
+
+\[
+ 24\ldots26,\qquad28\ldots30,\qquad31\ldots33,
+\]
+
+while the true full-signing values are $18,20,21$; the observed labeled
+geometry bonuses are $6\ldots8$, $8\ldots10$, and $10\ldots12$.  At the
+first admissible lattice energies above the near-subadditive targets, the
+numbers of product triples are
+
+\[
+\begin{array}{c|c|c}
+N&\text{target-triple range}&\text{fiber count}\\ \hline
+12&213312\ldots269122&2048\\
+13&436864\ldots495632&4096\\
+14&231581\ldots305465&8192.
+\end{array}
+\]
+
+Thus the unlabeled pigeonhole condition fails in all these finite
+calibrations even though the labeled relative-gauge convolution has a large
+gain.  This is evidence for retaining labels, not an asymptotic disproof of
+the scalar shell lemma: an $O(N)$ finite geometry gap would still be
+power-saving.
+
+If the scalar shell inequality fails asymptotically, do not return to a
+one-point union bound.  For each gauge define the labeled shell convolution
+
+\[
+ \mathcal N_g(s)=
+ \#\{(a,b,r):\pi(a,b,r)=g,
+ d_A(a)+d_B(b)+d_C(r)<sN^{3/2}\}.
+\]
+
+The actual goal is to prove $\mathcal N_g(s_N)=0$ for some $g$.  Its group
+Fourier coefficients factor into the three local correlation tensors.
+Control of this labeled convolution, or a justified hierarchy of its
+low-weight characters beginning with the mixed four-cycle layer, is the
+geometric fallback.  Any truncation must prove that the discarded characters
+cannot refill every fiber.
 
 ### 3.19 Square-order Paley correction
 
@@ -1009,6 +1222,50 @@ there are sign functions with
  |S(f_q)|=o(q),\qquad W(f_q)=o(q).
 \]
 
+There is also an exact coordinate-free formulation for every symmetric
+conference matrix, not only the Paley family. If
+
+\[
+ C^2=(n-1)I
+\]
+
+and $E_\pm$ are the eigenspaces for the eigenvalues
+$\pm\sqrt{n-1}$, put
+
+\[
+ \alpha_\pm(C)=\frac1{\sqrt n}
+ \sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1.
+\]
+
+Projection onto the two eigenspaces and the identity
+
+\[
+ \max_{x\in\{\pm1\}^n}\|P_\pm x\|_2
+ =\sup_{\substack{v\in E_\pm\\\|v\|_2=1}}\|v\|_1
+\]
+
+give the exact Boolean-eigenspace formula
+
+\[
+ \boxed{
+ \frac{2M(C)}{n\sqrt{n-1}}
+ =\max\{2\alpha_+(C)^2-1,\ 2\alpha_-(C)^2-1\}.}
+\]
+
+Both eigenspaces are required because the objective contains an absolute
+value. In particular, a uniform gap
+$\alpha_+(C)^2,\alpha_-(C)^2\le1-\eta$ gives the genuine Boolean
+improvement
+
+\[
+ M(C)\le\left(\frac12-\eta\right)n\sqrt{n-1}.
+\]
+
+Conversely, spectral saturation is exactly the existence of an
+$\ell_2$-unit vector in at least one eigenspace whose $\ell_1$ norm is
+$(1-o(1))\sqrt n$. Merely controlling eigenvalues or empirical spectral
+measures cannot decide this.
+
 Exact source-built enumeration gives
 
 \[
@@ -1020,8 +1277,8 @@ with Boolean-to-spectral ratios
 $\sqrt5/3,3/\sqrt{13},11/(3\sqrt{17}),5/\sqrt{29}$. They increase in these
 four selected prime-field cases, but no monotonicity or asymptotic fit is
 proved. Do not confuse this construction problem with the minimax lower bound.
-Even spectral saturation of $C_{q+1}$ would still require the independent
-dense-order rigidity estimate
+Even spectral saturation of $C_{q+1}$ would still require the dense-order
+minimax rigidity estimate
 
 \[
  F(q+1)\ge(1-o(1))M(C_{q+1})
@@ -1045,7 +1302,7 @@ dense prime sequence with $\ell(p)\to\infty$. Hence
 \]
 
 on that sequence. Do not spend time reproving this leakage construction. The
-remaining value-specific wall is the independent minimax rigidity estimate
+remaining value-specific wall is the minimax rigidity estimate
 
 \[
  F(p+1)\ge(1-o(1))M(C_{p+1})
@@ -1053,6 +1310,32 @@ remaining value-specific wall is the independent minimax rigidity estimate
 
 on the same sequence. Exact conference optimality at orders 6 and 14 does not
 prove it, and order 10 is a finite counterexample to exact optimality.
+
+Be precise about the logical strength of this wall. Let $n_j=p_j+1$ be the
+multiplicatively dense aligned sequence just described, so that
+
+\[
+ \frac{n_{j+1}}{n_j}\to1,\qquad
+ \frac{M(C_{n_j})}{n_j^{3/2}}\to\frac12.
+\]
+
+Then
+
+\[
+ \boxed{
+ F(n_j)\ge(1-o(1))M(C_{n_j})
+ \quad\Longleftrightarrow\quad
+ \lim_{n\to\infty}\frac{F(n)}{n^{3/2}}=\frac12.}
+\]
+
+For the forward implication, monotonicity transfers the subsequence lower
+bound to every $n_j\le n<n_{j+1}$, and the global conference upper bound
+supplies the matching limsup. The reverse implication follows immediately
+from the two limits along $n_j$. Thus dense Paley rigidity is a sharp
+reformulation of a proposed value-$1/2$ solution, not an easier reduction.
+Any proof must exploit a structural restriction applying to every signing;
+additional numerical alignment of the Paley construction cannot establish
+it.
 
 ## 4. Known failed mechanisms that require a material change
 
@@ -1120,6 +1403,24 @@ Do not simply repeat any of the following:
     identically the desired almost-superadditivity in new notation.
 23. Inferring a minimax lower bound from Boolean ceiling attainment by the
     square-order Paley matrices: already $F(10)=13<15$ for the first case.
+24. Replacing the exact profile cgf by a global quadratic, Gaussian, or
+    variance-only majorant: in balanced blocks its best possible certificate
+    has normalized floor $\sqrt{\log2/2}>1/2$.
+25. Applying ordinary degree-two Bonami hypercontractivity at the target
+    threshold: it supplies only an $\exp[-\Theta(\sqrt n)]$ tail, whereas
+    fiber noncoverage requires $\exp[-\Theta(n)]$. These two no-go statements
+    do not rule out the true cgf, a signing-sensitive large-deviation theorem,
+    or labeled cancellation.
+26. Treating finite maximizer thinness, the order-$12$ through order-$14$
+    balanced profile gaps, or a few conference alignment ratios as an
+    asymptotic theorem. They are calibration data and counterexample tests,
+    not a uniform shell LDP.
+27. Invoking the Backurs--Bavarian fixed-density cut-discrepancy lower bound
+    as a convergence theorem: it has a nonsharp constant and contains no
+    cross-order comparison.
+28. Calling dense Paley minimax rigidity a reduction of the problem: on the
+    multiplicatively dense aligned Paley sequence already constructed, that
+    rigidity statement is equivalent to the full limit being $1/2$.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -1154,6 +1455,62 @@ ingredients include:
 - a controlled mixed-trace/connected-Eulerian hierarchy beginning with
   $\mathcal H_4$. Any truncation must be uniform when
   $u=\Theta(n^{-1/2})$ and $q=\Theta(n)$.
+
+The first concrete attack is a full microcanonical shell theorem, not another
+second-moment estimate. Fix $\varepsilon>0$ and proportional splits
+$n/N\in[\varepsilon,1-\varepsilon]$. Permit composable internal signings with
+$o(N^{3/2})$ sacrifice. Prove, uniformly over the chosen family, either
+
+\[
+ \mathcal S_N(s)=\Sigma_\alpha(s)+o(1),
+ \qquad \alpha=\frac nN,
+\]
+
+locally uniformly at the required deficit, or directly the equivalent
+speed-$N$ far-tail upper bound
+
+\[
+ \limsup_{N\to\infty}\frac1N
+ \log\mathbb P\{X\ge\theta N^{3/2}\}
+ \le-I_\alpha(\theta).
+\]
+
+The settling inequality is $I_\alpha(\theta)>\log2$ with a uniform strict
+margin, equivalently $\Sigma_\alpha(s)<\log2$ at the near-subadditive
+deficit. At a critical equality, supply an explicit power-saving or
+dyadically summable second-order term; a bare pointwise LDP does not close
+iteration. Determine the component shell rates first, then compute their
+infimal convolution. The exact order-$12$ through order-$14$ balanced data
+must be used as a regression test: a proposed scalar theorem that predicts
+the observed true geometry bonus from only the three unlabeled histograms is
+false.
+
+If the scalar threshold fails, attack the labeled convolution itself. For
+the relative-gauge group $G$, introduce the energy-refined Fourier
+polynomials
+
+\[
+ P_A(\chi,z)=\sum_a\chi(\pi_A(a))z^{d_A(a)},\quad
+ P_B(\chi,z)=\sum_b\chi(\pi_B(b))z^{d_B(b)},\quad
+ P_C(\chi,z)=\sum_r\chi(\pi_C(r))z^{d_C(r)}.
+\]
+
+Then Fourier inversion gives the exact truncated coefficient formula
+
+\[
+ \mathcal N_g(s)=\frac1{|G|}\sum_{\chi\in\widehat G}\overline{\chi(g)}
+ \sum_{d<sN^{3/2}}[z^d]\,
+ P_A(\chi,z)P_B(\chi,z)P_C(\chi,z).
+\]
+
+Seek a support-noncoverage theorem proving that this is zero for at least one
+$g$, even when its trivial-character average exceeds one. Viable mechanisms
+include a full character large-deviation principle, a higher-moment bound on
+fiber occupancies, or an additive-combinatorial restriction on the three
+labeled low-deficit sets. A low-weight character expansion is admissible only
+with a uniform tail bound showing that omitted characters cannot refill every
+fiber. The mixed four-cycle Hamiltonian is the first mandatory term, not a
+complete state.
 
 For every proposed interpolation, calculate the cross derivative exactly and
 show its sign or cancellation.  Do not exchange minimum, expectation,
@@ -1234,7 +1591,80 @@ balanced doubling if necessary. Explore whether the energy-coloured two-point
 law, a controlled hierarchy of coloured overlap laws, or additive-combinatorial
 structure of the rank-one group can certify noncoverage with a power saving.
 
-### Program E: nonexistence
+### Program E: fixed-half cut-discrepancy across orders
+
+Use the exact-density parameter $H_n$ from the baseline as a genuinely
+different language for the same asymptotic problem. The cleanest settling
+target is, for some $\delta>0$,
+
+\[
+ \boxed{
+ H_{n+k}^{2/3}
+ \le H_n^{2/3}+H_k^{2/3}
+ +O((n+k)^{1-\delta})}
+\]
+
+uniformly for proportional splits. Since $F(n)=4H_n+O(n)$, this has exactly
+the same power-saving consequence as the target for $F^{2/3}$: conversion
+through the $O(n)$ additive error costs only $O(n^{1/2})$ after taking the
+$2/3$ power. An alternative is an asymptotically lossless amplification
+theorem at edge density exactly $1/2+O(n^{-2})$, followed by the $O(N)$
+edge-editing correction already proved.
+
+Write
+
+\[
+ \Delta_G(U)=e_G(U,U^c)-\frac12|U||U^c|.
+\]
+
+For vertex blocks $V_1,V_2$ of sizes $n,k$, internal graphs $G_1,G_2$,
+a bipartite cross graph $C$, and $P\subseteq V_1$, $R\subseteq V_2$, the
+exact block identity is
+
+\[
+ \Delta_G(P\cup R)
+ =\Delta_{G_1}(P)+\Delta_{G_2}(R)+\Delta_C(P,R),
+\]
+
+where
+
+\[
+ \Delta_C(P,R)
+ =e_C(P,V_2\setminus R)+e_C(V_1\setminus P,R)
+ -\frac12\left[|P|(k-|R|)+(n-|P|)|R|\right].
+\]
+
+The required cross-edge count is
+
+\[
+ e(C)=\left\lfloor\frac{\binom{n+k}{2}}2\right\rfloor
+ -\left\lfloor\frac{\binom n2}2\right\rfloor
+ -\left\lfloor\frac{\binom k2}2\right\rfloor
+ =\frac{nk}{2}+O(1).
+\]
+
+Do not choose $C$ independently. It must be optimized conditionally on the
+two complete signed cut-deviation profiles so that the three terms cancel
+simultaneously. Concrete attacks are:
+
+- derive a dual or minimax description of the best such $C$ in terms of
+  probability measures on pairs $(P,R)$, and determine whether its
+  integrality gap is $o(N^{3/2})$;
+- prove a puncturing, extension, or concatenation inequality that preserves
+  the exact half-density layer up to $O(N)$ edits;
+- identify a composable near-optimal Pareto state for the functions
+  $P\mapsto\Delta_{G_1}(P)$ and $R\mapsto\Delta_{G_2}(R)$, rather than only
+  their sup norms;
+- test any proposed cross-order inequality against the exact small values,
+  the order-$12$ through order-$14$ witnesses, and the exact $(2,8)$
+  non-heredity obstruction.
+
+Backurs--Bavarian supplies only a same-order $\Omega(n^{3/2})$ lower bound.
+It does not address any item above. A claimed lower-bound route toward a
+Paley subsequence must apply to every graph in the fixed half-density layer,
+not merely to Paley, conference, quasirandom, or spectrally regular graphs.
+
+### Program F: nonexistence
 
 Do not assume convergence.  A nonexistence proof requires separated lower
 bounds for $F(n)/n^{3/2}$ on distinct subsequences.  Different upper-bound
@@ -1259,6 +1689,31 @@ For each claimed result:
 9. If using an SDP or spectral bound, do not assume the spectral optimizer is
    Boolean.
 10. Preserve failed attempts with the exact line at which they fail.
+11. For a shell or cgf theorem, state the probability space, normalization,
+    speed, proportional-split range, uniformity in the chosen signings, and
+    the strict or power-saving margin. Verify every hypothesis used to pass
+    between a cgf and a large-deviation rate.
+12. For labeled convolution, state the relative-gauge group, quotient
+    multiplicities, character normalization, and any low-dimensional gauge
+    redundancy. A truncated Fourier hierarchy must include a proved tail
+    bound.
+13. For cut discrepancy, distinguish $D_{1/2}$ from $D_{\rho_G}$, all-cuts
+    absolute discrepancy from one-sided balanced-half discrepancy, and exact
+    half density from an asymptotically half-dense graph. Track the $O(n)$
+    edge-editing loss explicitly.
+14. For conference matrices, optimize over both eigenspaces, distinguish the
+    maximum of a construction from the minimax value $F(n)$, and do not
+    present dense Paley rigidity as progress unless a new universal
+    restriction on every signing has actually been proved.
+15. For finite computations, record class-enumeration completeness,
+    switching/isomorphism multiplicities, exact witnesses, solver trust
+    boundaries, independent replay, and corruption controls. Finite
+    maximizer counts or alignment ratios are not asymptotic evidence without
+    a stated statistical or structural theorem. The balanced profile
+    calibration above is exact arithmetic over every balanced split of the
+    banked witnesses, not an enumeration of every optimum class; replay
+    verification/research_relative_profile_calibration.py and its corruption
+    controls before extending the claim.
 
 Do not claim the MathOverflow problem is solved unless every step is complete
 and independently auditable.
