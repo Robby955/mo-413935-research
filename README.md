@@ -23,10 +23,15 @@ The repository now goes substantially beyond those baseline results:
   Eulerian subgraphs, producing an exact signed MacWilliams formula.
 - Ordinary graphon and empirical spectral limits provably erase the relevant
   `n^(3/2)` information.
-- Exhaustive computation gives
-  `F(2), ..., F(10) = 1, 3, 4, 4, 5, 9, 10, 12, 13`.
-  Exact extension of the two optimal order-10 classes gives the additional
-  bound `13 ≤ F(11) ≤ 17`; the exact order-11 value remains unknown.
+- Exact finite computation gives
+  `F(2), ..., F(12) = 1, 3, 4, 4, 5, 9, 10, 12, 13, 17, 18`.
+  The order-11 lower certificate scans all 12,005,168 unlabeled residual
+  graphs and exactly filters 2,153,606 eligible classes for cut evaluation.
+  Direct generation of that reduced stream reproduces the zero-survivor result
+  with the same evaluator.
+  This is a computer-assisted theorem whose completeness trusts nauty. The
+  order-12 upper bound is an explicit signing; its lower bound follows from
+  order 11 by puncturing and parity.
 - Exact hereditary cavity inequalities strengthen the induced-submatrix lower
   bounds through Walsh orthogonality and block pairing. Their universal gains
   are subleading, so they do not settle convergence.
@@ -68,6 +73,18 @@ The repository now goes substantially beyond those baseline results:
   minimizer: a conference signing at high temperature, an intermediate
   non-ground-state signing, and an `F(10)=13` signing at low temperature.
   Thus the adversarial optimizer genuinely changes with temperature.
+- The annealed-normalized negative replica is exactly supermultiplicative at
+  fixed exponent and temperature. Boolean reverse hypercontractivity follows
+  the parameter curve needed by block composition, but in the wrong
+  direction. A power-saving upper bound for arbitrarily large replica
+  parameter at fixed temperature, and then for arbitrarily large temperature,
+  would settle the problem. Exact data through order 9 show a visible positive
+  normalized defect and do not currently support saturation.
+- For every odd prime power `m`, the square-order Paley conference matrix of
+  order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
+  This is the known regular-conference construction, not a new result and not
+  a statement about `F(m^2+1)`. Already `F(10)=13` while that Paley matrix has
+  maximum 15.
 - Density-one control of Bellman-optimal predecessors is not the decisive
   scalar wall. An explicit nonconvergent countermodel satisfies all current
   scalar cross-order inequalities even with `O(sqrt(n))` Bellman cost at every
@@ -77,8 +94,9 @@ The repository now goes substantially beyond those baseline results:
 ## Main open routes
 
 The finite-temperature route is existence of the extensive minimax
-free-energy limit, with the negative-replica formulation providing the
-sharpest current settling lemma.
+free-energy limit. The exact negative-replica recursion isolates a sharper
+parameter-transport lemma, but its required near-saturation is conjectural
+and the finite data currently point the other way.
 
 The ground-state route is a power-saving near-subadditivity theorem for
 `H(n) = F(n)^(2/3)`. The finite non-heredity result shows that the construction
@@ -134,6 +152,7 @@ python3 verification/verify_amplification_obstructions.py
 python3 verification/verify_cavity_hereditary.py
 python3 verification/verify_nonlinear_bellman.py
 python3 verification/verify_frontier_walls.py
+python3 verification/verify_paley_subfield.py
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and
@@ -144,6 +163,8 @@ the order-10 temperature check requires nauty and NumPy.
 python3 verification/research_cross_block_composition.py
 python3 verification/research_order9_weighted_geometry.py
 python3 verification/research_order10_temperature.py
+python3 verification/research_negative_replica_transport.py
+python3 verification/research_order11_certify.py
 ```
 
 The exhaustive search through order 10 requires nauty `geng`; NetworkX adds

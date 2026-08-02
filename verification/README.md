@@ -304,6 +304,93 @@ Catalogue completeness trusts nauty plus the asserted count and digest. The
 phase envelope and thresholds use no floating-point comparison except for
 the displayed decimal approximations.
 
+## Negative-replica transport experiment
+
+`research_negative_replica_transport.py` requires nauty `geng` and `countg`.
+It directly checks the exact supermultiplicative inequality in small labeled
+orders, then weights every unlabeled residual graph by
+`(n-1)!/|Aut(G)|` to reconstruct the uniform labeled-disorder moment through
+order 9:
+
+```bash
+python3 verification/research_negative_replica_transport.py
+```
+
+Expected output:
+
+    negative_replica_supermultiplicativity_checks=24
+    transport_beta_1_theta_1_delta_over_n2=4:0.0049185348,5:0.0087837537,6:0.0116569500,7:0.0138659979,8:0.0156035779,9:0.0170007335
+    transport_beta_2_theta_4_delta_over_n2=4:0.1484980817,5:0.2771315062,6:0.3275853627,7:0.2860893527,8:0.3076235046,9:0.3159700451
+    transport_orders=4..9
+    deterministic_seed=413935
+    corruption_controls=unlabeled_multiplicity,t0_normalization
+    negative_replica_transport_verification=PASSED
+
+Energies, automorphism orders, and labeled multiplicities are exact. The
+moment logarithms and displayed transport defects use floating point and are
+finite evidence only. Completeness trusts nauty's streams and automorphism
+orders; the analytic negative-replica theorem does not depend on this script.
+
+## Square-order Paley Boolean eigenvectors
+
+`verify_paley_subfield.py` is a standard-library exact checker for prime
+subfields `m=3,5,7`:
+
+```bash
+python3 verification/verify_paley_subfield.py
+```
+
+Expected output:
+
+    paley_subfield_witnesses=m=3:N=10:M=15,m=5:N=26:M=65,m=7:N=50:M=175
+    corruption_controls=coset_constancy
+    paley_subfield_verification=PASSED
+
+It constructs `GF(m^2)` directly, verifies the conference identity and the
+Boolean eigenvector equation, and evaluates the witnessed quadratic energy.
+The paper's proof covers every odd prime power; the script deliberately avoids
+a finite-field dependency and checks prime `m` only.
+
+## Exact values at orders 11 and 12
+
+`research_order11_certify.py` requires nauty `geng`. Its default reduced pass
+uses the exact all-positive, complement, and singleton reductions:
+
+```bash
+python3 verification/research_order11_certify.py
+```
+
+Expected output:
+
+    geng_mode=filtered
+    geng_records=2153606
+    eligible_order11_records=2153606
+    order11_subset_checks=48173339
+    order11_M_le_15_survivors=0
+    independently_crosschecked_edge_counts=20,21,22
+    geng_stream_sha256=b62da4d7ebfaab4ccd801fd509f2fc85f6c2b815c8c1d2e969de7aa6a82c322d
+    order11_witness=ICRbczQMo maximum=17 maximizers=5
+    order12_witness=JWUuDOR\K{? maximum=18 maximizers=20
+    certified_values=F(11)=17,F(12)=18
+    deterministic_seed=413935
+    corruption_controls=graph6_ordering,absolute_value,false_bound,energy_parity
+    order11_order12_verification=PASSED
+
+The slower full-stream mode is:
+
+```bash
+python3 verification/research_order11_certify.py --full-stream
+```
+
+It scans all 12,005,168 unlabeled graphs on ten residual vertices, internally
+selects the same 2,153,606 eligible records for cut evaluation, and requires full stream SHA-256
+`5650c7c979fdffd8c0f99a2f2ee8775938ec2a3dd69aa65be1207936824fc5b3`.
+Every cut decision and both witness replays use integers. Deterministic samples
+at each eligible edge count are recomputed with a separate adjacency formula.
+Completeness trusts
+nauty to emit one representative of every isomorphism class; no MILP, SAT,
+floating-point, or timeout result is used.
+
 ## Exhaustive values through n = 10
 
 `research_exact_small_n.py` requires Brendan McKay's nauty `geng` executable.

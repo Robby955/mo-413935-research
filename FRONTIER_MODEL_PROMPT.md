@@ -295,13 +295,18 @@ eigenvector information.
 Auditable exhaustive search gives
 
 \[
-\begin{array}{c|rrrrrrrrr}
-n&2&3&4&5&6&7&8&9&10\\ \hline
-F(n)&1&3&4&4&5&9&10&12&13.
+\begin{array}{c|rrrrrrrrrrr}
+n&2&3&4&5&6&7&8&9&10&11&12\\ \hline
+F(n)&1&3&4&4&5&9&10&12&13&17&18.
 \end{array}
 \]
 
-The normalized values are not monotone.  At order 10, a Paley conference
+The order-11 lower certificate scans and hashes all 12,005,168 unlabeled
+residual graphs, exactly filters 2,153,606 eligible classes for cut
+evaluation, and reproduces the result by generating that reduced stream with
+the same evaluator.  Deterministic samples use a separate adjacency formula.  Its
+completeness trusts nauty; order 12 then follows from puncturing, parity, and
+an explicit witness.  The normalized values are not monotone.  At order 10, a Paley conference
 matrix has Boolean maximum 15, while the optimum is 13.  Finite computation is
 guidance only; it cannot establish an asymptotic subsequence.
 
@@ -476,8 +481,8 @@ n&\#\text{ optimum classes}&\text{distribution of }E(B)\\ \hline
 \end{array}
 \]
 
-The order-10 extension witness gives $13\le F(11)\le17$; no exact value for
-$F(11)$ is known here.
+The later complete catalogue certificate gives $F(11)=17$ and, with parity
+and a direct witness, $F(12)=18$.
 
 Thus optimum signings with the same scalar value can have different future
 extension costs. More sharply,
@@ -768,6 +773,65 @@ signings tie. Therefore the outer optimizer genuinely changes with
 temperature. Any interpolation must allow optimizer phase changes rather than
 track a single signing across all $\beta$.
 
+### 3.16 Exact negative-replica recursion and its wall
+
+For uniform order-$n$ disorder define
+
+\[
+ f_{n,t}(A)=\frac{Z_A(t)}{2^{n+1}(\cosh t)^{\binom n2}},\qquad
+ \mathcal G_n(q,t)=\log\mathbb E_A f_{n,t}(A)^{-q}.
+\]
+
+Jensen over the random cross block, followed by pairing one internal signing
+with its global negation, proves exactly
+
+\[
+ \mathcal G_{n+k}(q,t)\ge\mathcal G_n(q,t)+\mathcal G_k(q,t)
+\]
+
+for all $q>0$ and real $t$. No absolute value or normalization factor is
+lost. With $u=\tanh t$, the signed Eulerian expansion also gives
+$f_{n,u}=T_{u/v}f_{n,v}$.
+
+Sharp Boolean reverse hypercontractivity implies
+
+\[
+ \frac{\mathcal G_n(Q',u')}{Q'}
+ \le\frac{\mathcal G_n(Q,u)}Q
+\]
+
+when $(1+Q')u'^2=(1+Q)u^2$. This is the exact extensive block-parameter
+curve, but the inequality points in the wrong direction. For
+
+\[
+ t_r=\beta/\sqrt r,\qquad
+ q_r=\theta/\tanh^2t_r-1,
+\]
+
+the sharp sufficient conjecture is the power-saving transport estimate
+
+\[
+0\le \frac{q_N}{q_n}\mathcal G_n(q_n,t_n)
+-\mathcal G_n(q_N,t_N)\le C N^{2-\delta}
+\]
+
+on balanced child sizes. It would give almost superadditivity of
+$\mathcal G_n(q_n,t_n)/q_n$ and settle the minimax limit for unbounded
+parameters. Only the lower inequality is known. Exact class-weighted data
+through order 9 show a visible positive defect divided by $n^2$, with no
+observed decay on the tested grids. Treat the estimate as a conjectural
+decision point, not an established or empirically supported lemma.
+
+### 3.17 Square-order Paley correction
+
+For every odd prime power $m$, the full Paley conference matrix of order
+$m^2+1$ has a Boolean eigenvector of eigenvalue $m$, obtained from additive
+$\mathbb F_m$-cosets in $\mathbb F_{m^2}$. Hence that matrix has exact maximum
+$m(m^2+1)/2$. This is the known regular-conference construction, not a new
+theorem and not a lower bound on $F(m^2+1)$. At $m=3$, the matrix maximum is
+15 while $F(10)=13$. Do not infer a subsequential value of $F$ from this
+construction.
+
 ## 4. Known failed mechanisms that require a material change
 
 Do not simply repeat any of the following:
@@ -821,6 +885,11 @@ Do not simply repeat any of the following:
 18. Pointwise or density-one scalar Bellman-cost bounds by themselves: an
     explicit nonconvergent scalar model has $O(\sqrt n)$ cost at every order
     while satisfying all currently proved scalar cross-order inequalities.
+19. Treating reverse hypercontractivity as an asymptotically sharp transport
+    theorem: it proves only one direction, and the normalized finite defect is
+    visibly positive through order 9.
+20. Inferring a minimax lower bound from Boolean ceiling attainment by the
+    square-order Paley matrices: already $F(10)=13<15$ for the first case.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -844,8 +913,10 @@ ingredients include:
   Bernoulli disorder;
 - a mixed-strategy minimax relaxation with a provably negligible purification
   gap.
-- the negative-replica quantity with $q=\lambda n$, for which disorder is
-  averaged but low-partition signings are exponentially favored.
+- the exact negative-replica recursion above. First decide whether its
+  transport defect is $o(n^2)$ or has a leading-order limit; do not merely
+  rederive the reverse-hypercontractive inequality whose direction is already
+  audited.
 
 For every proposed interpolation, calculate the cross derivative exactly and
 show its sign or cancellation.  Do not exchange minimum, expectation,

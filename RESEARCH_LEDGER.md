@@ -1068,3 +1068,71 @@ $t=0.792460762\ldots$, and an order-ten ground-state signing with maximum 13
 minimizes thereafter.  At $t=0$ every signing ties.  This exact finite result
 shows that the outer minimizer changes with temperature; it does not prove an
 asymptotic phase transition.
+
+## 17. Negative-replica recursion and transport wall
+
+The annealed-normalized negative moment
+
+\[
+ \mathcal G_n(q,t)=\log\mathbb E_A
+ \left[\frac{Z_A(t)}{2^{n+1}(\cosh t)^{\binom n2}}\right]^{-q}
+\]
+
+is exactly superadditive in the order at fixed $(q,t)$.  The proof pairs the
+two orientations of one internal block, uses Jensen twice, and loses no
+normalizing factor.  This is the first exact block law found that is directly
+compatible with the outer soft minimum.
+
+It does not yet live at the extensive diagonal.  Boolean reverse
+hypercontractivity transports $\mathcal G_n/q$ on the exact invariant curve
+$(1+q)\tanh^2t=\theta$, but its inequality points in the wrong direction.
+The missing statement is the power-saving upper bound (PT) on that transport
+defect.  If true for unbounded parameters, it settles the problem by a
+balanced almost-superadditivity argument.
+
+**Evidence against immediate closure.**  Exact class-weighted calculations
+through order 9 give a positive defect divided by $n^2$ that does not decay on
+the two tested parameter grids.  This is not an asymptotic counterexample, but
+it means reverse hypercontractivity should not be described as nearly sharp
+without new evidence.  The next branch decision is to prove PT or establish a
+leading transport gap; extending only the abstract norm inequality repeats
+the known wrong-direction wall.
+
+## 18. Exact orders 11 and 12
+
+The order-10 extension catalogue first gives the catalogue consequence
+$F(11)\ge15$.  A complete exact nauty pass scans and hashes all 12,005,168
+unlabeled residual graphs on ten vertices, filters the analytically eligible
+classes, and finds no signing with maximum at most 15.  The mathematically reduced stream
+
+```text
+geng -q -D6 10 20:22
+```
+
+contains 2,153,606 records and gives the same result with the same evaluator;
+sampled records at each eligible edge count are recomputed by a separate
+adjacency formula.  With the
+explicit witnesses,
+
+\[
+ F(11)=17,\qquad F(12)=18.
+\]
+
+These are computer-assisted exact values with a nauty completeness boundary.
+They are not asymptotic progress by themselves.  The external claim that the
+order-11 normalized value is a record for $n\ge5$ is false: the order-7 ratio
+is larger.
+
+## 19. Square-order Paley audit
+
+The reported Boolean ceiling attainment for Paley conference matrices of
+order $m^2+1$ is correct but already known as the regular-conference
+construction.  Additive $\mathbb F_m$-cosets give a sign eigenvector of
+eigenvalue $m$, hence matrix maximum $m(m^2+1)/2$.
+
+The original report overstated the consequence.  This is a theorem about the
+specified full Paley matrix, not about $F(m^2+1)$.  At the first case,
+$m=3$, the matrix maximum is 15 while $F(10)=13$.  The result neither improves
+the asymptotic upper bound nor forces a subsequential value of the minimax
+sequence.  It is retained as a structural correction and as a warning that
+conference ceiling attainment depends on the order and switching class.
