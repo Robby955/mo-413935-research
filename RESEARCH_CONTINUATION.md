@@ -2757,9 +2757,9 @@ driver has not yet been integrated into the repository, so the main
 exact-value table stops at order 14.  The exact value $F(15)$ remains open;
 the unclassified branch consists of order-13 predecessors with
 $(M,\delta_{\rm w})=(24,0)$.
-A later external update reports 470 such classes on one validation shard and
-an ongoing 16.3-million-candidate sweep, but the corresponding v2 artifacts
-are not in the ingested bank and no conclusion from that run is used here.
+An external sweep of that branch is ongoing, but its v2 artifacts are not in
+the ingested bank.  No partial count or eventual conclusion from that run is
+used here.
 
 ### Theorem 25 (exact negative-replica supermultiplicativity)
 
@@ -4390,3 +4390,545 @@ condition fails for every tested split, while additive labels supply another
 targets by only $9.858\ldots$, $8.476\ldots$, and $5.544\ldots$.
 These data are compatible with an $O(N)$ defect, which would be an acceptable
 power saving. They therefore do not close Theorem 38 in either direction.
+
+The state-space conventions here are essential for the exact max-plus identity,
+but a convention audit found a second valid, one-sided theorem.  Replace the
+augmented graph states by projective $|Q|$ states and the projective absolute
+rectangular states by signed full-spin pairs.  Thus
+
+\[
+ \widetilde\Omega=\mathbb P_n\times\mathbb P_k
+ \times\{\pm1\}^n\times\{\pm1\}^k,
+ \qquad
+ \widetilde e([z],[w],x,y)=|Q_A(z)|+|Q_B(w)|+x^{\mathsf T}Cy.
+\]
+
+The map
+
+\[
+ \widetilde\pi([z],[w],x,y)=([zx],[wy],x_1)
+\]
+
+is onto $G_{n,k}$ and again has fibers of size $2^{N-1}$.  It does not
+satisfy Theorem 32's equality.  It does satisfy the one-sided domination
+
+\[
+ \boxed{\max_{\widetilde\pi(\omega)=g}\widetilde e(\omega)
+ \ge M(Y_g).}                                           \tag{41.3}
+\]
+
+Indeed, choose $u,v$ and $s\in\{\pm1\}$ with
+$sQ_{Y_g}(u,v)=M(Y_g)$ for $g=(\alpha,\beta,\tau)$.  Put
+$z=[\alpha u]$, $w=[\beta v]$, choose
+$r=\tau/(su_1)$, and set $x=rsu$, $y=rv$.  This state lies in the fiber $g$
+and
+
+\[
+ \widetilde e(\omega)
+ =|Q_A(\alpha u)|+|Q_B(\beta v)|+s u^{\mathsf T}Cv
+ \ge sQ_{Y_g}(u,v).
+\]
+
+Consequently, if $\widetilde\Lambda$ is the $2^{N-1}$-st smallest swapped
+deficit, then
+
+\[
+ \boxed{F(N)\le\min_gM(Y_g)\le L-\widetilde\Lambda.}    \tag{41.4}
+\]
+
+This is a separate scalar relaxation, not a verification of the exact
+augmented/projective theorem.  On the standard balanced $C_{14}$ split it
+gives $\widetilde\Lambda=8$ and 596440 target states, whereas Theorem 32 gives
+$\Lambda=10$ and 304908 target states; the true gain is 22.  Both scalar
+bounds are valid, and neither finite count rules out an $O(N)$ power-saving
+defect.  `research_relative_profile_calibration.py` reproduces both
+conventions exactly.
+
+The alternate order statistic has a universal raw floor.  For balanced blocks
+of order $r$, put
+
+\[
+ \mu_r=\mathbb E|\varepsilon_1+\cdots+\varepsilon_r|,
+ \qquad
+ \widetilde U_r=L-\widetilde\Lambda.
+\]
+
+Then for every $A,B,C$,
+
+\[
+ \boxed{
+ \widetilde U_r\ge
+ \max\{M(A),M(B)\}+r\mu_r-3r.}                         \tag{41.5}
+\]
+
+To prove this, set $H(y)=\|Cy\|_1$.  Its mean over full spins $y$ is
+$r\mu_r$ and $H(y)\le r^2$.  Hence at least $2^r/(r+1)$ spins satisfy
+$H(y)\ge r\mu_r-r$.  For each such $y$, the maximizing row spin and its $r$
+one-coordinate flips give $r+1$ distinct signed pairs with cross energy at
+least $H(y)-2r\ge r\mu_r-3r$.  Thus at least $2^r$ signed cross states meet
+this threshold.  Fix a maximizing projective state of $A$ and combine those
+cross states with all $2^{r-1}$ projective states of $B$, whose absolute
+energies are nonnegative.  This gives the required
+$2^{2r-1}$ product states.  Interchanging $A$ and $B$ gives (41.5).
+
+Consequently, if this alternate raw profile by itself supplied the balanced
+near-subadditive target
+
+\[
+ \widetilde U_r\le2^{3/2}F(r)+o(r^{3/2}),
+\]
+
+then necessarily
+
+\[
+ \boxed{
+ \liminf_{r\to\infty}\frac{F(r)}{r^{3/2}}
+ \ge \frac{\sqrt{2/\pi}}{2^{3/2}-1}
+ =0.4363775564\ldots.}                                 \tag{41.6}
+\]
+
+This is a conditional obstruction, not a proof that the alternate profile is
+asymptotically useless.  It rules the profile out if the eventual constant is
+below $0.43638$, but it is compatible with the current value-$1/2$ hypothesis.
+It also does not apply to Theorem 32's different exact order statistic.
+
+It does transfer to the canonical exponential relaxation.  Let
+$P_{\rm aug}(t)$ and $P_{\rm sw}(t)$ be the uniform product moment generating
+functions for the exact and swapped local energy sums, set
+$H=(N-1)\log2$, and write
+
+\[
+ U_*=\inf_{t>0}\frac{H+\log P_*(t)}t.
+\]
+
+For each graph factor,
+$\cosh(tq)\le e^{t|q|}\le2\cosh(tq)$; for the cross factor the two
+conventions occur in the reverse order.  Hence
+
+\[
+ \frac12\le\frac{P_{\rm sw}(t)}{P_{\rm aug}(t)}\le4.
+\]
+
+Both moment generating functions are at least one and both optimized bounds
+are at most $L$.  Applying the pointwise comparison at approximate minimizers
+therefore gives
+
+\[
+ \boxed{
+ U_{\rm aug}-\frac{L}{N-1}
+ \le U_{\rm sw}
+ \le U_{\rm aug}+\frac{2L}{N-1}.}                     \tag{41.7}
+\]
+
+For $L=O(N^{3/2})$ the loss is only $O(\sqrt N)$.  Thus (41.6) is also a
+necessary condition for either canonical exponential certificate to prove the
+balanced target.  This still does not constrain the raw exact augmented order
+statistic, which can be sharper than its exponential relaxation.
+
+### Theorem 42 (labeled-shell Parseval bonus)
+
+Retain the balanced map $\pi$ from Theorem 32 and put
+$K=|G_{n,k}|=2^{N-1}$. For a real threshold $s$, define
+
+\[
+ b_s(g)=\#\{(a,b,r):\pi(a,b,r)=g,\
+ d_A(a)+d_B(b)+d_C(r)<s\}.
+\]
+
+Let
+
+\[
+ \mu_s=\frac1K\sum_g b_s(g),\qquad
+ \widehat b_s(\chi)=\frac1K\sum_g b_s(g)\chi(g),
+\]
+
+and, by Parseval,
+
+\[
+ V_s=\sum_{\chi\ne1}|\widehat b_s(\chi)|^2
+ =\frac1K\sum_g(b_s(g)-\mu_s)^2.
+\]
+
+Then
+
+\[
+ \boxed{
+ \min_g b_s(g)
+ \le \mu_s-\sqrt{\frac{V_s}{K-1}}.}                  \tag{42.1}
+\]
+
+Consequently, if the right side of (42.1) is strictly less than one, some
+fiber is empty and
+
+\[
+ \boxed{\min_gM(Y_g)\le L-s.}                         \tag{42.2}
+\]
+
+This strictly extends the unlabeled scalar criterion. If the total number of
+subthreshold triples is less than $K$, then $\mu_s<1$ and (42.1) applies
+without using $V_s$. At the boundary where the total is exactly $K$, any
+nonconstant labeled occupancy, equivalently $V_s>0$, certifies an additional
+gain.
+
+To prove (42.1), put $h(g)=b_s(g)-\mu_s$ and
+$m=-\min_g h(g)$. Then $h\ge-m$ and $\sum_gh(g)=0$, so
+$h\le(K-1)m$. Hence
+
+\[
+ (h+m)(h-(K-1)m)\le0.
+\]
+
+Averaging and using $\mathbb E h=0$ gives
+$V_s\le(K-1)m^2$, which is (42.1). If its right side is below one,
+integrality and nonnegativity force $\min_gb_s(g)=0$. The exact max-plus
+identity in Theorem 32 then proves (42.2).
+
+The Fourier coefficients are computable directly from labeled local shells.
+For even $I\subseteq[n]$, even $J\subseteq[k]$, and
+$\epsilon\in\{0,1\}$, put
+
+\[
+\begin{aligned}
+ A_d(I,\epsilon)&=\sum_{d_A(\sigma,[z])=d}\sigma^\epsilon z_I,\\
+ B_d(J,\epsilon)&=\sum_{d_B(\eta,[w])=d}\eta^\epsilon w_J,\\
+ C_d(I,J)&=\sum_{d_C([xy^{\mathsf T}])=d}x_Iy_J.
+\end{aligned}
+\]
+
+Pulling the character $(I,J,\epsilon)$ back through $\pi$ gives
+
+\[
+ \boxed{
+ \widehat b_s(I,J,\epsilon)=\frac1K
+ \sum_{d_A+d_B+d_C<s}
+ A_{d_A}(I,\epsilon)B_{d_B}(J,\epsilon)C_{d_C}(I,J).} \tag{42.3}
+\]
+
+In the exact split-$2+4$ collision of Theorem 30, take $s=2$. Exactly
+$K=32$ product triples have deficit zero, so the unlabeled gain is zero. For
+both cross blocks the fiber occupancy law is
+
+\[
+ \#\{g:b_2(g)=0,1,2\}=8,16,8.
+\]
+
+Thus $\mu_2=1$, $V_2=1/2$, and (42.1) gives
+$\min b_2\le1-1/\sqrt{62}<1$. It certifies gain at least two; the two true
+gains are four and two.
+
+For the standard balanced split of $C_{14}$, at the first target lattice
+energy 27 (equivalently $s=18$) one has
+
+\[
+ K=8192,\qquad \sum_g b_s(g)=304908,\qquad
+ V_s=151.4690835\ldots,\qquad 0\le b_s(g)\le87.
+\]
+
+There are 8159 nonzero nontrivial Fourier coefficients, and direct inversion
+finds exactly one empty fiber among 8192. Nevertheless the generic right side
+of (42.1) is
+$37.0842\ldots>1$, so its $L^2$ estimate alone does not certify that fact.
+The next geometric target is a lower-tail or higher-moment theorem for
+$b_s$, using the factored coefficients (42.3), not merely total variance.
+
+### Theorem 42A (complete integer-moment vacancy hierarchy)
+
+The higher-moment target has an exact algebraic form.  Let
+$b:G\to\mathbb Z_{\ge0}$ be any fiber occupancy on a group of order $K$.  For
+a finite $A\subset\mathbb Z_{\ge1}$ define
+
+\[
+ P_A(x)=(1-x)\prod_{a\in A}
+ \frac{(x-a)(x-a-1)}{a(a+1)}.
+\]
+
+Every consecutive-root factor is nonnegative at integer arguments,
+$P_A(0)=1$, and $P_A(j)\le0$ for every positive integer $j$.  Therefore
+
+\[
+ \boxed{
+ \frac{\#\{g:b(g)=0\}}K\ge \mathbb E_gP_A(b(g)).}       \tag{42.4}
+\]
+
+A positive right side is an exact empty-fiber certificate.  If
+$m_j=\mathbb E b^j$, it uses moments only through degree $2|A|+1$.  With
+normalized Fourier coefficients,
+
+\[
+ \boxed{
+ m_j=\sum_{\chi_1\cdots\chi_j=1}
+ \widehat b(\chi_1)\cdots\widehat b(\chi_j).}           \tag{42.5}
+\]
+
+Thus (42.4) is expressible entirely through the shell-factorized coefficients
+in (42.3).
+
+Equivalently, put
+
+\[
+ H_r=(m_{i+j+1}-m_{i+j})_{0\le i,j\le r}.
+\]
+
+If every fiber is occupied, then for every polynomial $q$ of degree at most
+$r$,
+
+\[
+ c^{\mathsf T}H_rc=\mathbb E[(b-1)q(b)^2]\ge0.          \tag{42.6}
+\]
+
+Hence a negative quadratic form certifies a vacancy.  This hierarchy is
+complete at finite $K$: if $t_1,\ldots,t_u$ are the distinct positive
+occupancies, $q(x)=\prod_i(x-t_i)$ makes (42.6) strictly negative whenever a
+zero exists.
+
+There is also a quantitative generic degree bound.  Suppose the occupancies
+lie in $\{0\}\cup[m,R]$ with $0<m<R$ and at least one is zero.  Map $[m,R]$
+affinely to $[-1,1]$ and normalize the Chebyshev polynomial $T_r$ to equal one
+at zero.
+Then (42.6) is negative whenever
+
+\[
+ \boxed{
+ T_r\!\left(\frac{R+m}{R-m}\right)^2>K(R-1).}          \tag{42.6a}
+\]
+
+Indeed, the zero contributes at most $-1/K$ to
+$\mathbb E[(b-1)q(b)^2]$, while all positive values together contribute at
+most $(R-1)/T_r((R+m)/(R-m))^2$.  For the $C_{14}$ values
+$K=8192,m=6,R=87$, this generic criterion first succeeds at $r=14$; the
+tailored polynomial below succeeds already at $r=9$.
+
+For the balanced $C_{14}$ shell above, take
+
+\[
+ A=\{9,17,26,36,46,56,67,76,86\}.
+\]
+
+Exact arithmetic gives
+
+\[
+ \mathbb E P_A(b)=
+ \frac{1707454816960049615}{99244391564512637853696}>0. \tag{42.7}
+\]
+
+Thus moments through degree 19 certify an empty fiber without reading the
+minimum from the inverse transform.  The equivalent degree-nine localizing
+witness
+
+\[
+ q(x)=\prod_{a\in A}(2x-(2a+1))
+\]
+
+satisfies
+
+\[
+ \sum_g(1-b(g))q(b(g))^2
+ =584163517696745929254421003286532>0.                 \tag{42.8}
+\]
+
+The hierarchy is exact, but low order is not universally sufficient.  For
+$D\ge1$, give each even integer $j$ multiplicity $\binom{D+1}{j}$ in one
+multiset and each odd $j$ the same multiplicity in another.  Both multisets
+have size $2^D$; the even one has exactly one zero and the odd one has none.
+Nevertheless their moments agree through degree $D$, because
+
+\[
+ \sum_j(-1)^j\binom{D+1}{j}j^r=0\qquad(0\le r\le D).
+\]
+
+On $K=2^{N-1}$ abstract fibers, therefore, moments through degree $N-1$ cannot
+decide vacancy.  This is a generic moment obstruction, not a construction of
+two realizable signing shells.  It proves that any bounded mixed-cycle or
+fixed-moment closure must use additional shell-convolution structure.
+
+There is a parallel Fourier obstruction.  The matrix
+$\mathcal H_{\chi,\psi}=\widehat b(\chi\psi)$ has eigenvalues $b(g)$ and is
+positive semidefinite.  If there is exactly one empty fiber and every positive
+occupancy is at least $m$, any negative quadratic-form witness for
+$\mathcal H-I$ supported on $q$ characters must obey
+
+\[
+ q>K\frac{m-1}{m}.                                     \tag{42.9}
+\]
+
+Indeed, for $p(g)=\sum_\chi c_\chi\chi(g)$, negativity gives
+
+\[
+ (m-1)(K\|c\|_2^2-|p(g_0)|^2)<|p(g_0)|^2,
+\]
+
+whereas Cauchy--Schwarz on a $q$-element support gives
+$|p(g_0)|^2\le q\|c\|_2^2$.
+
+For the $C_{14}$ shell, $m=6$, so at least 6827 of the 8192 character labels
+are required.  The sharp remaining target is therefore a degree-$O(N)$
+negative localizing form derived from (42.3) with controlled error.  The
+finite degree-19 certificate proves this mechanism is real; (42.9) and the
+binomial moment pair show why variance, a fixed $H_4$ layer, or a sparse
+Fourier witness cannot be the uniform theorem by themselves.
+
+At the all-moment endpoint there is an exact scalar test:
+
+\[
+ \boxed{min_gb(g)=0\quad\Longleftrightarrow\quad
+ \sum_gK^{-b(g)}>1.}                                  \tag{42.10}
+\]
+
+A zero contributes one and every other term is positive; if there is no zero,
+all $K$ terms are at most $K^{-1}$.  Thus an arbitrary isolated vacancy may
+require inverse temperature $\log K=\Theta(N)$.  The remaining research
+question is whether realizable near-optimal signing shells admit a controlled
+degree-$O(N)$ certificate substantially before this generic endpoint.
+
+### Proposition 43 (fixed-density rectangular cross floor)
+
+Let $C\subseteq U\times V$ be bipartite, with $|U|=n$, $|V|=k$, and encode it
+by $S\in\{\pm1\}^{n\times k}$, where $S_{ij}=2\mathbf1_C(i,j)-1$. Put
+$t=\sum_{ij}S_{ij}=2e(C)-nk$,
+$\|S\|_{\infty\to1}=\max_{x,y}|x^{\mathsf T}Sy|$, and define
+
+\[
+ D_\oplus(C)=\max_{P\subseteq U,R\subseteq V}
+ \left|e_C(P,V\setminus R)+e_C(U\setminus P,R)
+ -\frac{|P|(k-|R|)+(n-|P|)|R|}{2}\right|.
+\]
+
+Then exactly
+
+\[
+ \boxed{D_\oplus(C)=\frac{|t|+\|S\|_{\infty\to1}}4,} \tag{43.1}
+\]
+
+and universally
+
+\[
+ \boxed{
+ \|S\|_{\infty\to1}\ge
+ \max\{n\mu_k,k\mu_n\},\qquad
+ \mu_j=\mathbb E|\varepsilon_1+\cdots+\varepsilon_j|.} \tag{43.2}
+\]
+
+Indeed, membership signs $x,y$ turn the expression inside the absolute value
+into $(t-x^{\mathsf T}Sy)/4$. Replacing $x$ by $-x$ supplies the opposite
+bilinear value, proving (43.1). For uniform $y$, optimize $x$ coordinatewise:
+
+\[
+ \max_xx^{\mathsf T}Sy=\|Sy\|_1,
+ \qquad \mathbb E_y\|Sy\|_1=n\mu_k.
+\]
+
+Transposition gives the other term in (43.2).
+
+The exact-density restriction itself costs only lower order. Define
+
+\[
+ R_{n,k}=\min_S\|S\|_{\infty\to1},\qquad
+ R_{n,k}(t_0)=\min_{\sum S_{ij}=t_0}\|S\|_{\infty\to1},
+\]
+
+for an admissible $t_0\equiv nk\pmod2$. Then
+
+\[
+ \boxed{
+ R_{n,k}\le R_{n,k}(t_0)
+ \le R_{n,k}+\sqrt{nk}+|t_0|.}                         \tag{43.3}
+\]
+
+Take an unrestricted optimizer and independently switch its rows and columns.
+The norm is invariant, while
+
+\[
+ \mathbb E_{x,y}(x^{\mathsf T}Sy)^2=nk.
+\]
+
+Some switch therefore has total sum at most $\sqrt{nk}$ in absolute value.
+Flipping $|t-t_0|/2$ entries reaches the desired total and changes the norm by
+at most $|t-t_0|$, proving (43.3). When two fixed-half-density graph blocks
+are joined inside the global fixed-half layer, the required cross total has
+$|t_0|\le2$.
+
+For $n=k=r$, (43.2) gives
+
+\[
+ D_\oplus(C)\ge\frac{r\mu_r}{4}
+ =\left(\frac{\sqrt{2/\pi}}4+o(1)\right)r^{3/2}.
+\]
+
+Thus exact cross density and arbitrary row/column switching do not make the
+rectangular contribution subleading. This closes only composition estimates
+that bound the two internal deviations and the cross deviation separately.
+Profile-dependent cancellation between them remains possible and is exactly
+what Theorems 32 and 42 retain.
+
+### Theorem 44 (fixed-half equal-cloud obstruction)
+
+For a graph $G$, put
+
+\[
+ d(G)=\max_U\left|e_G(U,U^{\mathsf c})-\frac12|U||U^{\mathsf c}|\right|.
+\]
+
+Let $G$ be fixed-half on $n\ge3$ vertices and replace each vertex by a cloud
+of size $k$. Make each cloud pair complete or empty according to $G$, and
+choose within-cloud edges that make the resulting $L_0$ fixed-half. Such a
+completion always exists, and
+
+\[
+ \boxed{d(L_0)\ge k^2d(G).}                            \tag{44.1}
+\]
+
+More generally, if $L_1$ is any Seidel switch of $L_0$ and a fixed-half $L'$
+is obtained by toggling $r$ edges, then, for
+$t_N=\binom{nk}{2}\bmod2$,
+
+\[
+ \boxed{d(L')\ge k^2d(G)-\frac{r+t_N}{2}.}            \tag{44.2}
+\]
+
+For (44.1), set
+$\beta_{ij}=e(V_i,V_j)-k^2/2$. Cloud-union cuts give
+
+\[
+ d(L_0)\ge\max_{S\subseteq[n]}
+ \left|\sum_{i\in S,j\notin S}\beta_{ij}\right|=k^2d(G).
+\]
+
+To check fixed-half feasibility, encode edges by $+1$, put
+$m_j=\binom j2$ and $t_j=m_j\bmod2$. The $nm_k$ internal signs need total
+$k^2t_n-t_{nk}$. The identity
+$m_{nk}=k^2m_n+nm_k$ gives the correct parity. If $t_n=0$, the range condition
+is immediate. If $t_n=1$, $k=1$ is trivial; for $n=3$, the cases $k=2,3$
+are tight and $k\ge4$ follows from $k^2\le3k(k-1)/2$; the next possible $n$
+is at least six. Thus the target lies in $[-nm_k,nm_k]$ and is attainable.
+The exception $n=2,k>1$ explains why the order condition is needed.
+
+Finally, on a fixed-half order-$N$ graph, $|M-4d|\le t_N$. Seidel switching
+preserves $M$, and each edge toggle changes $M$ by at most two. Applying
+these facts to $L_0,L_1,L'$ proves (44.2). Hence $O(nk)$ density repair cannot
+remove the $\sqrt k$ normalized loss of complete/empty cloud amplification.
+
+Hadamard blocks can have vanishing cloud-union contribution, so (44.1) is not
+a universal orthogonal-lift obstruction. Fine cuts nevertheless defeat the
+smallest uniform attempt. Let $A$ be the order-five signing with negative
+cycle edges, $H$ any symmetric $4\times4$ Hadamard matrix, and $D$ any
+fixed-half order-four signing. Then
+
+\[
+ S=A\otimes H+I_5\otimes D
+\]
+
+is fixed-half of order 20 and exact exhaustion gives
+
+\[
+ \boxed{M(S)\ge44>4^{3/2}M(A)=32,}                    \tag{44.3}
+\]
+
+with equality for some $H,D$. The verifier classifies all 64 symmetric
+Hadamards.  Each is $sEPH_iP^{\mathsf T}E$ for a diagonal sign matrix $E$
+and one of the two tested
+representatives.  The signed permutation is absorbed by a common relabeling
+and switching within the clouds; for $s=-1$, the base permutation
+$(0,2,4,1,3)$ sends $A$ to $-A$.  The verifier checks this anti-isomorphism,
+all transformed diagonal completions, and every projective full spin.  This is
+only a finite no-go for the common-$H$, common-$D$ family; cloud-dependent
+orthogonal lifts remain outside its scope.

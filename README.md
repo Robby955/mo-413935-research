@@ -24,8 +24,9 @@ The repository now goes substantially beyond those baseline results:
 - Ordinary graphon and empirical spectral limits provably erase the relevant
   `n^(3/2)` information.
 - Up to an explicit additive `O(n)` error, the minimax problem is exactly the
-  minimum density-`1/2` cut discrepancy of a graph with half of all possible
-  edges. If `H(n)` denotes that graph parameter, then
+  minimum density-`1/2` cut discrepancy of a graph with
+  `floor(choose(n,2)/2)` edges, as close to half as parity permits. If `H(n)`
+  denotes that graph parameter, then
   `-1 <= 4H(n) - F(n) <= sqrt(choose(n,2)) + 2`. Known dense cut-discrepancy
   bounds recover the correct scale but neither a sharp constant nor a relation
   between different orders.
@@ -124,6 +125,42 @@ The repository now goes substantially beyond those baseline results:
   of `6..8`, `8..10`, and `10..12`. The scalar profile misses the exact
   near-subadditive target in every tested split, but by only an `O(n)`-sized
   energy excess. This is finite evidence and does not close the scalar route.
+- The scalar profile has a strict labeled Fourier refinement. If `b(g)` is
+  the number of subthreshold triples in gauge fiber `g`, its nonconstant
+  Fourier mass bounds `min b(g)`. This certifies two extra energy units in the
+  exact `2+4` collision. At the tested `C14` target, the generic variance bound
+  is too weak even though the full labeled occupancy has empty fibers; a
+  higher-moment or low-tail theorem is needed.
+- That higher-moment mechanism is now explicit. A degree-19 integer polynomial
+  in the labeled occupancy certifies an empty fiber in the balanced `C14`
+  target shell; independent reconstruction shows it is the unique one. The
+  associated localizing-moment hierarchy is complete
+  for every finite instance. A matching abstract moment construction shows
+  that moments through degree `N-1` cannot decide vacancy on `2^(N-1)` fibers
+  without using signing-specific shell structure.
+- A second scalar convention, using projective `|Q|` graph states and signed
+  full-spin cross states, also has equal relative-gauge fibers. Its fiber
+  maximum only dominates the full signing maximum, so it gives a valid
+  one-sided order-statistic bound but not the exact max-plus identity. The two
+  conventions are verified and reported separately.
+- The raw alternate statistic has a universal balanced floor. It cannot prove
+  power-saving composition unless `liminf F(n)/n^(3/2) >= 0.436377...`.
+  This is compatible with the current `1/2` hypothesis, so it is a conditional
+  obstruction, not closure. The canonical exponential relaxations of the
+  alternate and exact profiles differ by only `O(sqrt(n))` when their
+  independent ceiling is `O(n^(3/2))`; the raw exact augmented order statistic
+  remains outside this no-go.
+- Exact half-density balancing changes the optimum rectangular cross norm by
+  only `O(sqrt(nk))`, but a leading `max(n mu_k, k mu_n)` cross floor remains.
+  Thus fixed density does not repair composition arguments that control the
+  cross block separately; only dependence-sensitive cancellation can.
+- Complete/empty equal-cloud blow-ups retain exactly the base cut deviation
+  multiplied by `k^2` on cloud-union cuts, and `O(N)` fixed-density repair does
+  not remove the resulting `sqrt(k)` normalized loss. Orthogonal blocks evade
+  that quotient argument, but an exhaustive common `4 x 4` symmetric-Hadamard
+  lift of the order-five optimum still has maximum at least 44, versus the
+  lossless target 32. This is a finite family obstruction, not a general
+  Hadamard no-go.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not
@@ -250,6 +287,12 @@ python3 verification/verify_negative_replica_alignment.py
 python3 verification/verify_relative_profile_composition.py
 python3 verification/verify_paley_least_nonresidue.py
 python3 verification/research_relative_profile_calibration.py
+python3 verification/verify_swapped_profile_injection.py
+python3 verification/verify_swapped_profile_floor.py
+python3 verification/verify_labeled_shell_parseval.py
+python3 verification/verify_labeled_shell_moment_certificate.py
+python3 verification/verify_fixed_density_cross_floor.py
+python3 verification/verify_equal_cloud_blowup.py
 python3 verification/verify_cut_discrepancy_equivalence.py
 python3 verification/research_order13_certify.py
 ```
@@ -261,6 +304,15 @@ cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
   verification/research_paley_alignment.c -lm \
   -o /tmp/research_paley_alignment
 /tmp/research_paley_alignment
+```
+
+The uniform Hadamard-cloud check is also self-contained C:
+
+```bash
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/verify_hadamard_cloud_lift.c \
+  -o /tmp/verify_hadamard_cloud_lift
+/tmp/verify_hadamard_cloud_lift
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and

@@ -118,6 +118,7 @@ case=C14-minus-infinity order=13 partitions=1716 profile_types=9 lambda=2..10 sc
 gain_pairs=2/10:52,6/14:156,6/16:338,8/16:156,8/18:546,10/20:468
 case=C14 order=14 partitions=1716 profile_types=3 lambda=6..10 scalar_bound=31..33 geometry_gap=10..12 child_optimal_splits=624 best_bound=31 target=25.455844122716 excess=5.544155877284 target_lattice_energy=27 target_triples=231581..305465 fiber_count=8192 sha256=e96d8070d53fcdd2a47ce95eddb865d666c74dd02557df53ae8ec993d3fbd4b7
 gain_pairs=6/16:364,6/18:260,10/22:1092
+alternate_swapped_profile=lambda:8,target_count:596440
 corruption_controls=balanced_double_count,cross_absolute_value
 relative_profile_calibration=PASSED
 ```
@@ -154,10 +155,133 @@ all optimal switching classes. Here `profile_types` means distinct
 eight-scalar summary records, not distinct complete histogram triples.
 
 The corruption controls detect omission of the unordered-balanced-split guard
-and replacement of the absolute rectangular energy by a signed one. Exact
-partition counts, subset-labelled stream digests, gain-pair distributions,
+and replacement of the absolute rectangular energy by a signed one. The script
+also evaluates a separate one-sided profile that replaces the augmented graph
+states by projective `|Q|` states while expanding the cross factor to signed
+full-spin pairs. Its balanced fiber maximum dominates rather than equals the
+full signing maximum. On the standard `C14` split this alternate theorem gives
+`Lambda=8` and target count `596440`; the exact max-plus theorem gives
+`Lambda=10`, true gain `22`, and target count `304908`. Exact partition
+counts, subset-labelled stream digests,
+gain-pair distributions,
 target-count distributions, and the equality of the two order-12 aggregate
 summary distributions provide additional fail-closed checks.
+
+## One-sided swapped-profile injection
+
+`verify_swapped_profile_injection.py` checks the separate scalar theorem with
+projective absolute graph states and signed full-spin cross states. It verifies
+equal relative-gauge fibers, constructs the gauge-maximizer injection, checks
+the resulting order-statistic bound, and confirms by strict examples that the
+fiber relation is domination rather than an exact max-plus identity:
+
+```bash
+python3 verification/verify_swapped_profile_injection.py
+```
+
+Expected output:
+
+```text
+split=2+2 normalized_cases=2 represented_labelled=64 gauges=16 states=128 strict_fiber_dominations=4 lambda_gain_pairs=0/0:1,0/2:1
+split=2+3 normalized_cases=8 represented_labelled=1024 gauges=128 states=2048 strict_fiber_dominations=64 lambda_gain_pairs=2/4:8
+split=2+4 normalized_cases=64 represented_labelled=32768 gauges=2048 states=65536 strict_fiber_dominations=688 lambda_gain_pairs=0/2:12,0/4:12,2/4:24,4/4:14,4/6:2
+split=3+3 normalized_cases=64 represented_labelled=32768 gauges=2048 states=65536 strict_fiber_dominations=628 lambda_gain_pairs=2/6:24,4/6:40
+normalized_cases_checked=138
+represented_labelled_cases=66624
+balanced_gauges_checked=4240
+swapped_states_checked=133248
+strict_fiber_dominations=1384
+stream_sha256=638daefed306506cac5f7a724a64b4717d902601a80b2a5b7e73a9da768fbec9
+corruption_controls=relative_sign_omission,max_plus_strictness
+swapped_profile_injection=PASSED
+```
+
+All arithmetic is integer-exact. The exhaustive cases are switching-normalized;
+the reported labelled-case count is recomputed from orbit multiplicities.
+
+`verify_swapped_profile_floor.py` checks the separate all-order lower bound on
+the swapped raw order statistic. It exhausts every rectangular signing through
+`4 x 4`, then checks every switching-normalized balanced block triple through
+order `3 + 3`:
+
+```bash
+python3 verification/verify_swapped_profile_floor.py
+```
+
+Expected output:
+
+```text
+rectangular_matrices_checked=66066
+rectangular_pairs_checked=16810248
+raw_balanced_cases_checked=66
+raw_product_states_checked=65664
+stream_sha256=9552e95262c5cbc683e64dfea427da2952cc3b686442af3146385f67c7567b32
+corruption_controls=radius_one_multiplicity,incompatible_double_maximum
+swapped_profile_floor=PASSED
+```
+
+The analytic theorem counts a radius-one Hamming ball around each maximizing
+row spin. It implies the conditional asymptotic threshold
+`sqrt(2/pi)/(2^(3/2)-1) = 0.436377...`; the finite exhaustion checks the rank,
+multiplicities, and normalization, not the all-order proof.
+
+## Labeled-shell Parseval refinement
+
+`verify_labeled_shell_parseval.py` verifies the exact Fourier refinement of
+the scalar profile. It checks the strict `2 + 4` gain, reconstructs the full
+fiber occupancy for one balanced `C14` split by a shellwise Walsh transform,
+and verifies Parseval in exact rational arithmetic:
+
+```bash
+python3 verification/verify_labeled_shell_parseval.py
+```
+
+Expected output:
+
+```text
+small_high=lambda:0 occupancy:0x8,1x16,2x8 fourier:2:16,12:16 V:1/2 certified_gain:2 true_gain:4
+small_low=lambda:0 occupancy:0x8,1x16,2x8 fourier:21:-16,27:16 V:1/2 certified_gain:2 true_gain:2
+c14_split=maxima:11,11,21 B:304908 K:8192 nontrivial_fourier:8159 V:635307383/4194304 occupancy:0..87 zero_fibers:1 l2_certifies:false
+corruption_controls=relative_orientation,target_cutoff,walsh_inverse
+arithmetic=integer,fraction
+labeled_shell_parseval_verification=PASSED
+```
+
+The `2 + 4` scalar shell has exactly one fiber's worth of triples and hence
+certifies no gain without labels. Its nonconstant Fourier mass certifies gain
+two. For `C14`, empty fibers exist, but the generic variance inequality is too
+weak because the mean occupancy is about `37.22`; exact inversion finds only
+one empty fiber among 8192. This is a scoped failure of the `L2` bound, not of
+the full labeled convolution.
+
+## Labeled-shell moment certificate
+
+`verify_labeled_shell_moment_certificate.py` independently reconstructs the
+same `C14` occupancy by direct sparse XOR convolution, rather than Walsh
+inversion. It verifies a degree-19 consecutive-root certificate and the
+equivalent order-nine localizing-matrix witness in exact arithmetic:
+
+```bash
+python3 verification/verify_labeled_shell_moment_certificate.py
+```
+
+Expected output:
+
+```text
+c14_direct=maxima:11,11,21 B:304908 K:8192 occupancy:0x1,min_positive:6,max:87
+degree19=adjacent_roots:9,17,26,36,46,56,67,76,86 expectation:1707454816960049615/99244391564512637853696 certified_empty_fibers:1
+localizing_order:9 positive_one_minus_b_numerator:584163517696745929254421003286532
+chebyshev_generic_order:14 range:6..87
+corruption_controls=leading_sign,nonconsecutive_factor,target_cutoff
+arithmetic=integer,fraction
+labeled_shell_moment_certificate=PASSED
+```
+
+The positive expectation rigorously forces at least one empty fiber. Direct
+reconstruction separately shows there is exactly one. The analytic moment
+hierarchy is complete for finite occupancies, while the even/odd binomial
+countermodel in the research note shows why no fixed moment order gives a
+generic asymptotic theorem.
 
 ## Fixed-half cut-discrepancy check
 
@@ -182,6 +306,92 @@ cut_discrepancy_equivalence_verification=PASSED
 
 All decisions use integer arithmetic. The finite exhaustion checks the proof's
 normalization and edge cases; it is not the proof of the all-order theorem.
+
+## Fixed-density rectangular cross floor
+
+`verify_fixed_density_cross_floor.py` exhausts every rectangular signing
+through `4 x 4`. It checks the exact XOR-cut identity, both Khintchine floors,
+the fixed-total optimum, and the constructive switching-and-editing proof:
+
+```bash
+python3 verification/verify_fixed_density_cross_floor.py
+```
+
+Expected output:
+
+```text
+rectangles=1x1..4x4
+xor_identity_checks=74954
+khintchine_floor_checks=149908
+fixed_total_minimum_checks=116
+constructive_switch_edit_checks=116
+minimum_profile_sha256=2f0e4e234d225e8b5ad4513212900132817ad323e91f3e6e0eb0874847a3c0f1
+corruption_controls=wrong_half_centering_detected,wrong_total_parity_detected
+fixed_density_cross_floor_verification=PASSED
+```
+
+The finite checker confirms normalization and edge cases. The all-order
+rectangular floor and balancing inequality are proved analytically in the
+research note.
+
+## Fixed-half cloud amplification checks
+
+`verify_equal_cloud_blowup.py` exhausts small fixed-half complete/empty cloud
+blow-ups, every cloud-union cut, and switch-plus-rebalance instances. It also
+checks the exceptional failure of fixed-half completion at base order two:
+
+```bash
+python3 verification/verify_equal_cloud_blowup.py
+```
+
+Expected output:
+
+```text
+orders_and_clouds=3x2,3x3,4x2
+fixed_half_blowups_checked=26
+cloud_union_cuts_checked=368
+switch_rebalance_checks=6848
+n2_infeasible_cloud_sizes=2..6
+switch_profile_sha256=3e0d47a7b780432841530c2231881d0bddc7169c0abc9f5238bab1e9347ed535
+corruption_controls=cross_edge,n2_feasibility
+equal_cloud_blowup_verification=PASSED
+```
+
+The all-order `k^2` cloud-union bound and the `(r+t_N)/2` repair loss are
+proved analytically; the script checks normalization, parity, and small edge
+cases.
+
+`verify_hadamard_cloud_lift.c` exhausts the uniform four-fold symmetric-
+Hadamard lift of the order-five optimum:
+
+```bash
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/verify_hadamard_cloud_lift.c \
+  -o /tmp/verify_hadamard_cloud_lift
+/tmp/verify_hadamard_cloud_lift
+```
+
+Expected output:
+
+```text
+symmetric_hadamards=64
+trace_counts=-4:8,0:48,4:8
+base_global_sign_reduction=0,2,4,1,3
+representative_minima=trace0:44x4,trace4:48x8
+maxima_table_fnv64=273ea01435d2c8a5
+fixed_half_total_sign=0
+fixed_half_minimum_attained=44
+product_spin_maximum=32
+fine_spin_witness=44
+corruption_controls=hadamard_entry,base_anti_isomorphism,fixed_half_total,fine_spin_witness
+hadamard_cloud_lift_verification=PASSED
+```
+
+This is a complete finite result for the common symmetric `H` and common
+diagonal completion `D`.  The checked permutation `(0,2,4,1,3)` sends the
+signed five-cycle base to its negative, which justifies quotienting the 64
+Hadamards by global sign before the maximum table is exhausted.  It is not a
+theorem about general orthogonal or cloud-dependent lifts.
 
 The new exact identity checker also needs only the standard library:
 

@@ -1008,6 +1008,45 @@ $L=M(A)+M(B)+B_C$, it gives the exact max-plus identity
  L-M(Y_g)=\min_{\pi(a,b,r)=g}[d_A(a)+d_B(b)+d_C(r)].
 \]
 
+The convention is exact: the graph factors are
+$\{\pm1\}\times\mathbb P_n$ and $\{\pm1\}\times\mathbb P_k$, while the
+rectangular factor is the projective absolute rank-one space identifying
+$R$ with $-R$.  A different one-sided theorem uses projective $|Q|$ graph
+states and signed full-spin cross pairs.  Its balanced map is
+
+\[
+ ([z],[w],x,y)\mapsto([zx],[wy],x_1),
+\]
+
+and its fiber maximum dominates, but need not equal, $M(Y_g)$.  Its
+$2^{N-1}$-st deficit order statistic is therefore also a valid composition
+gain.  On the standard balanced $C_{14}$ split it gives $\widetilde\Lambda=8$
+and 596440 target states; the exact theorem gives $\Lambda=10$, true gain 22,
+and 304908 target states.  Do not mix the two identities or call the alternate
+numbers a verification of the exact max-plus theorem.
+
+The alternate raw statistic has a universal balanced floor.  With
+$\mu_r=\mathbb E|\sum_{i=1}^r\varepsilon_i|$,
+
+\[
+ L-\widetilde\Lambda
+ \ge\max\{M(A),M(B)\}+r\mu_r-3r.
+\]
+
+It follows that this statistic can prove the balanced power-saving target only
+if
+
+\[
+ \liminf F(r)/r^{3/2}\ge
+ \sqrt{2/\pi}/(2^{3/2}-1)=0.4363775564\ldots.
+\]
+
+This does not kill the route under the value-$1/2$ hypothesis.  The optimized
+canonical exponential bounds for the alternate and exact conventions differ
+by at most $2L/(N-1)=O(\sqrt N)$ when $L=O(N^{3/2})$, so the same conditional
+barrier applies to either canonical cgf.  It does not apply to the raw exact
+augmented order statistic.
+
 Let $\Lambda(A,B,C)$ be the $2^{n+k-1}$-st smallest product-triple deficit,
 with multiplicity. Then
 
@@ -1172,6 +1211,63 @@ calibrations even though the labeled relative-gauge convolution has a large
 gain.  This is evidence for retaining labels, not an asymptotic disproof of
 the scalar shell lemma: an $O(N)$ finite geometry gap would still be
 power-saving.
+
+There is now an exact labeled improvement.  For a threshold $s$, let $b_s(g)$
+count subthreshold triples in gauge fiber $g$, put $K=2^{N-1}$,
+$\mu_s=K^{-1}\sum_g b_s(g)$, and let
+
+\[
+ V_s=\sum_{\chi\ne1}|\widehat b_s(\chi)|^2
+ =K^{-1}\sum_g(b_s(g)-\mu_s)^2.
+\]
+
+Then
+
+\[
+ \boxed{\min_gb_s(g)\le\mu_s-\sqrt{V_s/(K-1)}.}
+\]
+
+If the right side is below one, an empty fiber gives
+$\min_gM(Y_g)\le L-s$.  Each $\widehat b_s(I,J,\epsilon)$ is an exact
+thresholded convolution of three local labeled shell transforms, so the
+bound is computable without enumerating full signings.  It is strictly better
+than the scalar profile in the existing $2+4$ collision: at $s=2$ the scalar
+shell has exactly $K=32$ triples, but the occupancy law
+$0^8,1^{16},2^8$ gives $V=1/2$ and certifies gain two.
+
+The generic variance inequality is not closure.  On the standard balanced
+$C_{14}$ split at target energy 27, $\mu=304908/8192$, there are 8159
+nonzero nontrivial coefficients, $V=635307383/4194304$, and the true
+occupancy range is 0 through 87, with exactly one empty fiber among 8192.
+The bound gives $37.0842\ldots>1$ and does not detect it.  The sharp next target is a low-tail or
+higher-moment inequality for $b_s$ derived from its factored Fourier
+coefficients.
+
+There is an exact moment hierarchy, so this target is no longer vague.  For
+finite $A\subset\mathbb Z_{\ge1}$,
+
+\[
+ P_A(x)=(1-x)\prod_{a\in A}\frac{(x-a)(x-a-1)}{a(a+1)}
+\]
+
+satisfies $P_A(0)=1$ and $P_A(j)\le0$ for every positive integer $j$.
+Therefore $\Pr[b_s=0]\ge\mathbb E P_A(b_s)$.  All required moments are
+zero-sum products of the shell-factorized Fourier coefficients.  At the
+balanced $C_{14}$ target, the nine roots
+
+\[
+ A=\{9,17,26,36,46,56,67,76,86\}
+\]
+
+give a positive exact degree-19 certificate.  Equivalently, the order-nine
+localizing matrix $(m_{i+j+1}-m_{i+j})$ is not positive semidefinite.
+
+The scalable wall is precise.  The even and odd halves of the
+$\operatorname{Bin}(D+1,1/2)$ multiplicity table have identical moments
+through degree $D$, although only the even half has a zero.  Thus no
+bounded-order or degree-$o(N)$ generic moment theorem decides vacancy on
+$2^{N-1}$ fibers.  Seek a signing-specific degree-$O(N)$ localizing witness
+whose error remains controlled after the three shell transforms factor.
 
 If the scalar shell inequality fails asymptotically, do not return to a
 one-point union bound.  For each gauge define the labeled shell convolution
@@ -1421,6 +1517,29 @@ Do not simply repeat any of the following:
 28. Calling dense Paley minimax rigidity a reduction of the problem: on the
     multiplicatively dense aligned Paley sequence already constructed, that
     rigidity statement is equivalent to the full limit being $1/2$.
+29. Treating the one-sided swapped-profile theorem as the exact relative-gauge
+    identity.  Projective $|Q|$ graph profiles plus signed full-spin cross
+    pairs do have equal fibers and a valid domination bound, but their fiber
+    maxima need not equal $M(Y_g)$.  Keep its order statistic distinct from
+    the augmented-graph/projective-absolute-cross theorem.
+30. Treating nonzero labeled Fourier variance as sufficient at dense target
+    occupancy.  The Parseval bound is strict at the scalar boundary, but its
+    right side is still $37.0842\ldots$ in the calibrated $C_{14}$ shell even
+    though an empty fiber exists.  Higher moments or a genuine lower-tail
+    theorem are required.
+31. Assuming a fixed occupancy-moment or fixed mixed-cycle hierarchy is
+    universally complete.  Abstract even/odd binomial multisets agree through
+    the first $N-1$ moments on $2^{N-1}$ points while disagreeing on vacancy.
+    Any bounded-order proof needs extra realizable-shell structure.
+32. Declaring the swapped raw profile either universally dead or universally
+    sufficient.  Its exact floor gives the conditional threshold
+    $0.436377\ldots$: it is obstructed below that constant and remains viable
+    at the current value-$1/2$ hypothesis.
+33. Returning to complete/empty equal-cloud amplification.  Fixed-half
+    cloud-union cuts retain $k^2d(G)$, and Seidel switching plus $O(N)$ density
+    repair changes this only by $O(N)$.  Orthogonal blocks evade that specific
+    quotient bound, but the uniform order-four symmetric-Hadamard test already
+    has sharp maximum 44 rather than the lossless value 32.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -1642,6 +1761,29 @@ The required cross-edge count is
  -\left\lfloor\frac{\binom k2}2\right\rfloor
  =\frac{nk}{2}+O(1).
 \]
+
+The density condition itself is not the missing saving.  If
+$S=2\mathbf1_C-1$, $t=\sum S_{ij}$, and
+$D_\oplus(C)=\max_{P,R}|\Delta_C(P,R)|$, then exactly
+
+\[
+ D_\oplus(C)=\frac{|t|+\|S\|_{\infty\to1}}4,
+ \qquad
+ \|S\|_{\infty\to1}\ge\max\{n\mu_k,k\mu_n\}.
+\]
+
+Moreover, if $R_{n,k}(t_0)$ minimizes the rectangular norm at prescribed
+feasible total $t_0$, row/column switching and entry editing prove
+
+\[
+ R_{n,k}\le R_{n,k}(t_0)
+ \le R_{n,k}+\sqrt{nk}+|t_0|.
+\]
+
+Here the global fixed-half split has $|t_0|\le2$.  Thus exact density costs
+only lower order, while the leading rectangular floor survives.  Any valid
+composition must exploit cancellation with the two internal profiles; a
+triangle or separate-norm estimate cannot close.
 
 Do not choose $C$ independently. It must be optimized conditionally on the
 two complete signed cut-deviation profiles so that the three terms cancel

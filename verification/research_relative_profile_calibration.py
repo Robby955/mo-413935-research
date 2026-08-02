@@ -23,6 +23,9 @@ from itertools import combinations
 import check_conference_examples as conference
 import research_order13_certify as order13
 
+if not __debug__:
+    raise RuntimeError("verification requires Python assertions")
+
 
 Matrix = list[list[int]]
 Histogram = Counter[int]
@@ -485,7 +488,7 @@ def scan_case(matrix: Matrix, expected: ExpectedCase) -> Counter[ProfileRecord]:
     return records
 
 
-def verify_corruption_controls(matrix: Matrix) -> None:
+def verify_convention_controls(matrix: Matrix) -> None:
     # Omitting the balanced orientation guard doubles the split count.
     all_balanced = math.comb(14, 7)
     guarded_balanced = sum(1 for subset in combinations(range(14), 7) if 0 in subset)
@@ -515,6 +518,90 @@ def verify_corruption_controls(matrix: Matrix) -> None:
         corrupted_maximum,
         corrupted_profile,
     )
+
+    # An alternate one-sided profile preserves the total product cardinality
+    # but moves the orientation variable to the rectangular factor:
+    # projective |Q| graph states and signed full-spin rectangular states.
+    # It has a separate balanced map and domination theorem, but not the exact
+    # max-plus identity used by profile_record. Reproduce both conventions and
+    # keep their order statistics distinct.
+    graph_cache: dict[tuple[int, ...], tuple[int, Histogram]] = {}
+    correct_record, correct_target_count = profile_record(
+        matrix, left, right, 21, 27, graph_cache
+    )
+    assert (correct_record[4], correct_record[6], correct_target_count) == (
+        10,
+        22,
+        304908,
+    )
+
+    collapsed_graph_profiles = []
+    for vertices in (left, right):
+        block = principal(matrix, vertices)
+        absolute_energies = Counter(
+            abs(order13.energy(block, spin)) for spin in SPINS[len(vertices)]
+        )
+        block_maximum = max(absolute_energies)
+        collapsed_graph_profiles.append(
+            (
+                block_maximum,
+                Counter(
+                    {
+                        block_maximum - value: count
+                        for value, count in absolute_energies.items()
+                    }
+                ),
+            )
+        )
+
+    full_spins = SPINS[7] + [
+        tuple(-entry for entry in spin) for spin in SPINS[7]
+    ]
+    signed_cross_energies: Histogram = Counter()
+    for right_spin in full_spins:
+        fields = [
+            sum(
+                matrix[row][column] * right_spin[index]
+                for index, column in enumerate(right)
+            )
+            for row in left
+        ]
+        for left_spin in full_spins:
+            signed_cross_energies[
+                sum(sign * field for sign, field in zip(left_spin, fields))
+            ] += 1
+    swapped_cross_maximum = max(signed_cross_energies)
+    swapped_cross_profile = Counter(
+        {
+            swapped_cross_maximum - value: count
+            for value, count in signed_cross_energies.items()
+        }
+    )
+    swapped_profile = convolve(
+        convolve(
+            collapsed_graph_profiles[0][1],
+            collapsed_graph_profiles[1][1],
+        ),
+        swapped_cross_profile,
+    )
+    assert sum(swapped_profile.values()) == 2 ** 26
+    swapped_lambda = order_statistic(swapped_profile, 2 ** 13)
+    swapped_ceiling = (
+        collapsed_graph_profiles[0][0]
+        + collapsed_graph_profiles[1][0]
+        + swapped_cross_maximum
+    )
+    swapped_target_count = sum(
+        count
+        for deficit, count in swapped_profile.items()
+        if swapped_ceiling - deficit >= 27
+    )
+    assert (swapped_lambda, swapped_target_count) == (8, 596440)
+    assert (swapped_lambda, swapped_target_count) != (
+        correct_record[4],
+        correct_target_count,
+    )
+    print("alternate_swapped_profile=lambda:8,target_count:596440")
     print("corruption_controls=balanced_double_count,cross_absolute_value")
 
 
@@ -532,7 +619,7 @@ def main() -> None:
     c13 = conference.principal_submatrix(c14, 0)
     scan_case(c13, EXPECTED["C14-minus-infinity"])
     scan_case(c14, EXPECTED["C14"])
-    verify_corruption_controls(c14)
+    verify_convention_controls(c14)
     print("relative_profile_calibration=PASSED")
 
 

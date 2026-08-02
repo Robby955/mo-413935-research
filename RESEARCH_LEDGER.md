@@ -1150,10 +1150,9 @@ reconstruction does verify the bracket $F(15)\in\{25,27\}$, but the banked
 scripts do not reproduce that tower and the clean driver is not yet in this
 repository.  Exact $F(15)$ is still blocked on the order-13
 predecessors with $(M,\delta_{\rm w})=(24,0)$.
-A later external update reports 470 such classes on one validated shard and
-an ongoing 16.3-million-candidate sweep.  Those v2 artifacts are not in the
-ingested bank, so neither the partial count nor any eventual order-15 verdict
-is promoted here.
+An external sweep of that branch is ongoing.  Its v2 artifacts are not in the
+ingested bank, so neither a partial count nor any eventual order-15 verdict is
+promoted here.
 
 ## 19. Square-order Paley audit
 
@@ -1693,6 +1692,69 @@ witnesses, not every optimal switching class at orders 13 and 14. Its true
 gain also uses the separately certified values $F(12)=18$, $F(13)=20$, and
 $F(14)=21$. Therefore (25.5) neither closes nor disproves the scalar route.
 
+A convention audit separated two valid but different scalar theorems.  The
+exact max-plus theorem uses augmented graph states and projective absolute
+rectangular states.  If instead the graph factors are projective $|Q|$ states
+and the rectangular factor consists of signed full-spin pairs, the map
+
+\[
+ ([z],[w],x,y)\longmapsto([zx],[wy],x_1)
+\]
+
+still has $2^{N-1}$ states per relative gauge.  Its fiber maximum only
+dominates, rather than equals, $M(Y_g)$: a maximizing spin for $Y_g$ can be
+injected into its fiber after choosing the two graph signs by absolute value.
+Therefore its $2^{N-1}$-st deficit order statistic
+$\widetilde\Lambda$ also satisfies
+
+\[
+ \min_gM(Y_g)\le L-\widetilde\Lambda.                  \tag{25.5a}
+\]
+
+On the standard $C_{14}$ split the one-sided model gives
+$\widetilde\Lambda=8$ and 596440 target states.  The exact model gives
+$\Lambda=10$ and 304908 target states, with true gain 22.  The first numbers
+are not a corruption, but they do not verify the exact max-plus identity and
+are weaker in this calibration.  Neither finite count disproves a scalar
+power-saving theorem.
+
+The one-sided swapped profile does have a leading raw floor. For balanced
+$r+r$ blocks, if $\widetilde U=L-\widetilde\Lambda$ and
+$\mu_r=\mathbb E|\sum_{i=1}^r\varepsilon_i|$, then
+
+\[
+ \widetilde U\ge\max\{M(A),M(B)\}+r\mu_r-3r.           \tag{25.5b}
+\]
+
+The proof counts at least $2^r$ signed cross pairs above
+$r\mu_r-3r$ using a maximizing row spin and its radius-one Hamming ball.
+Combining them with one maximizing graph state and all projective states of
+the other graph reaches the order-statistic rank $2^{2r-1}$. Thus a balanced
+near-subadditive theorem based on this alternate raw statistic requires
+
+\[
+ \liminf F(r)/r^{3/2}\ge
+ \sqrt{2/\pi}/(2^{3/2}-1)=0.4363775564\ldots.           \tag{25.5c}
+\]
+
+This closes the swapped raw route only under a limiting constant below that
+threshold. It remains compatible with the value-$1/2$ hypothesis and says
+nothing adverse about the distinct exact max-plus statistic.
+
+At fixed temperature, the normalized augmented and swapped product moment
+generating functions have ratio in $[1/2,4]$. If
+$U_*=\inf_{t>0}((N-1)\log2+\log P_*(t))/t$, positivity of the means and the
+bound $U_*\le L$ give
+
+\[
+ U_{\rm aug}-L/(N-1)\le U_{\rm sw}
+ \le U_{\rm aug}+2L/(N-1).                            \tag{25.5d}
+\]
+
+Thus the canonical exponential relaxations differ by only $O(\sqrt N)$ at
+the mean-field scale. The threshold (25.5c) applies to both canonical
+certificates, but not to the raw exact augmented order statistic.
+
 ### Conference alignment is an exact eigenspace problem
 
 Let $C=C^{\mathsf T}$ be a conference matrix of order $n$, put
@@ -1776,3 +1838,137 @@ the mean-field scale. Equations (25.9) and (25.10) are respectively the sharp
 scalar and geometric settling lemmas. The conference rigidity condition
 (25.7) is a separate value-specific equivalent formulation of full closure,
 not a shortcut around either composition problem.
+
+## 26. Labeled-shell gain and the fixed-density cross floor
+
+### A strict Fourier improvement over the scalar profile
+
+For a threshold $s$, let $b_s(g)$ count local product triples in gauge fiber
+$g$ whose total deficit is less than $s$, and put
+$K=2^{N-1}$ and $\mu_s=K^{-1}\sum_g b_s(g)$. With normalized group Fourier
+coefficients, Parseval gives
+
+\[
+ V_s=\sum_{\chi\ne1}|\widehat b_s(\chi)|^2
+ =K^{-1}\sum_g(b_s(g)-\mu_s)^2.
+\]
+
+The exact inequality
+
+\[
+ \min_gb_s(g)\le\mu_s-\sqrt{V_s/(K-1)}                 \tag{26.1}
+\]
+
+follows from nonnegativity and the mean-zero constraint. If the right side is
+less than one, integrality produces an empty fiber and hence
+$\min_gM(Y_g)\le L-s$. This contains the scalar pigeonhole theorem and is
+strict at total shell size $K$ whenever the occupancy is nonconstant.
+
+Every coefficient factors into three labeled local shell transforms:
+
+\[
+ \widehat b_s(I,J,\epsilon)=K^{-1}
+ \sum_{d_A+d_B+d_C<s}
+ A_{d_A}(I,\epsilon)B_{d_B}(J,\epsilon)C_{d_C}(I,J).   \tag{26.2}
+\]
+
+For the exact $2+4$ collision at $s=2$, the scalar shell contains exactly
+$K=32$ triples and hence gives no gain. The occupancy law is
+$0^8,1^{16},2^8$, so $V=1/2$ and (26.1) certifies gain two. The actual gains
+are four and two.
+
+For the standard balanced $C_{14}$ split, the target shell has mean occupancy
+$304908/8192=37.2202\ldots$, variance $151.4691\ldots$, 8159 nonzero
+nontrivial coefficients, and occupancy range $0$ through $87$. Exactly one of
+the 8192 fibers is empty, but (26.1) gives only $37.0842\ldots$. Thus variance is a real strict
+improvement at the scalar boundary but is not the missing asymptotic theorem.
+The next target is a low-tail or higher-moment inequality for the factored
+labeled shell transform.
+
+The higher-moment target is now exact. For any integer-valued occupancy $b$
+and finite $A\subset\mathbb Z_{\ge1}$,
+
+\[
+ P_A(x)=(1-x)\prod_{a\in A}\frac{(x-a)(x-a-1)}{a(a+1)}
+\]
+
+equals one at zero and is nonpositive at every positive integer. Hence
+$\Pr[b=0]\ge\mathbb E P_A(b)$. Its moments factor as zero-sum products of the
+Fourier coefficients in (26.2). Equivalently, if
+$H_r=(m_{i+j+1}-m_{i+j})_{i,j\le r}$, an everywhere-positive occupancy forces
+$H_r\succeq0$.
+
+At the balanced $C_{14}$ target, the nine adjacent-root locations
+
+\[
+ 9,17,26,36,46,56,67,76,86
+\]
+
+give a positive exact degree-19 certificate. The corresponding order-nine
+localizing quadratic form has negative numerator
+$-584163517696745929254421003286532$. Thus higher labeled moments really do
+recover the unique empty fiber missed by variance.
+
+This does not yet scale automatically. The even and odd halves of the
+$\operatorname{Bin}(D+1,1/2)$ multiplicity table have identical moments
+through degree $D$, although the even half has one zero and the odd half none.
+Consequently moments through degree $N-1$ cannot decide vacancy on an abstract
+$2^{N-1}$-point fiber space. A signing-specific degree-$O(N)$ localizing
+estimate, with controlled error after the shell factorization, is the new
+settling target.
+
+### Exact half-density does not remove the rectangular floor
+
+For a bipartite cross graph encoded by $S\in\{\pm1\}^{n\times k}$ with total
+$t$, its two-sided XOR cut deviation is exactly
+
+\[
+ D_\oplus=(|t|+\|S\|_{\infty\to1})/4.                 \tag{26.3}
+\]
+
+Moreover
+
+\[
+ \|S\|_{\infty\to1}\ge\max\{n\mu_k,k\mu_n\}.        \tag{26.4}
+\]
+
+If $R_{n,k}(t_0)$ minimizes this norm at fixed total $t_0$, row/column
+switching followed by at most $|t-t_0|/2$ entry flips proves
+
+\[
+ R_{n,k}\le R_{n,k}(t_0)
+ \le R_{n,k}+\sqrt{nk}+|t_0|.                          \tag{26.5}
+\]
+
+Thus enforcing the global half-density constraint costs only $O(\sqrt{nk})$,
+but the leading rectangular floor survives. This is a no-go for triangle or
+cut-norm arguments that control the cross term separately. It is not a no-go
+for the labeled cancellation measured by (26.1)--(26.2).
+
+## 27. Fixed-half blow-ups and the uniform Hadamard test
+
+For equal clouds of size $k$, cloud-union cuts give
+
+\[
+ d(L)\ge\max_S\left|\sum_{i\in S,j\notin S}
+ (e(V_i,V_j)-k^2/2)\right|.
+\]
+
+Thus a complete/empty blow-up of a fixed-half base graph $G$ has
+$d(L)\ge k^2d(G)$. For $n\ge3$ its internal cloud signs can always be chosen
+to make the full graph fixed-half. Seidel switching followed by $r$ edge
+repairs preserves the lower bound up to $(r+1)/2$. Therefore $O(N)$ density
+repair cannot remove the classical $\sqrt k$ normalized loss.
+
+Orthogonal blocks evade the cloud-union argument, so no general Hadamard
+no-go follows. The exact smallest uniform test still fails: for the negative
+$C_5$ signing $A$, every symmetric Hadamard $H$ of order four and fixed-half
+order-four signing $D$ satisfy
+
+\[
+ M(A\otimes H+I_5\otimes D)\ge44,
+\]
+
+whereas lossless four-fold scaling would give 32. Equality 44 is attained.
+This exhausts only the common-$H$, common-$D$ family and leaves nonuniform
+orthogonal block designs open.
