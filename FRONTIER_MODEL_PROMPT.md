@@ -454,6 +454,69 @@ would force $H(n)/n$, and hence $F(n)/n^{3/2}$, to converge by balanced
 binary composition. An unspecified $o(n+m)$ defect is not enough without a
 summability condition across scales.
 
+### 3.9 Exact finite optimizer-composition obstruction
+
+For fixed signings $A,B$, define the optimized cross completion
+
+\[
+ J(A,B)=\min_C
+ M\begin{pmatrix}A&C\\C^{\mathsf T}&B\end{pmatrix},
+\]
+
+and let $E(B)=J([0],B)$ be the best one-vertex extension. Complete exact
+enumeration of optimal switching-permutation classes gives
+
+\[
+\begin{array}{c|c|c}
+n&\#\text{ optimum classes}&\text{distribution of }E(B)\\ \hline
+7&6&10^{\times4},\ 12^{\times2}\\
+8&2&12^{\times2}\\
+9&15&13^{\times4},\ 15^{\times11}\\
+10&2&17^{\times1},\ 19^{\times1}.
+\end{array}
+\]
+
+The order-10 extension witness gives $13\le F(11)\le17$; no exact value for
+$F(11)$ is known here.
+
+Thus optimum signings with the same scalar value can have different future
+extension costs. More sharply,
+
+\[
+ \boxed{
+ \min_{M(A)=F(2),\ M(B)=F(8)}J(A,B)=15>F(10)=13.}
+\]
+
+No optimum order-10 signing contains an optimum order-8 principal submatrix.
+The smallest internal sacrifice repairs the obstruction: if
+
+\[
+ K_{s,k}(u,v)=
+ \min_{M(A)\le u,\ M(B)\le v}J(A,B),
+\]
+
+then exact enumeration gives
+
+\[
+ K_{2,8}(1,10)=15,\qquad K_{2,8}(1,12)=13.
+\]
+
+The critical $(2,8)$ result directly enumerates every cross signing for all
+optimum order-8 representatives. A deterministic order-8 graph6 witness with
+maximum 12 and a cross completion of maximum 13 proves sufficiency of the
+two-unit slack. The full computation and its dependency boundary are in
+`verification/research_cross_block_composition.py`.
+
+This kills exact-optimizer heredity, not asymptotic composition with
+subleading internal slack. A live ground-state target is to prove, for some
+$r_n=o(n^{3/2})$ and $\delta>0$,
+
+\[
+ K_{n,m}(F(n)+r_n,F(m)+r_m)^{2/3}
+ \le F(n)^{2/3}+F(m)^{2/3}
+ +O((n+m)^{1-\delta}).
+\]
+
 ## 4. Known failed mechanisms that require a material change
 
 Do not simply repeat any of the following:
@@ -484,6 +547,10 @@ Do not simply repeat any of the following:
     rewards are subleading and point in the lower-bound direction, while the
     missing convergence mechanism is an optimizer-compatible upper
     composition.
+12. Composing arbitrary exact minimizers: optimum extension cost is
+    class-sensitive, and the exact $(2,8)$ obstruction forces value 15 rather
+    than $F(10)=13$. A viable composition must retain a boundary profile or
+    permit controlled internal slack.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -559,7 +626,7 @@ Test tensor products, randomized lifts conditioned on row sums, multi-block
 designs, conference completions, and dependent cross blocks.  Prove uniform
 Boolean bounds; operator-norm control alone is insufficient.
 
-A particularly sharp target is to prove, for some $\delta>0$,
+A particularly sharp scalar target is to prove, for some $\delta>0$,
 
 \[
  F(n+m)^{2/3}
@@ -569,6 +636,18 @@ A particularly sharp target is to prove, for some $\delta>0$,
 A dyadically summable relative defect is essential for this argument; a power
 saving is a clean sufficient condition. Calculate the error under repeated
 balanced composition rather than calling a generic $o(n+m)$ term negligible.
+
+The finite non-heredity theorem shows that exact optimum blocks need not
+realize this bound by direct completion. The more realistic constructive
+target is the Pareto-profile inequality
+
+\[
+ K_{n,m}(F(n)+r_n,F(m)+r_m)^{2/3}
+ \le F(n)^{2/3}+F(m)^{2/3}+O((n+m)^{1-\delta})
+\]
+
+with $r_n=o(n^{3/2})$. Determine what state, beyond the scalar maximum,
+controls membership in the composable near-optimum family.
 
 ### Program E: nonexistence
 

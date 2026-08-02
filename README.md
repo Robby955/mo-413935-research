@@ -25,12 +25,19 @@ The repository now goes substantially beyond those baseline results:
   `n^(3/2)` information.
 - Exhaustive computation gives
   `F(2), ..., F(10) = 1, 3, 4, 4, 5, 9, 10, 12, 13`.
+  Exact extension of the two optimal order-10 classes gives the additional
+  bound `13 ≤ F(11) ≤ 17`; the exact order-11 value remains unknown.
 - Exact hereditary cavity inequalities strengthen the induced-submatrix lower
   bounds through Walsh orthogonality and block pairing. Their universal gains
   are subleading, so they do not settle convergence.
 - Exact obstruction results rule out several natural composition mechanisms,
   including edge-separable saturation, near-saturated cross blocks,
   bounded-rank local lifts, and canonical Seidel/Kronecker amplification.
+- Complete cross-block optimization exposes finite non-heredity. No optimal
+  order-10 signing contains an optimal order-8 principal submatrix: completing
+  optimal blocks of sizes 2 and 8 forces maximum 15, although `F(10) = 13`.
+  Allowing the order-8 block maximum to rise from 10 to 12 is necessary and
+  sufficient to recover 13.
 
 ## Main open routes
 
@@ -39,9 +46,11 @@ free-energy limit, with the negative-replica formulation providing the
 sharpest current settling lemma.
 
 The ground-state route is a power-saving near-subadditivity theorem for
-`H(n) = F(n)^(2/3)`. A uniform defect of order
-`O((n + m)^(1 - δ))`, for some positive `δ`, would force
-`H(n) / n` and therefore `F(n) / n^(3/2)` to converge.
+`H(n) = F(n)^(2/3)`. The finite non-heredity result shows that the construction
+must use a composable family of near-optimal blocks rather than arbitrary
+exact minimizers. A uniform defect of order `O((n + m)^(1 - δ))`, for some
+positive `δ`, would force `H(n) / n` and therefore `F(n) / n^(3/2)` to
+converge.
 
 The present wall is optimizer-sensitive composition. Internal block energy
 and the cross field can cancel for the same spin assignment, while bounding
@@ -75,6 +84,13 @@ python3 verification/verify_continuation.py
 python3 verification/verify_coding_continuation.py
 python3 verification/verify_amplification_obstructions.py
 python3 verification/verify_cavity_hereditary.py
+```
+
+The exact cross-block research check requires nauty `geng`, NetworkX, and
+`z3-solver`:
+
+```bash
+python3 verification/research_cross_block_composition.py
 ```
 
 The exhaustive search through order 10 requires nauty `geng`; NetworkX adds

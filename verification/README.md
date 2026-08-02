@@ -105,6 +105,64 @@ $H(n)=F(n)^{2/3}$ at $2+2=4$. Expected output:
     corruption_controls=walsh_edge_double_count,quadratic_flip_parity,mu_strengthening,h_exact_subadditivity
     cavity_hereditary_verification=PASSED
 
+## Exact cross-block composition
+
+`research_cross_block_composition.py` requires nauty `geng`, NetworkX, and
+the `z3-solver` package:
+
+```bash
+python3 verification/research_cross_block_composition.py
+```
+
+The script reconstructs every optimum switching-permutation class through
+order 9. For each pair of nontrivial optimum blocks with total order at most
+10, it solves the cross-edge feasibility problem by a deterministic Z3
+cutting-plane loop and recomputes every returned witness on the full spin
+cube. Every pair with at most 16 cross edges is independently checked by
+enumerating all cross signings.
+
+One-vertex extensions use direct enumeration only. The critical `2+8`
+non-heredity theorem also uses direct enumeration for every optimum order-8
+root representative. A second exhaustive pass through all 1,044 residual
+graphs at order 8 proves that internal maximum 12 is the least slack that can
+participate in an order-10 optimum.
+
+The expected critical records are:
+
+```text
+pair 2+8: class distribution {15: 2}, while F(10)=13
+pair 3+7: class distribution {13: 6, 15: 6}
+order-7 extensions: {10: 4, 12: 2} across 6 classes
+order-9 extensions: {13: 4, 15: 11} across 15 classes
+order-10 extensions: {17: 1, 19: 1} across 2 classes; value-17 witness HCRbczQ, mask 440
+extension obstruction layers: order_7_abs_7=2, order_9_abs_12=11
+minimum order-8 block maximum for an order-10 optimum: 12
+order-8 value-12 root representatives composing to 13: 68 of 104
+slack witness: graph6 F?reg, cross coefficient mask 52010
+direct_crosschecks=23
+status=PASSED
+```
+
+For the slack witness, the graph6 word records negative residual edges after
+the root edges have been switched positive. Cross-mask bit `8*i+j` equals one
+when the edge from left vertex `i` to right vertex `j` is negative.
+
+Certificate boundary: the optimizer catalogue trusts nauty `geng`, asserted
+graph counts, and committed stream hashes. Switching-class counts trust
+NetworkX isomorphism. Z3 infeasibility is trusted only for pair rows with more
+than 16 cross entries. The principal `2+8` obstruction, every one-vertex
+extension, and the internal-slack witness do not rely on Z3. Completeness of
+the stored order-10 optimum-class list is independently reproduced by
+
+```bash
+python3 verification/research_exact_small_n.py \
+  --min-n 10 \
+  --max-n 10 \
+  --classify-switching-optima \
+  --strict-stream-digests \
+  --labeled-crosscheck-max-n 0
+```
+
 ## Exhaustive values through n = 10
 
 `research_exact_small_n.py` requires Brendan McKay's nauty `geng` executable.
