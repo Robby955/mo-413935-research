@@ -945,7 +945,38 @@ composition theorem derived from a controlled relative-switching Hamiltonian
 hierarchy. Higher connected Eulerian terms cannot be discarded without a
 uniform mean-field cluster bound.
 
-### 3.18 Square-order Paley correction
+### 3.18 Microcanonical relative-switching profile theorem
+
+There is a balanced homomorphism from the two augmented graph state spaces
+and the projective rectangular rank-one state space onto the relative-gauge
+group $G_{n,k}$ of size $2^{n+k-1}$. For local deficits $d_A,d_B,d_C$ and
+$L=M(A)+M(B)+B_C$, it gives the exact max-plus identity
+
+\[
+ L-M(Y_g)=\min_{\pi(a,b,r)=g}[d_A(a)+d_B(b)+d_C(r)].
+\]
+
+Let $\Lambda(A,B,C)$ be the $2^{n+k-1}$-st smallest product-triple deficit,
+with multiplicity. Then
+
+\[
+ F(n+k)\le M(A)+M(B)+B_C-\Lambda(A,B,C).
+\]
+
+This is a deterministic composition theorem, not the failed weighted Hamming
+union bound. It is optimal if one discards all additive labels and retains
+only the three local deficit histograms. The exact $2+4$ collision has
+$\Lambda=0$ in both cases but true gains 4 and 2, so group geometry can still
+improve the scalar guarantee.
+
+The live scalar target is a large-deviation estimate proving that fewer than
+$2^{n+k-1}$ triples lie below the deficit required for power-saving
+near-subadditivity. Constantly many exact maximizers are insufficient; the
+whole leading-scale near-maximal profile must be controlled. If this scalar
+quantile fails, use the factored Fourier labels of the convolution as the
+geometric fallback.
+
+### 3.19 Square-order Paley correction
 
 For every odd prime power $m$, the full Paley conference matrix of order
 $m^2+1$ has a Boolean eigenvector of eigenvalue $m$, obtained from additive
@@ -955,7 +986,7 @@ theorem and not a lower bound on $F(m^2+1)$. At $m=3$, the matrix maximum is
 15 while $F(10)=13$. Do not infer a subsequential value of $F$ from this
 construction.
 
-### 3.19 Paley Fourier-leakage identity
+### 3.20 Paley Fourier-leakage identity
 
 For an odd prime power $q\equiv1\pmod4$, let $C_{q+1}$ be the symmetric
 Paley conference matrix. For Boolean $f:\mathbb F_q\to\{\pm1\}$, let
@@ -997,6 +1028,31 @@ dense-order rigidity estimate
 \]
 
 to force the original limit to be $1/2$.
+
+The Fourier half is no longer open on every sequence. For prime
+$p\equiv1\pmod4$, the balanced half-interval function satisfies
+
+\[
+ S(f_p)=1,\qquad W(f_p)\le\frac{2p}{\ell(p)-1},
+\]
+
+where $\ell(p)$ is the least quadratic nonresidue. Quadratic reciprocity and
+the prime number theorem in each fixed progression produce a multiplicatively
+dense prime sequence with $\ell(p)\to\infty$. Hence
+
+\[
+ \frac{2M(C_{p+1})}{(p+1)\sqrt p}\to1
+\]
+
+on that sequence. Do not spend time reproving this leakage construction. The
+remaining value-specific wall is the independent minimax rigidity estimate
+
+\[
+ F(p+1)\ge(1-o(1))M(C_{p+1})
+\]
+
+on the same sequence. Exact conference optimality at orders 6 and 14 does not
+prove it, and order 10 is a finite counterexample to exact optimality.
 
 ## 4. Known failed mechanisms that require a material change
 
@@ -1091,6 +1147,10 @@ ingredients include:
   or composition estimate from the relative-switching law; do not re-propose
   scalar PT, append only the rectangular marginal, or rename the desired
   almost-superadditivity as an alignment lemma.
+- the exact microcanonical order statistic above. First test whether the
+  three local deficit profiles cross the $2^{n+k-1}$ threshold at the needed
+  leading deficit. If they do not, identify the additive Fourier labels that
+  supply the missing gain rather than reverting to a one-point union bound.
 - a controlled mixed-trace/connected-Eulerian hierarchy beginning with
   $\mathcal H_4$. Any truncation must be uniform when
   $u=\Theta(n^{-1/2})$ and $q=\Theta(n)$.

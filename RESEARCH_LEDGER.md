@@ -1429,3 +1429,104 @@ are unchanged. The first viable non-tautological target is
 a variational or composition theorem for the relative-switching Hamiltonian
 hierarchy, beginning with these mixed traces and retaining enough higher
 connected Eulerian clusters to be uniform on the mean-field scale.
+
+## 23. Relative-gauge convolution and the microcanonical profile theorem
+
+The conditional alignment law is not merely an unexplained correction term.
+It is the pushforward of three independent local laws under the balanced
+homomorphism
+
+\[
+ ((\sigma,[z]),(\eta,[w]),[xy^{\mathsf T}])
+ \mapsto([zx],[wy],\sigma\eta).
+\]
+
+This gives an exact zero-temperature max-plus identity. If $L$ is the sum of
+the two graph maxima and the rectangular maximum, then
+
+\[
+ L-M(Y_g)=\min_{\pi(a,b,r)=g}(d_A(a)+d_B(b)+d_C(r)).
+\]
+
+There are $2^{N-1}$ equal fibers. Therefore the $2^{N-1}$-st smallest local
+triple deficit, denoted $\Lambda$, is always a realizable composition gain:
+
+\[
+ F(N)\le M(A)+M(B)+B_C-\Lambda.
+\]
+
+This differs structurally from the closed weighted union-bound route. It
+counts actual near-maximal triples and does not randomize the cross block.
+There is no universal leading floor in the argument itself. The exact
+exponential relaxation is
+
+\[
+ \Lambda\ge\sup_{t>0}
+ \frac{(N-1)\log2-\log D_A(t)-\log D_B(t)-\log D_C(t)}t.
+\]
+
+The scalar relaxation is also sharp at its stated information boundary. If
+one knows only the unlabeled deficit multiset and equal fiber sizes, the
+smallest $2^{N-1}$ values can be placed one per abstract fiber. Additive group
+labels are the only possible source of a stronger general theorem. The known
+$2+4$ collision has $\Lambda=0$ for both examples but true gains 4 and 2.
+
+This creates a clean decision tree.
+
+1. Prove a large-deviation bound showing that a composable near-optimal family
+   has fewer than $2^{N-1}$ triples below the power-saving target deficit.
+2. If that quantile is too small, retain extensive Fourier labels. The
+   conditional Fourier coefficient factors into three local Gibbs
+   correlations, and the mixed four-cycle trace is the first layer of this
+   hierarchy.
+
+The finite observation that exact maximizer counts remain small is relevant
+but insufficient. A constant exact-maximizer count guarantees only the first
+positive energy-lattice gap. The entire $\Theta(N^{3/2})$ near-maximal window
+must have a controlled entropy profile.
+
+## 24. Least-nonresidue interval construction closes Paley leakage
+
+For prime $p\equiv1\pmod4$, take the Boolean half-interval with sum one. Its
+nonzero Fourier magnitudes are exact Dirichlet-kernel values, and
+
+\[
+ |\widehat f(r)|^2\le p/\|r\|_p^2.
+\]
+
+If $\ell(p)$ is the least quadratic nonresidue, the minority-half leakage is
+at most $2p/(\ell(p)-1)$. Quadratic reciprocity makes every integer through
+$j$ a residue when
+
+\[
+ p\equiv1\pmod{8\prod_{\lambda\le j,\ \lambda\ {\rm odd\ prime}}\lambda}.
+\]
+
+The prime number theorem in each fixed progression permits a stage
+construction with levels tending to infinity and consecutive prime ratios
+tending to one. Thus Paley Boolean maxima reach their spectral ceilings on a
+multiplicatively dense prime sequence.
+
+This is a real theorem but not a minimax lower bound. It closes only the
+Fourier half of the value-specific program. The remaining rigidity target is
+
+\[
+ F(p_j+1)\ge(1-o(1))M(C_{p_j+1})
+\]
+
+on that same sequence. If proved, monotonicity would force the original limit
+to be $1/2$.
+
+Two failed strengthenings are recorded rather than erased.
+
+- Exact one-half Fourier support is impossible for a nonconstant Boolean
+  function at prime order. Cyclotomic divisibility gives the qualitative
+  obstruction, and an algebraic-norm argument gives
+  $W(f)\ge4(p-1)^2/p^3$.
+- The same interval is not uniform over all primes. Along
+  $p\equiv5\pmod{12}$, the residue modes $\pm1$ and nonresidue modes $\pm3$
+  force $\liminf W/p\ge8/(9\pi^2)$.
+
+The arithmetic progression is therefore part of the construction, not a
+technical convenience. Novelty is stated only as new to this repository;
+specialist priority has not been established.

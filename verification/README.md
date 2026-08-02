@@ -43,6 +43,56 @@ All maxima, maximizer counts, and squared ratios are asserted in exact integer
 arithmetic. Only the displayed decimal ratios use floating point. The four
 selected ratios do not constitute a monotonicity or asymptotic theorem.
 
+The least-nonresidue checker verifies the arithmetic inputs and exact finite
+witnesses for the interval construction behind the new asymptotic Paley
+alignment theorem:
+
+```bash
+python3 verification/verify_paley_least_nonresidue.py
+```
+
+Expected output:
+
+```text
+p=73 level=3 least_nonresidue=5 S=1 Q_core=264 Q_full=265 leakage_bound=36.500000000000 witness_ratio=0.838267675864
+p=241 level=5 least_nonresidue=7 S=1 Q_core=1704 Q_full=1705 leakage_bound=80.333333333333 witness_ratio=0.907675246292
+p=2521 level=7 least_nonresidue=11 S=1 Q_core=60624 Q_full=60625 leakage_bound=504.200000000000 witness_ratio=0.957525265511
+p=9241 level=11 least_nonresidue=13 S=1 Q_core=430728 Q_full=430729 leakage_bound=1540.166666666667 witness_ratio=0.969635838899
+fourier_case=p73 E_residue=67.392013544710 E_nonresidue=5.594287825153 parseval=PASS
+corruption_controls=composite_modulus,interval_endpoint
+paley_least_nonresidue_verification=PASSED
+```
+
+The prime-sequence conclusion itself uses the prime number theorem in each
+fixed arithmetic progression and is proved in the note. The script does not
+pretend to verify that analytic theorem by finite sampling.
+
+The relative-profile checker exhausts all `2 + 3` block triples, verifies the
+balanced relative-gauge map and exact max-plus identity, and checks the
+microcanonical order statistic and exponential-profile bound:
+
+```bash
+python3 verification/verify_relative_profile_composition.py
+```
+
+Expected output:
+
+```text
+block_cases_checked=1024
+balanced_fibers_checked=16384
+product_triples_checked=262144
+exponential_profile_checks=672
+strict_geometry_gains=768
+scalar_collision=lambda:0,0 true_gains:4,2
+corruption_control=relative_orientation_omission_detected
+relative_profile_composition_verification=PASSED
+```
+
+The `2 + 4` collision check independently confirms that identical unlabeled
+scalar profiles can have zero order-statistic guarantee but different true
+relative-gauge gains. All decisions in this checker use integer or rational
+arithmetic.
+
 The new exact identity checker also needs only the standard library:
 
 ```bash

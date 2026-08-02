@@ -100,6 +100,13 @@ The repository now goes substantially beyond those baseline results:
   three local scalar free-energy curves do not close the composition state.
   The exceptional twofold gauge redundancy at block size 2 is explicitly
   accounted for in the verifier.
+- The relative-gauge law is an exact convolution of three local Gibbs laws.
+  At zero temperature this yields a deterministic microcanonical composition
+  theorem: the `2^(n+k-1)`-st smallest sum of the three local energy deficits
+  is a guaranteed composition gain. This guarantee is optimal if the additive
+  labels are discarded. It replaces optimizer-count heuristics by a precise
+  near-maximal-profile large-deviation target and has no known analogue of the
+  failed weighted union bound's universal leading floor.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not
@@ -108,12 +115,16 @@ The repository now goes substantially beyond those baseline results:
 - For every symmetric Paley order `q+1`, an exact Fourier-leakage identity
   reduces Boolean spectral alignment to finding an asymptotically balanced
   sign function whose additive Fourier energy has `o(q)` mass in one
-  quadratic-character half. Source-built
+  quadratic-character half. For prime `p`, a half-interval sign function has
+  leakage at most `2p/(ell(p)-1)`, where `ell(p)` is the least quadratic
+  nonresidue. The prime number theorem in fixed progressions produces a
+  multiplicatively dense prime sequence with `ell(p) -> infinity`, proving
+  asymptotic Paley spectral alignment on that sequence. Exact zero leakage is
+  impossible for nonconstant Boolean functions at prime order. Source-built
   exhaustive scans give `M(C_6), M(C_14), M(C_18), M(C_30) = 5, 21, 33, 75`.
-  The four selected prime-field alignment ratios increase, but this is finite
-  evidence only. Even asymptotic alignment would still need a separate
-  dense-order minimax rigidity lower bound to say anything decisive about
-  the limit of `F(n)/n^(3/2)`.
+  The Paley alignment theorem is still only about a selected matrix family.
+  A separate dense-order minimax rigidity lower bound is required to say
+  anything decisive about the limit of `F(n)/n^(3/2)`.
 - Density-one control of Bellman-optimal predecessors is not the decisive
   scalar wall. An explicit nonconvergent countermodel satisfies all current
   scalar cross-order inequalities even with `O(sqrt(n))` Bellman cost at every
@@ -154,12 +165,21 @@ the row-and-column switching orbit of a low-norm cross seed. This is a
 max-plus convolution problem on the projective rank-one group and retains the
 higher-order dependence lost by first moment estimates.
 
-A separate value-specific route asks first for an asymptotically balanced
-Paley sign function with Fourier leakage `o(q)`, and then for minimax rigidity
-`F(q+1) >= (1-o(1)) M(C_{q+1})` on a multiplicatively dense set of prime
-orders. The first half is now a precise character-sum problem. The second is
-the real adversarial lower-bound wall; the finite optimality of `C_6` and
-`C_14` does not establish it.
+The new scalar intermediate target is the microcanonical profile theorem:
+construct near-optimal graph blocks and a cross seed for which fewer than
+`2^(n+k-1)` product triples lie below the deficit needed for power-saving
+near-subadditivity. Constantly many exact maximizers do not suffice; the
+entire leading-scale near-maximal profile must be thin. If this quantile is
+too small, the additive labels in the exact relative-gauge convolution are
+the remaining geometric fallback.
+
+A separate value-specific route now has only one mathematical wall. The
+least-nonresidue interval theorem supplies an asymptotically balanced Paley
+sign function with Fourier leakage `o(p)` on a multiplicatively dense prime
+sequence. What remains is minimax rigidity
+`F(p+1) >= (1-o(1)) M(C_{p+1})` on that sequence. The finite optimality of
+`C_6` and `C_14` does not establish this lower bound, and `F(10)<M(C_10)`
+shows that exact conference optimality is false at some orders.
 
 ## Research package
 

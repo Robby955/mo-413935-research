@@ -88,13 +88,20 @@ remainder for that gap.  The surviving block law has a nonnegative
 conditional relative-switching alignment term whose zero-temperature slope is
 exactly the joint optimizer-composition gain.  Its first Hamiltonian is an
 explicit mixed four-cycle trace, and exact examples show that all three local
-scalar partition curves fail to determine it.  We also record the known
+scalar partition curves fail to determine it.  A new deterministic
+microcanonical theorem nevertheless extracts a guaranteed composition gain:
+the relevant quantile is the $2^{n+k-1}$-st smallest sum of the three local
+energy deficits.  This is optimal after discarding the additive labels and
+turns near-maximal-state thinness into a precise large-deviation target.
+We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
 those matrices rather than the minimax \(F\).
 For all symmetric Paley orders we derive an exact Fourier-leakage identity:
 spectral saturation is equivalent to an asymptotically balanced Boolean
 function with asymptotically one-sided quadratic-character frequency energy.
+An interval construction controlled by the least quadratic nonresidue proves
+this condition on a multiplicatively dense sequence of prime orders.
 Exhaustive source-built evaluation gives
 $M(C_{30})=75$, but a separate minimax rigidity lower bound would still be
 needed to turn this construction into a statement about the limit of $F$.
@@ -2070,6 +2077,176 @@ notation.  A useful next theorem must derive a summable bound from a smaller
 controlled state, such as a variational limit for the relative-switching
 Hamiltonian hierarchy.
 
+There is, however, a non-tautological scalar relaxation of this hierarchy.
+It retains the complete near-maximal energy profiles of the three local
+blocks and discards only their additive labels.
+
+\section{A microcanonical relative-switching composition theorem}
+
+Write
+\[
+ \mathbb P_r=\eps^r/\{\pm\mathbf1\},\qquad
+ G_{n,k}=\mathbb P_n\times\mathbb P_k\times\eps,
+ \qquad |G_{n,k}|=2^{N-1},\quad N=n+k.
+\]
+For fixed signings $A,B$ and a rectangular signing $C$, define
+\[
+ \Omega_A=\eps\times\mathbb P_n,
+ \quad e_A(\sigma,[x])=\sigma Q_A(x),
+\]
+and define $\Omega_B,e_B$ analogously.  Let
+\[
+ \overline{\mathcal R}_{n,k}
+ =\{[xy^{\mathsf T}]:x\in\eps^n,y\in\eps^k\},
+ \qquad e_C([R])=|\langle C,R\rangle|,
+\]
+where $R$ and $-R$ are identified.  Thus
+$|\Omega_A|=2^n$, $|\Omega_B|=2^k$, and
+$|\overline{\mathcal R}_{n,k}|=2^{N-2}$.
+
+There is a balanced homomorphism
+\begin{equation}
+ \pi((\sigma,[z]),(\eta,[w]),[xy^{\mathsf T}])
+ =([zx],[wy],\sigma\eta)
+ \label{eq:relative-profile-map}
+\end{equation}
+onto $G_{n,k}$.  Its domain has $2^{2N-2}$ elements, so every fiber has
+$2^{N-1}$ elements.
+
+\begin{theorem}[Microcanonical relative-switching composition]
+\label{thm:relative-profile}
+Put
+\[
+ M_A=M(A),\qquad M_B=M(B),\qquad
+ B_C=\max_{x,y}|x^{\mathsf T}Cy|,\qquad L=M_A+M_B+B_C,
+\]
+and define local deficits
+\begin{align*}
+ d_A(\sigma,[x])&=M_A-\sigma Q_A(x),\\
+ d_B(\eta,[y])&=M_B-\eta Q_B(y),\\
+ d_C([R])&=B_C-|\langle C,R\rangle|.
+\end{align*}
+For $g=(\alpha,\beta,\tau)\in G_{n,k}$, let
+\[
+ Y_g=\begin{pmatrix}
+ D_\alpha AD_\alpha&C\\
+ C^{\mathsf T}&\tau D_\beta BD_\beta
+ \end{pmatrix}.
+\]
+Then the exact max-plus identity
+\begin{equation}
+ L-M(Y_g)=
+ \min_{\pi(a,b,r)=g}[d_A(a)+d_B(b)+d_C(r)]
+ \label{eq:relative-profile-maxplus}
+\end{equation}
+holds.
+
+List all $2^{2N-2}$ product-triple deficit sums, with multiplicity, as
+\[
+ \lambda_1\le\lambda_2\le\cdots\le\lambda_{2^{2N-2}},
+ \qquad \Lambda(A,B,C)=\lambda_{2^{N-1}}.
+\]
+Then
+\begin{equation}
+ F(N)\le\min_gM(Y_g)
+ \le M(A)+M(B)+B_C-\Lambda(A,B,C).
+ \label{eq:relative-profile-composition}
+\end{equation}
+Equivalently, if fewer than $2^{N-1}$ local triples have total deficit
+strictly below $s$, then some relative gauge satisfies $M(Y_g)\le L-s$.
+\end{theorem}
+
+\begin{proof}
+Fix a local triple.  Choose a representative $R=xy^{\mathsf T}$ whose
+cross energy has the sign $\sigma$, and set
+$\alpha=[zx]$, $\beta=[wy]$, $\tau=\sigma\eta$.  Evaluating $Y_g$ at
+the full spin $(x,y)$ and multiplying by $\sigma$ gives exactly
+\[
+ e_A(\sigma,[z])+e_B(\eta,[w])+e_C([R]).
+\]
+Thus the maximum local energy in a fiber is at most $M(Y_g)$.  Conversely,
+every augmented full spin determines a triple in the corresponding fiber,
+and replacing its signed cross contribution by its absolute value can only
+increase the local sum.  Hence
+\[
+ M(Y_g)=\max_{\pi(a,b,r)=g}[e_A(a)+e_B(b)+e_C(r)],
+\]
+which is \eqref{eq:relative-profile-maxplus} after subtracting from $L$.
+
+Choose one deficit-minimizing triple from each of the $2^{N-1}$ fibers.
+These triples are distinct, so the largest of their deficits is at least the
+$2^{N-1}$-st global order statistic $\Lambda$.  Equations
+\eqref{eq:relative-profile-maxplus} and
+\eqref{eq:relative-profile-composition} follow.
+\end{proof}
+
+The theorem has a useful canonical scalar relaxation.  For $t>0$, put
+\[
+ D_A(t)=\sum_{a\in\Omega_A}e^{-td_A(a)},\quad
+ D_B(t)=\sum_{b\in\Omega_B}e^{-td_B(b)},\quad
+ D_C(t)=\sum_{r\in\overline{\mathcal R}_{n,k}}e^{-td_C(r)}.
+\]
+Exponential Markov counting gives
+\begin{equation}
+ \Lambda(A,B,C)\ge
+ \sup_{t>0}\left[
+ \frac{(N-1)\log2-\log D_A(t)-\log D_B(t)-\log D_C(t)}{t}
+ \right]_+.
+ \label{eq:relative-profile-variational}
+\end{equation}
+This is not the failed weighted Hamming-ball union bound.  It does not
+randomize $C$ or sum one-point Hamming bad events.  It counts the actual
+simultaneously near-maximal local states and uses their distribution among
+the relative gauges.  There is no known analogue here of the universal
+$2\sqrt{\log2}$ leading floor.
+
+The order-statistic guarantee is the strongest possible statement that uses
+only the unlabeled multiset of product-triple deficits and the equal fiber
+sizes.  Indeed, place the $2^{N-1}$ smallest deficits one per fiber and then
+fill each fiber with no-smaller remaining values.  The largest fiber minimum
+is exactly $\Lambda$.  Additive labels can make the true gain strictly
+larger.  For the two $2+4$ scalar-collision examples above, both unlabeled
+profiles have $\Lambda=0$, while their exact gains $L-\min_gM(Y_g)$ are
+respectively $4$ and $2$.
+
+At finite temperature, the same map identifies the conditional alignment
+law as the pushforward convolution of the two augmented graph Gibbs laws and
+the rectangular law with weight $2\cosh(t\langle C,R\rangle)$.  Its Fourier
+coefficients factor into three local correlation tensors.  For even
+$I\subseteq[n]$, even $J\subseteq[k]$, and $\epsilon\in\{0,1\}$,
+\begin{equation}
+ \widehat r(I,J,\epsilon)
+ =\E_{\mu_A}[\sigma^\epsilon z_I]
+  \E_{\mu_B}[\eta^\epsilon w_J]
+ \E_{\mu_C}[x_Iy_J].
+ \label{eq:relative-profile-fourier}
+\end{equation}
+Indeed, the character indexed by $(I,J,\epsilon)$ pulls back under $\pi$ to
+$\sigma^\epsilon z_I\,\eta^\epsilon w_J\,x_Iy_J$ on the three product
+factors, so independence gives the displayed product.  Conditional
+expectation onto a character subspace preserves normalization, and Jensen's
+inequality for $z\mapsto z^{-q}$ shows that projection can only decrease
+$\E r^{-q}$.  Equation
+\eqref{eq:relative-profile-fourier} therefore supplies an auditable projected
+hierarchy between the scalar order statistic and the full alignment state;
+the mixed terms in Proposition~\ref{prop:alignment-h4} are its first nonzero
+layer.
+
+The exact scalar settling target is now explicit.  A composable near-optimal
+choice of $A,B,C$ would suffice if, for some $\delta>0$, the number of local
+triples below the deficit threshold
+\[
+ M(A)+M(B)+B_C-
+ [F(n)^{2/3}+F(k)^{2/3}]^{3/2}
+ -O(N^{3/2-\delta})
+\]
+were less than $2^{N-1}$.  Theorem~\ref{thm:relative-profile} would then give
+power-saving near-subadditivity of $F^{2/3}$.  Constantly many exact
+maximizers do not by themselves prove this: control of the entire
+leading-scale near-maximal profile is required.  If this scalar quantile is
+too small, the strict collision gains show exactly where the additive
+Fourier geometry can still recover information.
+
 \section{A known square-order Paley ceiling theorem}
 
 The following classical regular-conference construction corrects an
@@ -2191,6 +2368,171 @@ defect tends to zero exactly when the bracket is $o(q)$, which is equivalent
 to \eqref{eq:paley-leakage-target}.
 \end{proof}
 
+\begin{theorem}[Least-nonresidue Paley alignment]
+\label{thm:paley-least-nonresidue}
+Let $p\equiv1\pmod4$ be prime, let $\chi_p$ be the Legendre symbol, and put
+\[
+ \ell(p)=\min\{d\ge1:\chi_p(d)=-1\}.
+\]
+Identify $\mathbb F_p$ with $\{0,\ldots,p-1\}$, set $m=(p-1)/2$, and define
+\[
+ f_p(a)=\begin{cases}-1,&0\le a<m,\\1,&m\le a<p.\end{cases}
+\]
+Then $S(f_p)=1$ and
+\begin{equation}
+ W(f_p)\le\frac{2p}{\ell(p)-1}.
+ \label{eq:paley-least-nonresidue}
+\end{equation}
+Consequently
+\begin{equation}
+ \frac{2M(C_{p+1})}{(p+1)\sqrt p}
+ \ge1-\frac{4p}{(p+1)(\ell(p)-1)}
+ -\frac{(\sqrt p-1)^2}{p(p+1)}.
+ \label{eq:paley-least-nonresidue-ratio}
+\end{equation}
+There is an increasing sequence of primes $p_j\equiv1\pmod4$ such that
+\[
+ \frac{p_{j+1}}{p_j}\longrightarrow1,\qquad
+ \ell(p_j)\longrightarrow\infty.
+\]
+Thus prime-field Paley matrices with nonsquare parameter attain their spectral
+ceiling asymptotically on a multiplicatively dense sequence:
+\[
+ \frac{2M(C_{p_j+1})}{(p_j+1)\sqrt{p_j}}\longrightarrow1.
+\]
+\end{theorem}
+
+\begin{proof}
+Use the standard additive character.  For $r\ne0$, the complete character
+sum vanishes, so the geometric-sum formula gives
+\begin{equation}
+ |\widehat f_p(r)|^2
+ =\frac4p\frac{\sin^2(\pi rm/p)}{\sin^2(\pi r/p)}.
+ \label{eq:paley-interval-fourier}
+\end{equation}
+Writing $\|r\|_p=\min(r,p-r)$ and using
+$\sin(\pi\|r\|_p/p)\ge2\|r\|_p/p$ gives
+\[
+ |\widehat f_p(r)|^2\le\frac{p}{\|r\|_p^2}.
+\]
+Here the standard quadratic Gauss sum is $\sqrt p$, so the negative Fourier
+half consists of the nonresidue frequencies.  Because $\chi_p(-1)=1$, every
+such frequency has $\|r\|_p\ge\ell(p)$.  Therefore
+\[
+ E_-(f_p)\le2p\sum_{d=\ell(p)}^{(p-1)/2}\frac1{d^2}
+ \le\frac{2p}{\ell(p)-1}.
+\]
+This proves \eqref{eq:paley-least-nonresidue}; inserting it and $S(f_p)=1$
+in Proposition~\ref{prop:paley-leakage} proves
+\eqref{eq:paley-least-nonresidue-ratio}.
+
+It remains to construct the prime sequence.  For $j\ge2$, let
+\[
+ L_j=8\prod_{\substack{\lambda\le j\\
+                       \lambda\ {\rm odd\ prime}}}\lambda.
+\]
+If $p\equiv1\pmod{L_j}$, then every integer from $1$ through $j$ is a
+quadratic residue modulo $p$.  Indeed, $p\equiv1\pmod8$ handles $2$; for an
+odd prime $\lambda\le j$, quadratic reciprocity gives
+\[
+ \left(\frac{\lambda}{p}\right)
+ =\left(\frac p\lambda\right)=1;
+\]
+multiplicativity handles composites.  Hence $\ell(p)>j$.
+
+For each fixed $j$, the prime number theorem in the progression
+$1\pmod{L_j}$ supplies a threshold $X_j$ beyond which every interval
+$(x,(1+1/j)x]$ contains such a prime \cite{davenport}.  Choose the $X_j$
+increasing, and start with a prime $p\ge X_2$ in the progression
+$1\pmod{L_2}$.  Maintain at level $j$ the invariant $p\ge X_j$.  If
+$p<X_{j+1}$, choose the next prime congruent to $1\pmod{L_j}$ in
+$(p,(1+1/j)p]$ and repeat.  Once $p\ge X_{j+1}$, choose the next prime
+congruent to $1\pmod{L_{j+1}}$ in
+$(p,(1+1/(j+1))p]$ and raise the level.  Each level is left after finitely
+many steps because the selected primes are strictly increasing.  The levels
+and hence $\ell(p)$ tend to infinity, while all successive ratios tend to
+one.
+\end{proof}
+
+The interval is a subsequence construction, not a uniform construction over
+all primes.  Along primes $p\equiv5\pmod{12}$, the frequencies $\pm1$ are
+quadratic residues and $\pm3$ are nonresidues.  For each fixed odd $r$,
+\eqref{eq:paley-interval-fourier} gives
+\[
+ \frac{|\widehat f_p(r)|^2}{p}\longrightarrow\frac4{\pi^2r^2}.
+\]
+The $\pm1$ pair eventually carries more than half the total energy, whereas
+the opposite half contains the $\pm3$ pair.  Hence
+\begin{equation}
+ \liminf_{\substack{p\to\infty\\p\equiv5\ (12)}}
+ \frac{W(f_p)}p\ge\frac8{9\pi^2}.
+ \label{eq:paley-interval-nonuniform}
+\end{equation}
+Affine images of the interval have the same obstruction.  Thus specially
+chosen arithmetic progressions, not a pointwise property of intervals, drive
+Theorem~\ref{thm:paley-least-nonresidue}.
+
+\begin{proposition}[Exact prime-order leakage obstruction]
+\label{prop:paley-exact-leakage-obstruction}
+For prime $p\equiv1\pmod4$ and nonconstant $f:\mathbb F_p\to\eps$,
+\begin{equation}
+ W(f)\ge\frac{4(p-1)^2}{p^3}>0.
+ \label{eq:paley-exact-leakage-obstruction}
+\end{equation}
+In particular, $W(f)=0$ if and only if $f$ is constant.
+\end{proposition}
+
+\begin{proof}
+Put $P_f(X)=\sum_{a=0}^{p-1}f(a)X^a$.  If one Fourier half vanishes, then
+$P_f$ vanishes at a primitive $p$th root of unity.  Hence
+$\Phi_p\mid P_f$, and the degree and coefficient constraints force
+$P_f=\pm\Phi_p$.
+
+For the quantitative statement write $f=1-2\mathbf1_A$, replacing $f$ by
+$-f$ if convenient.  Nonconstancy makes $A$ nonempty and proper.  If
+$\zeta$ is primitive, then
+\[
+ P_f(\zeta)=-2\sum_{a\in A}\zeta^a.
+\]
+The inner sum is nonzero, since otherwise its $0$--$1$ polynomial would be a
+multiple of $\Phi_p$, forcing $A$ to be empty or all of $\mathbb F_p$.
+Its algebraic norm is therefore a nonzero integer, and hence
+\[
+ \bigl|N_{\mathbb Q(\zeta)/\mathbb Q}(P_f(\zeta))\bigr|
+ =2^{p-1}\left|N_{\mathbb Q(\zeta)/\mathbb Q}
+   \left(\sum_{a\in A}\zeta^a\right)\right|
+ \ge2^{p-1}.
+\]
+Put
+$g=(p-1)/4$.  Each quadratic half is closed under conjugation and contains
+$g$ conjugate pairs.  Let $b_1,\ldots,b_g$ be the squared moduli for one
+representative of each pair in the chosen half, and let
+$c_1,\ldots,c_g$ denote the other half.  Parseval gives
+$2\sum_i c_i\le p^2$, while AM--GM gives
+\[
+ \prod_i c_i\le\left(\frac{p^2}{2g}\right)^g.
+\]
+The algebraic norm is the product over all $2g$ conjugate-pair squared
+moduli, so
+\[
+ \prod_i b_i\prod_i c_i\ge2^{p-1}=16^g.
+\]
+A second AM--GM application therefore gives
+\[
+ 2\sum_i b_i\ge
+ 2g\left(\prod_i b_i\right)^{1/g}
+ \ge\frac{4(p-1)^2}{p^2}.
+\]
+Thus
+\[
+ \sum_{r\in H_\pm}|P_f(\zeta^r)|^2
+ \ge\frac{4(p-1)^2}{p^2}.
+\]
+Dividing by $p$ gives the stated bound for the chosen half.  Repeating the
+same argument with the two halves interchanged proves it for their minimum
+$W(f)$ and establishes \eqref{eq:paley-exact-leakage-obstruction}.
+\end{proof}
+
 Exact exhaustive evaluation gives
 \[
 \begin{array}{c|rrrr}
@@ -2205,21 +2547,19 @@ $5/\sqrt{29}=0.9284766908\ldots$, but four selected values prove neither
 monotonicity nor an asymptotic law.  The square-order family in
 Theorem~\ref{thm:paley-boolean} has ratio one identically.
 
-Proposition~\ref{prop:paley-leakage} isolates a character-sum problem: construct
-an asymptotically balanced Boolean function whose additive Fourier energy lies
-almost entirely in one quadratic-character half.  Even a proof of that
-statement would only show $M(C_{q+1})\sim(q+1)\sqrt q/2$.  Since
-$F(q+1)\le M(C_{q+1})$, it
-does not supply a lower bound on $F$.  To obtain the original limit $1/2$ by
-this route one would additionally need, for a multiplicatively dense sequence
-of Paley prime orders,
+Theorem~\ref{thm:paley-least-nonresidue} solves the Fourier character-sum half
+on a multiplicatively dense prime sequence.  It shows only that
+$M(C_{p_j+1})\sim(p_j+1)\sqrt{p_j}/2$.  Since
+$F(p_j+1)\le M(C_{p_j+1})$, this supplies no lower bound on $F$.  To obtain
+the original limit $1/2$ by this route one would additionally need, along the
+same sequence,
 \begin{equation}
- F(q+1)\ge(1-o(1))M(C_{q+1}).
+ F(p_j+1)\ge(1-o(1))M(C_{p_j+1}).
  \label{eq:paley-rigidity-target}
 \end{equation}
-Together with \eqref{eq:paley-leakage-target}, the prime number theorem in the
-progression $1\pmod4$, monotonicity of $F$, and the existing limsup bound,
-\eqref{eq:paley-rigidity-target} would force the limit to be $1/2$.  The exact
+Together with multiplicative density, monotonicity of $F$, and the existing
+limsup bound, \eqref{eq:paley-rigidity-target} would force the limit to be
+$1/2$.  The exact
 optimality at orders 6 and 14 is finite evidence only; order 10 already shows
 that conference matrices need not be optimal.
 
@@ -2265,7 +2605,11 @@ smaller state consisting only of exact maximizers.  A useful theorem must
 either stabilize the normalized dyadic Bellman cost or prove switching-orbit
 noncoverage for the multivertex rank-one group.  Proposition
 \ref{prop:entropy-floor} rules out the all-state weighted union bound, so the
-replacement must exploit intersections among bad constraints.
+replacement must exploit intersections among bad constraints.  Theorem
+\ref{thm:relative-profile} supplies a concrete intermediate target: prove
+that the three local deficit profiles cross the $2^{N-1}$ microcanonical
+threshold with a power-saving margin.  If that scalar target fails, additive
+labels in the exact convolution remain available.
 
 \paragraph{E. Second-order limit object.}
 Construct a rate-sensitive topology for \(A/\sqrt n\) in which the Boolean
@@ -2276,13 +2620,13 @@ spectra.  Spectral edges, eigenvectors, or the whole induced Gaussian process
 would have to remain visible.
 
 \paragraph{F. Paley alignment and minimax rigidity.}
-Prove the Fourier leakage target \eqref{eq:paley-leakage-target} along prime
-Paley orders, then prove the independent minimax lower bound
-\eqref{eq:paley-rigidity-target}.  The first is a concrete Boolean
-Fourier/character-sum problem.  The second is the hard adversarial step and
-cannot be inferred from the performance of a selected construction.  The four
-prime-field computations through $C_{30}$ motivate the first statement
-but do not determine its asymptotic behavior.
+Theorem~\ref{thm:paley-least-nonresidue} proves the Fourier leakage target
+along a multiplicatively dense sequence of prime Paley orders.  The remaining
+step is the independent minimax lower bound
+\eqref{eq:paley-rigidity-target}.  This is the hard adversarial statement and
+cannot be inferred from the performance of a selected construction.  It
+would show that every signing, not merely the Paley signing, has asymptotic
+maximum at least the Paley value.
 
 \paragraph{G. Nonexistence.}
 To separate subsequences one needs order-specific lower bounds on \(F(n)\),
@@ -2329,8 +2673,9 @@ The adversarial elliptope limit, the code dual and MacWilliams formula, the
 oriented covariance barrier, the graph-limit obstructions, finite
 non-heredity, the weighted covering-radius Bellman identity, the exact
 negative-replica recursion, the scalar transport no-go theorem, the exact
-conditional-alignment state, the Paley Fourier-leakage identity, and the
-values through order fourteen materially
+conditional-alignment state, the microcanonical profile composition theorem,
+the Paley Fourier-leakage identity and its least-nonresidue construction, and
+the values through order fourteen materially
 narrow the search.  They do not prove existence or nonexistence of the
 original limit.
 
@@ -2404,8 +2749,8 @@ J. Math. Phys. \textbf{12} (1933), 311--320.
 
 \bibitem{davenport}
 H.~Davenport,
-\emph{Multiplicative number theory}, third ed.,
-Graduate Texts in Mathematics 74, Springer, 2000.
+\emph{Multiplicative number theory}, second ed.,
+Graduate Texts in Mathematics 74, Springer, 1980.
 \url{https://doi.org/10.1007/978-1-4757-5927-3}
 
 \end{thebibliography}

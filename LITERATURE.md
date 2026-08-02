@@ -30,7 +30,7 @@ where \(A\) is symmetric, has zero diagonal, and has off-diagonal entries in
 | Signed graphs and cut codes | Switching classes are cosets of the cut/cocycle code, and frustration is a coset-leader problem. | The code here is the cut code augmented by the all-one word; no cited result gives its complete-graph covering-radius deficit to second order. |
 | Grothendieck/SDP | Boolean bilinear or quadratic optima have constant-factor semidefinite relaxations. | A fixed constant factor is leading-order at scale \(n^{3/2}\); convergence needs asymptotically lossless control. |
 | Dense graph limits | Cut-metric convergence controls normalized dense energies/free energies at scale \(n^2\). | Near-optimal signings are fluctuation objects at scale \(n^{3/2}\); ordinary graphons erase that scale. |
-| Seidel/conference matrices | Paley gives an infinite, dense family of symmetric conference matrices; Seidel switching and spectra are well developed. | A spectral ceiling need not be attained by a Boolean vector, and construction upper bounds cannot prove a matching lower bound for \(F(n)\). |
+| Seidel/conference matrices | Paley gives an infinite, dense family of symmetric conference matrices; the least-nonresidue interval theorem now proves asymptotic Boolean spectral alignment on a multiplicatively dense prime subsequence. | This is still a construction upper bound. It does not prove the minimax rigidity lower bound for \(F(n)\). |
 | Vector balancing | Powerful theorems choose signs so a vector sum lies in a prescribed convex body. | Applied to the exponentially many spin constraints, their generic normalization/constant losses do not yield a lossless amplification theorem. |
 
 ## 1. Mean-field spin glasses and thermodynamic limits
@@ -429,10 +429,35 @@ $q+1$ with $q=4m^2+1$.
 The repository's exact Fourier-leakage identity diagonalizes the Paley core
 and shows that Boolean spectral alignment is equivalent to an asymptotically
 balanced sign function whose additive Fourier energy has $o(q)$ mass in one
-quadratic-character half. This
-reformulation makes the construction problem precise. It still does not
-address the separate rigidity statement needed to show that every signing,
-rather than one Paley signing, has energy near the $1/2$ constant.
+quadratic-character half. The new least-nonresidue construction closes this
+Fourier half on a multiplicatively dense sequence of prime orders. A balanced
+half-interval has leakage at most $2p/(\ell(p)-1)$, and quadratic reciprocity
+makes $\ell(p)>j$ in the progression
+
+\[
+ p\equiv1\pmod{8\prod_{\lambda\le j,\ \lambda\ {\rm odd\ prime}}\lambda}.
+\]
+
+The prime number theorem in each fixed progression lets these levels be
+concatenated while consecutive prime ratios tend to one.
+
+* Source for the analytic number theory input: H. Davenport,
+  [*Multiplicative Number Theory*](https://doi.org/10.1007/978-1-4757-5927-3),
+  second edition, Springer, 1980.
+* Gives here: primes in each fixed reduced residue class with relative gaps
+  tending to zero. Quadratic reciprocity supplies the least-nonresidue
+  condition; the Fourier estimate is proved directly in this repository.
+* Does not give: minimax rigidity. The conclusion is still about one Paley
+  signing. To force the original limit to be $1/2$, one must prove that every
+  signing at the same dense orders has maximum at least $(1-o(1))$ times the
+  Paley maximum.
+
+No primary source was found stating this interval/least-nonresidue argument
+in the Paley quadratic-alignment form. It is recorded as new to this
+repository, not as a priority claim. Exact one-half support is impossible for
+a nonconstant prime-order Boolean function by cyclotomic divisibility, while
+the interval itself fails uniformly along primes $p\equiv5\pmod{12}$. These
+two limitations prevent stronger claims than the stated subsequence theorem.
 
 Szollosi and Ostergard enumerate Seidel matrices through order 13 up to the
 relevant equivalences and determine spectral/algebraic data; related work

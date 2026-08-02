@@ -3665,3 +3665,201 @@ geometry to determine the optimized cavity reward. On the coding side, the
 corresponding target is a conditional strong data-processing or reverse-noise
 theorem for fine cosets inside the graph--rectangular coarse quotient, still
 effective when $u=\tanh(\beta/\sqrt n)$.
+
+## 10. Relative-profile composition and Paley leakage closure
+
+### Theorem 32 (microcanonical relative-switching composition)
+
+Let
+
+\[
+ \mathbb P_r=\{\pm1\}^r/\{\pm\mathbf1\},\qquad
+ G_{n,k}=\mathbb P_n\times\mathbb P_k\times\{\pm1\},
+ \qquad |G_{n,k}|=2^{N-1},\quad N=n+k.
+\]
+
+For fixed graph signings $A,B$ and rectangular signing $C$, take the local
+augmented graph state spaces
+
+\[
+ \Omega_A=\{\pm1\}\times\mathbb P_n,\qquad
+ e_A(\sigma,[x])=\sigma Q_A(x),
+\]
+
+and analogously for $B$. Project signed rank-one matrices by $R\sim-R$ and
+put $e_C([R])=|\langle C,R\rangle|$. The map
+
+\[
+ \pi((\sigma,[z]),(\eta,[w]),[xy^{\mathsf T}])
+ =([zx],[wy],\sigma\eta)
+\]
+
+is onto $G_{n,k}$ and every fiber has $2^{N-1}$ elements.
+
+Write
+
+\[
+ L=M(A)+M(B)+B_C,\qquad B_C=\max_{x,y}|x^{\mathsf T}Cy|,
+\]
+
+and let $d_A,d_B,d_C$ be the corresponding local energy deficits. For
+$g=(\alpha,\beta,\tau)$ define
+
+\[
+ Y_g=\begin{pmatrix}
+ D_\alpha AD_\alpha&C\\
+ C^{\mathsf T}&\tau D_\beta BD_\beta
+ \end{pmatrix}.
+\]
+
+Then exactly
+
+\[
+ L-M(Y_g)=\min_{\pi(a,b,r)=g}[d_A(a)+d_B(b)+d_C(r)].       \tag{32.1}
+\]
+
+Let $\Lambda(A,B,C)$ be the $2^{N-1}$-st smallest product-triple deficit,
+with multiplicity. Pigeonholing one minimizing triple in each fiber gives
+
+\[
+ F(N)\le M(A)+M(B)+B_C-\Lambda(A,B,C).                    \tag{32.2}
+\]
+
+Equivalently, if fewer than $2^{N-1}$ triples have deficit below $s$, some
+relative gauge has maximum at most $L-s$.
+
+This is not the failed weighted Hamming union bound. It is a deterministic
+quantile theorem for the actual three local near-maximal profiles. If
+
+\[
+ D_A(t)=\sum_a e^{-td_A(a)}
+\]
+
+and similarly for $B,C$, exponential counting gives
+
+\[
+ \Lambda\ge\sup_{t>0}\left[
+ \frac{(N-1)\log2-\log D_A(t)-\log D_B(t)-\log D_C(t)}t
+ \right]_+.                                                \tag{32.3}
+\]
+
+The bound is optimal after discarding the additive labels: distribute the
+$2^{N-1}$ smallest deficits one per abstract equal-sized fiber. The actual
+group geometry can do better. In the exact $2+4$ scalar collision, both
+unlabeled profiles have $\Lambda=0$, whereas the true relative-gauge gains
+are 4 and 2.
+
+At finite temperature, $\pi$ pushes the product of the two graph Gibbs laws
+and the rectangular $2\cosh(t\langle C,R\rangle)$ law to the conditional
+alignment law. Its Fourier coefficients factor into three local correlation
+tensors:
+
+\[
+ \widehat r(I,J,\epsilon)
+ =\mathbb E_{\mu_A}[\sigma^\epsilon z_I]
+  \mathbb E_{\mu_B}[\eta^\epsilon w_J]
+ \mathbb E_{\mu_C}[x_Iy_J].                               \tag{32.4}
+\]
+
+This supplies a monotone projected hierarchy between the scalar quantile and
+the complete alignment state. The mixed four-cycle Hamiltonian is its first
+nonzero layer.
+
+The exact scalar settling target is now a large-deviation statement. For a
+composable near-optimal family, fewer than $2^{N-1}$ triples must lie below
+the deficit needed to reduce
+
+\[
+ M(A)+M(B)+B_C
+\]
+
+to
+
+\[
+ [F(n)^{2/3}+F(k)^{2/3}]^{3/2}+O(N^{3/2-\delta}).
+\]
+
+Then (32.2) yields power-saving near-subadditivity. A bounded number of exact
+maximizers is not enough; one needs the whole leading-scale near-maximal
+profile.
+
+### Theorem 33 (multiplicatively dense prime Paley alignment)
+
+For a prime $p\equiv1\pmod4$, let $\ell(p)$ be its least positive quadratic
+nonresidue. Put $m=(p-1)/2$ and take the balanced interval function
+
+\[
+ f_p(a)=-1\quad(0\le a<m),\qquad f_p(a)=1\quad(m\le a<p).
+\]
+
+Then $S(f_p)=1$ and, for $r\ne0$,
+
+\[
+ |\widehat f_p(r)|^2
+ =\frac4p\frac{\sin^2(\pi rm/p)}{\sin^2(\pi r/p)}.
+\]
+
+The inequality $\sin(\pi\|r\|_p/p)\ge2\|r\|_p/p$ gives
+
+\[
+ W(f_p)\le E_-(f_p)
+ \le2p\sum_{d=\ell(p)}^\infty d^{-2}
+ \le\frac{2p}{\ell(p)-1}.                                 \tag{33.1}
+\]
+
+For
+
+\[
+ L_j=8\prod_{\substack{\lambda\le j\\\lambda\ {\rm odd\ prime}}}\lambda,
+\]
+
+quadratic reciprocity shows that $p\equiv1\pmod{L_j}$ implies
+$\ell(p)>j$. The prime number theorem in each fixed progression lets one
+concatenate increasingly deep progression tails so that consecutive prime
+ratios tend to one while the levels $j$ tend to infinity. Therefore there
+is a multiplicatively dense prime sequence $p_i$ with
+
+\[
+ |S(f_{p_i})|=1=o(p_i),\qquad W(f_{p_i})=o(p_i).
+\]
+
+By Theorem 31,
+
+\[
+ \frac{2M(C_{p_i+1})}{(p_i+1)\sqrt{p_i}}\longrightarrow1.  \tag{33.2}
+\]
+
+This closes the Fourier-leakage half of the value-specific Paley route. It
+does not prove a lower bound for $F$. The remaining statement is the dense
+sequence rigidity estimate
+
+\[
+ F(p_i+1)\ge(1-o(1))M(C_{p_i+1}).                          \tag{33.3}
+\]
+
+If (33.3) held, monotonicity and multiplicative density would force the
+original limit to equal $1/2$.
+
+There are two exact limitations. First, nonconstant Boolean functions at
+prime order never have $W=0$; a cyclotomic norm argument gives
+
+\[
+ W(f)\ge\frac{4(p-1)^2}{p^3}.
+\]
+
+Second, one interval does not work uniformly. Along primes
+$p\equiv5\pmod{12}$, the residue pair $\pm1$ and nonresidue pair $\pm3$
+force
+
+\[
+ \liminf W(f_p)/p\ge8/(9\pi^2).
+\]
+
+The nested arithmetic progressions are therefore essential to this
+construction.
+
+The deterministic checks are
+`verification/verify_relative_profile_composition.py` and
+`verification/verify_paley_least_nonresidue.py`. They verify the finite
+identities, exact witnesses, order statistics, and corruption controls. The
+prime-sequence conclusion rests on the analytic proof, not finite sampling.
