@@ -38,6 +38,16 @@ The repository now goes substantially beyond those baseline results:
   optimal blocks of sizes 2 and 8 forces maximum 15, although `F(10) = 13`.
   Allowing the order-8 block maximum to rise from 10 to 12 is necessary and
   sufficient to recover 13.
+- One-vertex extension has an exact energy-weighted projective
+  covering-radius formula and Bellman identity. The ordinary covering radius
+  of the exact maximizers explains every order-9 and order-10 extension class,
+  while two order-7 classes prove that lower energy layers cannot generally be
+  discarded. Complete Bellman Pareto frontiers through residual order 8 show
+  exact trades between internal energy and covering deficit.
+- Two optimal order-9 classes have the same complete absolute-energy
+  histogram, hence identical scalar partition functions at every temperature,
+  but extension values 13 and 15. Scalar free energy alone is therefore not a
+  closed cavity state.
 
 ## Main open routes
 
@@ -55,6 +65,11 @@ converge.
 The present wall is optimizer-sensitive composition. Internal block energy
 and the cross field can cancel for the same spin assignment, while bounding
 them separately costs the full leading order.
+
+For one-vertex growth, the exact state is now known: the Pareto profile of the
+internal maximum and its energy-weighted covering deficit. The next question
+is whether that profile has a uniform asymptotic law over the near-optimal
+energy window. Exact ground states alone are provably insufficient.
 
 ## Research package
 
@@ -116,6 +131,6 @@ certificate boundaries, dependencies, seeds, and the order-10 Z3 timeout.
 
 ## Provenance
 
-Rob Sneiderman directs the project. OpenAI Codex produced the research notes,
-proof searches, and verification code, with the finite checks designed for
-independent replay.
+Rob Sneiderman directs and preserves the project. The research notes,
+proof-search records, and verification code retain exact nonclaims and are
+designed for independent replay.

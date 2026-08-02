@@ -78,3 +78,17 @@ proofs.  In particular:
 The second-attempt scripts add exact-arithmetic identity checks and exhaustive
 small-order searches.  Their own scope and dependencies are documented in
 `verification/README.md`.
+
+## Post-audit claim additions
+
+These claims were developed after the fixed-revision audit above. They are
+listed separately so the original audit boundary remains explicit.
+
+| Claim | Status | Proof or check location | Exact boundary |
+|---|---|---|---|
+| The weighted projective radius satisfies \(E(B)=M(B)+n-2\rho_{\mathrm w}(B)\), and minimizing it gives the exact Bellman identity for \(F(n+1)\). | proved | `RESEARCH_CONTINUATION.md`, Theorem 15; `paper/second_attempt.tex` | Elementary pairing and projective Hamming-distance proof; no computation is used. |
+| Only configurations with \(\lvert Q_B(x)\rvert\ge M(B)-2\lfloor n/2\rfloor\) can affect the weighted radius. | proved | immediately after Theorem 15 | An exact maximizer always supplies weighted distance at most \(\lfloor n/2\rfloor\); deeper configurations cannot minimize. |
+| Exact maximizers alone determine every optimal-class extension at orders 9 and 10, but not at order 7. | computational only | `verification/research_cross_block_composition.py` | Complete optimizer catalogues trust nauty stream completeness; all incident signs are directly enumerated. |
+| Two optimal order-9 classes have identical absolute-energy histograms, hence identical scalar partition functions at every temperature, but extension values 13 and 15. | computational only | `RESEARCH_CONTINUATION.md`, Proposition 16; same script | The two records are in distinct catalogue classes; histograms, covering radii, and incident-sign extensions are directly enumerated. |
+| The full Pareto frontiers are \(\{(5,2),(7,1),(9,0)\}\) at residual order 6 and \(\{(10,1),(12,0)\}\) at residual order 8. | computational only | same script, `full_extension_pareto` records | Every root-normalized residual graph through order 8 is exhausted; graph counts and stream hashes are asserted, and extension values are independently recomputed. |
+| Optimal blocks of orders 2 and 8 force combined maximum 15, while order-8 internal maximum 12 is the least budget permitting combined maximum 13. | computational only | `RESEARCH_CONTINUATION.md`, Theorem 14; same script | The critical cross blocks are directly exhausted; completeness of residual representatives trusts nauty. |

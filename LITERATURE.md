@@ -202,6 +202,27 @@ uniform control of the heaviest coset leader, to accuracy \(o(n^{3/2})\), for a
 family whose block decomposition introduces many cross-block cycles.  None of
 the cited graphical-code results supplies that second-order theorem.
 
+The post-audit one-vertex identity in `RESEARCH_CONTINUATION.md` introduces a
+different exact object: the projective spin cube in which every configuration
+has weight \((M(B)-|Q_B(x)|)/2\), and distance is Hamming distance modulo
+antipodes. Its weighted covering radius reconstructs the optimum extension
+value exactly and needs only the energy window of width
+\(2\lfloor n/2\rfloor\) below the maximum. This is not the covering radius of
+a fixed binary linear code, so the cited cycle- and cocycle-code theorems do
+not directly apply. The order-7 counterexample further shows why an ordinary
+covering code made only from exact maximizers loses necessary energy-layer
+information. A relevant coding theorem would need uniform control of these
+energy-weighted covering deficits, not merely a weight enumerator or the
+unweighted ground-state code.
+
+Indeed, two optimal order-9 classes in the exact catalogue have identical
+absolute-energy histograms, and hence identical scalar partition functions at
+every temperature, but different one-vertex extension values. This finite
+collision explains why a spin-glass interpolation would need a geometric
+order parameter rather than only the optimized scalar free energy. It does not
+contradict the thermodynamic-limit results cited above, whose disorder is
+sampled rather than adversarially optimized.
+
 ## 4. Grothendieck inequalities and semidefinite relaxations
 
 Alon and Naor give a semidefinite algorithm that approximates the cut norm (or

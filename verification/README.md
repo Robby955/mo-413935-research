@@ -127,6 +127,22 @@ root representative. A second exhaustive pass through all 1,044 residual
 graphs at order 8 proves that internal maximum 12 is the least slack that can
 participate in an order-10 optimum.
 
+For each optimal extension class, the script also computes the projective
+covering radius `rho_ext` of the exact extremizers and the energy-weighted
+radius `rho_weighted` of the full energy landscape. It independently asserts
+
+```text
+E(B) = M(B) + n - 2*rho_weighted
+extremizer-only value = M(B) + n - 2*rho_ext
+```
+
+against direct enumeration of incident-edge signings.
+
+It then enumerates every root-normalized residual graph, not just optimal
+classes, through order 8 and computes the complete Pareto frontier of
+`(M(B), delta_weighted)`. Every radius-derived extension value is checked by a
+second direct enumeration of all incident sign vectors.
+
 The expected critical records are:
 
 ```text
@@ -135,6 +151,12 @@ pair 3+7: class distribution {13: 6, 15: 6}
 order-7 extensions: {10: 4, 12: 2} across 6 classes
 order-9 extensions: {13: 4, 15: 11} across 15 classes
 order-10 extensions: {17: 1, 19: 1} across 2 classes; value-17 witness HCRbczQ, mask 440
+order-7 covering profiles: {(3,3,10): 4, (3,2,12): 2}
+order-9 covering profiles: {(4,4,13): 4, (3,3,15): 11}
+order-10 covering profiles: {(3,3,17): 1, (2,2,19): 1}
+partition-function collision: G?qmaw and GCpbaw have histogram {0:60,4:111,8:60,12:25}, extensions 13 and 15
+full Bellman frontier at order 6: {(5,2), (7,1), (9,0)}; all give F(7)=9
+full Bellman frontier at order 8: {(10,1), (12,0)}; both give F(9)=12
 extension obstruction layers: order_7_abs_7=2, order_9_abs_12=11
 minimum order-8 block maximum for an order-10 optimum: 12
 order-8 value-12 root representatives composing to 13: 68 of 104

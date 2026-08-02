@@ -19,16 +19,15 @@
 \DeclareMathOperator{\wt}{wt}
 
 \hypersetup{
-  pdftitle={A Second Attempt at MathOverflow 413935},
-  pdfauthor={OpenAI Codex},
+  pdftitle={Research Note on MathOverflow 413935},
+  pdfauthor={Rob Sneiderman, project director},
   pdfsubject={Relaxation theorems and obstructions for a min-max quadratic sign problem},
   pdfkeywords={quadratic forms, signs, discrepancy, spin glasses, cut codes, graphons}
 }
 
-\title{\textbf{A Second Attempt at MathOverflow 413935}\\[4pt]
+\title{\textbf{Research Note on MathOverflow 413935}\\[4pt]
 \large Exact relaxations, finite-temperature barriers, and a sharper proof frontier}
-\author{OpenAI Codex\\
-\small AI-generated research note; directed and preserved by Rob Sneiderman}
+\author{Research project directed and preserved by Rob Sneiderman}
 \date{1 August 2026}
 
 \begin{document}
@@ -64,7 +63,12 @@ We identify the augmented cut code as a binary linear code whose dual consists
 of even-cardinality Eulerian subgraphs, and derive an exact signed-Eulerian
 MacWilliams formula.  Ordinary graphons and limiting empirical spectra are
 proved to erase the \(n^{3/2}\) functional.  Exhaustive computation gives
-\(F(2),\ldots,F(10)=1,3,4,4,5,9,10,12,13\).  The sharp remaining target is a
+\(F(2),\ldots,F(10)=1,3,4,4,5,9,10,12,13\).  Exact cross-block computation
+shows that optimal blocks of orders 2 and 8 cannot occur together in an
+order-10 optimum.  We also identify the one-vertex Bellman state as an exact
+energy-weighted projective covering radius and certify that the code of exact
+maximizers, and even the complete scalar partition-function curve, can be
+insufficient.  The sharp remaining target is a
 quenched minimax free-energy limit that absorbs, rather than separately
 bounds, the cross-block contribution.
 \end{abstract}
@@ -766,7 +770,153 @@ switching classes at order ten have different characteristic polynomials.
 Thus neither conference structure nor a unique spectrum describes all finite
 optimizers.  These finite facts do not imply a limiting constant.
 
-\section{Five proof programs and the sharp remaining lemma}
+\section{Finite non-heredity and an exact weighted covering state}
+
+For fixed signings $A$ and $B$, define
+\[
+ J(A,B)=\min_{C\in\eps^{s\times k}}
+ M\begin{pmatrix}A&C\\C^{\mathsf T}&B\end{pmatrix},
+ \qquad E(B)=J([0],B).
+\]
+Complete cross-block enumeration over the optimal switching-permutation
+classes through total order ten gives, in particular,
+\begin{equation}
+ \min_{M(A)=F(2),\ M(B)=F(8)}J(A,B)=15>F(10)=13.
+ \label{eq:twoeight}
+\end{equation}
+Hence no optimal order-10 signing contains an optimal order-8 principal
+submatrix.  The smallest possible internal sacrifice repairs the obstruction:
+among the 1,044 root-normalized order-8 representatives, internal maximum 12
+is necessary and sufficient for a $2+8$ completion of maximum 13.  The same
+enumeration gives one-vertex extension distributions
+\[
+\begin{array}{c|c}
+n&\text{distribution of $E(B)$ over optimal classes}\\ \hline
+7&10^{\times4},\ 12^{\times2}\\
+8&12^{\times2}\\
+9&13^{\times4},\ 15^{\times11}\\
+10&17^{\times1},\ 19^{\times1}.
+\end{array}
+\]
+Thus the scalar $M(B)$ does not determine future composition cost.
+
+There is, however, an exact coding-theoretic state for one-vertex extension.
+Let
+\[
+ \mathcal P_n=\eps^n/\{x\sim-x\},\qquad
+ d_\pm([u],[v])=\min\{d_H(u,v),d_H(u,-v)\}.
+\]
+For an order-$n$ signing $B$, put $M=M(B)$ and
+\[
+ w_B([x])=\frac{M-|Q_B(x)|}{2},
+ \qquad
+ \rho_{\mathrm w}(B)=
+ \max_{[b]\in\mathcal P_n}\min_{[x]\in\mathcal P_n}
+ \bigl(d_\pm([b],[x])+w_B([x])\bigr).
+\]
+The weights are nonnegative integers because every quadratic energy has the
+parity of $\binom n2$.
+
+\begin{theorem}[Weighted covering-radius Bellman identity]
+\label{thm:weighted-bellman}
+For every order-$n$ signing $B$,
+\[
+ E(B)=M(B)+n-2\rho_{\mathrm w}(B).
+\]
+Equivalently, if
+\[
+ \delta_{\mathrm w}(B)=\left\lfloor\frac n2\right\rfloor
+ -\rho_{\mathrm w}(B),
+\]
+then
+\[
+ F(n+1)=\min_B\left(
+ M(B)+(n\bmod2)+2\delta_{\mathrm w}(B)
+ \right),
+\]
+where the minimum is over all order-$n$ signings.
+\end{theorem}
+
+\begin{proof}
+Let $b\in\eps^n$ be the incident signs and let $t$ be the new spin.  Pairing
+$t=1$ and $t=-1$ gives, for every old spin vector $x$,
+\[
+ \max_{t\in\eps}|Q_B(x)+t\,b\mathbin\cdot x|
+ =|Q_B(x)|+|b\mathbin\cdot x|.
+\]
+Since $|b\mathbin\cdot x|=n-2d_\pm([b],[x])$, the maximum over $x$ for
+fixed $b$ is
+\[
+ M+n-2\min_{[x]\in\mathcal P_n}
+ \bigl(w_B([x])+d_\pm([b],[x])\bigr).
+\]
+Minimizing over $[b]$ proves the first identity.  The equality
+$n-2\lfloor n/2\rfloor=n\bmod2$ gives the deficit form.  Finally,
+minimizing over all $B$ and $b$ enumerates every order-$(n+1)$ signing.
+\end{proof}
+
+For every center $[b]$, some exact maximizer has projective distance at most
+$\lfloor n/2\rfloor$.  A configuration of weight greater than this can never
+attain the inner minimum.  Consequently $E(B)$ depends only on the exact
+near-ground window
+\[
+ |Q_B(x)|\ge M(B)-2\left\lfloor\frac n2\right\rfloor.
+\]
+The Bellman state has energy width at most $n$; deeper configurations are
+rigorously irrelevant to one-vertex extension.
+
+Let $X_B=\{[x]:|Q_B(x)|=M(B)\}$ and let $\rho_{\rm ext}(B)$ be its
+ordinary covering radius in $\mathcal P_n$.  The same proof, restricted to
+the maximizing configurations, gives the exact lower obstruction
+\[
+ E(B)\ge M(B)+n-2\rho_{\rm ext}(B),
+ \qquad \rho_{\mathrm w}(B)\le\rho_{\rm ext}(B).
+\]
+The exhaustive verifier independently recomputes both radii and the full
+extension values.  At order nine, the four extendible classes have
+$(\rho_{\rm ext},\rho_{\mathrm w})=(4,4)$, while the eleven failing classes
+have $(3,3)$.  The order-10 classes have radii $(3,3)$ and $(2,2)$, exactly
+explaining extension values 17 and 19.  Exact maximizers are not a complete
+state: all six order-7 classes have $\rho_{\rm ext}=3$, but the $|Q_B|=7$
+layer lowers $\rho_{\mathrm w}$ to 2 in precisely the two classes with
+$E(B)=12$.  This is a finite counterexample to any cavity rule retaining only
+the ground-state code.  The full energy-weighted projective landscape is
+exact for one step.
+
+The scalar partition function is also insufficient.  The two optimal
+order-nine graph6 records \texttt{G?qmaw} and \texttt{GCpbaw} have the same
+complete projective absolute-energy histogram
+\[
+ \#\{|Q_B|=0,4,8,12\}=(60,111,60,25),
+\]
+and therefore have identical values of
+$\sum_xe^{t|Q_B(x)|}$ and $\sum_{x,s}e^{tsQ_B(x)}$ for every real $t$.
+Nevertheless their extremizer covering radii are 4 and 3, and direct
+enumeration gives extension values 13 and 15.  Thus even the entire scalar
+free-energy curve loses the geometry required by a Bellman step.  This does
+not refute a nonlocal minimax interpolation with a richer order parameter.
+
+The verifier also exhausts all root-normalized residual graphs through order
+eight.  If $\mathcal B_n$ is the coordinatewise Pareto-minimal set of pairs
+$(M(B),\delta_{\mathrm w}(B))$, then
+\[
+\begin{array}{c|c}
+n&\mathcal B_n\\ \hline
+2&\{(1,1)\}\\
+3&\{(3,0)\}\\
+4&\{(4,0)\}\\
+5&\{(4,0)\}\\
+6&\{(5,2),(7,1),(9,0)\}\\
+7&\{(9,0)\}\\
+8&\{(10,1),(12,0)\}.
+\end{array}
+\]
+Every point at order six gives $F(7)=9$, and both points at order eight give
+$F(9)=12$.  Thus two units of additional internal energy can be exactly
+offset by one unit of covering-deficit improvement.  This is finite evidence
+for a near-optimal Pareto family, not an asymptotic conclusion.
+
+\section{Six proof programs and the sharp remaining lemma}
 
 The detailed derivations and failed variants are preserved in
 \texttt{RESEARCH\_LEDGER.md}.  The current programs are logically distinct.
@@ -794,7 +944,15 @@ Puncturing and ordinary products fail because of the common parity phase,
 rank-one cross lift, and macroscopic family of mixed 4-cycles.  A quenched
 coset-weight theorem, rather than an average weight enumerator, is required.
 
-\paragraph{D. Second-order limit object.}
+\paragraph{D. Cavity covering profile.}
+Control the Pareto set $(M(B),\delta_{\mathrm w}(B))$ uniformly in the
+near-optimal energy window.  Theorem~\ref{thm:weighted-bellman} makes this
+state exact for one vertex, while the order-seven computation rules out the
+smaller state consisting only of exact maximizers.  A useful theorem must
+retain enough energy layers to control the weighted radius without paying a
+leading-order entropy loss.
+
+\paragraph{E. Second-order limit object.}
 Construct a rate-sensitive topology for \(A/\sqrt n\) in which the Boolean
 maximum is continuous and sign arrays have an asymptotically lossless
 composition.  Theorem~\ref{thm:graphon} and
@@ -802,7 +960,7 @@ Proposition~\ref{prop:spectrum} rule out ordinary graphons and empirical
 spectra.  Spectral edges, eigenvectors, or the whole induced Gaussian process
 would have to remain visible.
 
-\paragraph{E. Nonexistence.}
+\paragraph{F. Nonexistence.}
 To separate subsequences one needs order-specific lower bounds on \(F(n)\),
 not merely constructions with different energies.  Conference, random, and
 planted matrices supply upper bounds or deliberately inferior examples.  The
@@ -838,7 +996,8 @@ are documented in \texttt{verification/README.md}.  The literature map is in
 preserved.
 
 The adversarial elliptope limit, the code dual and MacWilliams formula, the
-oriented covariance barrier, and the graph-limit obstructions materially
+oriented covariance barrier, the graph-limit obstructions, finite
+non-heredity, and the weighted covering-radius Bellman identity materially
 narrow the search.  They do not prove existence or nonexistence of the
 original limit.
 

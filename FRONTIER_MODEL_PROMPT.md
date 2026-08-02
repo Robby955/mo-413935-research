@@ -517,6 +517,82 @@ $r_n=o(n^{3/2})$ and $\delta>0$,
  +O((n+m)^{1-\delta}).
 \]
 
+### 3.10 Exact weighted covering-radius Bellman state
+
+Let
+
+\[
+ \mathcal P_n=\{\pm1\}^n/\{x\sim-x\},\qquad
+ d_\pm([u],[v])=\min\{d_H(u,v),d_H(u,-v)\}.
+\]
+
+For an order-$n$ signing $B$, put $M=M(B)$ and
+
+\[
+ w_B([x])=\frac{M-|Q_B(x)|}{2},
+\qquad
+ \rho_{\rm w}(B)=\max_{[b]\in\mathcal P_n}
+ \min_{[x]\in\mathcal P_n}
+ \bigl(d_\pm([b],[x])+w_B([x])\bigr).
+\]
+
+Pairing the two values of a new vertex spin proves the exact identities
+
+\[
+ E(B)=M(B)+n-2\rho_{\rm w}(B)
+\]
+
+and, with
+$\delta_{\rm w}(B)=\lfloor n/2\rfloor-\rho_{\rm w}(B)$,
+
+\[
+ F(n+1)=\min_B
+ \left(M(B)+(n\bmod2)+2\delta_{\rm w}(B)\right).
+\]
+
+This is an exact one-vertex Bellman state. It is not enough to retain only
+the projective code of configurations satisfying $|Q_B|=M(B)$. All six
+optimal order-7 classes have extremizer-code covering radius 3, but lower
+energy layers reduce the weighted radius to 2 in exactly the two classes with
+extension value 12. At order 9, by contrast, radii 4 and 3 exactly distinguish
+the extension values 13 and 15; the two order-10 radii 3 and 2 give extension
+values 17 and 19.
+
+More sharply, the optimal order-9 graph6 records `G?qmaw` and `GCpbaw` have
+the identical projective absolute-energy histogram
+
+\[
+ \#\{|Q_B|=0,4,8,12\}=(60,111,60,25),
+\]
+
+so both scalar partition functions agree for every temperature, yet their
+extension values are 13 and 15. A scalar free-energy curve is therefore not a
+closed Bellman state. This does not disprove a nonlocal minimax interpolation;
+it requires that interpolation to retain geometry or a richer order parameter.
+
+The weighted radius depends only on configurations in the exact window
+
+\[
+ |Q_B(x)|\ge M(B)-2\lfloor n/2\rfloor;
+\]
+
+deeper energy layers can never attain its inner minimum. Complete enumeration
+of all signings through residual order 8 gives the nontrivial Pareto frontiers
+
+\[
+ \mathcal B_6=\{(5,2),(7,1),(9,0)\},\qquad
+ \mathcal B_8=\{(10,1),(12,0)\},
+\]
+
+for $(M,\delta_{\rm w})$. Every point of the first frontier gives $F(7)=9$,
+and both points of the second give $F(9)=12$. Internal energy and covering
+deficit can therefore compensate exactly.
+
+A live route is to prove an asymptotic law or stability theorem for the
+Pareto profile $(M(B),\delta_{\rm w}(B))$ over the near-optimal energy window.
+Any proposed compression of this state must be tested against the order-7
+counterexample.
+
 ## 4. Known failed mechanisms that require a material change
 
 Do not simply repeat any of the following:
@@ -551,6 +627,13 @@ Do not simply repeat any of the following:
     class-sensitive, and the exact $(2,8)$ obstruction forces value 15 rather
     than $F(10)=13$. A viable composition must retain a boundary profile or
     permit controlled internal slack.
+13. Retaining only exact maximizing spin configurations in a cavity state:
+    two optimal order-7 classes have the same extremizer covering radius as
+    the four extendible classes, but their next energy layer raises the exact
+    extension value from 10 to 12.
+14. Retaining the full scalar partition-function curve as the cavity state:
+    two optimal order-9 classes have identical absolute-energy histograms at
+    every level but different extension values.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.

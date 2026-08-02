@@ -1396,6 +1396,240 @@ proves the two Pareto identities, subject only to the stated `geng`
 completeness boundary. All calculations and corruption controls are in
 `verification/research_cross_block_composition.py`. \(\square\)
 
+### Theorem 15 (weighted covering-radius Bellman identity)
+
+The entire one-vertex extension problem has an exact coding-theoretic state,
+not just the finite class table above.  Write
+
+\[
+ \mathcal P_n=\{\pm1\}^n/\{x\sim-x\},\qquad
+ d_\pm([u],[v])=\min\{d_H(u,v),d_H(u,-v)\}.
+\]
+
+For an order-$n$ signing $B$, put $M=M(B)$ and assign every projective spin
+configuration the nonnegative integer weight
+
+\[
+ w_B([x])=\frac{M-|Q_B(x)|}{2}.
+\]
+
+Define its energy-weighted projective covering radius by
+
+\[
+ \rho_{\mathrm w}(B)
+ =\max_{[b]\in\mathcal P_n}\min_{[x]\in\mathcal P_n}
+ \bigl(d_\pm([b],[x])+w_B([x])\bigr).
+\]
+
+Then
+
+\[
+ \boxed{E(B)=M(B)+n-2\rho_{\mathrm w}(B).}
+\]
+
+Equivalently, with the nonnegative weighted covering deficit
+
+\[
+ \delta_{\mathrm w}(B)=\left\lfloor\frac n2\right\rfloor
+ -\rho_{\mathrm w}(B),
+\]
+
+the original minimax sequence obeys the exact Bellman identity
+
+\[
+ \boxed{
+ F(n+1)=\min_B\left(
+ M(B)+(n\bmod2)+2\delta_{\mathrm w}(B)
+ \right),}
+\]
+
+where the minimum is over all order-$n$ signings.
+
+Let
+
+\[
+ X_B=\{[x]\in\mathcal P_n:|Q_B(x)|=M(B)\}
+\]
+
+be the projective extremizer code and let $\rho_{\rm ext}(B)$ be its ordinary
+covering radius in $\mathcal P_n$.  If only the maximizing configurations are
+retained in the extension constraints, their exact optimum is
+
+\[
+ E_{\rm ext}(B)=M(B)+n-2\rho_{\rm ext}(B).
+\]
+
+In particular,
+
+\[
+ \rho_{\mathrm w}(B)\le\rho_{\rm ext}(B),
+ \qquad E(B)\ge E_{\rm ext}(B).
+\]
+
+#### Proof
+
+Let $b\in\{\pm1\}^n$ be the incident-edge signs and let $t$ be the new
+vertex spin.  For each fixed old spin vector $x$, pairing $t=1$ and $t=-1$
+gives
+
+\[
+ \max_{t\in\{\pm1\}}
+ \left|Q_B(x)+t\,b\mathbin\cdot x\right|
+ =|Q_B(x)|+|b\mathbin\cdot x|.
+\]
+
+Moreover,
+
+\[
+ |b\mathbin\cdot x|=n-2d_\pm([b],[x]).
+\]
+
+All values of $Q_B$ have the parity of $\binom n2$, so $w_B([x])$ is an
+integer.  Therefore, for fixed $b$,
+
+\[
+ \begin{aligned}
+ \max_x\bigl(|Q_B(x)|+|b\mathbin\cdot x|\bigr)
+ &=M+n-2\min_{[x]\in\mathcal P_n}
+   \bigl(w_B([x])+d_\pm([b],[x])\bigr).
+ \end{aligned}
+\]
+
+Minimizing the left side over $[b]$ changes the minimum on the right into a
+maximum and proves the first boxed identity.  Since
+$n-2\lfloor n/2\rfloor=n\bmod2$, the deficit form follows.  Minimizing
+$E(B)$ over all $B$ and $b$ enumerates every signing of order $n+1$, proving
+the Bellman identity.  Restricting the inner minimum to $w_B=0$ proves the
+extremizer-code formula, and allowing all weighted configurations can only
+decrease the covering radius. \(\square\)
+
+There is an exact finite-width reduction inside this identity.  For every
+center $[b]$, some extremizer has projective distance at most
+$\lfloor n/2\rfloor$.  Hence a configuration with
+$w_B([x])>\lfloor n/2\rfloor$ can never attain the inner minimum defining
+$\rho_{\mathrm w}(B)$.  Therefore the weighted radius, and thus $E(B)$,
+depends only on the near-ground window
+
+\[
+ \boxed{|Q_B(x)|\ge M(B)-2\left\lfloor\frac n2\right\rfloor.}
+\]
+
+The state is richer than the exact ground-state code but has energy width at
+most $n$; configurations deeper in the landscape are rigorously irrelevant to
+one-vertex extension.
+
+The complete optimizer catalogue gives the following exact profiles.
+Multiplicities again count switching-permutation classes, and each displayed
+triple is $(\rho_{\rm ext},\rho_{\mathrm w},E)$:
+
+\[
+\begin{array}{c|c}
+n&\text{profile distribution}\ \hline
+2&(0,0,3)^{\times1}\\
+3&(1,1,4)^{\times2}\\
+4&(2,2,4)^{\times1}\\
+5&(2,2,5)^{\times1}\\
+6&(1,1,9)^{\times1}\\
+7&(3,3,10)^{\times4},\ (3,2,12)^{\times2}\\
+8&(3,3,12)^{\times2}\\
+9&(4,4,13)^{\times4},\ (3,3,15)^{\times11}\\
+10&(3,3,17)^{\times1},\ (2,2,19)^{\times1}
+\end{array}
+\]
+
+Thus the extremizer code alone exactly distinguishes the successful and
+failing order-9 classes and also explains the values 17 and 19 of the two
+order-10 classes.  It is not a complete state in general: all six order-7
+classes have extremizer radius 3, but the $|Q_B|=7$ layer lowers the weighted
+radius from 3 to 2 in exactly the two classes whose extension value is 12.
+This is a certified counterexample to the tempting claim that ground states
+alone determine the cavity step.  The exact state is the energy-weighted
+projective covering landscape.
+
+### Proposition 16 (the scalar free-energy curve is not a Bellman state)
+
+There are two optimal order-9 signings $B_+$ and $B_-$ having the identical
+complete absolute-energy histogram
+
+\[
+ \#\{[x]\in\mathcal P_9:|Q_{B_\pm}(x)|=e\}
+ =\begin{cases}
+ 60,&e=0,\\
+ 111,&e=4,\\
+ 60,&e=8,\\
+ 25,&e=12,
+ \end{cases}
+\]
+
+but
+
+\[
+ \boxed{E(B_+)=13,\qquad E(B_-)=15.}
+\]
+
+Consequently, for every real $t$, both the absolute-value partition function
+and the augmented partition function agree:
+
+\[
+ \sum_x e^{t|Q_{B_+}(x)|}
+ =\sum_x e^{t|Q_{B_-}(x)|},
+\]
+
+\[
+ \sum_{x,s}e^{tsQ_{B_+}(x)}
+ =\sum_{x,s}e^{tsQ_{B_-}(x)}.
+\]
+
+#### Exact certificate
+
+Take the root-normalized graph6 records `G?qmaw` and `GCpbaw`.  They lie in
+different switching-permutation classes in the complete order-9 catalogue.
+Direct spin enumeration gives the displayed histogram for each.  Their
+extremizer covering radii are respectively 4 and 3, so Theorem 15 already
+gives the two extension values; a separate enumeration of all incident sign
+vectors recomputes 13 and 15.  Representative incident-edge masks are 142 and
+106 respectively, with bit $i$ equal to one for a negative new edge.  The only
+completeness dependency is the stated nauty catalogue boundary. \(\square\)
+
+Thus even the full scalar partition-function curve, equivalently every
+absolute-energy level count, loses the geometry needed for a cavity step.  It
+does not refute the minimax free-energy limit program: a nonlocal interpolation
+or a richer order parameter may still prove that limit.  It does rule out a
+Bellman recursion whose state is only the optimized scalar free energy, even
+if that scalar is retained at every temperature.
+
+The verifier also exhausts every root-normalized residual graph, not only
+optimal classes, through residual order 8.  Let
+
+\[
+ \mathcal B_n=\operatorname{ParetoMin}
+ \{(M(B),\delta_{\mathrm w}(B)):B\text{ has order }n\},
+\]
+
+where both coordinates are minimized.  The complete exact frontiers are
+
+\[
+\begin{array}{c|c}
+n&\mathcal B_n\\ \hline
+2&\{(1,1)\}\\
+3&\{(3,0)\}\\
+4&\{(4,0)\}\\
+5&\{(4,0)\}\\
+6&\{(5,2),(7,1),(9,0)\}\\
+7&\{(9,0)\}\\
+8&\{(10,1),(12,0)\}.
+\end{array}
+\]
+
+Every point in $\mathcal B_6$ minimizes the Bellman objective and gives
+$F(7)=9$; both points in $\mathcal B_8$ give $F(9)=12$.  Thus a two-unit
+increase in internal maximum can be exactly offset by a one-unit improvement
+in weighted covering deficit.  This is positive finite evidence for using a
+near-optimal Pareto family rather than exact minimizers, while making no
+asymptotic claim.  Completeness again trusts the asserted `geng` counts and
+stream hashes; every weighted-radius value is independently checked by direct
+enumeration of all incident sign vectors.
+
 ### Consequence for the convergence program
 
 The finite obstruction does not refute asymptotic near-subadditivity: the
@@ -1417,6 +1651,19 @@ Since $F(n+m)\le K_{n,m}(u,v)$ for every $u,v$, Theorem 13 would then prove
 convergence. This target permits the exact kind of internal sacrifice forced
 by the $(2,8)$ example while still requiring it to vanish on the normalized
 scale.
+
+Theorem 15 supplies a second, one-vertex state space.  The scalar $M(B)$ is
+insufficient, while the Pareto data
+
+\[
+ \bigl(M(B),\delta_{\mathrm w}(B)\bigr)
+\]
+
+is exact for the next Bellman step.  A useful asymptotic theorem would control
+this weighted covering deficit uniformly over the near-optimal energy window,
+rather than only the number or geometry of exact maximizers.  The order-7
+counterexample proves that an extremizer-only code theorem cannot provide
+such control.
 
 ### Order-11 exploration boundary
 

@@ -769,11 +769,14 @@ bounds are found.
 
 ## 9. Sharpest remaining wall and best next lemma
 
-No proof of convergence or nonconvergence was found. The strongest positive
-new theorem is the exact thermodynamic limit \(S_n/n^{3/2}\to1/2\) for the
-adversarial elliptope relaxation. The strongest negative result is that the
-most natural convex relaxation has a leading integrality gap, while ordinary
-graphon and empirical-spectral limits provably erase the objective.
+No proof of convergence or nonconvergence was found. The strongest asymptotic
+positive theorem is the exact thermodynamic limit
+\(S_n/n^{3/2}\to1/2\) for the adversarial elliptope relaxation. The
+post-audit continuation below adds exact optimizer non-heredity and the
+weighted covering-radius Bellman identity. The strongest negative results are
+that the natural convex relaxation has a leading integrality gap, ordinary
+graphon and empirical-spectral limits erase the objective, and neither exact
+minimizers nor their extremizing spin codes form a closed cavity state.
 
 The single best next lemma is Program A's fixed-\(\beta\) statement:
 
@@ -785,3 +788,94 @@ question immediately. In exact coding language it is the same as controlling
 the signing-dependent cancellation in \(\min_y\log P_y\) at
 \(t=\tanh(\beta/\sqrt n)\). Any successful proof must absorb, rather than
 separately bound, the macroscopic mixed 4-cycle/cross-block contribution.
+
+## 10. Post-audit optimizer-composition search
+
+Exact cross-block optimization over every optimal switching-permutation class
+through total order 10 disproved optimizer heredity. The sharp finite row is
+
+\[
+ \min_{M(A)=F(2),\ M(B)=F(8)}J(A,B)=15>F(10)=13.
+\]
+
+No optimal order-10 signing contains an optimal order-8 principal submatrix.
+The obstruction is repaired by exactly two units of internal slack:
+
+\[
+ K_{2,8}(1,10)=15,\qquad K_{2,8}(1,12)=13.
+\]
+
+Among all 1,044 root-normalized order-8 representatives, 104 have maximum 12
+and 68 of those admit an order-10 completion of maximum 13. The complete
+proof, class distributions, witnesses, and solver boundary are preserved in
+Section 7 of `RESEARCH_CONTINUATION.md`. This kills only composition of
+arbitrary exact minimizers. It does not rule out a near-optimal family with
+subleading internal slack.
+
+## 11. Energy-weighted projective covering state
+
+For an order-$n$ signing $B$, let $\mathcal P_n$ be the sign cube modulo
+antipodes and define
+
+\[
+ w_B([x])=\frac{M(B)-|Q_B(x)|}{2},\qquad
+ \rho_{\rm w}(B)=\max_{[b]}\min_{[x]}
+ \bigl(d_\pm([b],[x])+w_B([x])\bigr).
+\]
+
+Pairing the two choices of a new vertex spin gives the exact theorem
+
+\[
+ E(B)=M(B)+n-2\rho_{\rm w}(B).
+\]
+
+Writing
+$\delta_{\rm w}(B)=\lfloor n/2\rfloor-\rho_{\rm w}(B)$ therefore gives the
+exact Bellman identity
+
+\[
+ F(n+1)=\min_B
+ \left(M(B)+(n\bmod2)+2\delta_{\rm w}(B)\right).
+\]
+
+The complete optimizer catalogue through order 10 independently verifies the
+identity against direct incident-sign enumeration. The ordinary covering
+radius of the exact extremizers explains all order-9 and order-10 extension
+class distinctions. It is not a sufficient state in general: all six optimal
+order-7 classes have extremizer radius 3, but the next energy layer lowers the
+weighted radius to 2 in exactly the two classes with extension value 12.
+
+An order-9 collision is sharper. The optimal records `G?qmaw` and `GCpbaw`
+have the same projective absolute-energy counts
+
+\[
+ \#\{|Q_B|=0,4,8,12\}=(60,111,60,25),
+\]
+
+so their scalar partition functions agree for every temperature, while their
+extension values are 13 and 15. Thus even the full scalar free-energy curve is
+not a closed cavity state; energy-layer geometry is essential.
+
+Only the window
+
+\[
+ |Q_B(x)|\ge M(B)-2\lfloor n/2\rfloor
+\]
+
+can affect the weighted radius. Exhaustion of all root-normalized residual
+graphs through order 8 gives the nontrivial full Pareto frontiers
+
+\[
+ \{(5,2),(7,1),(9,0)\}\quad(n=6),\qquad
+ \{(10,1),(12,0)\}\quad(n=8)
+\]
+
+for $(M,\delta_{\rm w})$. Every displayed order-6 point gives $F(7)=9$ and
+both order-8 points give $F(9)=12$, proving that internal energy and covering
+deficit can compensate exactly in the Bellman objective.
+
+**New wall.** One-vertex growth now has an exact state, but no asymptotic
+theorem controls the Pareto profile
+$(M(B),\delta_{\rm w}(B))$ over near-optimal signings. Any ground-state cavity
+program that keeps only maximizers is structurally false; a viable compression
+must retain quantitative energy-layer information.
