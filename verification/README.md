@@ -12,6 +12,11 @@ python3 verification/verify_attempt.py
 python3 verification/check_conference_examples.py
 ```
 
+The conference checker also verifies that all fourteen order-13 principal
+submatrices of the order-14 Paley matrix have maximum 20. This proves the
+upper bounds \(F(13)\le20\) and \(F(14)\le21\); it does not certify the
+externally reported matching lower bounds.
+
 The new exact identity checker also needs only the standard library:
 
 ```bash
@@ -321,6 +326,7 @@ Expected output:
     negative_replica_supermultiplicativity_checks=24
     transport_beta_1_theta_1_delta_over_n2=4:0.0049185348,5:0.0087837537,6:0.0116569500,7:0.0138659979,8:0.0156035779,9:0.0170007335
     transport_beta_2_theta_4_delta_over_n2=4:0.1484980817,5:0.2771315062,6:0.3275853627,7:0.2860893527,8:0.3076235046,9:0.3159700451
+    transport_beta_4_theta_8_delta_over_n2=4:0.5774823306,5:1.0474135703,6:1.1793621066,7:0.9941740615,8:1.1008552230,9:1.1106325514
     transport_orders=4..9
     deterministic_seed=413935
     corruption_controls=unlabeled_multiplicity,t0_normalization
@@ -329,7 +335,63 @@ Expected output:
 Energies, automorphism orders, and labeled multiplicities are exact. The
 moment logarithms and displayed transport defects use floating point and are
 finite evidence only. Completeness trusts nauty's streams and automorphism
-orders; the analytic negative-replica theorem does not depend on this script.
+orders. The analytic leading-gap theorem does not depend on this script.
+
+## Negative-replica transport obstruction and alignment
+
+`verify_negative_replica_transport_obstruction.py` checks the constants in
+the analytic disproof of power-saving transport, the exact Boolean-cube
+entropy-production decomposition, and its one-coordinate stability
+remainder:
+
+```bash
+python3 verification/verify_negative_replica_transport_obstruction.py
+```
+
+Expected output:
+
+    scalar_stability_checks=3600
+    cube_entropy_production_checks=240
+    maximum_derivative_error=1.468e-09
+    minimum_scalar_grid_slack=1.998e-11
+    PT_liminf_beta4_theta8=0.027919201253204
+    PT_beta_threshold=3.012373175204
+    PT_theta_threshold_at_beta4=7.690245425859
+    deterministic_seed=413935
+    corruption_controls=scalar_sign,orbit_entropy
+    negative_replica_transport_obstruction_verification=PASSED
+
+The scalar and cube grids are regression checks, not proofs. The proof of the
+stability inequality is the elementary one-coordinate argument in the note.
+
+`verify_negative_replica_alignment.py` uses only integer and rational
+arithmetic. It checks the quotient dimensions, conditional-density
+normalization, the exact `2 + 4` scalar-state collision, and the mixed
+four-cycle trace/Walsh identity:
+
+```bash
+python3 verification/verify_negative_replica_alignment.py
+```
+
+Expected output:
+
+    code_chain_checks=16
+    universal_mixed_variance_checks=74240
+    K2_high=196585091273040100817/133610891512185651200
+    K2_low=6723290161/5922841600
+    H4_high={-12: 4, -4: 4, 0: 16, 4: 4, 12: 4}
+    H4_low={-4: 8, 0: 16, 4: 8}
+    collision_true_fiber_states=16
+    arithmetic=integer,fraction
+    corruption_controls=edge_order,density_mean,K2_separation,H4_trace
+    negative_replica_alignment_verification=PASSED
+
+The two witnesses have identical complete local graph and rectangular
+absolute-energy histograms, so their three local scalar partition functions
+agree at every temperature. Their different rational `K2` values are an exact
+conditional-alignment distinction. Because `dim(D_2)=1`, the verifier's 32
+relative-gauge tuples cover the true 16-point fiber twice. It checks this
+twofold redundancy explicitly; normalized fiber moments are unchanged.
 
 ## Square-order Paley Boolean eigenvectors
 

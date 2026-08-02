@@ -80,17 +80,21 @@ orbit noncoverage problem on the projective rank-one group.  A complete
 order-nine catalogue shows that even the energy histogram plus the two-point
 overlap law of exact maximizers does not determine extension, while the
 order-ten catalogue exhibits three exact finite-temperature optimizer phases.
-The annealed-normalized negative replica is exactly supermultiplicative;
-reverse hypercontractivity follows the required extensive parameter curve but
-in the wrong direction, isolating a power-saving transport conjecture whose
-finite defect remains visible through order nine.  We also record the known
+The annealed-normalized negative replica is exactly supermultiplicative, but
+the natural power-saving scalar transport conjecture is false with a rigorous
+$n^2$-scale gap.  We derive an exact entropy-production identity and stability
+remainder for that gap.  The surviving block law has a nonnegative
+conditional relative-switching alignment term whose zero-temperature slope is
+exactly the joint optimizer-composition gain.  Its first Hamiltonian is an
+explicit mixed four-cycle trace, and exact examples show that all three local
+scalar partition curves fail to determine it.  We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
 those matrices rather than the minimax \(F\).
 Finally, an explicit scalar countermodel shows that even uniform
 $O(\sqrt n)$ Bellman control does not force convergence.  The sharp remaining
 target is a quenched minimax free-energy limit, or a genuinely
-dependence-sensitive composition theorem.
+dependence-sensitive composition theorem for the relative-switching state.
 \end{abstract}
 
 \section{Problem, audited baseline, and scope}
@@ -1512,7 +1516,7 @@ signing.  Write
 \]
 Independent averaging of the cross edges gives
 \[
- \mathbb E_CZ_{A,B,C}(t)=(\cosh t)^{nk}P,qquad
+ \mathbb E_CZ_{A,B,C}(t)=(\cosh t)^{nk}P,\qquad
  P=U_A^+U_B^++U_A^-U_B^-.
 \]
 Replacing $B$ by $-B$ gives
@@ -1563,83 +1567,476 @@ Fix $\beta,\theta>0$ and, for sufficiently large $r$, set
  =\frac\theta{\beta^2}r+\frac{2\theta}{3}-1+O(r^{-1}).
 \]
 
-\begin{conjecture}[Power-saving negative-replica transport]
-\label{conj:transport}
-For every $0<\varepsilon<1/2$ there are $C,\delta>0$ such that, whenever
-$\varepsilon N\le n\le(1-\varepsilon)N$,
+The first proposed repair was a power-saving upper bound on
 \[
- 0\le\frac{q_N}{q_n}\mathcal G_n(q_n,t_n)
- -\mathcal G_n(q_N,t_N)\le CN^{2-\delta}.
- \tag{PT}
+ \Delta_n(\beta,\theta)
+ =\frac{q_{2n}}{q_n}\mathcal G_n(q_n,t_n)
+ -\mathcal G_n(q_{2n},t_{2n}).
+ \tag{PT-defect}
 \]
-\end{conjecture}
+Such a bound would have produced balanced almost-superadditivity.  It is
+false.
 
-Only the first inequality is proved by
-\eqref{eq:reverse-transport}.  If the upper estimate held and
-$a_n=\mathcal G_n(q_n,t_n)/q_n$, Theorem~\ref{thm:negative-replica-super}
-would give
+\begin{theorem}[Leading scalar transport gap]
+\label{thm:transport-gap}
+Put
 \[
- a_{n+k}\ge a_n+a_k-O((n+k)^{1-\delta})
+ U=\limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}.
 \]
-on balanced splits.
-
-\begin{lemma}[Balanced almost-superadditivity]
-\label{lem:balanced-superadditivity}
-Let $b_n\ge0$ with $b_n=O(n)$.  If, for some $K,\delta>0$ and every
-sufficiently large balanced split $N=j+k$,
+Then
+\begin{equation}
+ \liminf_{n\to\infty}\frac{\Delta_n(\beta,\theta)}{n^2}
+ \ge
+ \frac{2\theta}{\beta^2}
+ \left[\frac{\beta^2}{8}
+ -\beta\left(1-\frac1{\sqrt2}\right)U-\log2\right]-\log2.
+ \label{eq:transport-gap}
+\end{equation}
+In particular, the audited bound $U\le1/2$ gives
 \[
- b_N\ge b_j+b_k-KN^{1-\delta},
- \qquad N/3\le j,k\le2N/3,
+ \liminf_n\frac{\Delta_n(4,8)}{n^2}
+ \ge\sqrt2-2\log2=0.027919201253\ldots>0.
 \]
-then $b_n/n$ converges.
-\end{lemma}
+Thus no power-saving estimate $\Delta_n=O(n^{2-\delta})$ can hold uniformly.
+\end{theorem}
 
 \begin{proof}
-Fix a sufficiently large $m$.  Write $N=qm+r$, $0\le r<m$.  If $r>0$,
-partition $N$ into $q-1$ leaves of weight $m$ and one leaf of weight $m+r$;
-if $r=0$, use $q$ leaves of weight $m$.  These weights lie in $[m,2m)$.
-Recursively splitting the number of leaves as evenly as possible, placing the
-single heavier leaf on the smaller side when needed, gives a binary tree in
-which each child has between one third and two thirds of its parent's total
-weight.
+Write $m=m_n$ and $f_n^*(t)=\min_A f_{n,t}(A)$.  Vertex switching and global
+coefficient negation preserve $f_{n,t}$.  For $n\ge3$ these transformations
+form a free group of size $2^n$: global negation cannot be a switching,
+because switching multipliers have product $+1$ around every triangle.
+Therefore there are $2^{m-n}$ equal-weight orbit values, and
+\begin{equation}
+ -\log f_n^*(t)-\frac{(m-n)\log2}{q}
+ \le\frac{\mathcal G_n(q,t)}q
+ \le-\log f_n^*(t).
+ \label{eq:laplace-orbits}
+\end{equation}
 
-At an internal node of weight $W$, charge its error $KW^{1-\delta}$ to
-descendant leaves proportionally to their weights.  Parent weights grow by a
-factor at least $3/2$ along each upward path, so the charge per unit leaf
-weight is at most
+For an $F(n)$-optimal signing,
+$Z_A(t)\le2^{n+1}e^{tF(n)}$, so
 \[
- K\sum_{h\ge0}((3/2)^hm)^{-\delta}=O(m^{-\delta}).
+ \log f_n^*(t)\le tF(n)-m\log\cosh t.
 \]
-The total accumulated error is therefore $O(Nm^{-\delta})$.  Dropping the
-nonnegative contribution of the one exceptional leaf gives
+Conversely, every signing has a maximizing projective pair $x,-x$.  Choosing
+the favorable augmented sign for those two states gives
+$Z_A(t')\ge2e^{t'F(n)}$, and hence
 \[
- \liminf_{N\to\infty}\frac{b_N}{N}
- \ge \frac{b_m}{m}-O(m^{-\delta}).
+ \log f_n^*(t')\ge t'F(n)-m\log\cosh t'-n\log2.
 \]
-Taking $m$ to infinity along a subsequence attaining
-$\limsup b_m/m$ proves the claim.
+Using these two estimates in \eqref{eq:laplace-orbits} yields the exact finite
+bound
+\begin{align}
+ \Delta_n\ge q_{2n}\bigg[&
+ m(\log\cosh t_n-\log\cosh t_{2n})
+ -(t_n-t_{2n})F(n)-n\log2\notag\\
+ &-\frac{(m-n)\log2}{q_n}\bigg].
+ \label{eq:finite-transport-gap}
+\end{align}
+Now $q_n/n\to\theta/\beta^2$, $q_{2n}/n\to2\theta/\beta^2$, and
+\[
+ \frac mn(\log\cosh t_n-\log\cosh t_{2n})
+ \longrightarrow\frac{\beta^2}{8}.
+\]
+Taking the liminf proves \eqref{eq:transport-gap}.
 \end{proof}
 
-Here $0\le a_n\le m_n\log\cosh t_n=O_\beta(n)$, so the lemma proves
-convergence of $a_n/n$.  The exact soft-minimum error is asymptotically at
-most $\beta\log2/(2\theta)$.  Thus (PT) for unbounded $\theta$ at every fixed
-$\beta$, and for unbounded $\beta$, would settle the original question.
-
-The finite evidence is adverse but not decisive.  Exact energy spectra and
-exact labeled class multiplicities through order nine give
+The right side is positive for sufficiently large $\theta$ whenever
+$\beta>3.012373175204\ldots$; at $\beta=4$ the threshold is
+$\theta>7.690245425859\ldots$.  The finite class-weighted values at
+$(\beta,\theta)=(4,8)$ are
 \[
 \begin{array}{c|rrrrrr}
 n&4&5&6&7&8&9\\ \hline
-\Delta_n/n^2,\ (\beta,\theta)=(1,1)
-&.00492&.00878&.01166&.01387&.01560&.01700\\
-\Delta_n/n^2,\ (\beta,\theta)=(2,4)
-&.14850&.27713&.32759&.28609&.30762&.31597,
+\Delta_n/n^2&.57748&1.04741&1.17936&.99417&1.10086&1.11063.
 \end{array}
 \]
+They are regression evidence only; the theorem is analytic.
+
+The gap also has an exact entropy-production mechanism.
+
+\begin{theorem}[Quantitative reverse-hypercontractive stability]
+\label{thm:transport-stability}
+Let $m\ge1$, let $\nu$ be uniform on $\{\pm1\}^m$, and let $\theta>0$.
+On any interval of nonnegative times for which
+$q_s=\theta e^{2s}-1>0$, let
+\[
+ L=\frac12\sum_{i=1}^m(\tau_i-I),\qquad
+ f_s=T_{e^{-s}}f_0>0,\qquad q_s+1=\theta e^{2s},
+\]
+and put
+\[
+ \mu_s=\frac{f_s^{-q_s}}{\E_\nu f_s^{-q_s}}\nu,
+ \quad D_s=D(\mu_s\Vert\nu),
+ \quad H_s=\frac1{q_s}\log\E_\nu f_s^{-q_s}.
+\]
+Then
+\begin{equation}
+ \frac{dH_s}{ds}=-R_s,\qquad
+ R_s=\E_{\mu_s}\frac{Lf_s}{f_s}
+ -\frac{2(q_s+1)}{q_s^2}D_s,
+ \label{eq:entropy-production}
+\end{equation}
+and
+\begin{equation}
+ R_s\ge\frac{2D_s^2}{3q_s m}.
+ \label{eq:entropy-stability}
+\end{equation}
+Equality holds only when $f_s$ is constant.
+\end{theorem}
+
+\begin{proof}
+Direct differentiation gives \eqref{eq:entropy-production}, using
+$q_s'=2(q_s+1)$ and
+\[
+ D_s=-q_s\E_{\mu_s}\log f_s-\log\E_\nu f_s^{-q_s}.
+\]
+For one coordinate, condition on all other coordinates and call the two
+function values $a,b$.  Put
+\[
+ z=\frac q2\left|\log\frac ba\right|,\qquad
+ d(z)=z\tanh z-\log\cosh z.
+\]
+The conditional KL divergence is $d(z)$, while the conditional generator
+contribution is
+\[
+ e_q(z)=\frac12\left(
+ \frac{\cosh((1+2/q)z)}{\cosh z}-1\right).
+\]
+If $r_q(z)=e_q(z)-2(q+1)d(z)/q^2$ and $c=2/q$, then
+\[
+ qe_q(z)=\frac{\cosh(cz)-1+\tanh z\sinh(cz)}c
+ \ge z\tanh z+c\,d(z),
+\]
+where $d(z)\le z^2/2$.  Hence
+\[
+ qr_q(z)\ge2\log\cosh z-z\tanh z=:h(z).
+\]
+Moreover $h(z)\ge2d(z)^2/3$: the derivative of $h-2d^2/3$ is nonnegative
+after using $d(z)\le z^2/2$ and
+$\sinh z\cosh z\ge z+2z^3/3$.  Thus
+\[
+ r_q(z)\ge\frac{2d(z)^2}{3q}.
+\]
+Average over the coordinate conditionals.  If
+$\bar d_i=\E d_i$, entropy tensorization and Jensen--Cauchy give
+\[
+ D_s\le\sum_i\bar d_i,\qquad
+ \sum_i\E d_i^2\ge\sum_i\bar d_i^2
+ \ge\frac{(\sum_i\bar d_i)^2}{m}\ge\frac{D_s^2}{m}.
+\]
+Moreover, exactly,
+\[
+ R_s=\sum_i\E r_q(z_i)
+ +\frac{2(q+1)}{q^2}\left(\sum_i\bar d_i-D_s\right).
+\]
+The second term is the nonnegative dual total correlation.  This proves
+\eqref{eq:entropy-stability}.  The scalar inequality is strict for $z>0$,
+so equality forces every conditional $z_i$ to vanish.  Thus $f_s$ is
+invariant under every coordinate flip and is constant.
+\end{proof}
+
+For endpoints on the invariant curve,
+\[
+ \Delta_{n,N}=q_N\int_{s_n}^{s_N}R_s\,ds.
+\]
+For proportional endpoints with fixed $\beta,\theta$, one has
+$q_s\asymp n$, $m\asymp n^2$, and a fixed-length integration interval.
+Thus a power-saving transport defect would force
+$\int D_s^2ds=O(n^{4-\delta})$.  This quantifies scalar non-saturation, but
+does not recover the joint block geometry discarded by scalar transport.
+
+\section{Conditional alignment and the surviving block state}
+
+For a split $N=n+k$, let $R_{n,k}$ be the rectangular row-and-column
+switching code and put
+\[
+ C'_{n,k}=D_n\oplus D_k\oplus R_{n,k}.
+\]
+For an $n\times k$ cross signing define
+\[
+ Z_C^\square(t)=\sum_{x\in\eps^n,\ y\in\eps^k}
+ e^{t x^{\mathsf T}Cy},\qquad
+ f_{n,k,t}^\square(C)
+ =\frac{Z_C^\square(t)}{2^N(\cosh t)^{nk}},
+\]
+and
+\[
+ \mathcal G_{n,k}^\square(q,t)
+ =\log\E_C f_{n,k,t}^\square(C)^{-q}.
+\]
+
+\begin{theorem}[Exact conditional-alignment chain]
+\label{thm:alignment-chain}
+Suppose $n,k\ge3$.  Then $D_N\subset C'_{n,k}$,
+\[
+ |C'_{n,k}/D_N|=2^{N-1},
+\]
+and the negative moment factors exactly as
+\begin{equation}
+ \mathcal G_N(q,t)=\mathcal G_n(q,t)+\mathcal G_k(q,t)
+ +\mathcal G_{n,k}^{\square}(q,t)+\mathcal A_{n,k}(q,t),
+ \label{eq:alignment-chain}
+\end{equation}
 where
-$\Delta_n=(q_{2n}/q_n)\mathcal G_n(q_n,t_n)
--\mathcal G_n(q_{2n},t_{2n})$.  These values neither disprove (PT) nor show
-an asymptotic gap, but they do not support saturation.
+\[
+ \mathcal A_{n,k}(q,t)=\log\E_{\widehat U_q}K_q(h)\ge0.
+\]
+Here $h$ is a coarse coset, $r_h$ is its conditional fine density relative to
+uniform measure on the fiber,
+$K_q(h)=\E_{\rm fiber}r_h^{-q}$, and $\widehat U_q$ is the factorized coarse
+law tilted by its negative moment.
+\end{theorem}
+
+\begin{proof}
+The dimensions are
+\[
+ \dim D_n=n,\qquad \dim D_k=k,\qquad
+ \dim R_{n,k}=N-1.
+\]
+The three codes occupy disjoint edge-coordinate sets, so
+$\dim C'_{n,k}=2N-1$.  Restricting every global cut and the global all-one
+word to the two internal blocks and the cross block proves
+$D_N\subset C'_{n,k}$.  Since $\dim D_N=N$, the fiber size is $2^{N-1}$.
+The coarse quotient factors into the two graph quotients and the rectangular
+quotient because the raw edge-noise law is a product.
+
+For a coarse representative $(A,B,C)$, parameterize the fiber by
+\[
+ Y_{\alpha,\beta,\tau}=
+ \begin{pmatrix}
+ D_\alpha AD_\alpha&C\\
+ C^{\mathsf T}&\tau D_\beta BD_\beta
+ \end{pmatrix},
+\]
+where $\alpha,\beta$ are projective sign vectors and $\tau\in\eps$.  These are
+the $2^{N-1}$ fine states.  Direct changes of spin variables give
+\[
+ \E_{\alpha,\beta,\tau}Z_Y(t)
+ =\frac{Z_A(t)Z_B(t)Z_C^\square(t)}{2^{N+1}}.
+\]
+Thus
+\begin{equation}
+ r_{A,B,C}(\alpha,\beta,\tau)
+ =\frac{2^{N+1}Z_Y(t)}{Z_A(t)Z_B(t)Z_C^\square(t)},
+ \qquad \E_{\rm fiber}r=1.
+ \label{eq:relative-density}
+\end{equation}
+Grouping the uniform fine negative moment first by coarse fibers gives
+\eqref{eq:alignment-chain}.  Convexity of $z\mapsto z^{-q}$ gives
+$K_q(h)\ge1$.
+\end{proof}
+
+The powers of two in \eqref{eq:relative-density} use augmented graph state
+sums and the ordinary rectangular state sum.  Codeword-sum conventions change
+the displayed constants.
+
+Define
+\[
+ \mathcal A_{n,k}^{\infty}(t)
+ =\lim_{q\to\infty}\frac{\mathcal A_{n,k}(q,t)}q.
+\]
+If
+\[
+ h_n(t)=\min_A\log Z_A(t),\qquad
+ h_{n,k}^{\square}(t)=\min_C\log Z_C^\square(t),
+\]
+then finite-space Laplace limits in \eqref{eq:alignment-chain} give exactly
+\[
+ \mathcal A_{n,k}^{\infty}(t)
+ =h_n(t)+h_k(t)+h_{n,k}^{\square}(t)
+ -(N+1)\log2-h_N(t).
+\]
+Taking $t\to\infty$ sequentially therefore gives
+\begin{equation}
+ \lim_{t\to\infty}\frac{\mathcal A_{n,k}^{\infty}(t)}t
+ =F(n)+F(k)+B_\square(n,k)-F(N),
+ \label{eq:alignment-slope}
+\end{equation}
+where
+\[
+ B_\square(n,k)=\min_C\max_{x,y}|x^{\mathsf T}Cy|.
+\]
+No exchange with $n\to\infty$ is asserted.  Since
+$B_\square(n,n)\ge n\E|\varepsilon_1+\cdots+\varepsilon_n|$,
+\begin{equation}
+ \liminf_n\frac{2F(n)+B_\square(n,n)-F(2n)}{n^{3/2}}
+ \ge\frac2\pi+\sqrt{\frac2\pi}-\sqrt2
+ =0.0202907708\ldots>0.
+ \label{eq:alignment-leading}
+\end{equation}
+Thus alignment is a leading ground-state quantity, not an auxiliary entropy
+correction.
+
+The rectangular marginal cannot by itself repair the scalar transport gap.
+To state this precisely, put $\theta=\lambda\beta^2$ and
+\[
+ T_n(\beta,\lambda)
+ =\frac{\mathcal G_n(q_n,t_n)}{q_n}
+ -\frac{\mathcal G_n(q_{2n},t_{2n})}{q_{2n}}.
+\]
+
+\begin{proposition}[Rectangular compensation is insufficient]
+\label{prop:rectangular-compensation}
+For fixed $\beta,\lambda>0$,
+\begin{align}
+\limsup_{n\to\infty}\frac1n\left[
+ \frac{\mathcal G_{n,n}^{\square}(q_{2n},t_{2n})}{q_{2n}}
+ -2T_n(\beta,\lambda)\right]
+ \le{}&4\log2+\frac{\log2}{\lambda}\notag\\
+ &-\beta\left[
+ \frac1{\sqrt\pi}-\left(1-\frac1{\sqrt2}\right)\right].
+ \label{eq:rectangular-compensation}
+\end{align}
+The coefficient of $\beta$ is $0.2712963647\ldots>0$.  First take
+$n\to\infty$ for each fixed $(\beta,\lambda)$ as in the displayed limsup.
+Along a subsequent zero-temperature sequence with $\beta\to\infty$ and
+$\lambda\beta\to\infty$, the right side tends to $-\infty$.
+\end{proposition}
+
+\begin{proof}
+For every $n\times n$ signing $C$, choose $y$ uniformly and then set each
+$x_i$ to the sign of $(Cy)_i$.  This gives
+\[
+ \max_{x,y}|x^{\mathsf T}Cy|
+ \ge\E_y\|Cy\|_1=n\mu_n,
+ \qquad
+ \mu_n=\E|\varepsilon_1+\cdots+\varepsilon_n|.
+\]
+At $t_{2n}=\beta/\sqrt{2n}$, a maximizing projective pair contributes at
+least $2e^{t_{2n}n\mu_n}$ to every rectangular state sum.  Therefore
+\[
+ \limsup_n\frac1n
+ \frac{\mathcal G_{n,n}^{\square}(q_{2n},t_{2n})}{q_{2n}}
+ \le\frac{\beta^2}{4}-\frac\beta{\sqrt\pi}+2\log2.
+\]
+On the other hand, Theorem~\ref{thm:transport-gap}, with the audited
+$U\le1/2$ inserted and then divided by $q_{2n}\sim2\lambda n$, gives
+\[
+ \liminf_n\frac{T_n}{n}
+ \ge\frac{\beta^2}{8}
+ -\frac\beta2\left(1-\frac1{\sqrt2}\right)
+ -\log2-\frac{\log2}{2\lambda}.
+\]
+Subtracting twice the second inequality from the first proves
+\eqref{eq:rectangular-compensation}.
+\end{proof}
+
+The first geometric component of this state is explicit.
+
+\begin{proposition}[Mixed four-cycle alignment Hamiltonian]
+\label{prop:alignment-h4}
+Put $P=D_\alpha AD_\alpha$ and $Q=D_\beta BD_\beta$.  The coefficient of
+$u^4$ in $\log r_{A,B,C}(\alpha,\beta,\tau)$ is
+\begin{equation}
+ \mathcal H_4=\frac12\left[
+ \tr(P^2CC^{\mathsf T})+\tr(Q^2C^{\mathsf T}C)
+ +\tau\tr(PCQC^{\mathsf T})-nk(N-2)\right].
+ \label{eq:alignment-h4}
+\end{equation}
+It has the Walsh expansion
+\begin{align}
+\mathcal H_4={}&
+ \sum_{i<j}(A^2)_{ij}(CC^{\mathsf T})_{ij}\alpha_i\alpha_j
+ +\sum_{a<b}(B^2)_{ab}(C^{\mathsf T}C)_{ab}\beta_a\beta_b\notag\\
+&+\tau\sum_{i<j,a<b}a_{ij}b_{ab}
+ (C_{ia}C_{jb}+C_{ib}C_{ja})
+ \alpha_i\alpha_j\beta_a\beta_b.
+ \label{eq:alignment-h4-walsh}
+\end{align}
+Consequently
+\begin{align}
+\E\mathcal H_4^2={}&
+ \sum_{i<j}[(A^2)_{ij}(CC^{\mathsf T})_{ij}]^2
+ +\sum_{a<b}[(B^2)_{ab}(C^{\mathsf T}C)_{ab}]^2\notag\\
+&+\sum_{i<j,a<b}(C_{ia}C_{jb}+C_{ib}C_{ja})^2,
+ \label{eq:alignment-h4-variance}
+\end{align}
+and the last sum is at least
+\[
+ 4\binom n2\left\lfloor\frac{(k-1)^2}{4}\right\rfloor.
+\]
+\end{proposition}
+
+\begin{proof}
+The graph and rectangular quotient duals have minimum weight four.  Their
+signed weight-four sums are
+\[
+ c_4(S)=\frac18[\tr S^4-v(v-1)(2v-3)]
+\]
+and
+\[
+ r_4(C)=\frac14[\tr((CC^{\mathsf T})^2)-nk(N-1)].
+\]
+Direct block multiplication gives
+\begin{align*}
+\tr Y^4={}&\tr P^4+\tr Q^4+2\tr((CC^{\mathsf T})^2)\\
+&+4\tr(P^2CC^{\mathsf T})+4\tr(Q^2C^{\mathsf T}C)
+ +4\tau\tr(PCQC^{\mathsf T}).
+\end{align*}
+Subtracting the three marginal coefficients proves
+\eqref{eq:alignment-h4}.  Expanding the switched entries and cancelling the
+diagonal baseline proves \eqref{eq:alignment-h4-walsh}.  Its characters are
+orthogonal, proving \eqref{eq:alignment-h4-variance}.  For a fixed row pair,
+the final sum is four times the number of equal pairs among $k$ signs, whose
+minimum is $\lfloor(k-1)^2/4\rfloor$.
+\end{proof}
+
+Thus $\mathcal H_4$ is nonconstant for $n,k\ge3$.  This does not justify
+truncating the Eulerian expansion on the mean-field diagonal: higher terms are
+not uniformly negligible when $u\asymp N^{-1/2}$ and $q\asymp N$.
+
+Even complete local scalar free-energy curves do not determine alignment.
+At split $2+4$, in right-edge order $(01,02,03,12,13,23)$, take
+\[
+ A=(1),\qquad B=(-1,-1,-1,-1,-1,1),
+\]
+and
+\[
+ C_1=\begin{pmatrix}-1&-1&-1&-1\\-1&-1&1&1\end{pmatrix},\qquad
+ C_2=\begin{pmatrix}-1&-1&-1&-1\\-1&1&-1&1\end{pmatrix}.
+\]
+The two triples have identical complete local absolute-energy histograms.
+At $u=3/5$, equivalently $t=\log2$, exact rational evaluation gives
+\[
+ K_2(C_1)=
+ \frac{196585091273040100817}{133610891512185651200},
+ \qquad
+ K_2(C_2)=\frac{6723290161}{5922841600}.
+\]
+Their $\mathcal H_4$ laws are respectively
+\[
+ \{-12:4,-4:4,0:16,4:4,12:4\},\qquad
+ \{-4:8,0:16,4:8\}.
+\]
+This small split is outside the $n,k\ge3$ dimension statement in
+Theorem~\ref{thm:alignment-chain}: $\dim D_2=1$.  The displayed relative
+gauges cover the true 16-point fiber twice.  Every density and
+$\mathcal H_4$ value is therefore repeated twice, leaving the normalized
+fiber moments, including the two values of $K_2$, unchanged.
+
+For clarity, fix $\beta,\theta>0$, put
+$t_j=\beta/\sqrt j$, $q_j=\theta/\tanh^2(t_j)-1$, and define
+\[
+ a_j=\frac{\mathcal G_j(q_j,t_j)}{q_j},\qquad
+ T_{j\leftarrow N}
+ =a_j-\frac{\mathcal G_j(q_N,t_N)}{q_N}.
+\]
+The formal bound
+\[
+ \frac{\mathcal G_{n,k}^{\square}+\mathcal A_{n,k}}{q_N}
+ \ge T_{n\leftarrow N}+T_{k\leftarrow N}-O(N^{1-\delta})
+\]
+is not yet a reduction.  The exact alignment chain gives
+\[
+ \frac{\mathcal G_{n,k}^{\square}+\mathcal A_{n,k}}{q_N}
+ -T_{n\leftarrow N}-T_{k\leftarrow N}
+ =a_N-a_n-a_k.
+\]
+Thus the formal bound is precisely the desired almost-superadditivity in new
+notation.  A useful next theorem must derive a summable bound from a smaller
+controlled state, such as a variational limit for the relative-switching
+Hamiltonian hierarchy.
 
 \section{A known square-order Paley ceiling theorem}
 
@@ -1690,13 +2087,15 @@ The detailed derivations and failed variants are preserved in
 Prove \(\lim_n\Psi_{n,\beta}\) for every fixed \(\beta>0\), or at least for
 an unbounded set of \(\beta\)'s.  Equation~\eqref{eq:extensivesandwich} then
 forces convergence.  Theorem~\ref{thm:negative-replica-super} gives an exact
-outer-minimum-compatible recursion, but Conjecture~\ref{conj:transport} is the
-missing parameter comparison and its finite data are adverse.  Either proving
-that power-saving transport for unbounded parameters or proving a leading
-transport gap would materially decide this branch.  Proposition
-\ref{prop:blocktemp} separately shows why independent annealed cross blocks
-fail.  A repair must absorb the cross term in a joint minimax order parameter,
-as random-disorder spin-glass interpolation absorbs it only after disorder
+outer-minimum-compatible recursion, while
+Theorem~\ref{thm:transport-gap} closes scalar parameter transport with a
+leading gap.  The surviving state is the conditional relative-switching law
+in Theorem~\ref{thm:alignment-chain}.  A useful theorem must derive a
+variational limit or summable composition defect from this state, rather than
+rename the desired almost-superadditivity.  Proposition~\ref{prop:blocktemp}
+separately shows why independent annealed cross blocks fail.  A repair must
+absorb the mixed cross geometry in a joint minimax order parameter, as
+random-disorder spin-glass interpolation absorbs it only after disorder
 expectation \cite{guerra-toninelli,auffinger-chen}.
 
 \paragraph{B. Near-saturated relaxation.}
@@ -1738,8 +2137,8 @@ planted matrices supply upper bounds or deliberately inferior examples.  The
 small values fluctuate but do not certify a subsequence mechanism.
 
 No route presently closes.  The ultimate finite-temperature lemma remains the
-following; Conjecture~\ref{conj:transport} is one precise sufficient mechanism
-for it, not a proved or empirically favored theorem.
+following.  Scalar PT is no longer a candidate mechanism; the exact alignment
+chain identifies the nonscalar state a replacement must control.
 
 \begin{center}
 \fbox{\begin{minipage}{0.88\textwidth}
@@ -1759,9 +2158,10 @@ coordinates it asks for cancellation in
 \(P_y(\tanh(\beta/\sqrt n))\).  Any proof that bounds the mixed cross-block
 contribution independently incurs a leading error; a successful proof must
 make that contribution part of the optimized variational structure.  The next
-negative-replica calculation should therefore determine whether
-$\Delta_n/n^2\to0$ or stays bounded away from zero, rather than merely extend
-the table of $F(n)$.
+negative-replica target is a controlled hierarchy or variational limit for the
+relative-switching Hamiltonian beginning with
+\eqref{eq:alignment-h4-walsh}.  Any truncation must remain uniform at
+$u=\Theta(n^{-1/2})$ and $q=\Theta(n)$.
 
 \section*{Reproducibility and final status}
 
@@ -1774,7 +2174,8 @@ preserved.
 The adversarial elliptope limit, the code dual and MacWilliams formula, the
 oriented covariance barrier, the graph-limit obstructions, finite
 non-heredity, the weighted covering-radius Bellman identity, the exact
-negative-replica recursion, and the values through order twelve materially
+negative-replica recursion, the scalar transport no-go theorem, the exact
+conditional-alignment state, and the values through order twelve materially
 narrow the search.  They do not prove existence or nonexistence of the
 original limit.
 

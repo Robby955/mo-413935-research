@@ -73,13 +73,30 @@ The repository now goes substantially beyond those baseline results:
   minimizer: a conference signing at high temperature, an intermediate
   non-ground-state signing, and an `F(10)=13` signing at low temperature.
   Thus the adversarial optimizer genuinely changes with temperature.
+- Exact conference evaluation gives the verified upper bounds
+  `F(13) <= 20` and `F(14) <= 21`; all fourteen order-13 principal
+  submatrices of the Paley order-14 matrix have maximum 20. An external report
+  claims equality at both orders after a billion-record residual scan, but its
+  shard logs, digests, survivor encodings, and extension receipts are not
+  present in this checkout, so the lower bounds are not banked here.
 - The annealed-normalized negative replica is exactly supermultiplicative at
   fixed exponent and temperature. Boolean reverse hypercontractivity follows
-  the parameter curve needed by block composition, but in the wrong
-  direction. A power-saving upper bound for arbitrarily large replica
-  parameter at fixed temperature, and then for arbitrarily large temperature,
-  would settle the problem. Exact data through order 9 show a visible positive
-  normalized defect and do not currently support saturation.
+  the parameter curve needed by block composition, but the proposed
+  power-saving reverse comparison is false: at
+  `(beta, theta) = (4, 8)` its defect has rigorous liminf at least
+  `sqrt(2) - 2 log(2) = 0.027919...` after division by `n^2`.
+- The transport defect has an exact entropy-production integral and a
+  quantitative stability remainder. The full block law instead factors
+  through a conditional relative-switching alignment term. Its
+  zero-temperature slope is exactly
+  `F(n) + F(k) + B_square(n,k) - F(n+k)`, so it is provably a leading-order
+  state, not an entropy correction that can be dropped.
+- The first alignment Hamiltonian is an explicit mixed four-cycle trace.
+  Exact `2 + 4` examples have identical graph and rectangular scalar
+  partition curves but different conditional alignment moments. Thus even all
+  three local scalar free-energy curves do not close the composition state.
+  The exceptional twofold gauge redundancy at block size 2 is explicitly
+  accounted for in the verifier.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not
@@ -94,9 +111,12 @@ The repository now goes substantially beyond those baseline results:
 ## Main open routes
 
 The finite-temperature route is existence of the extensive minimax
-free-energy limit. The exact negative-replica recursion isolates a sharper
-parameter-transport lemma, but its required near-saturation is conjectural
-and the finite data currently point the other way.
+free-energy limit. Scalar negative-replica parameter transport is now closed:
+its defect is leading order in a rigorous parameter range. The surviving
+state is the conditional distribution on relative block switchings. A useful
+next theorem must control that alignment free energy with a summable defect;
+simply writing the required almost-superadditivity in alignment coordinates
+does not make it weaker.
 
 The ground-state route is a power-saving near-subadditivity theorem for
 `H(n) = F(n)^(2/3)`. The finite non-heredity result shows that the construction
@@ -153,6 +173,8 @@ python3 verification/verify_cavity_hereditary.py
 python3 verification/verify_nonlinear_bellman.py
 python3 verification/verify_frontier_walls.py
 python3 verification/verify_paley_subfield.py
+python3 verification/verify_negative_replica_transport_obstruction.py
+python3 verification/verify_negative_replica_alignment.py
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and

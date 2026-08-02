@@ -1083,20 +1083,17 @@ two orientations of one internal block, uses Jensen twice, and loses no
 normalizing factor.  This is the first exact block law found that is directly
 compatible with the outer soft minimum.
 
-It does not yet live at the extensive diagonal.  Boolean reverse
+It does not live at the extensive diagonal. Boolean reverse
 hypercontractivity transports $\mathcal G_n/q$ on the exact invariant curve
 $(1+q)\tanh^2t=\theta$, but its inequality points in the wrong direction.
-The missing statement is the power-saving upper bound (PT) on that transport
-defect.  If true for unbounded parameters, it settles the problem by a
-balanced almost-superadditivity argument.
+The first proposed repair was a power-saving upper bound (PT) on that
+transport defect. Section 20 now proves that PT is false with an
+$\Omega(n^2)$ defect. The earlier finite data were adverse evidence, not the
+disproof.
 
-**Evidence against immediate closure.**  Exact class-weighted calculations
-through order 9 give a positive defect divided by $n^2$ that does not decay on
-the two tested parameter grids.  This is not an asymptotic counterexample, but
-it means reverse hypercontractivity should not be described as nearly sharp
-without new evidence.  The next branch decision is to prove PT or establish a
-leading transport gap; extending only the abstract norm inequality repeats
-the known wrong-direction wall.
+The negative-replica recursion itself survives. What failed was the scalar
+transport that discarded the rectangular quotient and the conditional
+relative-switching law. Sections 21--22 identify that missing state exactly.
 
 ## 18. Exact orders 11 and 12
 
@@ -1136,3 +1133,219 @@ $m=3$, the matrix maximum is 15 while $F(10)=13$.  The result neither improves
 the asymptotic upper bound nor forces a subsequential value of the minimax
 sequence.  It is retained as a structural correction and as a warning that
 conference ceiling attainment depends on the order and switching class.
+
+## 20. Scalar negative-replica transport is closed
+
+For fixed $\beta,\theta>0$, put
+
+\[
+ t_n=\frac\beta{\sqrt n},\qquad
+ q_n=\frac\theta{\tanh^2t_n}-1,
+\]
+
+and let
+
+\[
+ \Delta_n=\frac{q_{2n}}{q_n}\mathcal G_n(q_n,t_n)
+ -\mathcal G_n(q_{2n},t_{2n}).
+\]
+
+The augmented partition function is invariant under vertex switching and
+global coefficient negation. For $n\ge3$ this free symmetry group has size
+$2^n$, so the disorder cube splits into $2^{\binom n2-n}$ equal-size
+orbits. Comparing the negative moment with its smallest value, then bounding
+that value above and below by an $F(n)$-optimal state, gives the exact finite
+inequality
+
+\[
+\Delta_n\ge q_{2n}\left[
+ \binom n2(\log\cosh t_n-\log\cosh t_{2n})
+ -(t_n-t_{2n})F(n)-n\log2
+ -\frac{(\binom n2-n)\log2}{q_n}
+\right].
+\]
+
+Using only $\limsup F(n)/n^{3/2}\le1/2$ therefore yields
+
+\[
+ \liminf_n\frac{\Delta_n}{n^2}
+ \ge \frac{2\theta}{\beta^2}
+ \left[\frac{\beta^2}{8}
+ -\frac\beta2\left(1-\frac1{\sqrt2}\right)-\log2\right]-\log2.
+\]
+
+At $(\beta,\theta)=(4,8)$ the right side is
+
+\[
+ \sqrt2-2\log2=0.027919201253\ldots>0.
+\]
+
+Thus PT is false. More generally the bound is positive for sufficiently large
+$\theta$ whenever $\beta>3.012373175\ldots$. Exact class-weighted data
+through order 9 reproduce a much larger positive defect on the $(4,8)$ grid,
+but the theorem does not depend on those computations.
+
+There is also an exact mechanism for the gap. On a Boolean $m$-cube with
+$m\ge1$, let $\theta>0$ and restrict to nonnegative times with
+$q_s=\theta e^{2s}-1>0$. Put $f_s=T_{e^{-s}}f_0>0$ and
+
+\[
+ \mu_s=\frac{f_s^{-q_s}}{\mathbb E f_s^{-q_s}}\nu,
+ \qquad D_s=D(\mu_s\Vert\nu),\qquad
+ H_s=\frac1{q_s}\log\mathbb E f_s^{-q_s}.
+\]
+
+Then
+
+\[
+ \frac{dH_s}{ds}=-R_s,\qquad
+ R_s=\mathbb E_{\mu_s}\frac{Lf_s}{f_s}
+ -\frac{2(q_s+1)}{q_s^2}D_s,
+\]
+
+and the one-coordinate calculation plus entropy tensorization gives
+
+\[
+ \boxed{R_s\ge\frac{2D_s^2}{3q_sm}.}
+\]
+
+Equality holds only for constant $f_s$. Consequently, power-saving transport
+would force a power-saving entropy loss in the escort disorder law. This
+stability result diagnoses scalar non-saturation, but it does not recover the
+joint block alignment discarded by scalar transport.
+
+## 21. Exact conditional-alignment chain
+
+For a split $N=n+k$, let $R_{n,k}$ be the rectangular row-and-column
+switching code and set
+
+\[
+ C'_{n,k}=D_n\oplus D_k\oplus R_{n,k}.
+\]
+
+For $n,k\ge3$, $D_N\subset C'_{n,k}$ and
+$|C'_{n,k}/D_N|=2^{N-1}$. The coarse quotient factors into the two graph
+quotients and the rectangular quotient. If $h$ is a coarse coset, let $r_h$
+be the conditional fine density on its fiber and
+$K_q(h)=\mathbb E_{\rm fiber}r_h^{-q}$. Then
+
+\[
+ \boxed{
+ \mathcal G_N=\mathcal G_n+\mathcal G_k
+ +\mathcal G_{n,k}^{\square}+\mathcal A_{n,k}},
+ \qquad
+ \mathcal A_{n,k}=\log\mathbb E_{\widehat U_q}K_q(h)\ge0.
+\]
+
+Here $\widehat U_q$ is the factorized coarse law tilted by its negative
+moment. In a relative gauge, the fiber is parameterized by
+$\alpha\in\{\pm1\}^n/\{\pm\mathbf1\}$,
+$\beta\in\{\pm1\}^k/\{\pm\mathbf1\}$, and $\tau\in\{\pm1\}$ through
+
+\[
+ Y_{\alpha,\beta,\tau}=
+ \begin{pmatrix}
+ D_\alpha AD_\alpha&C\\
+ C^{\mathsf T}&\tau D_\beta BD_\beta
+ \end{pmatrix}.
+\]
+
+With augmented graph state sums and the ordinary rectangular state sum,
+
+\[
+ r_{A,B,C}(\alpha,\beta,\tau)
+ =\frac{2^{N+1}Z_Y}{Z_AZ_BZ_C^\square},
+ \qquad \mathbb E_{\alpha,\beta,\tau}r=1.
+\]
+
+The normalization $2^{N+1}$ is tied to this state-sum convention; codeword
+sums use different powers of two.
+
+If
+$\mathcal A^\infty(t)=\lim_{q\to\infty}\mathcal A(q,t)/q$, then sequential
+finite-space limits give
+
+\[
+ \lim_{t\to\infty}\frac{\mathcal A^\infty(t)}t
+ =F(n)+F(k)+B_\square(n,k)-F(N).
+\]
+
+Since $B_\square(n,n)\ge n\,\mathbb E|\varepsilon_1+\cdots+\varepsilon_n|$,
+
+\[
+ \liminf_n\frac{2F(n)+B_\square(n,n)-F(2n)}{n^{3/2}}
+ \ge\frac2\pi+\sqrt{\frac2\pi}-\sqrt2
+ =0.0202907708\ldots.
+\]
+
+Alignment is therefore a leading ground-state quantity. The rectangular
+marginal alone cannot compensate the scalar transport gap in the large
+parameter regime.
+
+A proposed alignment-transport inequality was audited after this derivation.
+If $a_j=\mathcal G_j(q_j,t_j)/q_j$, its purported new left side is identically
+$a_N-a_n-a_k$. It is a correct sufficient target only because it restates the
+desired almost-superadditivity. The actual open task is to derive such a bound
+from a smaller, controlled geometric state.
+
+## 22. First alignment Hamiltonian and exact scalar collision
+
+The dual codes in the graph and rectangular quotients have minimum weight
+four. Writing $P=D_\alpha AD_\alpha$ and $Q=D_\beta BD_\beta$, the coefficient
+of $u^4$ in $\log r$ is
+
+\[
+ \mathcal H_4=\frac12\left[
+ \operatorname{tr}(P^2CC^{\mathsf T})
+ +\operatorname{tr}(Q^2C^{\mathsf T}C)
+ +\tau\operatorname{tr}(PCQC^{\mathsf T})
+ -nk(N-2)\right].
+\]
+
+Its exact Walsh form is
+
+\[
+\begin{aligned}
+\mathcal H_4={}&
+ \sum_{i<j}(A^2)_{ij}(CC^{\mathsf T})_{ij}\alpha_i\alpha_j
+ +\sum_{a<b}(B^2)_{ab}(C^{\mathsf T}C)_{ab}\beta_a\beta_b\\
+&+\tau\sum_{i<j,a<b}a_{ij}b_{ab}
+ (C_{ia}C_{jb}+C_{ib}C_{ja})
+ \alpha_i\alpha_j\beta_a\beta_b.
+\end{aligned}
+\]
+
+The characters are orthogonal, so its variance is the sum of the squared
+coefficients. In particular the mixed contribution is at least
+
+\[
+ 4\binom n2\left\lfloor\frac{(k-1)^2}{4}\right\rfloor,
+\]
+
+and symmetrically with $n,k$ interchanged. Thus $\mathcal H_4$ is nonconstant
+for $n,k\ge3$, and the conditional alignment is strictly nontrivial at
+sufficiently high temperature. This does not permit truncating the expansion
+at $u^4$ on the mean-field diagonal: higher Eulerian terms are not uniformly
+small when $u\asymp N^{-1/2}$ and $q\asymp N$.
+
+An exact split-$2+4$ collision makes the lost information concrete. At
+$u=3/5$, two triples $(A,B,C)$ have identical complete local absolute-energy
+histograms, hence identical graph and rectangular scalar partition curves at
+every temperature, but
+
+\[
+ K_2^{(1)}=
+ \frac{196585091273040100817}{133610891512185651200},
+ \qquad
+ K_2^{(2)}=\frac{6723290161}{5922841600}.
+\]
+
+Their $\mathcal H_4$ laws are respectively
+$\{-12:4,-4:4,0:16,4:4,12:4\}$ and
+$\{-4:8,0:16,4:8\}$. Therefore even all three local scalar free-energy curves
+do not determine block alignment. Here $\dim D_2=1$, so the 32 displayed
+relative gauges cover the true 16-point fiber twice; the normalized moments
+are unchanged. The first viable non-tautological target is
+a variational or composition theorem for the relative-switching Hamiltonian
+hierarchy, beginning with these mixed traces and retaining enough higher
+connected Eulerian clusters to be uniform on the mean-field scale.

@@ -46,6 +46,11 @@ def maximum_absolute_energy(matrix: list[list[int]]) -> int:
     return best
 
 
+def principal_submatrix(matrix: list[list[int]], deleted: int) -> list[list[int]]:
+    retained = [index for index in range(len(matrix)) if index != deleted]
+    return [[matrix[row][column] for column in retained] for row in retained]
+
+
 def check_conference_identity(matrix: list[list[int]]) -> None:
     order = len(matrix)
     for row in range(order):
@@ -73,6 +78,23 @@ def main() -> None:
             f"order={order} maximum={maximum} "
             f"ratio={ratio:.9f} spectral_ceiling={ceiling:.9f}"
         )
+
+        if order == 14:
+            principal_maxima = tuple(
+                maximum_absolute_energy(principal_submatrix(matrix, deleted))
+                for deleted in range(order)
+            )
+            if principal_maxima != (20,) * order:
+                raise AssertionError(("order-13 principal maxima", principal_maxima))
+            # Corruption control: deleting no vertex must retain the distinct
+            # order-14 value rather than silently reuse a principal result.
+            if maximum in principal_maxima:
+                raise AssertionError("principal-deletion corruption went undetected")
+            print(
+                "order=13 paley_C14_principal_maxima="
+                + ",".join(str(value) for value in principal_maxima)
+                + " upper_bound=20"
+            )
 
 
 if __name__ == "__main__":

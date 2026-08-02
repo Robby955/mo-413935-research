@@ -808,21 +808,133 @@ curve, but the inequality points in the wrong direction. For
  q_r=\theta/\tanh^2t_r-1,
 \]
 
-the sharp sufficient conjecture is the power-saving transport estimate
+the first proposed repair was the power-saving transport estimate
 
 \[
 0\le \frac{q_N}{q_n}\mathcal G_n(q_n,t_n)
 -\mathcal G_n(q_N,t_N)\le C N^{2-\delta}
 \]
 
-on balanced child sizes. It would give almost superadditivity of
-$\mathcal G_n(q_n,t_n)/q_n$ and settle the minimax limit for unbounded
-parameters. Only the lower inequality is known. Exact class-weighted data
-through order 9 show a visible positive defect divided by $n^2$, with no
-observed decay on the tested grids. Treat the estimate as a conjectural
-decision point, not an established or empirically supported lemma.
+on balanced child sizes. It is false. If
 
-### 3.17 Square-order Paley correction
+\[
+ \Delta_n=\frac{q_{2n}}{q_n}\mathcal G_n(q_n,t_n)
+ -\mathcal G_n(q_{2n},t_{2n}),
+\]
+
+then the orbit-counted finite-disorder Laplace bound gives
+
+\[
+ \liminf_n\frac{\Delta_n}{n^2}
+ \ge\frac{2\theta}{\beta^2}
+ \left[\frac{\beta^2}{8}
+ -\frac\beta2\left(1-\frac1{\sqrt2}\right)-\log2\right]-\log2.
+\]
+
+At $(\beta,\theta)=(4,8)$ this is
+$\sqrt2-2\log2=0.027919\ldots>0$. Thus scalar parameter transport is closed
+at leading order.
+
+The transport defect has an exact entropy-production representation. For a
+positive function on an $m$-cube, along the invariant noise curve with
+$m\ge1$, $q_s>0$, and nonnegative semigroup time,
+
+\[
+ \Delta=q_N\int R_s\,ds,
+ \qquad
+ R_s\ge\frac{2D(\mu_s\Vert\mathrm{Unif})^2}{3q_sm},
+\]
+
+where $\mu_s$ is the negative-moment escort law. Equality holds only for a
+constant function. This quantifies non-saturation but does not restore the
+block geometry discarded by scalar transport.
+
+### 3.17 Exact conditional-alignment state
+
+For a split $N=n+k$, set
+
+\[
+ C'_{n,k}=D_n\oplus D_k\oplus R_{n,k},
+\]
+
+where $R_{n,k}$ is the rectangular row-and-column switching code. For
+$n,k\ge3$, $D_N\subset C'_{n,k}$ and every coarse coset has $2^{N-1}$ fine
+cosets. If $r_h$ is the conditional fine density on a coarse fiber and
+$K_q(h)=\mathbb E_{\rm fiber}r_h^{-q}$, then exactly
+
+\[
+ \mathcal G_N=\mathcal G_n+\mathcal G_k
+ +\mathcal G_{n,k}^{\square}+\mathcal A_{n,k},
+ \qquad
+ \mathcal A_{n,k}=\log\mathbb E_{\widehat U_q}K_q(h)\ge0.
+\]
+
+A fiber has the concrete relative-switching states
+
+\[
+ Y_{\alpha,\beta,\tau}=
+ \begin{pmatrix}
+ D_\alpha AD_\alpha&C\\
+ C^{\mathsf T}&\tau D_\beta BD_\beta
+ \end{pmatrix},
+\]
+
+and, under the augmented state-sum convention,
+
+\[
+ r(\alpha,\beta,\tau)
+ =\frac{2^{N+1}Z_Y}{Z_AZ_BZ_C^\square},
+ \qquad\mathbb E_{\rm fiber}r=1.
+\]
+
+Sequentially taking $q\to\infty$ and then $t\to\infty$ shows that the
+alignment term has slope
+
+\[
+ F(n)+F(k)+B_\square(n,k)-F(N).
+\]
+
+For balanced blocks its normalized liminf is at least
+
+\[
+ \frac2\pi+\sqrt{\frac2\pi}-\sqrt2
+ =0.0202907708\ldots>0.
+\]
+
+Alignment is therefore leading order. The rectangular marginal alone cannot
+repair scalar transport.
+
+The first coefficient of $\log r$ is the mixed four-cycle Hamiltonian
+
+\[
+\mathcal H_4=\frac12\left[
+ \operatorname{tr}(P^2CC^{\mathsf T})
+ +\operatorname{tr}(Q^2C^{\mathsf T}C)
+ +\tau\operatorname{tr}(PCQC^{\mathsf T})
+ -nk(N-2)\right],
+\]
+
+where $P=D_\alpha AD_\alpha$ and $Q=D_\beta BD_\beta$. Exact split-$2+4$
+examples have identical complete local graph and rectangular scalar
+partition curves but different conditional moments
+
+\[
+ K_2=1.4713253466\ldots,\qquad K_2=1.1351460354\ldots.
+\]
+
+Here $\dim D_2=1$, so the relative-gauge parameterization covers the true
+fiber twice; normalized moments are unchanged. Their $\mathcal H_4$ laws
+already differ. Thus no collection of the three local scalar free-energy
+curves determines alignment.
+
+A proposed alignment-transport estimate is not yet progress: after defining
+$a_j=\mathcal G_j(q_j,t_j)/q_j$, its left side is identically
+$a_N-a_n-a_k$. The actual target is a variational limit or power-saving
+composition theorem derived from a controlled relative-switching Hamiltonian
+hierarchy. Higher connected Eulerian terms cannot be discarded without a
+uniform mean-field cluster bound.
+
+### 3.18 Square-order Paley correction
 
 For every odd prime power $m$, the full Paley conference matrix of order
 $m^2+1$ has a Boolean eigenvector of eigenvalue $m$, obtained from additive
@@ -886,9 +998,17 @@ Do not simply repeat any of the following:
     explicit nonconvergent scalar model has $O(\sqrt n)$ cost at every order
     while satisfying all currently proved scalar cross-order inequalities.
 19. Treating reverse hypercontractivity as an asymptotically sharp transport
-    theorem: it proves only one direction, and the normalized finite defect is
-    visibly positive through order 9.
-20. Inferring a minimax lower bound from Boolean ceiling attainment by the
+    theorem: the proposed power-saving defect is rigorously false with an
+    $n^2$-scale gap.
+20. Adding the rectangular negative moment while discarding conditional
+    alignment: the rectangular marginal cannot pay the scalar transport gap
+    in the large-parameter regime, while alignment is provably leading.
+21. Treating all three local scalar partition curves as a closed block state:
+    the exact split-$2+4$ collision, with its twofold gauge redundancy
+    accounted for, has different conditional alignment.
+22. Calling the formal alignment-transport inequality a reduction: it is
+    identically the desired almost-superadditivity in new notation.
+23. Inferring a minimax lower bound from Boolean ceiling attainment by the
     square-order Paley matrices: already $F(10)=13<15$ for the first case.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
@@ -913,10 +1033,13 @@ ingredients include:
   Bernoulli disorder;
 - a mixed-strategy minimax relaxation with a provably negligible purification
   gap.
-- the exact negative-replica recursion above. First decide whether its
-  transport defect is $o(n^2)$ or has a leading-order limit; do not merely
-  rederive the reverse-hypercontractive inequality whose direction is already
-  audited.
+- the exact conditional-alignment chain above. Derive a genuine variational
+  or composition estimate from the relative-switching law; do not re-propose
+  scalar PT, append only the rectangular marginal, or rename the desired
+  almost-superadditivity as an alignment lemma.
+- a controlled mixed-trace/connected-Eulerian hierarchy beginning with
+  $\mathcal H_4$. Any truncation must be uniform when
+  $u=\Theta(n^{-1/2})$ and $q=\Theta(n)$.
 
 For every proposed interpolation, calculate the cross derivative exactly and
 show its sign or cancellation.  Do not exchange minimum, expectation,

@@ -25,8 +25,9 @@ multiplicity is (n-1)!/|Aut(G)|.
 
 All graph, energy, and multiplicity calculations are exact.  Exponentials,
 logarithms, and the displayed transport defects use double precision and are
-finite evidence only.  In particular, a positive finite defect is not a
-disproof of asymptotic transport saturation.
+finite evidence only.  The separate analytic proof now disproves uniform
+power-saving transport; these finite values are regression data for its
+leading-gap parameter regime, not the proof of that theorem.
 """
 
 from __future__ import annotations
@@ -44,7 +45,7 @@ import research_exact_small_n as small
 
 
 DETERMINISTIC_SEED = 413935
-PARAMETERS = ((1.0, 1.0), (2.0, 4.0))
+PARAMETERS = ((1.0, 1.0), (2.0, 4.0), (4.0, 8.0))
 EXPECTED_DEFECT_RATIOS = {
     (1.0, 1.0): {
         4: 0.0049185306,
@@ -61,6 +62,14 @@ EXPECTED_DEFECT_RATIOS = {
         7: 0.2860893478,
         8: 0.3076235038,
         9: 0.3159700451,
+    },
+    (4.0, 8.0): {
+        4: 0.5774823306,
+        5: 1.0474135703,
+        6: 1.1793621066,
+        7: 0.9941740615,
+        8: 1.1008552230,
+        9: 1.1106325514,
     },
 }
 
