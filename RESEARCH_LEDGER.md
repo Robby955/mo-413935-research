@@ -879,3 +879,106 @@ theorem controls the Pareto profile
 $(M(B),\delta_{\rm w}(B))$ over near-optimal signings. Any ground-state cavity
 program that keeps only maximizers is structurally false; a viable compression
 must retain quantitative energy-layer information.
+
+## 12. Nonlinear Gaussian stability search
+
+The earlier covariance proof discarded all curvature of the arcsine law.  For
+
+\[
+ R_s^\pm=\frac{(I\pm sA)^2}{1+s^2(n-1)},
+\]
+
+retaining the exact edgewise difference yields Theorem 17 of
+`RESEARCH_CONTINUATION.md`.  At $s=1/\sqrt{n-1}$ it gives
+
+\[
+ M(A)\ge\frac{n(n-1)}\pi\arcsin\frac1{\sqrt{n-1}}
+ +\frac{\|A^2-(n-1)I\|_F^2}
+ {8\pi(n-1)(n-2)^{3/2}}.
+\]
+
+This has two genuine consequences.  It proves $F(21)\ge32$ after an exact
+parity rounding, and it forces any sequence attaining the lower constant
+$1/\pi$ to be conference-like in the Frobenius sense
+$\|A^2-(n-1)I\|_F=o(n^2)$.
+
+**Leading-order wall.**  The universal nonlinear gain is only
+$\Theta(\sqrt n)$.  The trace-four excess can contribute at leading order for
+matrices far from conference structure, but a minimizer may have excess
+$o(n^4)$.  Therefore this refinement does not separate the liminf from
+$1/\pi$ and does not prove convergence.
+
+**Possible repair.**  Combine the necessary conference-like condition with a
+rigidity/classification theorem for approximate symmetric conference
+matrices.  To change the state of the limit problem, such a theorem would need
+either an order-dependent obstruction of size $\Omega(n^4)$ along a
+subsequence or a construction/composition theorem for all sufficiently dense
+orders.  No such theorem is presently available.
+
+## 13. Multivertex weighted covering state
+
+For fixed internal blocks $B,D$, Theorem 18 identifies the exact cross-block
+optimization with the weighted covering radius of the projective rank-one
+code.  Proposition 19 then gives
+
+\[
+ J(B,D)\le L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)},
+\]
+
+where $\Xi$ is the Gaussian-weighted effective size of the internal
+near-ground rank-one words.
+
+**What changed.**  This is an exact two-block Bellman state rather than an
+upper bound that separates the internal and cross energies.  It identifies
+precisely which energy layers matter and quantifies their effective entropy.
+
+**Structural wall.**  The generic estimate
+$\Xi\le(n+k-2)\log2$ reproduces the same leading
+$\sqrt{nk(n+k)}$ cost as the old random cross-block argument.  Requiring
+$\Xi=o(n+k)$ is also too crude: balanced repeated composition can tolerate a
+linear entropy only if its constant matches the internal energy profile.
+
+**Settling target.**  It is enough to find internal blocks $B,D$ with
+
+\[
+ L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
+ \le(F(n)^{2/3}+F(k)^{2/3})^{3/2}
+ +O((n+k)^{3/2-\varepsilon}).
+\]
+
+This would give the power-saving near-subadditivity of $F^{2/3}$ proved
+sufficient in Theorem 13.  The target is stronger and more quantitative than
+ordinary entropy suppression: it asks for the correct constant-level trade
+between internal energy and the weighted rank-one landscape.
+
+The exact one-vertex increment additionally implies density-one control:
+Bellman-optimal predecessors have both internal slack and covering deficit at
+most $g(N)\sqrt N$ for all but $O(N/g(N))$ orders in $[N,2N]$.  The remaining
+obstruction is sparse exceptional orders.  Monotonicity alone does not spread
+the density-one estimate strongly enough to eliminate them.
+
+## 14. Order-nine state-compression experiment
+
+Complete enumeration gives $\mathcal B_9=\{(12,0)\}$ and a collision beyond
+the earlier scalar-partition-function example.  The records `GHOgmo` and
+`Gxd?Dc` agree in their complete energy histograms and in the ordered
+pair-distance law of exact maximizers, but have extension values 15 and 17.
+
+Thus the following state compressions are now finitely false:
+
+1. the scalar maximum alone;
+2. the exact-maximizer covering code alone, already false at order 7;
+3. the complete scalar partition-function curve;
+4. the scalar energy histogram plus the two-point law of exact maximizers.
+
+The full energy-coloured two-point distribution separates all deficits among
+the 12,346 rooted order-9 records.  This suggests a hierarchy of
+energy-coloured overlap laws analogous to richer spin-glass order parameters.
+It is evidence, not a theorem of sufficiency: higher-order collisions may
+appear at larger orders, and even a complete finite overlap hierarchy still
+needs an asymptotic composition law.
+
+**Best next ground-state lemma.**  Prove the constant-matching profile law in
+Section 13 for a composable near-optimal family, or first prove it for balanced
+doubling $n=k$ with a uniform power saving.  This is now the most concrete
+alternative to the fixed-temperature quenched minimax free-energy lemma.

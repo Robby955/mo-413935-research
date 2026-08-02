@@ -68,7 +68,13 @@ shows that optimal blocks of orders 2 and 8 cannot occur together in an
 order-10 optimum.  We also identify the one-vertex Bellman state as an exact
 energy-weighted projective covering radius and certify that the code of exact
 maximizers, and even the complete scalar partition-function curve, can be
-insufficient.  The sharp remaining target is a
+insufficient.  Retaining the nonlinear arcsine term gives a trace-four
+stability bound and the new finite consequence $F(21)\ge32$.  We derive an
+exact multivertex weighted Bellman identity, a weighted entropy upper bound,
+and density-one control of Bellman-optimal predecessors.  A complete
+order-nine catalogue shows that even the energy histogram plus the two-point
+overlap law of exact maximizers does not determine extension.  The sharp
+remaining target is a
 quenched minimax free-energy limit that absorbs, rather than separately
 bounds, the cross-block contribution.
 \end{abstract}
@@ -915,6 +921,247 @@ Every point at order six gives $F(7)=9$, and both points at order eight give
 $F(9)=12$.  Thus two units of additional internal energy can be exactly
 offset by one unit of covering-deficit improvement.  This is finite evidence
 for a near-optimal Pareto family, not an asymptotic conclusion.
+
+\subsection{The nonlinear square-covariance gain}
+
+The earlier Gaussian proof used only the inequality $\arcsin'(u)\ge1$.
+Retaining the discarded nonlinear term gives a stability theorem.
+
+\begin{theorem}[Nonlinear Gaussian-sign bound]
+\label{thm:nonlinear-gaussian}
+For $s\ge0$, put
+\[
+ D_s=1+s^2(n-1),\qquad d_s=\frac{2s}{D_s},\qquad
+ z_{ij,s}=\frac{s^2|(A^2)_{ij}|}{D_s}.
+\]
+Then every order-$n$ signing satisfies
+\[
+ M(A)\ge\frac1\pi\sum_{i<j}
+ \left[\arcsin(z_{ij,s}+d_s)-\arcsin(z_{ij,s}-d_s)\right].
+ \tag{25}
+\]
+Consequently
+\[
+ M(A)\ge\frac{n(n-1)}\pi\arcsin\frac1{\sqrt{n-1}},
+ \tag{26}
+\]
+and, for $n\ge3$,
+\[
+ M(A)\ge\frac{n(n-1)}\pi\arcsin\frac1{\sqrt{n-1}}
+ +\frac{\operatorname{tr}(A^4)-n(n-1)^2}
+ {8\pi(n-1)(n-2)^{3/2}}.
+ \tag{27}
+\]
+\end{theorem}
+
+\begin{proof}
+The two matrices
+\[
+ R_s^\pm=\frac{(I\pm sA)^2}{D_s}
+\]
+are correlation matrices.  With
+$u_{ij}=s^2a_{ij}(A^2)_{ij}/D_s$, the corresponding Gaussian sign
+roundings and the arcsine law give
+\[
+ \mathbb E Q_A(X^+)-\mathbb E Q_A(X^-)
+ =\frac2\pi\sum_{i<j}
+ [\arcsin(u_{ij}+d_s)-\arcsin(u_{ij}-d_s)].
+\]
+The bracket is even in $u_{ij}$, and each expectation belongs to
+$[-M(A),M(A)]$, proving (25).
+
+For $f_d(z)=\arcsin(z+d)-\arcsin(z-d)$ and $z\ge0$,
+\[
+ f_d''(z)=h(z+d)-h(z-d),\qquad
+ h(t)=\frac{t}{(1-t^2)^{3/2}}.
+\]
+Thus $f_d$ is even and convex.  At $s=1/\sqrt{n-1}$ one has
+$D_s=2$ and $d_s=1/\sqrt{n-1}$, so
+$f_d(z)\ge f_d(0)=2\arcsin d$, which proves (26).
+
+Write $q=n-1$.  Since
+\[
+ h'(t)=\frac{1+2t^2}{(1-t^2)^{5/2}}
+\]
+is even and increasing in $|t|$, $f_d''(z)$ is increasing for $z\ge0$.
+For $d=1/\sqrt q$,
+\[
+ f_d(z)\ge2\arcsin d+\frac{q}{(q-1)^{3/2}}z^2.
+\]
+Finally $z_{ij}=|(A^2)_{ij}|/(2q)$ and
+\[
+ \sum_{i<j}z_{ij}^2
+ =\frac{\operatorname{tr}(A^4)-nq^2}{8q^2},
+\]
+which proves (27).
+\end{proof}
+
+The excess is exactly
+\[
+ \operatorname{tr}(A^4)-n(n-1)^2
+ =\|A^2-(n-1)I\|_F^2.
+\]
+Hence a sequence attaining the asymptotic lower constant $1/\pi$ must obey
+$\|A_n^2-(n-1)I\|_F=o(n^2)$.  The universal improvement in (26) is only
+$\Theta(\sqrt n)$, so it does not change the leading constant.  It does imply
+the new exact consequence
+\[
+ \boxed{F(21)\ge32}.
+\]
+Indeed (26) is greater than 30 and all order-21 energies are even.  For an
+exact strictness certificate, use $\pi/14<11/49$ and
+$\sin t<t-t^3/6+t^5/120$; rational squaring shows that the latter polynomial
+at $11/49$ has square less than $1/20$.  Thus
+$\arcsin(1/\sqrt{20})>\pi/14$.
+
+\subsection{The multivertex Bellman state and its entropy bound}
+
+For internal signings $B,D$ of orders $n,k$, define
+\[
+ J(B,D)=\min_C M\begin{pmatrix}B&C\\C^{\mathsf T}&D\end{pmatrix},
+ \qquad L(B,D)=\max_{x,y}|Q_B(x)+Q_D(y)|.
+\]
+In the projective Hamming cube
+$\mathcal P_{nk}=\{\pm1\}^{n\times k}/\{C\sim-C\}$, let
+\[
+ \mathcal R_{n,k}=\{[xy^{\mathsf T}]:x\in\eps^n,y\in\eps^k\}
+\]
+and give $R=[xy^{\mathsf T}]$ the integer weight
+\[
+ w_{B,D}(R)=\frac{L(B,D)-|Q_B(x)+Q_D(y)|}{2}.
+\]
+Put
+\[
+ \rho_{\mathrm w}^{\square}(B,D)
+ =\max_{[C]\in\mathcal P_{nk}}\min_{R\in\mathcal R_{n,k}}
+ [d_\pm([C],R)+w_{B,D}(R)].
+\]
+
+\begin{theorem}[Multivertex weighted Bellman identity]
+\label{thm:multivertex-bellman}
+One has
+\[
+ J(B,D)=L(B,D)+nk-2\rho_{\mathrm w}^{\square}(B,D).
+ \tag{28}
+\]
+Thus, with
+\[
+ \delta_{\mathrm w}^{\square}
+ =\left\lfloor\frac{nk}{2}\right\rfloor
+ -\rho_{\mathrm w}^{\square},
+\]
+\[
+ F(n+k)=\min_{B,D}
+ [L(B,D)+(nk\bmod2)+2\delta_{\mathrm w}^{\square}(B,D)].
+ \tag{29}
+\]
+\end{theorem}
+
+\begin{proof}
+Pairing $y$ with $-y$ gives
+\[
+ \max_{\eta=\pm1}|Q_B(x)+Q_D(y)+\eta x^{\mathsf T}Cy|
+ =|Q_B(x)+Q_D(y)|+|x^{\mathsf T}Cy|.
+\]
+Moreover
+$|x^{\mathsf T}Cy|=nk-2d_\pm([C],[xy^{\mathsf T}])$.
+Substitute $|Q_B+Q_D|=L-2w$, maximize over the rank-one code, and minimize
+over $[C]$ to obtain (28).  A weight-zero rank-one word is within projective
+distance $\lfloor nk/2\rfloor$ of every center, so the deficit is
+nonnegative.  Minimizing over the two internal blocks proves (29).
+\end{proof}
+
+Only the internal window
+\[
+ |Q_B(x)+Q_D(y)|\ge L(B,D)-2\left\lfloor\frac{nk}{2}\right\rfloor
+\]
+can affect this radius.  Define its soft effective size by
+\[
+ \Xi(B,D)=\log\sum_{R\in\mathcal R_{n,k}}
+ \exp\left(-\frac{2w_{B,D}(R)^2}{nk}\right).
+\]
+
+\begin{proposition}[Weighted entropy upper bound]
+\label{prop:weighted-entropy}
+\[
+ J(B,D)\le L(B,D)
+ +\sqrt{2nk(\Xi(B,D)+\log4)}.
+ \tag{30}
+\]
+\end{proposition}
+
+\begin{proof}
+Choose $C$ uniformly at random.  Hoeffding's inequality and a union bound give
+\[
+ \Pr\{\exists R:\ |\langle C,R\rangle|>T+2w(R)\}
+ \le2\exp\left(-\frac{T^2}{2nk}+\Xi(B,D)\right).
+\]
+For $T=\sqrt{2nk(\Xi+\log4)}$ this is at most $1/2$.  Hence some $C$
+satisfies every displayed inequality, and
+$L-2w(R)+|\langle C,R\rangle|\le L+T$ for every $R$.
+Theorem~\ref{thm:multivertex-bellman} finishes the proof.
+\end{proof}
+
+The generic bound $\Xi\le(n+k-2)\log2$ reproduces the known leading
+$\sqrt{nk(n+k)}$ block cost.  A sufficient replacement is a constant-matching
+profile law: find $B,D$ and $\varepsilon>0$ such that
+\[
+ L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
+ \le(F(n)^{2/3}+F(k)^{2/3})^{3/2}
+ +O((n+k)^{3/2-\varepsilon}).
+ \tag{31}
+\]
+This would imply power-saving near-subadditivity of $F^{2/3}$, which the
+standard blocking argument turns into convergence; (31) is a target, not a
+proved estimate.
+
+There is also density-one control of the exact one-vertex state.  Choose
+$B_n$ attaining Theorem~\ref{thm:weighted-bellman} and put
+$\sigma_n=M(B_n)-F(n)$ and $\delta_n=\delta_{\mathrm w}(B_n)$.  Exactly
+\[
+ F(n+1)-F(n)=\sigma_n+(n\bmod2)+2\delta_n.
+\]
+Telescoping and $F(n)=O(n^{3/2})$ show
+\[
+ \sum_{n=N}^{2N}(\sigma_n+2\delta_n)=O(N^{3/2}).
+\]
+Thus, for every $g(N)\to\infty$, all but $O(N/g(N))$ indices in $[N,2N]$
+have a Bellman-optimal predecessor with
+$\sigma_n\le g(N)\sqrt N$ and
+$\delta_n\le\frac12g(N)\sqrt N$.  Sparse exceptional orders remain
+uncontrolled, so this does not prove convergence.
+
+\subsection{Complete order-nine weighted geometry}
+
+Exhausting all 12,346 root-normalized order-nine signings gives the new full
+frontier
+\[
+ \mathcal B_9=\{(12,0)\}.
+\]
+The 55 root records with $M=12$ split as 20 with deficit zero and 35 with
+deficit one; their 15 switching-permutation classes split as four and eleven.
+
+The records \texttt{GHOgmo} and \texttt{Gxd?Dc} give a stronger collision.
+Both have $M=14$, projective energy histogram
+\[
+ \#\{|Q|=2,6,10,14\}=(124,85,37,10),
+\]
+and ordered pair-distance enumerator $(10,16,14,20,40)$ for their ten exact
+maximizers.  Their profiles $(\rho_{\rm ext},\rho_{\mathrm w},E)$ are,
+however, $(4,4,15)$ and $(3,3,17)$.  Hence the energy histogram plus the
+two-point overlap law of exact maximizers still does not determine extension.
+
+Across the full rooted catalogue, ten histogram groups containing 874 records
+mix deficits.  Adding the maximizer pair-distance law leaves three mixed
+groups containing 112 records.  The complete energy-coloured two-point law
+\[
+ T_B(e,f,r)=\#\{([x],[y]):|Q_B(x)|=e,\ |Q_B(y)|=f,
+ d_\pm([x],[y])=r\}
+\]
+separates all deficits at order nine.  This is a finite computation, not an
+asymptotic sufficiency claim.  The verifier asserts the nauty stream count and
+digest and recomputes every extension both directly and from the weighted
+radius.
 
 \section{Six proof programs and the sharp remaining lemma}
 

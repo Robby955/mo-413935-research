@@ -30,6 +30,10 @@ The repository now goes substantially beyond those baseline results:
 - Exact hereditary cavity inequalities strengthen the induced-submatrix lower
   bounds through Walsh orthogonality and block pairing. Their universal gains
   are subleading, so they do not settle convergence.
+- Retaining the nonlinear term in the Gaussian arcsine argument gives an
+  exact trace-four stability bound. It forces any sequence attaining the
+  lower constant `1/π` to be asymptotically conference-like in Frobenius norm
+  and gives the new finite consequence `F(21) ≥ 32`.
 - Exact obstruction results rule out several natural composition mechanisms,
   including edge-separable saturation, near-saturated cross blocks,
   bounded-rank local lifts, and canonical Seidel/Kronecker amplification.
@@ -48,6 +52,15 @@ The repository now goes substantially beyond those baseline results:
   histogram, hence identical scalar partition functions at every temperature,
   but extension values 13 and 15. Scalar free energy alone is therefore not a
   closed cavity state.
+- The one-vertex Bellman identity extends exactly to arbitrary two-block
+  composition as a weighted covering radius of the projective rank-one code.
+  A matching weighted entropy bound isolates the profile estimate that would
+  yield power-saving near-subadditivity.
+- A complete pass over all 12,346 root-normalized order-9 signings gives the
+  full Bellman frontier `{(12, 0)}`. A stronger collision proves that the
+  energy histogram plus the pair-distance law of exact maximizers still does
+  not determine extension. The complete energy-coloured two-point law does
+  separate all deficits at order 9, a finite result only.
 
 ## Main open routes
 
@@ -70,6 +83,12 @@ For one-vertex growth, the exact state is now known: the Pareto profile of the
 internal maximum and its energy-weighted covering deficit. The next question
 is whether that profile has a uniform asymptotic law over the near-optimal
 energy window. Exact ground states alone are provably insufficient.
+
+The exact multivertex state sharpens this route. Its generic entropy estimate
+still pays the full leading cross-block cost; closure would require a
+constant-matching profile law for the weighted near-ground landscape. The
+one-vertex state is controlled at all but a density-zero set of orders, but
+sparse exceptional orders remain a genuine wall.
 
 ## Research package
 
@@ -99,6 +118,7 @@ python3 verification/verify_continuation.py
 python3 verification/verify_coding_continuation.py
 python3 verification/verify_amplification_obstructions.py
 python3 verification/verify_cavity_hereditary.py
+python3 verification/verify_nonlinear_bellman.py
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and
@@ -106,6 +126,7 @@ The exact cross-block research check requires nauty `geng`, NetworkX, and
 
 ```bash
 python3 verification/research_cross_block_composition.py
+python3 verification/research_order9_weighted_geometry.py
 ```
 
 The exhaustive search through order 10 requires nauty `geng`; NetworkX adds

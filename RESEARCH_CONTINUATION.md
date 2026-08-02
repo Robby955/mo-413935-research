@@ -1630,6 +1630,393 @@ asymptotic claim.  Completeness again trusts the asserted `geng` counts and
 stream hashes; every weighted-radius value is independently checked by direct
 enumeration of all incident sign vectors.
 
+### Theorem 17 (nonlinear Gaussian-sign lower bound)
+
+Let $A$ be any order-$n$ signing.  For $s\ge0$ define
+
+\[
+ D_s=1+s^2(n-1),\qquad d_s=\frac{2s}{D_s},\qquad
+ z_{ij,s}=\frac{s^2|(A^2)_{ij}|}{D_s}.
+\]
+
+Then the complete arcsine contribution in the square-covariance construction
+gives
+
+\[
+ \boxed{
+ M(A)\ge \frac1\pi\sum_{i<j}
+ \left[
+ \arcsin(z_{ij,s}+d_s)-\arcsin(z_{ij,s}-d_s)
+ \right].}
+ \tag{17.1}
+\]
+
+In particular, taking $s=1/\sqrt{n-1}$ gives
+
+\[
+ \boxed{
+ M(A)\ge \frac{n(n-1)}\pi
+ \arcsin\frac1{\sqrt{n-1}}.}
+ \tag{17.2}
+\]
+
+For $n\ge3$ one has the stronger stability inequality
+
+\[
+ \boxed{
+ M(A)\ge \frac{n(n-1)}\pi
+ \arcsin\frac1{\sqrt{n-1}}
+ +\frac{\operatorname{tr}(A^4)-n(n-1)^2}
+ {8\pi(n-1)(n-2)^{3/2}}.}
+ \tag{17.3}
+\]
+
+#### Proof
+
+The matrices
+
+\[
+ R_s^\pm=\frac{(I\pm sA)^2}{D_s}
+\]
+
+are correlation matrices: they are positive semidefinite and their diagonal
+entries are one.  Let $X^\pm$ be the coordinatewise signs of centered
+Gaussian vectors with these correlations.  For $i\ne j$ put
+
+\[
+ u_{ij}=\frac{s^2a_{ij}(A^2)_{ij}}{D_s}.
+\]
+
+Multiplying the two off-diagonal correlations by $a_{ij}$ gives
+$u_{ij}\pm d_s$.  The arcsine law and oddness of arcsine therefore yield
+
+\[
+ \mathbb E Q_A(X^+)-\mathbb E Q_A(X^-)
+ =\frac2\pi\sum_{i<j}
+ \bigl[\arcsin(u_{ij}+d_s)-\arcsin(u_{ij}-d_s)\bigr].
+\]
+
+The bracketed function is even in $u_{ij}$, so it equals the expression with
+$z_{ij,s}=|u_{ij}|$.  Both expectations lie in $[-M(A),M(A)]$; division by
+two proves (17.1).
+
+For fixed $d\ge0$, set
+
+\[
+ f_d(z)=\arcsin(z+d)-\arcsin(z-d).
+\]
+
+On the correlation domain, $f_d$ is even and convex: for $z\ge0$,
+
+\[
+ f_d''(z)=h(z+d)-h(z-d)\ge0,
+ \qquad h(t)=\frac{t}{(1-t^2)^{3/2}},
+\]
+
+because $h$ is increasing.  Hence $f_d(z)\ge f_d(0)=2\arcsin d$.
+At $s=1/\sqrt{n-1}$, $D_s=2$ and $d_s=1/\sqrt{n-1}$; summing over the
+$\binom n2$ edges proves (17.2).
+
+For the quantitative term put $q=n-1$ and $d=1/\sqrt q$.  Since
+
+\[
+ h'(t)=\frac{1+2t^2}{(1-t^2)^{5/2}}
+\]
+
+is even and increasing in $|t|$, $f_d''(z)$ is increasing for $z\ge0$.
+Taylor's theorem therefore gives
+
+\[
+ f_d(z)\ge f_d(0)+\frac12f_d''(0)z^2
+ =2\arcsin d+\frac{q}{(q-1)^{3/2}}z^2.
+\]
+
+Here $z_{ij}=|(A^2)_{ij}|/(2q)$, and
+
+\[
+ \sum_{i<j}z_{ij}^2
+ =\frac{\operatorname{tr}(A^4)-nq^2}{8q^2}.
+\]
+
+Substitution in (17.1) proves (17.3). $\square$
+
+The excess has the exact sum-of-squares form
+
+\[
+ \operatorname{tr}(A^4)-n(n-1)^2
+ =\|A^2-(n-1)I\|_F^2.
+ \tag{17.4}
+\]
+
+Thus any sequence with
+$M(A_n)=(1/\pi+o(1))n^{3/2}$ must obey
+$\|A_n^2-(n-1)I\|_F=o(n^2)$.  This is a necessary conference-like stability
+condition, not an existence theorem for such a sequence.  The universal gain
+in (17.2) over the earlier linearized bound is only $\Theta(\sqrt n)$ and does
+not change the leading constant.  It does have exact finite consequences.
+For $n=21$, (17.2) is strictly greater than 30 and every quadratic energy is
+even, so
+
+\[
+ \boxed{F(21)\ge32.}
+\]
+
+For a rational certificate of strictness, use $\pi/14<11/49$ and
+$\sin t<t-t^3/6+t^5/120$ for $t>0$; direct rational squaring gives
+
+\[
+ \left(\frac{11}{49}-\frac{(11/49)^3}{6}
+ +\frac{(11/49)^5}{120}\right)^2<\frac1{20}.
+\]
+
+Hence $\sin(\pi/14)<1/\sqrt{20}$ and
+$\arcsin(1/\sqrt{20})>\pi/14$, which is exactly the required strict
+inequality.  The old linearized bound is less than 30 and parity-rounds only
+to 30.
+
+### Theorem 18 (multivertex weighted Bellman identity)
+
+Fix internal signings $B,D$ of orders $n,k$, and set
+
+\[
+ J(B,D)=\min_{C\in\{\pm1\}^{n\times k}}
+ M\begin{pmatrix}B&C\\ C^{\mathsf T}&D\end{pmatrix},
+ \qquad
+ L(B,D)=\max_{x,y}|Q_B(x)+Q_D(y)|.
+\]
+
+Let $\mathcal P_{nk}=\{\pm1\}^{n\times k}/\{C\sim-C\}$ and define the
+projective rank-one code
+
+\[
+ \mathcal R_{n,k}=\{[xy^{\mathsf T}]:x\in\{\pm1\}^n,
+ y\in\{\pm1\}^k\}\subseteq\mathcal P_{nk}.
+\]
+
+Assign the well-defined integer weight
+
+\[
+ w_{B,D}([xy^{\mathsf T}])
+ =\frac{L(B,D)-|Q_B(x)+Q_D(y)|}{2}
+\]
+
+and put
+
+\[
+ \rho_{\mathrm w}^{\square}(B,D)
+ =\max_{[C]\in\mathcal P_{nk}}
+ \min_{R\in\mathcal R_{n,k}}
+ \bigl[d_\pm([C],R)+w_{B,D}(R)\bigr].
+\]
+
+Then
+
+\[
+ \boxed{J(B,D)=L(B,D)+nk-2\rho_{\mathrm w}^{\square}(B,D).}
+ \tag{18.1}
+\]
+
+Equivalently, if
+
+\[
+ \delta_{\mathrm w}^{\square}(B,D)
+ =\left\lfloor\frac{nk}{2}\right\rfloor
+ -\rho_{\mathrm w}^{\square}(B,D),
+\]
+
+then
+
+\[
+ \boxed{
+ F(n+k)=\min_{B,D}\left[
+ L(B,D)+(nk\bmod2)+2\delta_{\mathrm w}^{\square}(B,D)
+ \right].}
+ \tag{18.2}
+\]
+
+#### Proof
+
+For fixed $x,y$, pair $(x,y)$ with $(x,-y)$.  The internal energy is
+unchanged and the cross energy changes sign, so
+
+\[
+ \max_{\eta=\pm1}
+ |Q_B(x)+Q_D(y)+\eta x^{\mathsf T}Cy|
+ =|Q_B(x)+Q_D(y)|+|x^{\mathsf T}Cy|.
+\]
+
+Moreover
+
+\[
+ |x^{\mathsf T}Cy|=nk-2d_\pm([C],[xy^{\mathsf T}]).
+\]
+
+Writing the internal absolute energy as $L-2w$ proves (18.1) after maximizing
+over the rank-one code and minimizing over $[C]$.  The rank-one code contains
+an exact internal maximizer of weight zero, so its distance from every center
+is at most $\lfloor nk/2\rfloor$; hence the deficit is nonnegative.  Minimizing
+over $B,D$ enumerates every order-$(n+k)$ signing and proves (18.2). $\square$
+
+Exactly as in the one-vertex case, only the finite window
+
+\[
+ |Q_B(x)+Q_D(y)|
+ \ge L(B,D)-2\left\lfloor\frac{nk}{2}\right\rfloor
+\]
+
+can affect the weighted radius.  Theorem 18 is the exact multivertex Bellman
+state; by itself it does not estimate that state asymptotically.
+
+### Proposition 19 (weighted entropy upper bound)
+
+Define
+
+\[
+ \Xi(B,D)=\log\sum_{R\in\mathcal R_{n,k}}
+ \exp\left(-\frac{2w_{B,D}(R)^2}{nk}\right).
+\]
+
+Then
+
+\[
+ \boxed{
+ J(B,D)\le L(B,D)
+ +\sqrt{2nk\bigl(\Xi(B,D)+\log4\bigr)}.}
+ \tag{19.1}
+\]
+
+#### Proof
+
+Choose the entries of $C$ independently and uniformly from $\{\pm1\}$.
+For fixed rank-one $R$, Hoeffding's inequality gives, for $T\ge0$,
+
+\[
+ \Pr\{|\langle C,R\rangle|>T+2w(R)\}
+ \le2\exp\left(-\frac{(T+2w(R))^2}{2nk}\right).
+\]
+
+After dropping the nonnegative cross term in the square and summing over
+$R$, the union probability is at most
+
+\[
+ 2\exp\left(-\frac{T^2}{2nk}+\Xi(B,D)\right).
+\]
+
+With $T=\sqrt{2nk(\Xi+\log4)}$ this is at most $1/2$.  Some $C$ therefore
+satisfies $|\langle C,R\rangle|\le T+2w(R)$ for every $R$.  For that $C$,
+$L-2w(R)+|\langle C,R\rangle|\le L+T$, and Theorem 18 proves (19.1).
+$\square$
+
+Since $|\mathcal R_{n,k}|=2^{n+k-2}$, the generic estimate
+$\Xi\le(n+k-2)\log2$ recovers the known leading
+$\sqrt{nk(n+k)}$ cross-block cost.  Thus the exact identity does not make the
+ordinary block wall disappear.  A concrete sufficient profile theorem would
+instead find $B,D$ for every large $n,k$ such that, for some $\varepsilon>0$,
+
+\[
+ L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
+ \le\bigl(F(n)^{2/3}+F(k)^{2/3}\bigr)^{3/2}
+ +O((n+k)^{3/2-\varepsilon}).
+ \tag{19.2}
+\]
+
+It would imply power-saving near-subadditivity of $F^{2/3}$ and hence
+convergence by Theorem 13.  Equation (19.2) is a settling target, not a proved
+estimate.
+
+### Proposition 20 (density-one control of Bellman-optimal predecessors)
+
+For each $n$, choose $B_n$ attaining the minimum in Theorem 15 and put
+
+\[
+ \sigma_n=M(B_n)-F(n),\qquad
+ \delta_n=\delta_{\mathrm w}(B_n).
+\]
+
+Then exactly
+
+\[
+ F(n+1)-F(n)=\sigma_n+(n\bmod2)+2\delta_n.
+ \tag{20.1}
+\]
+
+Since $F(n)=O(n^{3/2})$, telescoping (20.1) gives
+
+\[
+ \sum_{n=N}^{2N}(\sigma_n+2\delta_n)=O(N^{3/2}).
+ \tag{20.2}
+\]
+
+Consequently, for every function $g(N)\to\infty$, all but $O(N/g(N))$
+indices $n\in[N,2N]$ admit a Bellman-optimal predecessor satisfying
+
+\[
+ \sigma_n\le g(N)\sqrt N,
+ \qquad
+ \delta_n\le\frac12g(N)\sqrt N.
+ \tag{20.3}
+\]
+
+#### Proof
+
+Equation (20.1) is Theorem 15 with $F(n)$ subtracted.  Both $\sigma_n$ and
+$\delta_n$ are nonnegative.  Sum from $N$ to $2N$ and use the elementary
+random-sign upper bound $F(t)=O(t^{3/2})$; the parity sum is only $O(N)$.
+Markov's inequality applied to the nonnegative quantities
+$\sigma_n+2\delta_n$ proves (20.3). $\square$
+
+This is real asymptotic control of the exact Bellman state on a density-one
+set.  It does not control sparse exceptional orders, which may still have
+linear-size deficits, and therefore does not prove convergence.
+
+### Complete order-9 weighted-geometry computation
+
+A new exhaustive pass over all 12,346 root-normalized order-9 signings gives
+
+\[
+ \boxed{\mathcal B_9=\{(12,0)\}.}
+\]
+
+Among the 55 root-normalized records with $M=12$, 20 have
+$\delta_{\mathrm w}=0$ and 35 have $\delta_{\mathrm w}=1$.  They form exactly
+15 switching-permutation classes, split as four and eleven respectively.
+
+There is also a stronger finite collision.  The graph6 records `GHOgmo` and
+`Gxd?Dc` both have $M=14$, the same complete projective histogram
+
+\[
+ \#\{|Q|=2,6,10,14\}=(124,85,37,10),
+\]
+
+and the same ordered projective pair-distance enumerator of their ten exact
+maximizers,
+
+\[
+ (N_0,N_1,N_2,N_3,N_4)=(10,16,14,20,40).
+\]
+
+Nevertheless their profiles $(\rho_{\rm ext},\rho_{\mathrm w},E)$ are
+respectively $(4,4,15)$ and $(3,3,17)$.  Therefore even the complete energy
+histogram together with the two-point overlap law of the exact maximizers
+does not determine one-vertex extension.
+
+Across the complete rooted catalogue, ten energy-histogram groups containing
+874 records mix different weighted deficits.  Adding the exact-maximizer
+pair-distance law leaves three mixed groups containing 112 records.  The
+complete ordered energy-coloured two-point distance distribution
+
+\[
+ T_B(e,f,r)=\#\{([x],[y]):|Q_B(x)|=e, |Q_B(y)|=f,
+ d_\pm([x],[y])=r\}
+\]
+
+separates every weighted deficit at order 9.  This last statement is an exact
+finite catalogue result, not a claim that $T_B$ is sufficient at every order
+or asymptotically.  The new verifier checks the catalogue count and nauty
+stream digest, independently samples the graph6 decoder with NetworkX,
+checks all weighted radii against direct extension enumeration, and includes
+the two explicit collision records.
+
 ### Consequence for the convergence program
 
 The finite obstruction does not refute asymptotic near-subadditivity: the
@@ -1715,6 +2102,14 @@ block energy and the cross field can cancel for the same spin assignment,
 while bounding the two pieces separately incurs a leading $N^{3/2}$ cost.
 Theorems 11 and 12 give hereditary lower information but no such
 optimizer-compatible upper construction.
+
+Theorem 18 and Proposition 19 make this alternative more precise.  The exact
+cross-block state is the weighted covering landscape of the projective
+rank-one code, and the explicit constant-matching target is (19.2).  The
+generic entropy estimate still has leading cost, so the new result isolates
+the missing profile law rather than proving it.  Proposition 20 controls the
+one-vertex state on a density-one set of orders, but a convergence argument
+must still eliminate or bridge the sparse exceptional orders.
 
 The alternative structural target is an optimizer-specific stability theorem
 for the Bellman state.  It would supplement

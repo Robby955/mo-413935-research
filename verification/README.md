@@ -20,6 +20,7 @@ python3 verification/verify_continuation.py
 python3 verification/verify_coding_continuation.py
 python3 verification/verify_amplification_obstructions.py
 python3 verification/verify_cavity_hereditary.py
+python3 verification/verify_nonlinear_bellman.py
 ```
 
 It checks the linear augmented code and its even-Eulerian dual through
@@ -105,6 +106,26 @@ $H(n)=F(n)^{2/3}$ at $2+2=4$. Expected output:
     corruption_controls=walsh_edge_double_count,quadratic_flip_parity,mu_strengthening,h_exact_subadditivity
     cavity_hereditary_verification=PASSED
 
+The nonlinear-Bellman checker exhausts every signing through order 5 at four
+covariance parameters, verifies the trace-four sum-of-squares identity and
+the quantitative arcsine bound, and compares the multivertex weighted-radius
+identity against direct block enumeration in 23 small cases. It also checks
+the weighted entropy upper bound and includes an exact rational certificate
+for the parity-rounded consequence `F(21) >= 32`. Expected output:
+
+    nonlinear_arcsine_checks=4392
+    multivertex_bellman_checks=23
+    order_21_old_bound=29.894026823521
+    order_21_new_bound=30.148921557028
+    order_21_parity_rounded=32
+    ordinary_distance_corruption_detected=TRUE
+    deterministic_seed=413935
+    nonlinear_bellman_verification=PASSED
+
+Only the displayed arcsine values use floating point. The strict order-21
+comparison is separately certified using rational arithmetic and the
+alternating Taylor bound for sine.
+
 ## Exact cross-block composition
 
 `research_cross_block_composition.py` requires nauty `geng`, NetworkX, and
@@ -184,6 +205,44 @@ python3 verification/research_exact_small_n.py \
   --strict-stream-digests \
   --labeled-crosscheck-max-n 0
 ```
+
+## Complete order-9 weighted geometry
+
+`research_order9_weighted_geometry.py` requires nauty `geng`, NetworkX, and
+NumPy:
+
+```bash
+python3 verification/research_order9_weighted_geometry.py
+```
+
+It evaluates all 12,346 root-normalized order-9 signings. Every energy,
+projective distance, weighted radius, and direct extension value is computed
+in exact integer arrays. The script asserts the catalogue count and committed
+nauty stream digest, samples an independent NetworkX graph6 decoder, and
+groups the 55 optimum root representatives into switching-permutation
+classes. It also verifies the two explicit non-optimal collision records.
+
+Expected output:
+
+    order_9_root_records=12346
+    order_9_pareto={(12,0)}
+    order_9_M12_root_pairs={(12,0):20,(12,1):35}
+    order_9_M12_switching_classes={delta0:4,delta1:11}
+    histogram_mixed_groups=10,records=874
+    histogram_plus_maximizer_distance_mixed_groups=3,records=112
+    energy_colored_two_point_mixed_groups=0
+    collision=GHOgmo:(4,4,15),Gxd?Dc:(3,3,17)
+    collision_histogram={2:124,6:85,10:37,14:10}
+    collision_maximizer_pair_distance=(10,16,14,20,40)
+    geng_stream_sha256=6b740e1c1ec4f6c7d5539e2e236da0f1ad6aa3120d534590b0ea1f09ddc0b345
+    deterministic_seed=413935
+    order_9_weighted_geometry=PASSED
+
+Certificate boundary: completeness trusts nauty `geng`, with the exact count
+and stream digest asserted. Switching-class counts trust NetworkX graph
+isomorphism. The weighted-radius values and direct extension optima do not use
+a SAT, MILP, or floating-point solver. Separation by the energy-coloured
+two-point invariant is an order-9 finite fact only.
 
 ## Exhaustive values through n = 10
 

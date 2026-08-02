@@ -593,6 +593,121 @@ Pareto profile $(M(B),\delta_{\rm w}(B))$ over the near-optimal energy window.
 Any proposed compression of this state must be tested against the order-7
 counterexample.
 
+### 3.11 Nonlinear Gaussian stability
+
+The full square-covariance calculation is now known. For $s\ge0$, let
+
+\[
+ D_s=1+s^2(n-1),\quad d_s=\frac{2s}{D_s},\quad
+ z_{ij,s}=\frac{s^2|(A^2)_{ij}|}{D_s}.
+\]
+
+Then
+
+\[
+ M(A)\ge\frac1\pi\sum_{i<j}
+ [\arcsin(z_{ij,s}+d_s)-\arcsin(z_{ij,s}-d_s)].
+\]
+
+At $s=1/\sqrt{n-1}$, convexity of the arcsine difference gives
+
+\[
+ M(A)\ge\frac{n(n-1)}\pi\arcsin\frac1{\sqrt{n-1}}
+ +\frac{\|A^2-(n-1)I\|_F^2}
+ {8\pi(n-1)(n-2)^{3/2}}.
+\]
+
+Consequently $F(21)\ge32$, and any sequence attaining the asymptotic lower
+constant $1/\pi$ must satisfy
+$\|A_n^2-(n-1)I\|_F=o(n^2)$. The universal gain is only
+$\Theta(\sqrt n)$, so this does not improve the leading lower constant.
+
+### 3.12 Exact multivertex Bellman state
+
+For fixed internal blocks $B,D$ of orders $n,k$, define
+
+\[
+ J(B,D)=\min_C M\begin{pmatrix}B&C\\C^{\mathsf T}&D\end{pmatrix},\qquad
+ L(B,D)=\max_{x,y}|Q_B(x)+Q_D(y)|.
+\]
+
+Let $\mathcal R_{n,k}=\{[xy^{\mathsf T}]\}$ be the projective rank-one code,
+with weight
+
+\[
+ w_{B,D}([xy^{\mathsf T}])
+ =\frac{L(B,D)-|Q_B(x)+Q_D(y)|}{2}.
+\]
+
+Its weighted covering radius satisfies the exact identity
+
+\[
+ J(B,D)=L(B,D)+nk-2\rho_{\mathrm w}^{\square}(B,D).
+\]
+
+Equivalently,
+
+\[
+ F(n+k)=\min_{B,D}
+ [L(B,D)+(nk\bmod2)+2\delta_{\mathrm w}^{\square}(B,D)].
+\]
+
+Only the window
+$|Q_B(x)+Q_D(y)|\ge L(B,D)-2\lfloor nk/2\rfloor$ can affect the state.
+This is an exact reformulation, not yet a composition estimate.
+
+### 3.13 Weighted entropy bound and density-one control
+
+Define
+
+\[
+ \Xi(B,D)=\log\sum_{R\in\mathcal R_{n,k}}
+ \exp\left(-\frac{2w_{B,D}(R)^2}{nk}\right).
+\]
+
+A weighted Hamming-ball union bound proves
+
+\[
+ J(B,D)\le L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}.
+\]
+
+The generic estimate $\Xi\le(n+k-2)\log2$ still pays the full leading
+cross-block cost. A precise sufficient target is to construct $B,D$ with
+
+\[
+ L(B,D)+\sqrt{2nk(\Xi(B,D)+\log4)}
+ \le(F(n)^{2/3}+F(k)^{2/3})^{3/2}
+ +O((n+k)^{3/2-\varepsilon}).
+\]
+
+Do not replace this constant-matching law by the unrealistically crude demand
+$\Xi=o(n+k)$ without checking repeated balanced composition.
+
+For one-vertex Bellman-optimal predecessors, exact telescoping also proves
+that for every $g(N)\to\infty$, all but $O(N/g(N))$ orders in $[N,2N]$ have
+internal slack at most $g(N)\sqrt N$ and weighted deficit at most
+$\frac12g(N)\sqrt N$. Sparse exceptional orders remain uncontrolled.
+
+### 3.14 Complete order-nine state test
+
+Exhaustion of all 12,346 root-normalized order-nine signings gives
+
+\[
+ \mathcal B_9=\{(12,0)\}.
+\]
+
+The records `GHOgmo` and `Gxd?Dc` both have $M=14$, projective energy
+histogram $(124,85,37,10)$ at energies $(2,6,10,14)$, and exact-maximizer
+ordered pair-distance law $(10,16,14,20,40)$. Their profiles
+$(\rho_{\rm ext},\rho_{\rm w},E)$ are nevertheless $(4,4,15)$ and
+$(3,3,17)$. Thus the energy histogram plus the two-point geometry of exact
+maximizers is still not a closed Bellman state.
+
+The complete energy-coloured two-point distribution separates all weighted
+deficits at order 9. This is finite evidence only. Test any proposed finite
+overlap-state closure against higher orders before treating it as an
+asymptotic theorem.
+
 ## 4. Known failed mechanisms that require a material change
 
 Do not simply repeat any of the following:
@@ -634,6 +749,9 @@ Do not simply repeat any of the following:
 14. Retaining the full scalar partition-function curve as the cavity state:
     two optimal order-9 classes have identical absolute-energy histograms at
     every level but different extension values.
+15. Adding only the pair-distance law of exact maximizers to that histogram:
+    the explicit order-9 records `GHOgmo` and `Gxd?Dc` still have different
+    extension values.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -731,6 +849,14 @@ target is the Pareto-profile inequality
 
 with $r_n=o(n^{3/2})$. Determine what state, beyond the scalar maximum,
 controls membership in the composable near-optimum family.
+
+The exact multivertex identity supplies a sharper version of this program.
+Attack the constant-matching weighted-entropy inequality in Section 3.13,
+first for balanced doubling if necessary. Calculate both $L(B,D)$ and
+$\Xi(B,D)$ jointly; optimizing either one separately recreates the leading
+block wall. Explore whether the energy-coloured two-point law, or a controlled
+hierarchy of coloured overlap laws, gives a variational bound for $\Xi$ that
+is stable under composition.
 
 ### Program E: nonexistence
 
