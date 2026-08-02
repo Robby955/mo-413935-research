@@ -1,0 +1,903 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newcommand{\eps}{\{-1,1\}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\cE}{\mathcal E}
+\newcommand{\Ftwo}{\mathbb F_2}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\wt}{wt}
+
+\hypersetup{
+  pdftitle={A Second Attempt at MathOverflow 413935},
+  pdfauthor={OpenAI Codex},
+  pdfsubject={Relaxation theorems and obstructions for a min-max quadratic sign problem},
+  pdfkeywords={quadratic forms, signs, discrepancy, spin glasses, cut codes, graphons}
+}
+
+\title{\textbf{A Second Attempt at MathOverflow 413935}\\[4pt]
+\large Exact relaxations, finite-temperature barriers, and a sharper proof frontier}
+\author{OpenAI Codex\\
+\small AI-generated research note; directed and preserved by Rob Sneiderman}
+\date{1 August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{center}
+\fcolorbox{red!65!black}{red!4}{
+\begin{minipage}{0.89\textwidth}
+\textbf{Status and nonclaim.}
+This note does not prove that the limit in Question~\ref{q:main} exists, and
+it does not prove nonexistence.  It contains independently checked partial
+theorems and exact finite computations.  It must not be cited or submitted as
+a solution to the MathOverflow question.
+\end{minipage}}
+\end{center}
+
+\begin{abstract}
+For a symmetric zero-diagonal sign matrix \(A\), put
+\[
+ M(A)=\max_{x\in\eps^n}\left|\frac12x^{\mathsf T}Ax\right|,
+ \qquad F(n)=\min_A M(A).
+\]
+The open question is whether \(F(n)/n^{3/2}\) converges.  We first audit the
+previous bounds \(1/\pi\le\liminf\le\limsup\le1/2\), the augmented cut-code
+identity, and one-vertex monotonicity; all survive audit.  We then show that
+the proposed cube relaxation has the unique optimizer zero at zero temperature
+and at every fixed unscaled positive temperature, with a leading-order
+zero-temperature integrality gap.  In contrast, an elliptope relaxation has
+the exact thermodynamic limit \(1/2\), while the defined two-covariance,
+edgewise-oriented Gaussian certificate has asymptotic lower-bound constant
+\(1/\pi\).
+We identify the augmented cut code as a binary linear code whose dual consists
+of even-cardinality Eulerian subgraphs, and derive an exact signed-Eulerian
+MacWilliams formula.  Ordinary graphons and limiting empirical spectra are
+proved to erase the \(n^{3/2}\) functional.  Exhaustive computation gives
+\(F(2),\ldots,F(10)=1,3,4,4,5,9,10,12,13\).  The sharp remaining target is a
+quenched minimax free-energy limit that absorbs, rather than separately
+bounds, the cross-block contribution.
+\end{abstract}
+
+\section{Problem, audited baseline, and scope}
+\label{q:main}
+
+The question, asked by Paata Ivanisvili on MathOverflow in 2022
+\cite{mo}, is whether
+\[
+ \lim_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\]
+exists.  Here \(A_{ii}=0\), \(A_{ij}=A_{ji}=a_{ij}\in\eps\), and
+\[
+ Q_A(x)=\sum_{i<j}a_{ij}x_ix_j=\frac12x^{\mathsf T}Ax.
+\]
+
+The earlier attempt was rechecked from source rather than assumed.  Its
+central conclusions are correct:
+\begin{equation}
+ \frac1\pi
+ \le \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
+ \le \limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
+ \le\frac12,
+ \label{eq:baseline}
+\end{equation}
+\begin{equation}
+ F(n)=\binom n2-2\rho(D_n),
+ \qquad
+ F(n)\le F(n+1)\le F(n)+n.
+ \label{eq:oldfacts}
+\end{equation}
+The lower bound uses two Gaussian sign roundings and the arcsine law.  The
+upper bound uses symmetric Paley conference matrices and principal
+submatrices.  The code \(D_n\) is the cut-character set augmented by its
+negative.  A claim-by-claim audit, including two attribution errors and a
+factor-of-two prose correction, is in \texttt{AUDIT.md}.  Nothing in
+\eqref{eq:baseline} or \eqref{eq:oldfacts} implies convergence.
+
+All new statements below distinguish a proved identity from a proposed limit
+theorem.  Exact computations guide the search but are not used as asymptotic
+proofs.
+
+\section{The relaxed-coupling program collapses}
+
+Let \(m=\binom n2\), let \(c_x=(x_ix_j)_{i<j}\), and for arbitrary real
+couplings define
+\[
+ G_n(a)=\max_{x\in\eps^n}|\langle a,c_x\rangle|.
+\]
+
+\begin{theorem}[Cube relaxation]
+\label{thm:cube}
+The function \(G_n\) is a norm on \(\mathbb R^m\).  Hence
+\[
+ \min_{a\in[-1,1]^m}G_n(a)=0,
+\]
+and the unique minimizer is \(a=0\).
+\end{theorem}
+
+\begin{proof}
+Homogeneity and the triangle inequality follow from the maximum of absolute
+linear forms.  If \(X\) is uniform on \(\eps^n\), orthogonality of distinct
+degree-two Walsh characters gives
+\[
+ \E\langle a,c_X\rangle^2=\sum_{i<j}a_{ij}^2.
+\]
+Thus \(G_n(a)=0\) forces \(a=0\).  Since the origin belongs to the cube, the
+last assertion follows.
+\end{proof}
+
+In particular, any convex feasible set in the original coupling coordinates
+that contains every sign coupling contains their convex hull, the whole cube,
+and therefore contains this zero optimizer when the objective remains \(G_n\).
+By the audited lower bound, its additive integrality gap is at least
+\(n\sqrt{n-1}/\pi\), of the full target order.
+
+The same collapse persists at positive temperature.  Retain duplicated
+states \((x,s)\in\eps^n\times\eps\) and put
+\[
+ L_{n,t}(a)=\frac1t\log\sum_{x,s}
+ \exp\bigl(t\langle a,s c_x\rangle\bigr),\qquad t>0.
+\]
+
+\begin{theorem}[Finite-temperature cube dual]
+\label{thm:cubedual}
+The function \(L_{n,t}\) is strictly convex and has the unique cube minimizer
+zero, with value
+\[
+ \min_{a\in[-1,1]^m}L_{n,t}(a)=\frac{(n+1)\log2}{t}.
+\]
+It has the exact dual representation
+\[
+ \max_{p\in\Delta(\eps^n\times\eps)}
+ \left\{
+  \frac{H(p)}t-\left\|\E_p[s c_x]\right\|_1
+ \right\}.
+\]
+\end{theorem}
+
+\begin{proof}
+The Hessian of \(L_{n,t}\) is \(t\) times the covariance matrix of \(s c_x\)
+under a full-support Gibbs distribution.  If a linear functional of these
+vectors were constant, replacing \(s\) by \(-s\) would make the constant zero;
+Walsh orthogonality would then make the functional zero.  The Hessian is
+therefore positive definite.  Symmetry makes the gradient vanish at zero,
+where the value is \(t^{-1}\log 2^{n+1}\).
+
+The entropy variational formula for log-sum-exp gives
+\[
+ L_{n,t}(a)=\max_p\left\{
+ \langle a,\E_p[s c_x]\rangle+\frac{H(p)}t\right\}.
+\]
+Both domains are compact and convex and the displayed function is convex in
+ \(a\) and concave in \(p\), so Sion's theorem applies.  Minimization of a
+linear form over the cube is minus the \(\ell^1\)-norm of its coefficient.
+\end{proof}
+
+Thus the simplest probability-measure dual is exact but vacuous for the
+discrete problem: the uniform state measure cancels every first moment.
+
+There is nevertheless a useful conditional rounding statement.
+
+\begin{proposition}[Variance-sensitive sign rounding]
+\label{prop:rounding}
+For \(a\in[-1,1]^m\), set \(V(a)=\sum_e(1-a_e^2)\).  There is a sign vector
+\(\sigma\in\eps^m\) for which
+\[
+ G_n(\sigma)\le G_n(a)
+ +\sqrt{2V(a)(n+1)\log2}
+ +\frac43(n+1)\log2.
+\]
+\end{proposition}
+
+\begin{proof}
+Round the coordinates independently with \(\E\sigma_e=a_e\).  For fixed
+\(x\), the centered error
+\(\sum_e(\sigma_e-a_e)c_x(e)\) has variance \(V(a)\) and summands bounded by
+two.  The two-sided Bernstein bound with parameter \(u\) is at most
+\(2e^{-u}\) beyond
+\(\sqrt{2V(a)u}+4u/3\).  There are \(2^{n-1}\) distinct cut characters.
+Taking \(u=(n+1)\log2\) makes the union failure probability at most \(1/2\).
+For a successful outcome, add this uniform error to \(G_n(a)\).
+\end{proof}
+
+This gives \(o(n^{3/2})\) loss if \(V(a)=o(n^2)\), but the cube optimizer has
+\(V(0)=m\).  The obvious spherical repairs also fail.  On
+\(\|a\|_2=\sqrt m\), Parseval gives \(G_n(a)\ge\sqrt m\), attained by a
+one-coordinate vector.  Adding \(|a_e|\le1\) to that sphere forces every
+\(|a_e|=1\), recovering the original discrete problem exactly.
+
+\section{Temperature scaling and the cross-block wall}
+
+The functional proposed in the question is
+\[
+ \Phi_{n,\beta}=\min_A\frac1{\beta n^{3/2}}
+ \log\sum_x e^{\beta|Q_A(x)|}.
+\]
+For every fixed \(\beta>0\), the maximum-versus-log-sum-exp inequality gives
+\begin{equation}
+ \frac{F(n)}{n^{3/2}}
+ \le\Phi_{n,\beta}
+ \le\frac{F(n)}{n^{3/2}}+\frac{\log2}{\beta\sqrt n}.
+ \label{eq:proposedtemp}
+\end{equation}
+Thus existence of \(\lim_n\Phi_{n,\beta}\) for even one fixed positive
+\(\beta\) is equivalent to the original limit.  At this normalization,
+fixed temperature is already asymptotically zero temperature.
+
+A genuinely extensive mean-field functional is
+\[
+ \Psi_{n,\beta}=\min_A\frac1{\beta n}
+ \log\sum_{x,s}\exp\left(\frac{\beta sQ_A(x)}{\sqrt n}\right).
+\]
+It satisfies
+\begin{equation}
+ \frac{F(n)}{n^{3/2}}
+ \le\Psi_{n,\beta}
+ \le\frac{F(n)}{n^{3/2}}+\frac{(n+1)\log2}{\beta n}.
+ \label{eq:extensivesandwich}
+\end{equation}
+Consequently, existence of \(\lim_n\Psi_{n,\beta}\) for arbitrarily large
+fixed \(\beta\) would settle the problem: the limsup-minus-liminf gap would
+be at most \(\log2/\beta\) for every such \(\beta\).
+
+The direct interpolation does not have the needed accuracy.  Define
+\[
+ h_n(t)=\min_A\log\sum_{x,s}e^{tsQ_A(x)}.
+\]
+
+\begin{proposition}[Exact annealed block estimate]
+\label{prop:blocktemp}
+For all \(n,k\) and \(t>0\),
+\[
+ h_{n+k}(t)\le h_n(t)+h_k(t)-\log2+nk\log\cosh t.
+\]
+\end{proposition}
+
+\begin{proof}
+For a within-block matrix \(A\), write
+\(Z_A^s=\sum_xe^{tsQ_A(x)}\).  Replacing all coefficients of the second
+block by their negatives swaps its two one-sided partition sums.  Of the two
+possible alignments, one satisfies
+\[
+ Z_A^+Z_B^+ + Z_A^-Z_B^-
+ \le\frac12(Z_A^++Z_A^-)(Z_B^++Z_B^-).
+\]
+Choose every cross coefficient independently and uniformly.  For fixed
+\(x,y,s\), averaging the cross exponential gives \((\cosh t)^{nk}\).
+Therefore the expected augmented partition sum is at most the right side
+above times this factor, and some deterministic cross signing is no larger.
+Take logarithms and infima.
+\end{proof}
+
+At \(t=\beta/\sqrt{n+k}\) and \(n/(n+k)\to\alpha\), the normalized cross cost
+tends to
+\[
+ \frac\beta2\alpha(1-\alpha),
+\]
+which is nonzero for fixed \(\beta\) and grows in the zero-temperature limit.
+The direct annealed cross block is therefore a leading term, not an error.
+
+Finally, the absolute value cannot be silently removed.  If every edge from
+vertex \(1\) is positive and every other edge negative, fix \(x_1=1\) and put
+\(T=\sum_{i>1}x_i\).  Then
+\[
+ Q_A(x)=\frac n2-\frac{(T-1)^2}{2}.
+\]
+Hence \(\max_xQ_A(x)=\lfloor n/2\rfloor\), whereas
+\(\max_x|Q_A(x)|=\binom n2\).
+
+\section{Covariance relaxations: two exact asymptotic limits}
+
+Let
+\[
+ \cE_n=\{R\succeq0:\diag R=\mathbf1\}
+\]
+be the elliptope.  The full arcsine expression is tautologically exact:
+\begin{equation}
+ M(A)=\max_{R\in\cE_n}
+ \left|\frac2\pi\sum_{i<j}a_{ij}\arcsin R_{ij}\right|.
+ \label{eq:arcsineexact}
+\end{equation}
+Indeed, Gaussian sign rounding makes every value on the right at most
+\(M(A)\), while \(R=xx^{\mathsf T}\) attains \(Q_A(x)\).  The nonlinearity
+therefore preserves the original problem rather than relaxing it.
+
+Linearizing gives a model with a complete thermodynamic limit.  Put
+\[
+ S(A)=\max_{R\in\cE_n}\left|\frac12\tr(AR)\right|,
+ \qquad S_n=\min_A S(A).
+\]
+
+\begin{theorem}[Adversarial elliptope limit]
+\label{thm:elliptope}
+For every \(n\ge2\),
+\[
+ S_n\ge\frac12n\sqrt{n-1},
+\]
+and
+\[
+ \boxed{\displaystyle
+ \lim_{n\to\infty}\frac{S_n}{n^{3/2}}=\frac12.}
+\]
+At each symmetric conference order, equality holds in the finite bound.
+\end{theorem}
+
+\begin{proof}
+Fix any sign matrix \(A\), set \(q=n-1\), and define
+\[
+ R^\pm=\frac12\left(I\pm\frac A{\sqrt q}\right)^2.
+\]
+They are positive semidefinite.  Since every row of \(A\) has squared norm
+\(q\), their diagonals equal one.  Moreover
+\[
+ R^+-R^-=\frac{2A}{\sqrt q}.
+\]
+The corresponding two linear SDP values differ by
+\[
+ \frac12\tr\bigl(A(R^+-R^-)\bigr)=n\sqrt q.
+\]
+At least one has absolute value at least half this amount.
+
+For the reverse asymptotic inequality, if \(R\in\cE_n\), then
+\[
+ |\tr(AR)|\le\|A\|_{\mathrm{op}}\tr R=n\|A\|_{\mathrm{op}}.
+\]
+A symmetric conference matrix has operator norm \(\sqrt{n-1}\), so it
+attains equality.  For general \(n\), the prime number theorem in arithmetic
+progressions supplies a prime \(q\equiv1\pmod4\) with
+\(q+1\ge n\) and \(q+1=n(1+o(1))\) \cite{davenport}.  Take a principal \(n\)-by-\(n\)
+submatrix of the symmetric Paley conference matrix of order \(N=q+1\).
+Compression does not increase its operator norm \(\sqrt{N-1}\), giving
+\(S_n\le n\sqrt{N-1}/2=(1/2+o(1))n^{3/2}\).
+\end{proof}
+
+Rank-one \(R=xx^{\mathsf T}\) show \(S(A)\ge M(A)\).  The missing transfer is
+an asymptotically vanishing integrality gap, which is not supplied by standard
+Grothendieck-type constant-factor rounding \cite{alon-naor,nesterov}.  The gap
+is already strict at order six: the exact computation below gives \(F(6)=5\),
+whereas Theorem~\ref{thm:elliptope} and a conference matrix give
+\(S_6=3\sqrt5\).
+
+There is also a sharp barrier for the linear Gaussian-sign method.  Let
+\(\Lambda(A)\) be the maximum of
+\[
+ \sum_{i<j}a_{ij}(R^+_{ij}-R^-_{ij})
+\]
+over \(R^\pm\in\cE_n\), subject to the edgewise orientations
+\(a_{ij}(R^+_{ij}-R^-_{ij})\ge0\).
+
+\begin{theorem}[Oriented covariance barrier]
+\label{thm:lambda}
+For every sign matrix \(A\),
+\[
+ M(A)\ge\frac{\Lambda(A)}\pi,
+ \qquad
+ \Lambda(A)\ge n\sqrt{n-1}.
+\]
+Moreover
+\[
+ \boxed{\displaystyle
+ \lim_{n\to\infty}
+ \frac{\min_A\Lambda(A)}{n^{3/2}}=1.}
+\]
+\end{theorem}
+
+\begin{proof}
+Gaussian sign rounding of \(R^+\) and \(R^-\), followed by the arcsine law,
+gives two expected energies.  Since \(\arcsin'(r)\ge1\) and each edge
+difference has the prescribed orientation, their difference is at least
+\(2\Lambda(A)/\pi\).  Both expectations lie in \([-M(A),M(A)]\), proving the
+first inequality.
+
+The square covariances used in Theorem~\ref{thm:elliptope} satisfy the
+orientation constraints and have objective \(n\sqrt{n-1}\).  Conversely,
+\[
+ \Lambda(A)=\frac12\tr\bigl(A(R^+-R^-)\bigr)
+ \le n\|A\|_{\mathrm{op}}.
+\]
+Conference matrices attain equality.  The same prime-number-theorem and Paley
+principal-submatrix construction used in Theorem~\ref{thm:elliptope} gives the
+matching asymptotic upper bound at every order.
+\end{proof}
+
+Thus the optimized two-covariance, edgewise-oriented linear certificate
+\(\Lambda\) defined above has adversarial asymptotic lower-bound constant
+exactly \(1/\pi\).  Improving it requires information beyond this specific
+linearization; the theorem does not exclude more general covariance
+certificates.
+
+\section{The augmented cut code and its exact dual}
+
+Encode signs as bits via \((-1)^b\).  Let \(j\in\Ftwo^m\) be the all-one edge
+word and
+\[
+ (\delta u)_{ij}=u_i+u_j.
+\]
+Then the augmented code in \eqref{eq:oldfacts} is
+\[
+ D_n=\{\delta u+s j:u\in\Ftwo^n,\ s\in\Ftwo\}.
+\]
+
+\begin{theorem}[Linear code and dual]
+\label{thm:codedual}
+For \(n\ge3\), \(D_n\) is a binary \([m,n]\) linear code and
+\[
+ D_n^\perp=
+ \{H\subseteq E(K_n):
+ \deg_H(v)\equiv0\pmod2\ \text{for all }v,
+ \ |H|\equiv0\pmod2\}.
+\]
+For \(n\ge4\), the dual is spanned by 4-cycles, has dimension \(m-n\), and
+minimum distance four.
+\end{theorem}
+
+\begin{proof}
+The cut space has dimension \(n-1\).  Its words have even parity on every
+triangle, whereas \(j\) has odd triangle parity, so adjoining \(j\) raises the
+dimension by one.  A graph is orthogonal to every cut exactly when every
+vertex has even degree, and it is orthogonal to \(j\) exactly when its number
+of edges is even.
+
+The cycle space is generated by triangles through one fixed vertex.  An
+even-weight cycle-space word is a sum of an even number of these basis
+triangles.  The sum of two sharing a nonfixed vertex is a 4-cycle.  Two that
+share only the fixed vertex can be paired through an intermediate basis
+triangle and expressed as two 4-cycles.  This proves generation.  A nonzero
+even-cardinality Eulerian graph has at least four edges, and a 4-cycle exists.
+\end{proof}
+
+Counting cuts by the size of one shore gives
+\begin{equation}
+ W_{D_n}(z)=\frac12\sum_{k=0}^n\binom nk
+ \left(z^{k(n-k)}+z^{m-k(n-k)}\right).
+ \label{eq:weightenum}
+\end{equation}
+
+Let \(a_e=(-1)^{y_e}\) and define the exact augmented partition function
+\[
+ Z_y(\beta)=\sum_{d\in D_n}
+ \exp\bigl(\beta[m-2\wt(y+d)]\bigr).
+\]
+Its ground state is \(M(A)\).
+
+\begin{theorem}[Signed-Eulerian MacWilliams formula]
+\label{thm:macwilliams}
+For \(n\ge3\),
+\[
+ Z_y(\beta)=2^n(\cosh\beta)^mP_y(\tanh\beta),
+\]
+where
+\[
+ P_y(t)=\sum_{H\in D_n^\perp}(-1)^{|H\cap y|}t^{|H|}.
+\]
+For \(0\le t<1\), \(P_y(t)>0\), and uniformly in \(y\),
+\[
+ M(A)\le\frac1\beta\log Z_y(\beta)
+ \le M(A)+\frac{n\log2}\beta.
+\]
+\end{theorem}
+
+\begin{proof}
+The coset MacWilliams identity is
+\[
+ W_{y+D_n}(z)=2^{n-m}(1+z)^m
+ \sum_{H\in D_n^\perp}(-1)^{|H\cap y|}
+ \left(\frac{1-z}{1+z}\right)^{|H|}.
+\]
+Multiply by \(e^{\beta m}\) and substitute \(z=e^{-2\beta}\).  This gives
+the formula because
+\(e^{\beta}(1+e^{-2\beta})=2\cosh\beta\) and the final ratio is
+\(\tanh\beta\).  Positivity follows because the left side is a positive
+partition sum.  The last display compares its largest summand with a sum of
+\(|D_n|=2^n\) summands.
+\end{proof}
+
+For fixed \(\beta>0\), the minimized free energy in
+Theorem~\ref{thm:macwilliams}, divided by \(n^{3/2}\), differs from
+\(F(n)/n^{3/2}\) by \(O(n^{-1/2})\).  Thus the exact unresolved term is
+\[
+ \min_y\log P_y(\tanh\beta).
+\]
+It must cancel the explicit \(m\log\cosh\beta\) term to \(n^{3/2}\)
+accuracy.  Averaging \(P_y(t)\) over all \(y\) gives one and yields only
+\[
+ F(n)\le n\sqrt{(n-1)\log2},
+\]
+the usual sphere/union-bound constant, weaker than \(1/2\).
+
+Puncturing also stops at the old scale.  For \(n\ge4\), deleting the final star
+maps \(D_n\) onto \(D_{n-1}\), and the two lifts of each word have complementary
+star coordinates.  Therefore
+\[
+ \rho(D_{n-1})\le\rho(D_n)
+ \le\rho(D_{n-1})+\left\lfloor\frac{n-1}{2}\right\rfloor,
+\]
+equivalently
+\[
+ F(n-1)+((n-1)\bmod2)\le F(n)\le F(n-1)+n-1.
+\]
+The \(n=3\) instance of these inequalities is checked directly; the fiber
+there has four rather than two words.
+Across a two-block partition, the cross lifts are complementary rank-one
+sign matrices.  On the dual side, the
+\(\binom n2\binom k2\) alternating cross-block 4-cycles already contribute
+macroscopically at mean-field scaling.  Product bounds that take absolute
+values discard the cancellation needed here.
+
+\section{High-temperature data do not truncate uniformly}
+
+Let \(X\) be uniform on \(\eps^n\), let \(Y=Q_A(X)\), and use the symmetrized
+partition function \(\E\cosh(tY)\), equivalently the augmented state \(sY\).
+Direct Walsh counting gives
+\begin{equation}
+ \E Y^2=m,
+ \qquad
+ \E Y^4=3m^2-2m+24\sum_{C_4}\prod_{e\in C_4}a_e,
+ \label{eq:fourthmoment}
+\end{equation}
+where the sum is over undirected 4-cycles.  Indeed, a monomial in the fourth
+power survives exactly when every vertex has even incidence.  Besides one
+edge four times and two edges twice, the only case is a simple 4-cycle, with
+multinomial factor \(24\).
+
+Equivalently,
+\begin{equation}
+ \kappa_4(Y)=3\tr(A^4)-2n(n-1)(3n-4),
+ \qquad
+ \tr(A^4)=n(n-1)^2+\sum_{i\ne j}(A^2_{ij})^2.
+ \label{eq:tracefour}
+\end{equation}
+The second identity is \(\tr(A^4)=\sum_{ij}(A^2_{ij})^2\); the first follows
+by separating the closed walks with four distinct vertices in
+\eqref{eq:fourthmoment}.
+
+The expansion
+\[
+ \log\E\cosh(tY)=\frac{m t^2}{2}+\frac{\kappa_4(Y)t^4}{24}+O(t^6)
+\]
+shows that, for each fixed \(n\), all sufficiently high-temperature
+minimizers of this symmetrized partition function minimize \(\tr(A^4)\).
+The symmetrization matters: the one-sided partition can have a
+signing-dependent cubic triangle term.  Spectral Cauchy--Schwarz gives
+\[
+ \tr(A^4)\ge\frac{\tr(A^2)^2}{n}=n(n-1)^2.
+\]
+For a Paley principal submatrix of order \(n\) inside a conference matrix of
+order \(N=n(1+o(1))\),
+\[
+ \tr(A^4)\le \|A\|_{\mathrm{op}}^2\tr(A^2)
+ \le (N-1)n(n-1).
+\]
+This gives the reverse asymptotic inequality, so
+\[
+ \lim_n\frac{\min_A\tr(A^4)}{n^3}=1,
+ \qquad
+ \lim_n\frac{\min_A\kappa_4(Y)}{n^3}=-3.
+\]
+
+This fourth-order limit does not determine the next term.  Exhausting all
+root-normalized order-seven signings gives
+\[
+ \min_A\tr(A^4)=342,
+\]
+while the trace-minimizing signings have three distinct exact sixth moments,
+\[
+ 50{,}781,\qquad 53{,}661,\qquad 59{,}421.
+\]
+Thus fourth-order data alone are insufficient.  No uniform remainder theorem
+connecting this high-temperature expansion to the required ground-state
+regime was obtained.
+
+\section{Ordinary graphons and empirical spectra lose the functional}
+
+For a signed matrix \(A\), let \(W_A\) be its step graphon and normalize
+\[
+ \|W_A\|_\square=\frac1{n^2}
+ \max_{S,T\subseteq[n]}
+ \left|\sum_{i\in S,j\in T}a_{ij}\right|.
+\]
+
+\begin{theorem}[Cut-limit obstruction]
+\label{thm:graphon}
+If \(M(A_n)=O(n^{3/2})\), then \(W_{A_n}\to0\) in cut norm.  There are two
+deterministic sequences satisfying this hypothesis and having the same zero
+graphon limit, while their normalized Boolean maxima are separated by at
+least \(3/2\).
+\end{theorem}
+
+\begin{proof}
+For \(x,y\in\eps^n\), split the coordinates according to whether \(x_i=y_i\).
+Writing \(z^+,z^-\in\{-1,0,1\}^n\) for the corresponding restrictions of
+\(y\), symmetry of \(A\) cancels cross terms and gives
+\[
+ x^{\mathsf T}Ay=2Q_A(z^+)-2Q_A(z^-).
+\]
+A multilinear quadratic form attains its maximum absolute value on
+\([-1,1]^n\) at a Boolean vertex, so every sign bilinear form is bounded by
+\(4M(A)\).  Expressing two indicator vectors as affine combinations of sign
+vectors then gives
+\[
+ \|W_A\|_\square\le\frac{4M(A)}{n^2}.
+\]
+
+Take an infinite sequence of Paley conference matrices \(C_N\).  Their
+normalized Boolean maxima have limsup at most \(1/2\), and their graphons tend
+to zero.  Choose \(k=\lfloor2N^{3/4}\rfloor\) vertices and change every
+coefficient inside that set to \(+1\), obtaining \(B_N\).  At most
+\(\binom k2=O(N^{3/2})\) edges change, so \(M(B_N)=O(N^{3/2})\) and the
+graphon perturbation tends to zero in \(L^1\).  Fix the planted spins to
+\(+1\) and average all outside spins independently.  Every cross and outside
+term has mean zero, while the planted block contributes \(\binom k2\).
+Some outside assignment therefore has at least that energy, and
+\[
+ \liminf_N\frac{M(B_N)}{N^{3/2}}\ge2.
+\]
+The separation from the conference limsup is at least \(3/2\).
+\end{proof}
+
+The usual dense graph topology therefore collapses every target-scale
+near-optimizer to the same point.  This is not repaired by keeping only a
+limiting empirical spectrum.  At dense scaling, every empirical law of
+\(A/n\) tends to \(\delta_0\), since its average squared eigenvalue is
+\((n-1)/n^2\).  At fluctuation scaling there is a stronger obstruction.
+
+\begin{proposition}[Empirical-spectral obstruction]
+\label{prop:spectrum}
+For every fixed \(d>1/2\), there are conference matrices \(C_N\) and sign
+matrices \(B_N\) such that
+\[
+ W_2(\mu_{B_N/\sqrt N},\mu_{C_N/\sqrt N})\longrightarrow0,
+\]
+but
+\[
+ \liminf_N\frac{M(B_N)}{N^{3/2}}\ge d,
+ \qquad
+ \limsup_N\frac{M(C_N)}{N^{3/2}}\le\frac12.
+\]
+\end{proposition}
+
+\begin{proof}
+Let \(q_N=Q_{C_N}(\mathbf1)\).  The spectral bound gives
+\(|q_N|\le N\sqrt{N-1}/2\).  Flip negative coefficients to positive until
+the all-one energy is at least \(dN^{3/2}\).  This needs \(O(N^{3/2})\) edges,
+and there are \(\Theta(N^2)\) available.  Therefore
+\(\|B_N-C_N\|_F^2=O(N^{3/2})\).  Hoffman--Wielandt implies
+\[
+ W_2^2(\mu_{B_N/\sqrt N},\mu_{C_N/\sqrt N})
+ \le\frac{\|B_N-C_N\|_F^2}{N^2}=O(N^{-1/2}).
+\]
+The energy inequalities follow from the construction and the conference
+spectral bound.
+\end{proof}
+
+This excludes dense graphons and limiting empirical spectral distributions,
+not spectral edges, eigenvectors, or a richer Gaussian-process limit.
+
+For comparison, iid signings are rigorously worse than the conference upper
+constant.
+
+\begin{proposition}[Greedy energy of an iid signing]
+On one infinite iid Rademacher edge array \(A_n\), almost surely
+\[
+ \liminf_n\frac{M(A_n)}{n^{3/2}}
+ \ge\frac23\sqrt{\frac2\pi}=0.531923\ldots>\frac12.
+\]
+\end{proposition}
+
+\begin{proof}
+Choose spins sequentially by
+\[
+ x_1=1,\qquad x_j=\operatorname{sgn}\sum_{i<j}a_{ij}x_i.
+\]
+The resulting energy is
+\[
+ Q_{A_n}(x)=\sum_{j=2}^n
+ \left|\sum_{i<j}a_{ij}x_i\right|=\sum_{k=1}^{n-1}Y_k.
+\]
+Before column \(j\) is exposed, the earlier spins are measurable with respect
+to earlier columns.  Multiplying the fresh iid column signs by those
+predictable spins preserves their iid Rademacher law.  Hence the \(Y_k\) are
+independent and \(Y_k\) has the law of
+\(|\varepsilon_1+\cdots+\varepsilon_k|\).
+
+The central limit theorem and uniform integrability give
+\(\E Y_k/\sqrt k\to\sqrt{2/\pi}\).  A Riemann-sum argument therefore yields
+\[
+ \frac1{n^{3/2}}\sum_{k<n}\E Y_k
+ \longrightarrow \sqrt{\frac2\pi}\int_0^1\sqrt t\,dt
+ =\frac23\sqrt{\frac2\pi}.
+\]
+Changing one input sign changes \(Y_k\) by at most two, so its centered moment
+generating function is bounded by \(\exp(\lambda^2k/2)\).  Independence gives
+an exponential tail \(2e^{-c_\varepsilon n}\) for deviations of
+\(\sum_{k<n}Y_k\) by \(\varepsilon n^{3/2}\).  This is summable; Borel--Cantelli
+completes the proof.
+\end{proof}
+
+This is not a lower bound on \(F(n)\); it shows that typical iid signings are
+not asymptotically optimal.
+
+\section{Exact computation through order ten}
+
+Switching makes every edge incident with vertex zero positive.  The remaining
+negative coefficients form a graph on \(n-1\) vertices, and vertex
+permutations reduce the search to one unlabeled graph in each isomorphism
+class.  For a residual negative-edge graph \(G\) and a negative-spin set
+\(S\) not containing the root, the exact energy is
+\[
+ \binom n2-2|E(G)|-2|S|(n-|S|)+4|\delta_G(S)|.
+\]
+Exhausting nauty's \texttt{geng} streams gives Table~\ref{tab:values}.
+
+\begin{table}[ht]
+\centering
+\caption{Exact computational values.}
+\label{tab:values}
+\begin{tabular}{c@{\qquad}rrrrrrrrr}
+\toprule
+\(n\) & 2&3&4&5&6&7&8&9&10\\
+\(F(n)\) & 1&3&4&4&5&9&10&12&13\\
+\(F(n)/n^{3/2}\) & .3536&.5774&.5000&.3578&.3402&.4860&.4419&.4444&.4111\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Completeness is checked against the unlabeled-graph counts and hashes of the
+full graph streams.  The reduced formula is checked by direct evaluation;
+all labeled signings are independently enumerated through \(n=6\); optional
+NetworkX and Z3 routes use different decoders and optimization mechanisms.
+Z3 independently gives UNSAT/SAT pairs certifying the displayed values for
+\(n=7,8,9\).  At \(n=10\), the lower certificate is the exhaustive nauty
+search; the attempted Z3 lower query timed out.
+
+The Paley conference matrix of order ten over \(\mathbb F_9\) has exact
+Boolean maximum \(15\), strictly worse than \(F(10)=13\).  The two optimal
+switching classes at order ten have different characteristic polynomials.
+Thus neither conference structure nor a unique spectrum describes all finite
+optimizers.  These finite facts do not imply a limiting constant.
+
+\section{Five proof programs and the sharp remaining lemma}
+
+The detailed derivations and failed variants are preserved in
+\texttt{RESEARCH\_LEDGER.md}.  The current programs are logically distinct.
+
+\paragraph{A. Quenched extensive free energy.}
+Prove \(\lim_n\Psi_{n,\beta}\) for every fixed \(\beta>0\), or at least for
+an unbounded set of \(\beta\)'s.  Equation~\eqref{eq:extensivesandwich} then
+forces convergence.  Proposition~\ref{prop:blocktemp} shows exactly why
+independent annealed cross blocks fail.  A repair must absorb the cross term
+in a joint minimax order parameter, as random-disorder spin-glass
+interpolation absorbs it only after disorder expectation
+\cite{guerra-toninelli,auffinger-chen}.
+
+\paragraph{B. Near-saturated relaxation.}
+Find a nonconvex compact relaxation whose optimizers have
+\(\sum_e(1-a_e^2)=o(n^2)\) and an asymptotic composition law.  Then
+Proposition~\ref{prop:rounding} transfers its limit to signs.  The cube and
+sphere calculations prove that the two obvious feasible sets are structurally
+too loose or exactly discrete.
+
+\paragraph{C. Signed Eulerian polynomial.}
+Prove a second-order limit for
+\(\min_y\log P_y(t)\) after the explicit MacWilliams terms are included.
+Puncturing and ordinary products fail because of the common parity phase,
+rank-one cross lift, and macroscopic family of mixed 4-cycles.  A quenched
+coset-weight theorem, rather than an average weight enumerator, is required.
+
+\paragraph{D. Second-order limit object.}
+Construct a rate-sensitive topology for \(A/\sqrt n\) in which the Boolean
+maximum is continuous and sign arrays have an asymptotically lossless
+composition.  Theorem~\ref{thm:graphon} and
+Proposition~\ref{prop:spectrum} rule out ordinary graphons and empirical
+spectra.  Spectral edges, eigenvectors, or the whole induced Gaussian process
+would have to remain visible.
+
+\paragraph{E. Nonexistence.}
+To separate subsequences one needs order-specific lower bounds on \(F(n)\),
+not merely constructions with different energies.  Conference, random, and
+planted matrices supply upper bounds or deliberately inferior examples.  The
+small values fluctuate but do not certify a subsequence mechanism.
+
+No route presently closes.  The single best next lemma is the following.
+
+\begin{center}
+\fbox{\begin{minipage}{0.88\textwidth}
+\textbf{Quenched minimax free-energy lemma.}
+For every fixed \(\beta>0\), the limit
+\[
+ \lim_{n\to\infty}\min_A\frac1{\beta n}
+ \log\sum_{x,s}\exp\left(\frac{\beta sQ_A(x)}{\sqrt n}\right)
+\]
+exists.
+\end{minipage}}
+\end{center}
+
+Proving this lemma for an unbounded collection of inverse temperatures settles
+the MathOverflow question by \eqref{eq:extensivesandwich}.  In coding
+coordinates it asks for cancellation in
+\(P_y(\tanh(\beta/\sqrt n))\).  Any proof that bounds the mixed cross-block
+contribution independently incurs a leading error; a successful proof must
+make that contribution part of the optimized variational structure.
+
+\section*{Reproducibility and final status}
+
+The exact identity checker, exhaustive small-order search, optional Z3
+certificate, expected outputs, deterministic seeds, and certificate boundaries
+are documented in \texttt{verification/README.md}.  The literature map is in
+\texttt{LITERATURE.md}; the original and second proof-search ledgers are both
+preserved.
+
+The adversarial elliptope limit, the code dual and MacWilliams formula, the
+oriented covariance barrier, and the graph-limit obstructions materially
+narrow the search.  They do not prove existence or nonexistence of the
+original limit.
+
+\begin{thebibliography}{99}
+
+\bibitem{mo}
+P.~Ivanisvili,
+\emph{Min-max of a quadratic form of plus-minus ones},
+MathOverflow Question 413935, 2022.
+\url{https://mathoverflow.net/questions/413935/}
+
+\bibitem{sole-zaslavsky}
+P.~Sol\'e and T.~Zaslavsky,
+\emph{A coding approach to signed graphs},
+SIAM J. Discrete Math. \textbf{7} (1994), 544--553.
+\url{https://doi.org/10.1137/S0895480189174374}
+
+\bibitem{guerra-toninelli}
+F.~Guerra and F.~L. Toninelli,
+\emph{The thermodynamic limit in mean field spin glass models},
+Comm. Math. Phys. \textbf{230} (2002), 71--79.
+\url{https://doi.org/10.1007/s00220-002-0699-y}
+
+\bibitem{auffinger-chen}
+A.~Auffinger and W.-K. Chen,
+\emph{Parisi formula for the ground state energy in the mixed p-spin model},
+Ann. Probab. \textbf{45} (2017), 4617--4631.
+\url{https://doi.org/10.1214/16-AOP1173}
+
+\bibitem{alon-naor}
+N.~Alon and A.~Naor,
+\emph{Approximating the cut-norm via Grothendieck's inequality},
+SIAM J. Comput. \textbf{35} (2006), 787--803.
+\url{https://doi.org/10.1137/S0097539704441629}
+
+\bibitem{nesterov}
+Y.~Nesterov,
+\emph{Semidefinite relaxation and nonconvex quadratic optimization},
+Optim. Methods Softw. \textbf{9} (1998), 141--160.
+\url{https://doi.org/10.1080/10556789808805690}
+
+\bibitem{lovasz-szegedy}
+L.~Lov\'asz and B.~Szegedy,
+\emph{Limits of dense graph sequences},
+J. Combin. Theory Ser. B \textbf{96} (2006), 933--957.
+\url{https://doi.org/10.1016/j.jctb.2006.05.002}
+
+\bibitem{paley}
+R.~E. A.~C. Paley,
+\emph{On orthogonal matrices},
+J. Math. Phys. \textbf{12} (1933), 311--320.
+\url{https://doi.org/10.1002/sapm1933121311}
+
+\bibitem{davenport}
+H.~Davenport,
+\emph{Multiplicative number theory}, third ed.,
+Graduate Texts in Mathematics 74, Springer, 2000.
+\url{https://doi.org/10.1007/978-1-4757-5927-3}
+
+\end{thebibliography}
+
+\end{document}

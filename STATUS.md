@@ -2,6 +2,10 @@
 
 Status date: 2026-07-25
 
+Preservation note: this is the original proof-search ledger. The 2026-08-01
+audit and continued search are recorded in AUDIT.md and RESEARCH_LEDGER.md;
+the failed routes below remain part of the record.
+
 ## Problem
 
 For
@@ -24,8 +28,8 @@ negative coordinates form \(S\) replaces \(G\) by
 M_n=\min_G\max_{S\subseteq[n]}
 \left|E-2\left|G\mathbin{\triangle}\delta(S)\right|\right|.
 \]
-Equivalently, \(M_n\) is the least possible maximum deviation from \(E/2\)
-of the weights in a coset of the binary cut space of \(K_n\).
+Equivalently, \(M_n\) is twice the least possible maximum deviation from
+\(E/2\) of the weights in a coset of the binary cut space of \(K_n\).
 
 If \(B\) is a switching representative with maximum total signed edge
 sum \(T\), and \(C\) is its largest signed cut sum, then the extreme
@@ -121,10 +125,10 @@ error term.
 
 ### Rank-one blow-up
 
-Replacing each coefficient by a rank-one \(k\)-by-\(k\) sign block gives
-the exact bound
+Replacing each coefficient by a rank-one \(k\)-by-\(k\) sign block and filling
+the clone-block diagonals arbitrarily gives the exact bound
 \[
-M_{nk}\le k^2M_n+O(nk^2),
+M_{nk}\le k^2M_n+n\binom k2,
 \]
 whose \(k^2\) scaling is too large.
 

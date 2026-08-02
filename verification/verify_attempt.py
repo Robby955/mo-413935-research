@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import itertools
 import math
 import random
 
@@ -120,9 +119,7 @@ def verify_optimized_bound() -> None:
         edge_count = order * (order - 1) / 2
         parameter = math.sqrt(order / (order - 1))
         variance = 1 + parameter * parameter * (order - 1) / order
-        derived = 4 * parameter * edge_count / (
-            math.pi * math.sqrt(order) * variance
-        )
+        derived = 4 * parameter * edge_count / (math.pi * math.sqrt(order) * variance)
         target = order * math.sqrt(order - 1) / math.pi
         if not math.isclose(derived, target, rel_tol=1e-13, abs_tol=1e-13):
             raise AssertionError((order, derived, target))

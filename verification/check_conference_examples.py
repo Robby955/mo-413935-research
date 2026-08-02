@@ -40,8 +40,7 @@ def maximum_absolute_energy(matrix: list[list[int]]) -> int:
     best = 0
     for bits in range(1 << (order - 1)):
         signs = [1] + [
-            1 if (bits >> (index - 1)) & 1 else -1
-            for index in range(1, order)
+            1 if (bits >> (index - 1)) & 1 else -1 for index in range(1, order)
         ]
         best = max(best, abs(energy(matrix, signs)))
     return best
@@ -52,8 +51,7 @@ def check_conference_identity(matrix: list[list[int]]) -> None:
     for row in range(order):
         for column in range(order):
             product = sum(
-                matrix[row][index] * matrix[index][column]
-                for index in range(order)
+                matrix[row][index] * matrix[index][column] for index in range(order)
             )
             expected = order - 1 if row == column else 0
             if product != expected:

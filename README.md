@@ -1,79 +1,105 @@
-# An AI Attempt at MathOverflow 413935
+# MathOverflow 413935: Min-max quadratic forms of signs
 
-OpenAI Codex attempted Konrad Swanepoel's
-[min-max problem for quadratic forms of signs](https://mathoverflow.net/questions/413935/min-max-of-a-quadratic-form-of-plus-minus-ones).
-This repository contains the resulting research note, its source, and
-reproducible checks.
+Research notes, exact computations, and reproducible verification for Paata
+Ivanisvili's [MathOverflow question](https://mathoverflow.net/questions/413935/min-max-of-a-quadratic-form-of-plus-minus-ones).
 
-## Status: not solved
+## Current frontier
 
-The original question asks whether
+The question asks whether `F(n) / n^(3/2)` converges. The limit remains open,
+with the following audited bounds and identities:
 
-$$
-\lim_{n\to\infty}\frac{F(n)}{n^{3/2}}
-$$
+```text
+1/π ≤ liminf F(n)/n^(3/2) ≤ limsup F(n)/n^(3/2) ≤ 1/2
+F(n) = choose(n, 2) - 2ρ(D_n)
+F(n) ≤ F(n + 1) ≤ F(n) + n
+```
 
-exists. This attempt does not prove existence or nonexistence, and must not
-be cited or submitted as a solution.
+The repository now goes substantially beyond those baseline results:
 
-## Partial result
+- The direct coupling-cube relaxation has the unique optimizer zero and a
+  leading-order integrality gap. It cannot be rounded into a solution.
+- The adversarial elliptope relaxation has the exact normalized limit `1/2`.
+- The augmented cut code is linear. Its dual consists of even-cardinality
+  Eulerian subgraphs, producing an exact signed MacWilliams formula.
+- Ordinary graphon and empirical spectral limits provably erase the relevant
+  `n^(3/2)` information.
+- Exhaustive computation gives
+  `F(2), ..., F(10) = 1, 3, 4, 4, 5, 9, 10, 12, 13`.
+- Exact hereditary cavity inequalities strengthen the induced-submatrix lower
+  bounds through Walsh orthogonality and block pairing. Their universal gains
+  are subleading, so they do not settle convergence.
+- Exact obstruction results rule out several natural composition mechanisms,
+  including edge-separable saturation, near-saturated cross blocks,
+  bounded-rank local lifts, and canonical Seidel/Kronecker amplification.
 
-The note derives
+## Main open routes
 
-$$
-\frac1\pi
-\le
-\liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
-\le
-\limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
-\le
-\frac12
-$$
+The finite-temperature route is existence of the extensive minimax
+free-energy limit, with the negative-replica formulation providing the
+sharpest current settling lemma.
 
-and the exact augmented cut-code identity
+The ground-state route is a power-saving near-subadditivity theorem for
+`H(n) = F(n)^(2/3)`. A uniform defect of order
+`O((n + m)^(1 - δ))`, for some positive `δ`, would force
+`H(n) / n` and therefore `F(n) / n^(3/2)` to converge.
 
-$$
-F(n)=\binom n2-2\rho(D_n).
-$$
+The present wall is optimizer-sensitive composition. Internal block energy
+and the cross field can cancel for the same spin assignment, while bounding
+them separately costs the full leading order.
 
-These claims have computational consistency checks but have not received
-independent human mathematical review.
+## Research package
 
-## Files
+- [Frontier-model research prompt](FRONTIER_MODEL_PROMPT.md)
+- [Continued proof search](RESEARCH_CONTINUATION.md)
+- [Main research note](paper/mo-413935-second-attempt.pdf)
+- [Main note source](paper/second_attempt.tex)
+- [Independent claim audit](AUDIT.md)
+- [Literature and concept map](LITERATURE.md)
+- [Proof-search ledger](RESEARCH_LEDGER.md)
+- [Original proof-search ledger](STATUS.md)
+- [Original research note](paper/mo-413935-ai-attempt.pdf)
+- [Verification guide](verification/README.md)
 
-- [Research note (PDF)](paper/mo-413935-ai-attempt.pdf)
-- [LaTeX source](paper/main.tex)
-- [Proof-search ledger](STATUS.md)
-- [Main verification script](verification/verify_attempt.py)
-- [Conference-matrix checks](verification/check_conference_examples.py)
+Failed routes are retained with their exact obstruction rather than removed
+from the research record.
 
 ## Reproduce the checks
 
-The scripts require Python 3 and use only the standard library.
+Use Python 3.10 or newer. The core checks use only the standard library.
 
 ```bash
 python3 verification/verify_attempt.py
 python3 verification/check_conference_examples.py
+python3 verification/verify_new_results.py
+python3 verification/verify_continuation.py
+python3 verification/verify_coding_continuation.py
+python3 verification/verify_amplification_obstructions.py
+python3 verification/verify_cavity_hereditary.py
 ```
 
-Expected main-verifier output:
+The exhaustive search through order 10 requires nauty `geng`; NetworkX adds
+independent decoding and switching-class checks.
 
-```text
-gaussian_edges_checked=8550
-covering_radius_identity=VERIFIED_orders_2_through_5
-optimized_lower_bound=VERIFIED_orders_2_through_9999
-corruption_controls=PASSED
+```bash
+python3 verification/research_exact_small_n.py \
+  --max-n 10 \
+  --networkx-crosscheck \
+  --classify-switching-optima \
+  --strict-stream-digests
 ```
 
-These computational checks audit finite instances and algebra used in the
-writeup. They are not a substitute for mathematical review.
+The independent trusted-solver check for orders 7, 8, and 9 requires
+`z3-solver`.
 
-## Transcript and attribution
+```bash
+python3 verification/research_z3_certify.py
+```
 
-The PDF and mathematical argument were produced by OpenAI Codex. Rob
-Sneiderman directed the attempt, preserved the artifacts, and is publishing
-them without claiming a solution.
+See the [verification guide](verification/README.md) for expected output,
+certificate boundaries, dependencies, seeds, and the order-10 Z3 timeout.
 
-The PDF is a distilled research note, not the complete conversation
-transcript. The challenge requests the full AI transcript, so an exported
-transcript should be shared separately with any contest submission.
+## Provenance
+
+Rob Sneiderman directs the project. OpenAI Codex produced the research notes,
+proof searches, and verification code, with the finite checks designed for
+independent replay.
