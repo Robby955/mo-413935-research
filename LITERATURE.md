@@ -401,16 +401,38 @@ odd prime power, switching according to a balanced choice of additive
 
 * Sources: J. J. Seidel, [*A survey of
   two-graphs*](https://research.tue.nl/en/publications/a-survey-of-two-graphs/),
-  Theorem 13.9, 1976; S. Goryainov, W. H. Haemers, V. V. Kabanov, and L.
-  Shalaginov, [*Deza graphs with parameters \((n,k,k-1,a)\) and
-  \(\beta=1\)*](https://doi.org/10.1002/jcd.21644), *Journal of Combinatorial
-  Designs* 27 (2019), 188--202, Section 4.2.
+  Theorem 13.9, 1976; R. Craigen, [*Regular conference matrices and complex
+  Hadamard matrices*](https://combinatorialpress.com/um/vol45/), *Utilitas
+  Mathematica* 45 (1994), 65--69.
 * Gives here: exact spectral-ceiling attainment on an infinite subfamily of
   full Paley matrices.
 * Does not give: \(F(m^2+1)=M(C)\), because \(F\) minimizes over all signings.
   The first case already separates them: the order-10 Paley matrix has maximum
   15 while \(F(10)=13\).  This result neither improves the minimax upper
   constant nor supplies a subsequential lower bound.
+
+When $q$ is nonsquare, Momihara and Suda study the nearby maximum-excess
+problem. They prove an exact upper bound for the sum of all entries of a
+conference matrix and construct equality cases at certain orders
+$q+1$ with $q=4m^2+1$.
+
+* Source: K. Momihara and S. Suda, [*Conference matrices with maximum excess
+  and two-intersection sets*](https://arxiv.org/abs/1611.01305), 2016,
+  especially Proposition 1.1 and Theorem 1.2.
+* Gives here: a precise two-intersection-set mechanism for row/column
+  switching to approach the conference spectral excess bound.
+* Does not give: the congruence-switching quadratic maximum
+  $\max_x|x^{\mathsf T}Cx|/2$. Their construction may switch rows and columns
+  independently and need not produce a Boolean eigenvector. It also gives no
+  lower bound on the minimax $F$.
+
+The repository's exact Fourier-leakage identity diagonalizes the Paley core
+and shows that Boolean spectral alignment is equivalent to an asymptotically
+balanced sign function whose additive Fourier energy has $o(q)$ mass in one
+quadratic-character half. This
+reformulation makes the construction problem precise. It still does not
+address the separate rigidity statement needed to show that every signing,
+rather than one Paley signing, has energy near the $1/2$ constant.
 
 Szollosi and Ostergard enumerate Seidel matrices through order 13 up to the
 relevant equivalences and determine spectral/algebraic data; related work

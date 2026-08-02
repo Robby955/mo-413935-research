@@ -13,9 +13,35 @@ python3 verification/check_conference_examples.py
 ```
 
 The conference checker also verifies that all fourteen order-13 principal
-submatrices of the order-14 Paley matrix have maximum 20. This proves the
-upper bounds \(F(13)\le20\) and \(F(14)\le21\); it does not certify the
-externally reported matching lower bounds.
+submatrices of the order-14 Paley matrix have maximum 20. The complete
+matching lower certificate is described below.
+
+`research_paley_alignment.c` independently constructs the prime-field Paley
+conference matrices at orders 6, 14, 18, and 30, verifies their conference
+identities, and scans every projective Boolean state by Gray code. Build it
+from source; no banked executable is used:
+
+```bash
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/research_paley_alignment.c -lm \
+  -o /tmp/research_paley_alignment
+/tmp/research_paley_alignment
+```
+
+Expected output:
+
+```text
+q=5 order=6 conference=PASS M=5 projective_maximizers=12 ratio=sqrt(5)/3 ratio_squared=5/9 decimal=0.745355992499930
+q=13 order=14 conference=PASS M=21 projective_maximizers=156 ratio=3/sqrt(13) ratio_squared=9/13 decimal=0.832050294337844
+q=17 order=18 conference=PASS M=33 projective_maximizers=204 ratio=11/(3*sqrt(17)) ratio_squared=121/153 decimal=0.889297291799888
+q=29 order=30 conference=PASS M=75 projective_maximizers=812 ratio=5/sqrt(29) ratio_squared=25/29 decimal=0.928476690885259
+corruption_control=symmetric_edge_flip_detected
+all_checks=PASS
+```
+
+All maxima, maximizer counts, and squared ratios are asserted in exact integer
+arithmetic. Only the displayed decimal ratios use floating point. The four
+selected ratios do not constitute a monotonicity or asymptotic theorem.
 
 The new exact identity checker also needs only the standard library:
 
@@ -452,6 +478,62 @@ at each eligible edge count are recomputed with a separate adjacency formula.
 Completeness trusts
 nauty to emit one representative of every isomorphism class; no MILP, SAT,
 floating-point, or timeout result is used.
+
+## Exact values at orders 13 and 14
+
+`research_order13_certify.py` uses only the Python standard library plus the
+local conference checker. It compiles `order12_threshold_scan.c` from source
+with warnings as errors; supplied executables are never used. The quick pass
+checks the two rooted survivors, every projective spin, every projective
+incident column, all vertex deletions, the Paley witnesses, and three
+corruption controls:
+
+```bash
+python3 verification/research_order13_certify.py
+```
+
+Expected output:
+
+```text
+order12_survivor=JCpVdXyxpz? M=18 maximizers=20 extension_minimum=24 optimal_centers=772 deletion_maxima=17x12
+order12_survivor=JCpdUg{[dM? M=18 maximizers=20 extension_minimum=24 optimal_centers=772 deletion_maxima=17x12
+paley_C14_M=21 principal_order13_maxima=20x14
+corruption_controls=graph6_padding,empty_residual,edge_flip
+order13_order14_quick_verification=PASSED
+deterministic_seed=413935
+```
+
+The full certificate requires nauty `geng`. It generates all eleven-vertex
+residual graphs in eight disjoint shards, relays every byte to the scanner,
+and checks the producer and consumer statuses, byte counts, record counts,
+SHA-256 digests, and survivor sets:
+
+```bash
+python3 verification/research_order13_certify.py \
+  --full-stream --jobs 8 --geng /absolute/path/to/geng
+```
+
+The asserted shard receipts are:
+
+```text
+shard  records      bytes       sha256                                                            survivors
+0      119431209    1433174508  0ae80a506fc9ef5aca212fb41eea05a453dd8326dc078fb1e2228b0c96cc2d5c  -
+1      128496882    1541962584  54cd49e34942d1905213b802bff7adc565bd2c3251ac2268414ea179857559c5  -
+2      128472053    1541664636  92ad1076355bd829ed0596dc70b9203dcffd88b5a4bc549de84aa37e6ceea318  JCpVdXyxpz?
+3      121592284    1459107408  946fdda70e727892256a9e10c6e8d9823f2c1366f867499baa9a451b5d46e2e8  -
+4      119556409    1434676908  b3dbbe8d186b4be67dbb119d41f34cb1637444bfa0207710549b9d04557a2798  JCpdUg{[dM?
+5      134239743    1610876916  6acefb47e065175ccb85bb157d4cc50d6b1c8519d782146f2c449bc2582c2520  -
+6      143004566    1716054792  6e2d97e700e524f244c14ddd1f0a832404b1661366bbebf4d5324640efc3d275  -
+7      124204718    1490456616  73551d55bb414836abc29cf2700aee4552c9d476210cfba156434a9530dcc522  -
+```
+
+Their record counts sum to 1,018,997,864. Exactly two rooted records have
+order-12 maximum at most 18; both have extension minimum 24. Every other
+predecessor has maximum at least 20. Together with the verified Paley
+witnesses this certifies `F(13)=20` and `F(14)=21`. The explicit remaining
+trust boundary is nauty's completeness for unlabeled graphs. The full local
+receipt is `order13_full_receipt.txt`; it is documentary only and is not read
+by the verifier.
 
 ## Exhaustive values through n = 10
 

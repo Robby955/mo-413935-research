@@ -1,0 +1,41 @@
+MathOverflow 413935: full order-13 certificate receipt
+Date: 2026-08-02
+
+Command:
+python3 verification/research_order13_certify.py \
+  --full-stream --jobs 8 --geng /opt/homebrew/bin/geng
+
+Toolchain used for this receipt:
+nauty 2.9.3
+geng_sha256=ad2f68adf733dbed7cad543841cfa329740596ee5cd136f17a0a17f6e744f5ad
+cc=Apple clang 21.0.0 arm64
+scanner_source_sha256=471e0ca8bd1739b7b807956581491fa5cca3fe98297049b6d2ae7040e9a465cc
+driver_source_sha256=995862c7c0939159e8ead22421378c6b9371aeb4b07d6cff04badc508edf31b2
+
+Quick independent checks:
+order12_survivor=JCpVdXyxpz? M=18 maximizers=20 extension_minimum=24 optimal_centers=772 deletion_maxima=17x12
+order12_survivor=JCpdUg{[dM? M=18 maximizers=20 extension_minimum=24 optimal_centers=772 deletion_maxima=17x12
+paley_C14_M=21 principal_order13_maxima=20x14
+corruption_controls=graph6_padding,empty_residual,edge_flip
+order13_order14_quick_verification=PASSED
+
+Full shard receipts:
+{"bytes": 1433174508, "records": 119431209, "sha256": "0ae80a506fc9ef5aca212fb41eea05a453dd8326dc078fb1e2228b0c96cc2d5c", "shard": 0, "survivors": []}
+{"bytes": 1541962584, "records": 128496882, "sha256": "54cd49e34942d1905213b802bff7adc565bd2c3251ac2268414ea179857559c5", "shard": 1, "survivors": []}
+{"bytes": 1541664636, "records": 128472053, "sha256": "92ad1076355bd829ed0596dc70b9203dcffd88b5a4bc549de84aa37e6ceea318", "shard": 2, "survivors": ["JCpVdXyxpz?"]}
+{"bytes": 1459107408, "records": 121592284, "sha256": "946fdda70e727892256a9e10c6e8d9823f2c1366f867499baa9a451b5d46e2e8", "shard": 3, "survivors": []}
+{"bytes": 1434676908, "records": 119556409, "sha256": "b3dbbe8d186b4be67dbb119d41f34cb1637444bfa0207710549b9d04557a2798", "shard": 4, "survivors": ["JCpdUg{[dM?"]}
+{"bytes": 1610876916, "records": 134239743, "sha256": "6acefb47e065175ccb85bb157d4cc50d6b1c8519d782146f2c449bc2582c2520", "shard": 5, "survivors": []}
+{"bytes": 1716054792, "records": 143004566, "sha256": "6e2d97e700e524f244c14ddd1f0a832404b1661366bbebf4d5324640efc3d275", "shard": 6, "survivors": []}
+{"bytes": 1490456616, "records": 124204718, "sha256": "73551d55bb414836abc29cf2700aee4552c9d476210cfba156434a9530dcc522", "shard": 7, "survivors": []}
+
+Aggregate:
+order12_residual_records=1018997864
+order12_threshold_survivors=JCpVdXyxpz?,JCpdUg{[dM?
+certified_values=F(13)=20,F(14)=21
+certificate_boundary=nauty_unlabeled_graph_completeness
+order13_order14_full_verification=PASSED
+deterministic_seed=413935
+
+The source-controlled verifier asserts these values. This receipt is not used
+as input to the proof and cannot make a failed rerun pass.

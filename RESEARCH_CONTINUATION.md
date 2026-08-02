@@ -2702,6 +2702,65 @@ Both witnesses are recomputed by the cut formula and by a separate direct
 quadratic-form loop in `verification/research_order11_certify.py`.  No MILP,
 SAT status, floating point, or timeout is used in (25.2)--(25.3).
 
+### Exact orders 13 and 14
+
+The next lower certificate is again a complete nauty enumeration, but now the
+residual graph has eleven vertices.  The $1{,}018{,}997{,}864$ records are
+split into eight `res/mod` shards.  The verifier hashes and counts the exact
+bytes relayed from each generator process to a separately compiled C scanner,
+checks both exit statuses, and compares each shard with committed record
+counts, byte counts, SHA-256 digests, and survivor lists.
+
+The scanner enumerates all $2^{11}$ projective spins of each root-normalized
+order-12 signing.  It rejects a record as soon as it witnesses
+$|Q|\ge 19$.  Every order-12 energy is even, so this is an exact
+test for whether $M\le 18$.  Exactly two rooted residual records survive:
+
+```text
+JCpVdXyxpz?
+JCpdUg{[dM?
+```
+
+A separate direct evaluator gives $M=18$ for each and enumerates all
+$2^{11}$ projective incident columns, obtaining extension minimum $24$
+for both.  All other order-12 predecessors have $M\ge20$, and one-vertex
+extension never lowers $M$.  The exact Bellman identity therefore gives
+$F(13)\ge20$.  Every one-point deletion of the order-14 Paley conference
+matrix has maximum $20$, so
+
+
+\[
+ \boxed{F(13)=20}.                                      \tag{25.3a}
+\]
+
+Heredity gives $F(14)\ge20$, while all order-14 energies are odd.  Direct
+evaluation gives $M(C_{14})=21$, hence
+
+\[
+ \boxed{F(14)=21}.                                      \tag{25.3b}
+\]
+
+The complete replay is in `verification/research_order13_certify.py`; its
+fixed-size threshold kernel is `verification/order12_threshold_scan.c`.
+This is a computer-assisted theorem with the explicit trust boundary that
+nauty's eight shards cover the unlabeled residual graphs.  The proof does not
+use the scanner's above-threshold energy histogram, a seeded incumbent, or a
+solver status.
+
+A separate quarantined reconstruction also matched the complete order-14
+$M=21$ and $M=23$ layers and gives the computational bracket
+$F(15)\in\{25,27\}$.  Indeed, if an order-15 signing had maximum at most
+23, then each order-14 deletion would have odd maximum 21 or 23; the
+reconstructed extension minima 27 and 29 rule this out.  Extending $C_{14}$
+gives $F(15)\le27$, and order-15 parity leaves only 25 or 27.  That layer
+driver has not yet been integrated into the repository, so the main
+exact-value table stops at order 14.  The exact value $F(15)$ remains open;
+the unclassified branch consists of order-13 predecessors with
+$(M,\delta_{\rm w})=(24,0)$.
+A later external update reports 470 such classes on one validation shard and
+an ongoing 16.3-million-candidate sweep, but the corresponding v2 artifacts
+are not in the ingested bank and no conclusion from that run is used here.
+
 ### Theorem 25 (exact negative-replica supermultiplicativity)
 
 For uniform disorder $A$ of order $n$, define
@@ -3456,6 +3515,92 @@ Thus the displayed inequality is the desired almost-superadditivity in new
 notation. The non-tautological target is a variational or power-saving
 composition theorem for the relative-switching Hamiltonian hierarchy itself.
 
+### Theorem 31 (exact Paley Fourier-leakage identity)
+
+Let $q\equiv1\pmod4$ be an odd prime power and let $C$ be the Paley
+conference matrix of order $q+1$. Fix a nontrivial additive character of
+$\mathbb F_q$. For a Boolean function $f:\mathbb F_q\to\{\pm1\}$, let
+$S(f)=\sum_a f(a)$ and use the unitary additive Fourier transform. Partition
+the nonzero frequencies into $H_+$ and $H_-$ according to the sign of the
+quadratic Gauss-sum eigenvalue, and set
+
+\[
+ E_\pm(f)=\sum_{r\in H_\pm}|\widehat f(r)|^2,
+ \qquad W(f)=\min(E_+(f),E_-(f)).
+\]
+
+Then
+
+\[
+ \boxed{
+ M(C)=\frac{(q+1)\sqrt q}{2}
+ -\sqrt q\min_f\left[
+ W(f)+\frac{(|S(f)|-\sqrt q)^2}{2q}
+ \right].}                                             \tag{31.1}
+\]
+
+Indeed, the Paley core has Fourier multipliers $0,+\sqrt q,-\sqrt q$.
+Parseval gives
+
+\[
+ f^{\mathsf T}Kf=\sqrt q(E_+-E_-),
+ \qquad E_++E_-=q-\frac{S(f)^2}{q}.
+\]
+
+Writing a Boolean vector as $(s,f)$ and optimizing its infinity sign gives
+
+\[
+ \max_{s=\pm1}|Q_C(s,f)|
+ =|S(f)|+\frac{\sqrt q}{2}
+ \left(q-\frac{S(f)^2}{q}-2W(f)\right).
+\]
+
+Subtracting from the spectral ceiling and completing the square proves
+(31.1). Consequently,
+
+\[
+ \frac{2M(C)}{(q+1)\sqrt q}\longrightarrow1            \tag{31.2}
+\]
+
+along a sequence of Paley orders if and only if there are Boolean $f_q$ with
+
+\[
+ |S(f_q)|=o(q),\qquad W(f_q)=o(q).                      \tag{31.3}
+\]
+
+Thus Paley spectral alignment is exactly a one-sided additive-Fourier
+concentration problem. The infinity coordinate is optimized exactly; the
+substantive issue is minority-half Fourier leakage.
+
+Fresh source-built exhaustive scans give
+
+\[
+\begin{array}{c|rrrr}
+q&5&13&17&29\\ \hline
+M(C_{q+1})&5&21&33&75\\
+2M/((q+1)\sqrt q)&\sqrt5/3&3/\sqrt{13}&
+11/(3\sqrt{17})&5/\sqrt{29}.
+\end{array}
+\]
+
+The four selected prime-field ratios increase, but this is finite evidence
+only. It proves neither monotonicity nor a power-law deficit. The exact checks,
+including $2^{29}$ projective states at order 30, are in
+`verification/research_paley_alignment.c`.
+
+Even (31.2) would not settle the minimax problem: it is an upper-bound fact
+about one signing. A sufficient independent rigidity statement is
+
+\[
+ F(q+1)\ge(1-o(1))M(C_{q+1})                            \tag{31.4}
+\]
+
+along primes $q\equiv1\pmod4$. Equations (31.2)--(31.4), the prime number
+theorem in that progression, monotonicity of $F$, and the existing limsup
+bound would force the original limit to be $1/2$. Exact optimality at orders
+6 and 14 is far too little evidence for (31.4), and order 10 is a finite
+counterexample to unconditional conference optimality.
+
 ## 9. Current best continuation targets
 
 The finite-temperature route now has an exact scalar no-go theorem and an
@@ -3466,6 +3611,13 @@ relative block switchings whose zero-temperature slope is exactly the joint
 optimizer-composition gain. Theorem 30 identifies its first mixed Hamiltonian
 and proves that even all three local scalar partition curves do not determine
 it.
+
+Theorem 31 adds a separate, value-specific route. Its tractable half is the
+Paley leakage target (31.3), a Boolean Fourier/character-sum problem. Its hard
+half is the dense-order minimax rigidity estimate (31.4). The increasing
+alignment ratios through order 30 do not provide a lower bound for $F$ and do
+not displace the relative-switching free-energy route as the main
+value-agnostic program.
 
 The next finite-temperature problem is therefore not another scalar reverse
 hypercontractive estimate. It is a variational limit or power-saving

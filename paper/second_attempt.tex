@@ -65,7 +65,8 @@ of even-cardinality Eulerian subgraphs, and derive an exact signed-Eulerian
 MacWilliams formula.  Ordinary graphons and limiting empirical spectra are
 proved to erase the \(n^{3/2}\) functional.  Exact computer-assisted
 computation gives
-\(F(2),\ldots,F(12)=1,3,4,4,5,9,10,12,13,17,18\).  Exact cross-block computation
+\(F(2),\ldots,F(14)=1,3,4,4,5,9,10,12,13,17,18,20,21\).
+Exact cross-block computation
 shows that optimal blocks of orders 2 and 8 cannot occur together in an
 order-10 optimum.  We also identify the one-vertex Bellman state as an exact
 energy-weighted projective covering radius and certify that the code of exact
@@ -91,6 +92,12 @@ scalar partition curves fail to determine it.  We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
 those matrices rather than the minimax \(F\).
+For all symmetric Paley orders we derive an exact Fourier-leakage identity:
+spectral saturation is equivalent to an asymptotically balanced Boolean
+function with asymptotically one-sided quadratic-character frequency energy.
+Exhaustive source-built evaluation gives
+$M(C_{30})=75$, but a separate minimax rigidity lower bound would still be
+needed to turn this construction into a statement about the limit of $F$.
 Finally, an explicit scalar countermodel shows that even uniform
 $O(\sqrt n)$ Bellman control does not force convergence.  The sharp remaining
 target is a quenched minimax free-energy limit, or a genuinely
@@ -755,7 +762,7 @@ completes the proof.
 This is not a lower bound on \(F(n)\); it shows that typical iid signings are
 not asymptotically optimal.
 
-\section{Exact computation through order twelve}
+\section{Exact computation through order fourteen}
 
 Switching makes every edge incident with vertex zero positive.  The remaining
 negative coefficients form a graph on \(n-1\) vertices, and vertex
@@ -773,11 +780,11 @@ Exhausting nauty's \texttt{geng} streams gives Table~\ref{tab:values}.
 \label{tab:values}
 \small
 \setlength{\tabcolsep}{3.5pt}
-\begin{tabular}{c*{11}{r}}
+\begin{tabular}{c*{13}{r}}
 \toprule
-\(n\) & 2&3&4&5&6&7&8&9&10&11&12\\
-\(F(n)\) & 1&3&4&4&5&9&10&12&13&17&18\\
-\(F(n)/n^{3/2}\) & .3536&.5774&.5000&.3578&.3402&.4860&.4419&.4444&.4111&.4660&.4330\\
+\(n\) & 2&3&4&5&6&7&8&9&10&11&12&13&14\\
+\(F(n)\) & 1&3&4&4&5&9&10&12&13&17&18&20&21\\
+\(F(n)/n^{3/2}\) & .3536&.5774&.5000&.3578&.3402&.4860&.4419&.4444&.4111&.4660&.4330&.4267&.4009\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -801,6 +808,31 @@ witness \texttt{ICRbczQMo} has maximum 17.  Puncturing and energy parity then
 give \(F(12)\ge18\), while the witness
 \texttt{JWUuDOR}\(\backslash\)\texttt{K}\(\{\)\texttt{?} has maximum 18.  Completeness at orders
 10 and 11 trusts nauty; no solver timeout is used in either result.
+
+At order 13, a separate eight-shard certificate hashes and scans all
+1,018,997,864 unlabeled residual graphs on eleven vertices.  The fixed-order
+scanner completely enumerates the $2^{11}$ projective spin classes unless it
+has already witnessed $|Q|\ge19$.  Since order-12 energies are even, precisely
+the records with maximum at most 18 survive.  There are exactly two rooted
+survivors,
+\verb|JCpVdXyxpz?| and \verb|JCpdUg{[dM?|.  Independent full-cube
+evaluation gives maximum 18 for both, and direct enumeration of all projective
+incident columns gives one-vertex extension minimum 24 for both.  Every other
+order-12 predecessor has maximum at least 20, so the Bellman extension identity
+gives $F(13)\ge20$.  Every one-point deletion of the Paley conference matrix
+$C_{14}$ has maximum 20, proving
+\[
+ F(13)=20.
+\]
+Heredity gives $F(14)\ge20$, and every order-14 energy is odd.  Direct
+evaluation gives $M(C_{14})=21$, hence
+\[
+ F(14)=21.
+\]
+The order-13 certificate checks producer and scanner exit statuses and pins
+the byte count, record count, and SHA-256 digest of every nauty shard.  Its
+explicit remaining trust boundary is nauty's completeness for unlabeled
+graphs; it does not use solver statuses or stored scan logs.
 
 The Paley conference matrix of order ten over \(\mathbb F_9\) has exact
 Boolean maximum \(15\), strictly worse than \(F(10)=13\).  The two optimal
@@ -2042,7 +2074,7 @@ Hamiltonian hierarchy.
 
 The following classical regular-conference construction corrects an
 overstated external report.  It is not a new result
-\cite{seidel-two-graphs,goryainov-deza}.
+\cite{seidel-two-graphs,craigen-regular}.
 
 \begin{theorem}[Regular Paley Boolean eigenvector]
 \label{thm:paley-boolean}
@@ -2078,7 +2110,120 @@ This gives no lower bound on the minimax $F(m^2+1)$.  Already $m=3$ gives
 $M(C)=15$ at order ten, while $F(10)=13$.  The theorem neither improves the
 known upper bound nor excludes better signings or principal submatrices.
 
-\section{Six proof programs and the sharp remaining lemma}
+\section{Paley alignment as Fourier leakage}
+
+Beyond the square-$q$ Paley subfamily, the Boolean-versus-spectral alignment
+question has an exact additive-Fourier form.  The identity below is a
+reformulation for one explicit matrix family, not a bound on the minimax $F$.
+
+\begin{proposition}[Paley Fourier-leakage identity]
+\label{prop:paley-leakage}
+Let $q\equiv1\pmod4$ be an odd prime power, let $C$ be the Paley conference
+matrix of order $q+1$, and fix a nontrivial additive character $\psi$ of
+$\mathbb F_q$.  If $\chi$ is the quadratic character, write
+\[
+ \tau=\sum_{a\in\mathbb F_q}\chi(a)\overline{\psi(a)}
+      =\epsilon_q\sqrt q,
+ \qquad \epsilon_q\in\eps,
+\]
+and put
+\[
+ H_\pm=\{r\in\mathbb F_q^*: \epsilon_q\chi(r)=\pm1\}.
+\]
+For $f:\mathbb F_q\to\eps$, define the unitary transform
+\[
+ \widehat f(r)=q^{-1/2}\sum_{a\in\mathbb F_q}
+ f(a)\overline{\psi(ra)},
+ \quad S(f)=\sum_a f(a),
+ \quad E_\pm(f)=\sum_{r\in H_\pm}|\widehat f(r)|^2,
+\]
+and $W(f)=\min(E_+(f),E_-(f))$.  Then
+\begin{align}
+ M(C)
+ &=\frac{(q+1)\sqrt q}{2}
+ -\sqrt q\min_{f:\mathbb F_q\to\eps}
+ \left[W(f)+\frac{(|S(f)|-\sqrt q)^2}{2q}\right],
+ \label{eq:paley-leakage}\\
+ \frac{2M(C)}{(q+1)\sqrt q}
+ &=1-\frac{2}{q+1}\min_f
+ \left[W(f)+\frac{(|S(f)|-\sqrt q)^2}{2q}\right].
+ \label{eq:paley-alignment-ratio}
+\end{align}
+Consequently, along any sequence of such $q$,
+\[
+ \frac{2M(C)}{(q+1)\sqrt q}\longrightarrow1
+\]
+if and only if there are Boolean $f_q$ satisfying
+\begin{equation}
+ |S(f_q)|=o(q),\qquad W(f_q)=o(q).
+ \label{eq:paley-leakage-target}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Index $C$ by $\{\infty\}\cup\mathbb F_q$ and write
+\[
+ C=\begin{pmatrix}0&\mathbf1^{\mathsf T}\\
+                   \mathbf1&K\end{pmatrix},
+ \qquad K_{a,b}=\chi(a-b).
+\]
+The Gauss-sum diagonalization says that $K$ has additive-Fourier multiplier
+$0$ at frequency zero and $\epsilon_q\sqrt q\,\chi(r)$ at $r\ne0$.
+Therefore Parseval gives
+\[
+ f^{\mathsf T}Kf=\sqrt q\,(E_+(f)-E_-(f)),
+ \qquad E_+(f)+E_-(f)=q-\frac{S(f)^2}{q}.
+\]
+For $x=(s,f)$ with $s\in\eps$,
+\[
+ Q_C(x)=sS(f)+\frac{\sqrt q}{2}(E_+(f)-E_-(f)).
+\]
+Optimizing $s$ gives
+\[
+ \max_{s\in\eps}|Q_C(s,f)|
+ =|S(f)|+\frac{\sqrt q}{2}
+ \left(q-\frac{S(f)^2}{q}-2W(f)\right).
+\]
+Subtracting this expression from the spectral ceiling
+$(q+1)\sqrt q/2$ and completing the square proves
+\eqref{eq:paley-leakage} and \eqref{eq:paley-alignment-ratio}.  The normalized
+defect tends to zero exactly when the bracket is $o(q)$, which is equivalent
+to \eqref{eq:paley-leakage-target}.
+\end{proof}
+
+Exact exhaustive evaluation gives
+\[
+\begin{array}{c|rrrr}
+q&5&13&17&29\\ \hline
+M(C_{q+1})&5&21&33&75\\
+2M(C_{q+1})/((q+1)\sqrt q)
+&\sqrt5/3&3/\sqrt{13}&11/(3\sqrt{17})&5/\sqrt{29}.
+\end{array}
+\]
+The four displayed ratios increase, ending at
+$5/\sqrt{29}=0.9284766908\ldots$, but four selected values prove neither
+monotonicity nor an asymptotic law.  The square-order family in
+Theorem~\ref{thm:paley-boolean} has ratio one identically.
+
+Proposition~\ref{prop:paley-leakage} isolates a character-sum problem: construct
+an asymptotically balanced Boolean function whose additive Fourier energy lies
+almost entirely in one quadratic-character half.  Even a proof of that
+statement would only show $M(C_{q+1})\sim(q+1)\sqrt q/2$.  Since
+$F(q+1)\le M(C_{q+1})$, it
+does not supply a lower bound on $F$.  To obtain the original limit $1/2$ by
+this route one would additionally need, for a multiplicatively dense sequence
+of Paley prime orders,
+\begin{equation}
+ F(q+1)\ge(1-o(1))M(C_{q+1}).
+ \label{eq:paley-rigidity-target}
+\end{equation}
+Together with \eqref{eq:paley-leakage-target}, the prime number theorem in the
+progression $1\pmod4$, monotonicity of $F$, and the existing limsup bound,
+\eqref{eq:paley-rigidity-target} would force the limit to be $1/2$.  The exact
+optimality at orders 6 and 14 is finite evidence only; order 10 already shows
+that conference matrices need not be optimal.
+
+\section{Seven proof programs and the sharp remaining lemma}
 
 The detailed derivations and failed variants are preserved in
 \texttt{RESEARCH\_LEDGER.md}.  The current programs are logically distinct.
@@ -2130,7 +2275,16 @@ Proposition~\ref{prop:spectrum} rule out ordinary graphons and empirical
 spectra.  Spectral edges, eigenvectors, or the whole induced Gaussian process
 would have to remain visible.
 
-\paragraph{F. Nonexistence.}
+\paragraph{F. Paley alignment and minimax rigidity.}
+Prove the Fourier leakage target \eqref{eq:paley-leakage-target} along prime
+Paley orders, then prove the independent minimax lower bound
+\eqref{eq:paley-rigidity-target}.  The first is a concrete Boolean
+Fourier/character-sum problem.  The second is the hard adversarial step and
+cannot be inferred from the performance of a selected construction.  The four
+prime-field computations through $C_{30}$ motivate the first statement
+but do not determine its asymptotic behavior.
+
+\paragraph{G. Nonexistence.}
 To separate subsequences one needs order-specific lower bounds on \(F(n)\),
 not merely constructions with different energies.  Conference, random, and
 planted matrices supply upper bounds or deliberately inferior examples.  The
@@ -2175,7 +2329,8 @@ The adversarial elliptope limit, the code dual and MacWilliams formula, the
 oriented covariance barrier, the graph-limit obstructions, finite
 non-heredity, the weighted covering-radius Bellman identity, the exact
 negative-replica recursion, the scalar transport no-go theorem, the exact
-conditional-alignment state, and the values through order twelve materially
+conditional-alignment state, the Paley Fourier-leakage identity, and the
+values through order fourteen materially
 narrow the search.  They do not prove existence or nonexistence of the
 original limit.
 
@@ -2235,11 +2390,11 @@ J.~J.~Seidel,
 Atti Convegno Internazionale sulle Teorie Combinatorie, Tomo I,
 Accademia Nazionale dei Lincei, 1976, 481--511.
 
-\bibitem{goryainov-deza}
-S.~Goryainov, W.~H.~Haemers, V.~V.~Kabanov, and L.~Shalaginov,
-\emph{Deza graphs with parameters $(n,k,k-1,a)$ and $\beta=1$},
-J. Combin. Des. \textbf{27} (2019), 188--202.
-\url{https://doi.org/10.1002/jcd.21644}
+\bibitem{craigen-regular}
+R.~Craigen,
+\emph{Regular conference matrices and complex Hadamard matrices},
+Utilitas Math. \textbf{45} (1994), 65--69.
+\url{https://combinatorialpress.com/um/vol45/}
 
 \bibitem{paley}
 R.~E. A.~C. Paley,

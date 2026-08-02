@@ -1120,6 +1120,41 @@ They are not asymptotic progress by themselves.  The external claim that the
 order-11 normalized value is a record for $n\ge5$ is false: the order-7 ratio
 is larger.
 
+### Exact orders 13 and 14
+
+The formerly external billion-record claim has now been ingested and replayed
+without using the supplied binaries.  A fail-closed verifier compiles a
+fixed-order threshold scanner, relays all eight nauty shards through it while
+hashing the exact input bytes, checks producer and consumer statuses, and
+requires committed counts and SHA-256 digests.  The shard counts sum to
+$1{,}018{,}997{,}864$.
+
+Only `JCpVdXyxpz?` and `JCpdUg{[dM?` survive the exact order-12 threshold
+$M\le18$.  Independent full-cube computation gives $M=18$ and direct
+one-vertex extension minimum $24$ for both.  Every other predecessor has
+$M\ge20$, so the Bellman identity gives $F(13)\ge20$.  The Paley
+$C_{14}$ principal witness gives $F(13)\le20$; heredity and parity followed
+by $M(C_{14})=21$ give
+
+\[
+ \boxed{F(13)=20,\qquad F(14)=21}.
+\]
+
+This remains a computer-assisted result with a nauty completeness boundary.
+The scanner source is `verification/order12_threshold_scan.c`; the verifier
+and pinned shard receipts are in
+`verification/research_order13_certify.py`.
+
+The accompanying layer bank was not accepted wholesale.  A separate fresh
+reconstruction does verify the bracket $F(15)\in\{25,27\}$, but the banked
+scripts do not reproduce that tower and the clean driver is not yet in this
+repository.  Exact $F(15)$ is still blocked on the order-13
+predecessors with $(M,\delta_{\rm w})=(24,0)$.
+A later external update reports 470 such classes on one validated shard and
+an ongoing 16.3-million-candidate sweep.  Those v2 artifacts are not in the
+ingested bank, so neither the partial count nor any eventual order-15 verdict
+is promoted here.
+
 ## 19. Square-order Paley audit
 
 The reported Boolean ceiling attainment for Paley conference matrices of
@@ -1133,6 +1168,51 @@ $m=3$, the matrix maximum is 15 while $F(10)=13$.  The result neither improves
 the asymptotic upper bound nor forces a subsequential value of the minimax
 sequence.  It is retained as a structural correction and as a warning that
 conference ceiling attainment depends on the order and switching class.
+
+### Paley Fourier leakage and the separate rigidity wall
+
+For every odd prime power $q\equiv1\pmod4$, diagonalizing the Paley core by
+additive characters gives an exact identity.  For Boolean
+$f:\mathbb F_q\to\{\pm1\}$, let $S(f)=\sum f$, and let $E_+(f),E_-(f)$ be
+the unitary Fourier energies in the two nonzero frequency halves selected by
+the signs of the quadratic Gauss-sum eigenvalues.  Put
+$W(f)=\min(E_+(f),E_-(f))$.  Then
+
+\[
+ M(C_{q+1})=\frac{(q+1)\sqrt q}{2}
+ -\sqrt q\min_f\left[
+ W(f)+\frac{(|S(f)|-\sqrt q)^2}{2q}
+ \right].
+\]
+
+The proof is Parseval followed by exact optimization of the infinity sign.
+Therefore Paley Boolean alignment tends to the spectral ceiling if and only
+if one can find $f_q$ with $|S(f_q)|=o(q)$ and minority-half leakage
+$W(f_q)=o(q)$.  This is the precise character-sum target suggested by the
+selected prime-field data.
+
+A fresh source-built exhaustive scan verifies
+
+\[
+ M(C_6)=5,\quad M(C_{14})=21,\quad M(C_{18})=33,\quad
+ M(C_{30})=75.
+\]
+
+The corresponding Boolean-to-spectral ratios are
+$\sqrt5/3,3/\sqrt{13},11/(3\sqrt{17}),5/\sqrt{29}$ and increase on these
+four selected orders.  This proves no monotonicity or fitted decay law.
+
+Even asymptotic Paley alignment is only an upper-bound construction for $F$.
+To force the original limit to be $1/2$, this route separately needs
+
+\[
+ F(q+1)\ge(1-o(1))M(C_{q+1})
+\]
+
+along a multiplicatively dense set of Paley prime orders.  That rigidity
+statement is the hard minimax wall.  Exact optimality at orders 6 and 14 does
+not approach a proof, and order 10 is a counterexample to unqualified
+conference optimality.
 
 ## 20. Scalar negative-replica transport is closed
 

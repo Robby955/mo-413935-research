@@ -295,9 +295,9 @@ eigenvector information.
 Auditable exhaustive search gives
 
 \[
-\begin{array}{c|rrrrrrrrrrr}
-n&2&3&4&5&6&7&8&9&10&11&12\\ \hline
-F(n)&1&3&4&4&5&9&10&12&13&17&18.
+\begin{array}{c|rrrrrrrrrrrrr}
+n&2&3&4&5&6&7&8&9&10&11&12&13&14\\ \hline
+F(n)&1&3&4&4&5&9&10&12&13&17&18&20&21.
 \end{array}
 \]
 
@@ -306,7 +306,12 @@ residual graphs, exactly filters 2,153,606 eligible classes for cut
 evaluation, and reproduces the result by generating that reduced stream with
 the same evaluator.  Deterministic samples use a separate adjacency formula.  Its
 completeness trusts nauty; order 12 then follows from puncturing, parity, and
-an explicit witness.  The normalized values are not monotone.  At order 10, a Paley conference
+an explicit witness.  At order 13, a fail-closed eight-shard scan hashes all
+1,018,997,864 eleven-vertex residual graphs.  Exactly two rooted records have
+order-12 maximum below 20, and direct incident-column enumeration gives
+extension minimum 24 for both.  The Bellman identity and a principal block of
+the order-14 Paley matrix give $F(13)=20$; heredity and parity then give
+$F(14)=21$.  The normalized values are not monotone.  At order 10, a Paley conference
 matrix has Boolean maximum 15, while the optimum is 13.  Finite computation is
 guidance only; it cannot establish an asymptotic subsequence.
 
@@ -481,8 +486,14 @@ n&\#\text{ optimum classes}&\text{distribution of }E(B)\\ \hline
 \end{array}
 \]
 
-The later complete catalogue certificate gives $F(11)=17$ and, with parity
-and a direct witness, $F(12)=18$.
+The later complete catalogue certificates give
+
+\[
+F(11)=17,\qquad F(12)=18,\qquad F(13)=20,\qquad F(14)=21.
+\]
+
+The last two values use the complete order-12 residual scan and the Paley
+$C_{14}$ witnesses; they do not establish an asymptotic pattern.
 
 Thus optimum signings with the same scalar value can have different future
 extension costs. More sharply,
@@ -944,6 +955,49 @@ theorem and not a lower bound on $F(m^2+1)$. At $m=3$, the matrix maximum is
 15 while $F(10)=13$. Do not infer a subsequential value of $F$ from this
 construction.
 
+### 3.19 Paley Fourier-leakage identity
+
+For an odd prime power $q\equiv1\pmod4$, let $C_{q+1}$ be the symmetric
+Paley conference matrix. For Boolean $f:\mathbb F_q\to\{\pm1\}$, let
+$S(f)=\sum f$ and partition its unitary additive Fourier energy into the two
+nonzero frequency halves $E_+(f),E_-(f)$ selected by the signs of the
+quadratic Gauss-sum eigenvalues. Put $W(f)=\min(E_+(f),E_-(f))$. Exact Fourier
+diagonalization and optimization of the infinity sign give
+
+\[
+ M(C_{q+1})=\frac{(q+1)\sqrt q}{2}
+ -\sqrt q\min_f\left[
+ W(f)+\frac{(|S(f)|-\sqrt q)^2}{2q}
+ \right].
+\]
+
+Hence the Paley Boolean maximum approaches its spectral ceiling exactly when
+there are sign functions with
+
+\[
+ |S(f_q)|=o(q),\qquad W(f_q)=o(q).
+\]
+
+Exact source-built enumeration gives
+
+\[
+ M(C_6)=5,\quad M(C_{14})=21,\quad M(C_{18})=33,\quad
+ M(C_{30})=75,
+\]
+
+with Boolean-to-spectral ratios
+$\sqrt5/3,3/\sqrt{13},11/(3\sqrt{17}),5/\sqrt{29}$. They increase in these
+four selected prime-field cases, but no monotonicity or asymptotic fit is
+proved. Do not confuse this construction problem with the minimax lower bound.
+Even spectral saturation of $C_{q+1}$ would still require the independent
+dense-order rigidity estimate
+
+\[
+ F(q+1)\ge(1-o(1))M(C_{q+1})
+\]
+
+to force the original limit to be $1/2$.
+
 ## 4. Known failed mechanisms that require a material change
 
 Do not simply repeat any of the following:
@@ -955,7 +1009,7 @@ Do not simply repeat any of the following:
 3. Direct annealed partition estimates: the $nk\log\cosh t$ cost is
    macroscopic at the extensive temperature.
 4. Treating the conference spectral ceiling as attainable on Boolean vectors:
-   explicit orders 6, 14, and 18 disprove this, and order 10 is not even
+   explicit orders 6, 14, 18, and 30 disprove this, and order 10 is not even
    optimal among signings.
 5. Convexifying only the coupling cube and then rounding: the optimizer is
    zero and the integrality gap is leading order.

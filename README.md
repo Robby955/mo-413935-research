@@ -24,7 +24,7 @@ The repository now goes substantially beyond those baseline results:
 - Ordinary graphon and empirical spectral limits provably erase the relevant
   `n^(3/2)` information.
 - Exact finite computation gives
-  `F(2), ..., F(12) = 1, 3, 4, 4, 5, 9, 10, 12, 13, 17, 18`.
+  `F(2), ..., F(14) = 1, 3, 4, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21`.
   The order-11 lower certificate scans all 12,005,168 unlabeled residual
   graphs and exactly filters 2,153,606 eligible classes for cut evaluation.
   Direct generation of that reduced stream reproduces the zero-survivor result
@@ -32,6 +32,15 @@ The repository now goes substantially beyond those baseline results:
   This is a computer-assisted theorem whose completeness trusts nauty. The
   order-12 upper bound is an explicit signing; its lower bound follows from
   order 11 by puncturing and parity.
+- The order-13 lower certificate hashes and scans all 1,018,997,864 unlabeled
+  residual graphs on eleven vertices in eight fail-closed nauty shards. Exactly
+  two rooted records survive the order-12 threshold; direct enumeration gives
+  maximum 18 and one-vertex extension minimum 24 for both. All other records
+  have maximum at least 20. A principal submatrix of the order-14 Paley matrix
+  supplies the matching upper bound, and parity then gives `F(14) = 21`.
+  Completeness has the same explicit nauty trust boundary as the order-11
+  certificate. This also makes the order-14 conference matrix optimal, but
+  the certificate alone does not establish uniqueness.
 - Exact hereditary cavity inequalities strengthen the induced-submatrix lower
   bounds through Walsh orthogonality and block pairing. Their universal gains
   are subleading, so they do not settle convergence.
@@ -73,12 +82,6 @@ The repository now goes substantially beyond those baseline results:
   minimizer: a conference signing at high temperature, an intermediate
   non-ground-state signing, and an `F(10)=13` signing at low temperature.
   Thus the adversarial optimizer genuinely changes with temperature.
-- Exact conference evaluation gives the verified upper bounds
-  `F(13) <= 20` and `F(14) <= 21`; all fourteen order-13 principal
-  submatrices of the Paley order-14 matrix have maximum 20. An external report
-  claims equality at both orders after a billion-record residual scan, but its
-  shard logs, digests, survivor encodings, and extension receipts are not
-  present in this checkout, so the lower bounds are not banked here.
 - The annealed-normalized negative replica is exactly supermultiplicative at
   fixed exponent and temperature. Boolean reverse hypercontractivity follows
   the parameter curve needed by block composition, but the proposed
@@ -102,6 +105,15 @@ The repository now goes substantially beyond those baseline results:
   This is the known regular-conference construction, not a new result and not
   a statement about `F(m^2+1)`. Already `F(10)=13` while that Paley matrix has
   maximum 15.
+- For every symmetric Paley order `q+1`, an exact Fourier-leakage identity
+  reduces Boolean spectral alignment to finding an asymptotically balanced
+  sign function whose additive Fourier energy has `o(q)` mass in one
+  quadratic-character half. Source-built
+  exhaustive scans give `M(C_6), M(C_14), M(C_18), M(C_30) = 5, 21, 33, 75`.
+  The four selected prime-field alignment ratios increase, but this is finite
+  evidence only. Even asymptotic alignment would still need a separate
+  dense-order minimax rigidity lower bound to say anything decisive about
+  the limit of `F(n)/n^(3/2)`.
 - Density-one control of Bellman-optimal predecessors is not the decisive
   scalar wall. An explicit nonconvergent countermodel satisfies all current
   scalar cross-order inequalities even with `O(sqrt(n))` Bellman cost at every
@@ -142,6 +154,13 @@ the row-and-column switching orbit of a low-norm cross seed. This is a
 max-plus convolution problem on the projective rank-one group and retains the
 higher-order dependence lost by first moment estimates.
 
+A separate value-specific route asks first for an asymptotically balanced
+Paley sign function with Fourier leakage `o(q)`, and then for minimax rigidity
+`F(q+1) >= (1-o(1)) M(C_{q+1})` on a multiplicatively dense set of prime
+orders. The first half is now a precise character-sum problem. The second is
+the real adversarial lower-bound wall; the finite optimality of `C_6` and
+`C_14` does not establish it.
+
 ## Research package
 
 - [Frontier-model research prompt](FRONTIER_MODEL_PROMPT.md)
@@ -175,6 +194,16 @@ python3 verification/verify_frontier_walls.py
 python3 verification/verify_paley_subfield.py
 python3 verification/verify_negative_replica_transport_obstruction.py
 python3 verification/verify_negative_replica_alignment.py
+python3 verification/research_order13_certify.py
+```
+
+The order-30 Paley alignment scan is a self-contained C check:
+
+```bash
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/research_paley_alignment.c -lm \
+  -o /tmp/research_paley_alignment
+/tmp/research_paley_alignment
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and
@@ -187,6 +216,14 @@ python3 verification/research_order9_weighted_geometry.py
 python3 verification/research_order10_temperature.py
 python3 verification/research_negative_replica_transport.py
 python3 verification/research_order11_certify.py
+```
+
+The full order-13 lower certificate scans 1,018,997,864 residual graphs and
+requires nauty `geng`:
+
+```bash
+python3 verification/research_order13_certify.py \
+  --full-stream --jobs 8 --geng /absolute/path/to/geng
 ```
 
 The exhaustive search through order 10 requires nauty `geng`; NetworkX adds
