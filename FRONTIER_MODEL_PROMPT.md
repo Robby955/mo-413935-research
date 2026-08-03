@@ -1262,12 +1262,27 @@ balanced $C_{14}$ target, the nine roots
 give a positive exact degree-19 certificate.  Equivalently, the order-nine
 localizing matrix $(m_{i+j+1}-m_{i+j})$ is not positive semidefinite.
 
-The scalable wall is precise.  The even and odd halves of the
-$\operatorname{Bin}(D+1,1/2)$ multiplicity table have identical moments
-through degree $D$, although only the even half has a zero.  Thus no
-bounded-order or degree-$o(N)$ generic moment theorem decides vacancy on
-$2^{N-1}$ fibers.  Seek a signing-specific degree-$O(N)$ localizing witness
-whose error remains controlled after the three shell transforms factor.
+The scalable wall is sharper than bounded order.  With $z$ empty fibers, a
+localizing polynomial normalized by $q(0)=1$ has negative margin at most
+$z/K$, and filling the holes by occupancy one changes every localizing matrix
+by exactly $(z/K)e_0e_0^{\mathsf T}$.  The unique $C_{14}$ hole therefore has
+an exponentially small normalized signal.  Its exact degree-nine witness has
+magnitude only $7.6390\ldots\,10^{-6}$.
+
+A box-principle collision gives a vacant and nonvacant $K$-point occupancy
+pair with identical moments through degree
+$\Omega(\sqrt{K/\log K})$.  For $K=2^{N-1}$ this is exponential in $N$.
+These occupancies are abstract, not claimed realizable signing shells.  The
+other generic conversions fail comparably at the calibration: the
+Fourier--PSD hierarchy needs at least 6827 of 8192 characters; canonical
+vacancy detection needs occupancy inverse temperature $\log K=\Theta(N)$;
+and its alternating collision expansion first certifies the $C_{14}$ hole at
+degree 87.
+
+Do not ask merely for a degree-$O(N)$ estimate with polynomial absolute
+error.  Seek an exact signing-specific character-sum sign, a theorem producing
+polynomially many good gauges, or a shell-factorized estimate with exponential
+precision justified by structure.
 
 If the scalar shell inequality fails asymptotically, do not return to a
 one-point union bound.  For each gauge define the labeled shell convolution
@@ -1527,10 +1542,11 @@ Do not simply repeat any of the following:
     right side is still $37.0842\ldots$ in the calibrated $C_{14}$ shell even
     though an empty fiber exists.  Higher moments or a genuine lower-tail
     theorem are required.
-31. Assuming a fixed occupancy-moment or fixed mixed-cycle hierarchy is
-    universally complete.  Abstract even/odd binomial multisets agree through
-    the first $N-1$ moments on $2^{N-1}$ points while disagreeing on vacancy.
-    Any bounded-order proof needs extra realizable-shell structure.
+31. Assuming a subexponential occupancy-moment or small-character hierarchy is
+    universally complete.  Abstract vacant/nonvacant laws can agree through
+    $\Omega(\sqrt{K/\log K})=2^{\Omega(N)}$ moments, and the calibrated
+    Fourier--PSD witness needs 6827 of 8192 characters.  An actual-shell proof
+    needs exact realizable-shell structure.
 32. Declaring the swapped raw profile either universally dead or universally
     sufficient.  Its exact floor gives the conditional threshold
     $0.436377\ldots$: it is obstructed below that constant and remains viable
@@ -1540,6 +1556,10 @@ Do not simply repeat any of the following:
     repair changes this only by $O(N)$.  Orthogonal blocks evade that specific
     quotient bound, but the uniform order-four symmetric-Hadamard test already
     has sharp maximum 44 rather than the lossless value 32.
+34. Inferring an iterable amplification theorem from the exact order-16
+    Hadamard lift.  That signing has $M=32=4^{3/2}F(4)$, but it uses four
+    tailored internal blocks with maxima $6,6,4,4$.  No uniform map, iteration
+    law, or dense reachability statement is known.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -1624,12 +1644,12 @@ Then Fourier inversion gives the exact truncated coefficient formula
 
 Seek a support-noncoverage theorem proving that this is zero for at least one
 $g$, even when its trivial-character average exceeds one. Viable mechanisms
-include a full character large-deviation principle, a higher-moment bound on
-fiber occupancies, or an additive-combinatorial restriction on the three
-labeled low-deficit sets. A low-weight character expansion is admissible only
-with a uniform tail bound showing that omitted characters cannot refill every
-fiber. The mixed four-cycle Hamiltonian is the first mandatory term, not a
-complete state.
+include a full character large-deviation principle, an exact association-
+scheme sign, an abundance theorem for empty fibers, or an additive-
+combinatorial restriction on the three labeled low-deficit sets. A low-weight
+character or low-moment expansion is admissible only with a uniform tail bound
+at the exponentially small hole-density scale. The mixed four-cycle
+Hamiltonian is the first mandatory term, not a complete state.
 
 For every proposed interpolation, calculate the cross derivative exactly and
 show its sign or cancellation.  Do not exchange minimum, expectation,
@@ -1679,6 +1699,24 @@ larger orders $N$ satisfying
 Test tensor products, randomized lifts conditioned on row sums, multi-block
 designs, conference completions, and dependent cross blocks.  Prove uniform
 Boolean bounds; operator-norm control alone is insufficient.
+
+The smallest orthogonal calibration is now mixed rather than negative.  A
+fixed-half order-16 signing made from four clouds of size four has six
+zero-sum Hadamard cross blocks and exact maximum
+
+\[
+ 32=4^{3/2}F(4).
+\]
+
+After reordering and signed-permutation gauges, the cross blocks share one
+nonsymmetric oriented Hadamard and their edge signs form an $F(4)$ optimizer.
+The internal block maxima are $6,6,4,4$, and no common-Hadamard gauge makes
+all four internal blocks common even up to sign.  This proves a lossless-scale
+one-step lift is locally possible, but also says the live state is multi-type:
+try a Pareto/substitution recursion for the internal block types.  Do not
+claim iteration until the type system closes with summable normalized error.
+Even then, supply dense reachability or a compatible truncation/composition
+argument; one fixed geometric subsequence does not force the full limit.
 
 A particularly sharp scalar target is to prove, for some $\delta>0$,
 

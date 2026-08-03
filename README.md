@@ -132,12 +132,19 @@ The repository now goes substantially beyond those baseline results:
   is too weak even though the full labeled occupancy has empty fibers; a
   higher-moment or low-tail theorem is needed.
 - That higher-moment mechanism is now explicit. A degree-19 integer polynomial
-  in the labeled occupancy certifies an empty fiber in the balanced `C14`
-  target shell; independent reconstruction shows it is the unique one. The
-  associated localizing-moment hierarchy is complete
-  for every finite instance. A matching abstract moment construction shows
-  that moments through degree `N-1` cannot decide vacancy on `2^(N-1)` fibers
-  without using signing-specific shell structure.
+  in the labeled occupancy certifies the unique empty fiber in the balanced
+  `C14` target shell. But the normalized sign has magnitude only
+  `7.64e-6`: filling one hole changes every localizing matrix by exactly
+  `1/8192`. The negative-moment test needs occupancy inverse temperature
+  `Theta(N)`, its collision expansion first certifies this hole at degree 87,
+  and any Fourier-PSD witness needs at least 6827 of 8192 characters.
+- A box-principle construction gives a stronger universal obstruction. On
+  `K=2^(N-1)` abstract fibers, a vacant and a nonvacant occupancy law can have
+  identical moments through degree `Omega(sqrt(K/log K))`, exponential in
+  `N`. These laws are not claimed realizable by signing shells. The remaining
+  route must use exact shell labels, prove many good gauges, or obtain an exact
+  character-sum sign; generic low moments and polynomial-precision estimates
+  are closed.
 - A second scalar convention, using projective `|Q|` graph states and signed
   full-spin cross states, also has equal relative-gauge fibers. Its fiber
   maximum only dominates the full signing maximum, so it gives a valid
@@ -161,6 +168,13 @@ The repository now goes substantially beyond those baseline results:
   lift of the order-five optimum still has maximum at least 44, versus the
   lossless target 32. This is a finite family obstruction, not a general
   Hadamard no-go.
+- Conversely, an explicit fixed-half order-16 signing assembled from six
+  zero-sum `4 x 4` Hadamard cross blocks has exact maximum 32, the lossless
+  factor-four scale benchmark from `F(4)=4`; its cross-only maximum is 28.
+  After cloud reordering it is an exact one-step lift of an `F(4)` optimizer
+  using a common nonsymmetric oriented Hadamard and four tailored internal
+  blocks. It is therefore finite feasibility evidence, not a uniform or
+  iterable amplification operator.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not

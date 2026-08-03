@@ -26,6 +26,7 @@ where \(A\) is symmetric, has zero diagonal, and has off-diagonal entries in
 |---|---|---|
 | Mean-field spin glasses | Random-disorder free energies and ground states have thermodynamic limits, often with Parisi variational formulas. | The proofs average over independent disorder.  Here the disorder is chosen adversarially by an outer minimum. |
 | Reverse hypercontractivity | Negative norms of positive Boolean functions compare sharply along the noise curve \(\rho^2=(1-p)/(1-q)\). | Applied to the disorder partition polynomial, the scalar comparison has the correct curve but a rigorously leading transport gap. The surviving block state is a conditional relative-switching law. |
+| Restricted-coefficient polynomials | A box-principle construction gives degree-\(K\) \(\{-1,0,1\}\)-polynomials with a zero of multiplicity \(\Omega(\sqrt{K/\log K})\) at one. | It yields exponentially moment-indistinguishable abstract occupancy laws, but not realizable signed-graph shell convolutions. |
 | Spin-glass large deviations | A 2026 preprint proves an upper-tail LDP for the maximum of a Gaussian mixed \(p\)-spin Hamiltonian. | Minimizing over signings probes a lower tail of a Bernoulli two-spin ground state (and an absolute-value version), precisely the side not covered. |
 | Discrepancy and Boolean polynomials | General results recover the \(n^{3/2}\) scale for degree-two sign polynomials or rectangular switching games. | They give constants or a different bilinear state space, not an \(o(n^{3/2})\) composition/rounding error. |
 | Signed graphs and cut codes | Switching classes are cosets of the cut/cocycle code, and frustration is a coset-leader problem. | The code here is the cut code augmented by the all-one word; no cited result gives its complete-graph covering-radius deficit to second order. |
@@ -146,6 +147,27 @@ relative block switchings.  This identity is elementary in the present finite
 model; no external chain-rule theorem supplies its asymptotics.  Its
 zero-temperature slope is exactly the optimizer-composition gain, so treating
 it as a lower-order conditional-entropy correction would be incorrect.
+
+### Restricted-coefficient polynomials and occupancy moments
+
+Borwein, Erdélyi, and Kós prove by a box-principle argument that a nonzero
+polynomial of degree at most (K), with coefficients in
+\(\{-1,0,1\}\), can have a zero at one of multiplicity
+\(\Omega(\sqrt{K/\log K})\).  Their proof collides the derivative vectors at
+one of two distinct \(\{0,1\}\)-coefficient polynomials.
+
+* Source: P. Borwein, T. Erdélyi, and G. Kós,
+  [*Littlewood-type problems on [0,1]*](https://doi.org/10.1112/S0024611599011831),
+  *Proceedings of the London Mathematical Society* 79 (1999), 22--46,
+  Theorem 2.7 and its proof; [author-hosted PDF](https://people.tamu.edu/~terdelyi/papers-online/PLMS.pdf).
+* Gives here: after splitting the positive and negative coefficient supports
+  and padding both by the same positive value, the collision produces a
+  vacant and a nonvacant (K)-point occupancy multiset with identical moments
+  through degree \(\Omega(\sqrt{K/\log K})\).  For the relative-gauge size
+  (K=2^{N-1}), this degree is exponential in (N).
+* Does not give: two occupancies realizable by signed-graph shell
+  convolutions.  It is a universal obstruction to unlabeled moment criteria,
+  not to an exact character-sum or signing-specific argument.
 
 ## 2. Discrepancy and Boolean quadratic forms
 

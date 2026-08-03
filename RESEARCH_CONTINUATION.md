@@ -4726,59 +4726,118 @@ satisfies
  =584163517696745929254421003286532>0.                 \tag{42.8}
 \]
 
-The hierarchy is exact, but low order is not universally sufficient.  For
-$D\ge1$, give each even integer $j$ multiplicity $\binom{D+1}{j}$ in one
-multiset and each odd $j$ the same multiplicity in another.  Both multisets
-have size $2^D$; the even one has exactly one zero and the odd one has none.
-Nevertheless their moments agree through degree $D$, because
+The sign of this certificate is exponentially conditioned when the good
+gauge set is sparse.  If $z=\#\{g:b(g)=0\}$ and $q(0)=1$, then
 
 \[
- \sum_j(-1)^j\binom{D+1}{j}j^r=0\qquad(0\le r\le D).
+ \boxed{
+ \mathbb E[(b-1)q(b)^2]\ge-\frac zK.}                 \tag{42.9}
 \]
 
-On $K=2^{N-1}$ abstract fibers, therefore, moments through degree $N-1$ cannot
-decide vacancy.  This is a generic moment obstruction, not a construction of
-two realizable signing shells.  It proves that any bounded mixed-cycle or
-fixed-moment closure must use additional shell-convolution structure.
-
-There is a parallel Fourier obstruction.  The matrix
-$\mathcal H_{\chi,\psi}=\widehat b(\chi\psi)$ has eigenvalues $b(g)$ and is
-positive semidefinite.  If there is exactly one empty fiber and every positive
-occupancy is at least $m$, any negative quadratic-form witness for
-$\mathcal H-I$ supported on $q$ characters must obey
+Every zero contributes $-1/K$ and every occupied fiber contributes
+nonnegatively.  Moreover, for $b^+=\max\{b,1\}$,
 
 \[
- q>K\frac{m-1}{m}.                                     \tag{42.9}
+ \boxed{H_r(b^+)=H_r(b)+\frac zK e_0e_0^{\mathsf T}}  \tag{42.10}
 \]
 
-Indeed, for $p(g)=\sum_\chi c_\chi\chi(g)$, negativity gives
+at every order.  Filling a unique hole therefore changes the complete
+normalized localizing hierarchy by operator norm exactly
+$1/K=2^{-(N-1)}$.  For the $C_{14}$ polynomial in (42.8), division by
+$q(0)=-96616893476711475$ gives
 
 \[
- (m-1)(K\|c\|_2^2-|p(g_0)|^2)<|p(g_0)|^2,
+ \mathbb E[(b-1)(q(b)/q(0))^2]
+ =-\frac{36795384082687448302747606657}
+ {4816759830492505652837357886720000}.
+ \tag{42.11}
 \]
 
-whereas Cauchy--Schwarz on a $q$-element support gives
-$|p(g_0)|^2\le q\|c\|_2^2$.
+Its magnitude is only $0.0625789\ldots$ of the maximal unique-hole margin
+$1/8192$.  Thus a power-saving absolute error in normalized moments is not
+enough: one needs an exact sign, exponentially fine control, or a polynomial
+density of good gauges.
 
-For the $C_{14}$ shell, $m=6$, so at least 6827 of the 8192 character labels
-are required.  The sharp remaining target is therefore a degree-$O(N)$
-negative localizing form derived from (42.3) with controlled error.  The
-finite degree-19 certificate proves this mechanism is real; (42.9) and the
-binomial moment pair show why variance, a fixed $H_4$ layer, or a sparse
-Fourier witness cannot be the uniform theorem by themselves.
-
-At the all-moment endpoint there is an exact scalar test:
+Generic degree can also be exponential in the block order.  Suppose
 
 \[
- \boxed{min_gb(g)=0\quad\Longleftrightarrow\quad
- \sum_gK^{-b(g)}>1.}                                  \tag{42.10}
+ (K+1)^{k(k+1)/2}<2^{K+1}.                            \tag{42.12}
 \]
 
-A zero contributes one and every other term is positive; if there is no zero,
-all $K$ terms are at most $K^{-1}$.  Thus an arbitrary isolated vacancy may
-require inverse temperature $\log K=\Theta(N)$.  The remaining research
-question is whether realizable near-optimal signing shells admit a controlled
-degree-$O(N)$ certificate substantially before this generic endpoint.
+Among the $2^{K+1}$ polynomials $P(X)=\sum_{i=0}^Ka_iX^i$ with
+$a_i\in\{0,1\}$, the derivative vector through order $k-1$ has at most
+
+\[
+ \prod_{j=0}^{k-1}\left(j!\binom{K+1}{j+1}+1\right)
+ \le(K+1)^{k(k+1)/2}
+\]
+
+values.  Two vectors collide.  Their nonzero difference is divisible by
+$(X-1)^k$ and has coefficients in $\{-1,0,1\}$.  Divide by its first
+nonzero monomial, split the positive and negative supports, and add the same
+number of copies of the positive value $K$ to both sides.  This gives two
+$K$-element multisets in $\{0,\ldots,K\}$, one with exactly one zero and one
+with none, whose moments agree through degree $k-1$.  The construction is the
+box-principle argument behind Borwein--Erd\'elyi--K\'os,
+[Theorem 2.7](https://doi.org/10.1112/S0024611599011831).
+The largest certified $k$ is
+
+\[
+ (\sqrt{2\log2}+o(1))\sqrt{K/\log K}.
+ \tag{42.13}
+\]
+
+For $K=2^{N-1}$ this is $2^{\Omega(N)}$.  The exact small pair
+
+\[
+ (0,4,5,6,6,6),\qquad(1,2,6,6,6,6)
+\]
+
+matches moments through degree two and separates at degree three.  These are
+abstract occupancies, not signing-shell constructions.
+
+There is a parallel Fourier obstruction.  Put $c=b-1$ and
+$\mathcal A_{\chi,\psi}=\widehat c(\chi\psi)$.  If every fiber is occupied,
+$\mathcal A\succeq0$.  If there are $z$ holes and every positive occupancy is
+at least $m$, every principal submatrix on
+
+\[
+ s\le\frac{(m-1)K}{mz}                                \tag{42.14}
+\]
+
+characters is still positive semidefinite.  Indeed, a vector on $s$
+characters has at most $zs/K$ of its Fourier energy on the negative
+eigenspaces.  For the $C_{14}$ law, $z=1,m=6$, so a negative principal minor
+requires at least 6827 of 8192 characters.
+
+At the all-moment endpoint, let
+
+\[
+ s_t(b)=-t^{-1}\log\mathbb E e^{-tb},\qquad m_0=\min b.
+\]
+
+Then
+
+\[
+ \boxed{m_0\le s_t(b)\le m_0+\frac{\log K}{t}.}       \tag{42.15}
+\]
+
+For $t\ge\log K$, vacancy is equivalent to $s_t(b)<1$.  The scale is
+uniformly sharp for $(0,M,\ldots,M)$ as $M\to\infty$.  Writing
+$u=1-e^{-t}$ gives the finite collision expansion
+
+\[
+ \mathbb E e^{-tb}=\sum_{j\ge0}(-u)^j\mathbb E\binom bj,
+ \tag{42.16}
+\]
+
+whose odd truncations are lower bounds.  At $C_{14}$ and $t=\log8192$, no
+odd truncation through degree 85 detects the vacancy; degree 87 is first.
+
+The finite degree-19 certificate proves the labeled mechanism is real, but
+(42.9)--(42.16) close a universal low-degree or polynomial-precision moment
+shortcut.  The surviving target must exploit the exact shell factorization
+(42.3), establish many good gauges, or derive an exact character-sum sign.
 
 ### Proposition 43 (fixed-density rectangular cross floor)
 
@@ -4932,3 +4991,48 @@ $(0,2,4,1,3)$ sends $A$ to $-A$.  The verifier checks this anti-isomorphism,
 all transformed diagonal completions, and every projective full spin.  This is
 only a finite no-go for the common-$H$, common-$D$ family; cloud-dependent
 orthogonal lifts remain outside its scope.
+
+The full cloud state has two exact universal floors.  For any nontrivial
+partition $I\sqcup J$ of $n$ clouds of size $k$, let $C_{I,J}$ be the
+aggregate sign matrix across the partition.  Flipping all spins on one side
+pairs energies as $R+c$ and $R-c$, so
+
+\[
+ \boxed{
+ M(S)\ge\|C_{I,J}\|_{\infty\to1}
+ \ge\max\{|I|k\mu_{|J|k},|J|k\mu_{|I|k}\}.}          \tag{44.4}
+\]
+
+If $C_*$ is the maximum cross-only energy over all fine-cloud spins, random
+cloud-level signs give a mean-zero quadratic polynomial with range at least
+$C_*$.  The fixed internal offset cannot reduce its maximum absolute value
+below half that range, hence
+
+\[
+ \boxed{M(S)\ge C_*/2.}                              \tag{44.5}
+\]
+
+These bounds still discard simultaneous correlation between all cross blocks
+and the internal energy, so they do not close orthogonal amplification.
+
+There is an exact positive finite calibration.  An explicit fixed-half
+order-16 signing with four clouds of size four has six zero-sum Hadamard cross
+blocks and
+
+\[
+ \boxed{M(S_{16})=32,\qquad M((S_{16})_{\rm cross})=28.} \tag{44.6}
+\]
+
+Exhaustion over all $2^{15}$ projective spins finds 14 maximizers and
+independently recomputes $F(4)=4$.  After reordering the clouds and applying
+signed-permutation gauges, every cross block is one common nonsymmetric
+oriented Hadamard up to the edge signs $(+,+,+,-,+,-)$; that base signing has
+maximum four.  Thus (44.6) is a genuine one-step lift of an $F(4)$ optimizer
+at the lossless scale $4^{3/2}F(4)$.
+
+The internal blocks are essential and cloud-dependent: across every common
+Hadamard representation, no gauge also makes all four internal blocks common
+up to sign.  The construction therefore proves local feasibility only.  It
+does not give a uniform operator on arbitrary base signings, an iteration
+law, or the dense reachability/truncation theorem additionally needed to force
+convergence.

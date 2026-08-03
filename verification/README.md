@@ -279,9 +279,53 @@ labeled_shell_moment_certificate=PASSED
 
 The positive expectation rigorously forces at least one empty fiber. Direct
 reconstruction separately shows there is exactly one. The analytic moment
-hierarchy is complete for finite occupancies, while the even/odd binomial
-countermodel in the research note shows why no fixed moment order gives a
-generic asymptotic theorem.
+hierarchy is complete for finite occupancies.
+
+`verify_labeled_vacancy_hierarchy.py` checks the sharp generic limitations of
+that hierarchy on the same independently reconstructed occupancy:
+
+```bash
+python3 verification/verify_labeled_vacancy_hierarchy.py
+```
+
+Expected output:
+
+```text
+c14_vacancy=K:8192 B:304908 zeros:1 positive_range:6..87
+soft_inverse_temperature=log(K) first_collision_degree=87
+fourier_psd_safe_dimension=6826 maximum_nontrivial_coefficient=1223/512
+normalized_localizing_margin=-36795384082687448302747606657/4816759830492505652837357886720000
+corruption_controls=filled_vacancy,unshifted_fourier_kernel,fill_one_localizer
+arithmetic=integer,fraction
+labeled_vacancy_hierarchy=PASSED
+```
+
+The exact checks distinguish four statements: the unique-hole margin is at
+most `1/K`; the canonical soft test needs inverse temperature `log(K)`; the
+alternating collision expansion first succeeds at degree 87; and every
+Fourier principal minor on at most 6826 characters is necessarily positive.
+
+`verify_universal_moment_obstruction.py` checks the explicit six-point
+vacant/nonvacant pair and the derivative-vector counts behind the general
+box-principle obstruction:
+
+```bash
+python3 verification/verify_universal_moment_obstruction.py
+```
+
+Expected output:
+
+```text
+explicit_pair=K:6 matched_moments:0..2 cubic:837/873
+derivative_count_cases=3631 simple_collision_cases=449 exact_collision_cases=469 exact_only_cases=20
+corruption_controls=zero_removal,unequal_padding,zeroth_range
+arithmetic=integer
+universal_moment_obstruction=PASSED
+```
+
+The all-order theorem is analytic. The finite script checks its exact support
+polynomial, padding step, derivative-range product, simpler sufficient bound,
+and deterministic corruption controls.
 
 ## Fixed-half cut-discrepancy check
 
@@ -392,6 +436,47 @@ diagonal completion `D`.  The checked permutation `(0,2,4,1,3)` sends the
 signed five-cycle base to its negative, which justifies quotienting the 64
 Hadamards by global sign before the maximum table is exhausted.  It is not a
 theorem about general orthogonal or cloud-dependent lifts.
+
+`verify_cloud_dependent_hadamard_lift.py` checks a complementary exact
+order-16 construction:
+
+```bash
+python3 verification/verify_cloud_dependent_hadamard_lift.py
+```
+
+Expected output:
+
+```text
+clouds=4x4
+quotient_free_hadamard_blocks=6
+fixed_half_internal_blocks=4
+projective_spins_checked=32768
+base_F4=4
+cross_only_maximum=28
+lift_maximum=32
+projective_maximizers=14
+energy_histogram_sha256=b4950bbfbac3a6223c6260572ce698fd54168777da04adfa317c95456baa38ca
+order4_hadamards_checked=768
+common_H_nonzero_cloud_orders=0132:2;0231:2;1023:2;1320:2;2013:2;2310:2;3102:2;3201:2
+common_H_total_gauge_solutions=16
+canonical_common_H_cloud_order=0132
+canonical_common_H_is_symmetric=FALSE
+canonical_base_signs=+,+,+,-,+,-
+canonical_base_maximum=4
+canonical_internal_maxima=6,6,4,4
+common_H_common_D_up_to_sign_gauge_solutions=0
+stored_orientation_fixed_template_profile=M4_to_38:8,M4_to_40:40,M6_to_32:8,M6_to_40:8
+corruption_controls=hadamard_entry,lower_block_transpose,synthetic_common_H
+cloud_dependent_hadamard_lift_verification=PASSED
+```
+
+Direct and blockwise evaluations agree on every projective spin. The
+transpose-aware scan over all 24 cloud orders is essential: the construction
+has a common nonsymmetric oriented Hadamard representation, and its intrinsic
+edge signs are an `F(4)` optimizer. It is an exact one-step lift with four
+tailored internal blocks, two of them deliberately nonoptimal. It is not a
+uniform or iterable amplification theorem. The stored-orientation template
+profile is only a coordinate-level diagnostic.
 
 The new exact identity checker also needs only the standard library:
 

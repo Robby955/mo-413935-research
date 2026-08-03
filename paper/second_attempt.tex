@@ -104,11 +104,16 @@ order fourteen exhibits a substantial finite additive-geometry bonus without
 closing the scalar route asymptotically.
 Retaining the additive labels gives an exact Parseval refinement and a
 complete integer-moment vacancy hierarchy.  A degree-19 certificate detects
-the unique empty fiber in the tested balanced $C_{14}$ shell, while a matching
-abstract moment pair proves that bounded-order moments cannot be uniformly
-sufficient without signing-specific shell structure.  Exact fixed-density
-and equal-cloud estimates also close separate cross-norm control and ordinary
-complete/empty blow-up repair, but leave joint labeled cancellation open.
+the unique empty fiber in the tested balanced $C_{14}$ shell.  Its normalized
+margin is exponentially small; the corresponding soft, Fourier--PSD, and
+collision hierarchies are all quantitatively large.  A restricted-coefficient
+polynomial collision produces abstract vacant and nonvacant laws agreeing
+through $2^{\Omega(N)}$ moments, closing a generic low-moment shortcut.
+Exact fixed-density and equal-cloud estimates also close separate cross-norm
+control and ordinary complete/empty blow-up repair, but leave joint labeled
+cancellation open.  Conversely, an exact fixed-half $4$-to-$16$ Hadamard lift
+attains the lossless scale $32=4^{3/2}F(4)$ by using tailored internal block
+types; it is a finite feasibility result, not an iterable amplification law.
 We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
@@ -128,8 +133,9 @@ needed to turn this construction into a statement about the limit of $F$.
 Finally, an explicit scalar countermodel shows that even uniform
 $O(\sqrt n)$ Bellman control does not force convergence.  The sharp remaining
 target is a quenched minimax free-energy limit, or a signing-specific
-degree-$O(N)$ negative localizing form derived from the factored labeled-shell
-coefficients with a summable composition error.
+exact lower-tail/character theorem for the factored labeled-shell law with a
+summable composition error.  An amplification alternative must close an
+iterable multi-type block system and reach a dense set of orders.
 \end{abstract}
 
 \section{Problem, audited baseline, and scope}
@@ -2757,28 +2763,116 @@ degree-nine polynomial $q(x)=\prod_{a\in A}(2x-(2a+1))$ satisfies
  =584163517696745929254421003286532>0.
 \]
 
-The hierarchy does not give a bounded-order asymptotic theorem for free.
-For $D\ge1$, form one multiset from each even $j$ with multiplicity
-$\binom{D+1}{j}$ and another from the odd $j$ with the same multiplicity.
-Both have size $2^D$; the even multiset has one zero and the odd multiset has
-none.  Their moments through degree $D$ agree by
+The sign of a normalized localizing form can be exponentially delicate.
+Let $z=\#\{g:b(g)=0\}$ and normalize $q(0)=1$.  Then exactly
+\begin{equation}
+ \E[(b-1)q(b)^2]\ge-\frac zK.                         \label{eq:hole-margin}
+\end{equation}
+Every occupied fiber contributes nonnegatively and each hole contributes
+$-1/K$.  If $b^+=\max\{b,1\}$, then in the monomial basis
+\begin{equation}
+ H_r(b^+)=H_r(b)+\frac zK e_0e_0^{\mathsf T}.          \label{eq:fill-one}
+\end{equation}
+Thus filling a unique hole changes the localizing matrix at every order by
+operator norm exactly $1/K$.  For the displayed $C_{14}$ witness, division by
+$q(0)=-96616893476711475$ gives the exact normalized form
 \[
- \sum_j(-1)^j\binom{D+1}{j}j^r=0\qquad(0\le r\le D).
+ -\frac{36795384082687448302747606657}
+ {4816759830492505652837357886720000}
+ =-7.6390\ldots\,10^{-6}.
 \]
-Thus generic moments through degree $N-1$ cannot decide vacancy on
-$2^{N-1}$ fibers.  This abstract obstruction need not be realizable by
-signing shells, but it shows that the missing estimate must exploit the
-factorization \eqref{eq:labeled-shell-factorization} at degree growing with
-$N$.  Indeed, the character matrix
-$\mathcal H_{\chi,\psi}=\widehat b(\chi\psi)$ has eigenvalues $b(g)$ and is
-positive semidefinite.  If there is exactly one zero and all positive values are at
-least $m$, Cauchy--Schwarz shows that a negative witness for
-$\mathcal H-I$ supported on $q$ characters must satisfy
-$q>|G|(m-1)/m$: writing $p(g)=\sum_\chi c_\chi\chi(g)$, negativity gives
-$(m-1)|G|\|c\|_2^2<m|p(g_0)|^2\le mq\|c\|_2^2$.
-For the calibrated $C_{14}$ shell, $m=6$, so this requires
-at least 6827 of 8192 character labels.  Fixed-order mixed traces and sparse
-Fourier support are therefore insufficient generic substitutes.
+This uses only $0.06257\ldots$ of the maximum possible one-hole margin
+$1/8192$.  Consequently an absolute inverse-polynomial approximation to
+normalized moments cannot robustly certify an isolated good gauge.
+
+The degree obstruction is also much stronger than a fixed-order example.
+
+\begin{proposition}[Universal occupancy-moment obstruction]
+\label{prop:occupancy-moment-obstruction}
+Let $K\ge1$.  If
+\begin{equation}
+ (K+1)^{k(k+1)/2}<2^{K+1},                            \label{eq:box-moment-condition}
+\end{equation}
+then there are two multisets of cardinality $K$ in
+$\{0,1,\ldots,K\}$, one containing exactly one zero and the other containing
+none, whose power sums agree through degree $k-1$.
+\end{proposition}
+
+\begin{proof}
+Consider the $2^{K+1}$ polynomials
+$P(X)=\sum_{i=0}^Ka_iX^i$ with $a_i\in\{0,1\}$.  The $j$th derivative at one
+has at most
+\[
+ j!\binom{K+1}{j+1}+1
+\]
+possible integer values.  Hence two derivative vectors through order $k-1$
+collide whenever the product of these quantities is less than $2^{K+1}$.
+For $k\ge2$, the $j=0,1$ factors together are at most $(K+1)^3$, and every
+later factor is at most $(K+1)^{j+1}$; this proves that
+\eqref{eq:box-moment-condition} suffices.  The case $k=1$ is immediate.
+
+The nonzero difference $R=P_1-P_2$ has coefficients in $\{-1,0,1\}$ and is
+divisible by $(X-1)^k$.  Divide by its first nonzero monomial and change its
+sign so that the constant coefficient is one.  Write the resulting polynomial
+as $\sum_{u\in U}X^u-\sum_{v\in V}X^v$.  Then $0\in U$, $0\notin V$, and the
+zeroth derivative identity gives $|U|=|V|=:r\le K$.  The remaining derivative
+identities equate the falling-factorial sums through degree $k-1$, hence the
+ordinary power sums through that degree.  Adding $K-r$ copies of the positive
+value $K$ to each side gives the required multisets.
+\end{proof}
+
+This is the box-principle construction underlying
+Theorem~2.7 of Borwein--Erd\'elyi--K\'os~\cite{borwein-erdelyi-kos}.
+The largest $k$ certified by \eqref{eq:box-moment-condition} satisfies
+\[
+ k=(\sqrt{2\log2}+o(1))\sqrt{K/\log K}.
+\]
+Since $K=2^{N-1}$ here, generic moment indistinguishability persists to degree
+$2^{\Omega(N)}$.  For a small exact instance,
+\[
+ (0,4,5,6,6,6),\qquad(1,2,6,6,6,6)
+\]
+have equal moments through degree two but differ at degree three.  These are
+abstract occupancy laws, not claimed realizable signing shells.
+
+There is a parallel Fourier obstruction.  Put $c=b-1$ and
+$\mathcal A_{\chi,\psi}=\widehat c(\chi\psi)$.  If there is no vacancy then
+$\mathcal A\succeq0$.  More quantitatively, suppose there are $z$ holes and
+every positive occupancy is at least $m$.  If a vector is supported on $s$
+characters, Parseval and Cauchy--Schwarz give
+\[
+ v^*\mathcal Av\ge
+ \left(m-1-\frac{mzs}{K}\right)\|v\|_2^2.
+\]
+Thus every principal submatrix on
+$s\le(m-1)K/(mz)$ characters is positive semidefinite.  For the calibrated
+$C_{14}$ shell, $z=1$ and $m=6$, so any Fourier--PSD vacancy witness requires
+at least 6827 of the 8192 characters.
+
+Finally, define the soft minimum
+\[
+ s_t(b)=-\frac1t\log\E e^{-tb},\qquad m_0=\min_gb(g).
+\]
+The contribution of a minimizer and the pointwise upper bound give
+\begin{equation}
+ m_0\le s_t(b)\le m_0+\frac{\log K}{t}.                \label{eq:soft-vacancy}
+\end{equation}
+For $t\ge\log K$, one has $m_0=0$ if and only if $s_t(b)<1$.  The scale
+$\log K$ is uniformly sharp, as the law $(0,M,\ldots,M)$ shows when
+$M\to\infty$.  With $u=1-e^{-t}$,
+\[
+ \E e^{-tb}=\sum_{j\ge0}(-u)^j\E\binom bj,
+\]
+and every odd truncation is a rigorous lower bound.  At the exact $C_{14}$
+law, with $t=\log8192$, no odd truncation through degree 85 detects the hole;
+degree 87 is first.
+
+The finite hierarchy is therefore complete but generically exponentially
+conditioned in both precision and degree.  A successful use of it must exploit
+the signing-specific factorization
+\eqref{eq:labeled-shell-factorization}, prove an abundance of good gauges, or
+obtain an exact algebraic sign; a fixed collection of mixed traces is not
+enough.
 
 The fixed-half-density reformulation also permits an exact audit of the
 rectangular block.  Let $C\subseteq U\times V$, with $|U|=n$, $|V|=k$, be
@@ -2921,6 +3015,53 @@ full spins, and exhibits both the value-44 signing and a fine-spin witness.
 This
 is a finite no-go for the uniform $4$-fold family only, not for general
 orthogonal or cloud-dependent lifts.
+
+For arbitrary cloud blocks, two exact lower bounds identify what remains.
+If a signing is partitioned into $n$ clouds of size $k$, and
+$C_{I,J}$ is the aggregate sign matrix between a nontrivial cloud partition
+$I\sqcup J=[n]$, then
+\begin{equation}
+ M(S)\ge\|C_{I,J}\|_{\infty\to1}
+ \ge\max\{|I|k\mu_{|J|k},,|J|k\mu_{|I|k}\}.          \label{eq:cloud-bipartition-floor}
+\end{equation}
+Indeed, flipping every spin in the clouds of $I$ pairs the two energies as
+$R+c$ and $R-c$, so their maximum absolute value is at least $|c|$.
+Optimize the two sides of the cross block and apply the coordinatewise
+Khintchine argument from Proposition~\ref{prop:fixed-density-cross-floor}.
+If $C_*$ is the maximum absolute cross-only energy over all fine-cloud spins,
+then also
+\begin{equation}
+ M(S)\ge C_*/2.                                       \label{eq:cloud-cross-half}
+\end{equation}
+For a fine-spin pattern attaining $C_*$, random cloud signs leave the internal
+offset fixed and turn the cross energy into a mean-zero quadratic polynomial.
+Its range is at least $C_*$, and no fixed offset can reduce the maximum
+absolute value below half the range.  These inequalities retain neither the
+simultaneous fine-spin correlations nor the cancellation with the internal
+blocks, which are the live state.
+
+The orthogonal scale benchmark is nevertheless attainable at one finite
+order.  The verifier gives an explicit fixed-half signing $S_{16}$ with four
+clouds of size four such that all six cross blocks are zero-sum Hadamard
+matrices and
+\begin{equation}
+ M(S_{16})=32,\qquad M((S_{16})_{\rm cross})=28.     \label{eq:order16-hadamard-lift}
+\end{equation}
+It checks all $2^{15}$ projective spins, obtaining 14 maximizers, and
+independently recomputes $F(4)=4$.  After a cloud reordering and
+signed-permutation gauges, the six upper cross blocks are one common
+nonsymmetric oriented Hadamard up to edge signs
+$(+,+,+,-,+,-)$.  Those six signs have Boolean maximum four.  Hence
+\eqref{eq:order16-hadamard-lift} is an exact one-step lift of an order-four
+optimizer at the lossless scale $4^{3/2}F(4)$.
+
+The four gauged internal blocks cannot simultaneously be made one common
+block, even up to sign, in any of the exhaustively enumerated common-Hadamard
+gauges.  They are tailored to this single order.  Thus the example disproves
+a blanket local orthogonal obstruction, but supplies neither a uniform map on
+arbitrary base signings nor an iteration law.  Even such a fixed-factor map
+would still require dense reachability or a compatible truncation/composition
+theorem to control all orders.
 
 \section{Conference alignment as an \texorpdfstring{$\ell_1$}{l1}-eigenspace problem}
 
@@ -3453,8 +3594,9 @@ non-heredity, the weighted covering-radius Bellman identity, the exact
 negative-replica recursion, the scalar transport no-go theorem, the exact
 conditional-alignment state, the microcanonical profile composition theorem,
 the quadratic-cumulant profile barrier, the labeled Parseval and complete
-integer-moment vacancy hierarchy, the fixed-density cross floor, the
-equal-cloud obstruction, the conference eigenspace formula,
+integer-moment vacancy hierarchy, its exponential generic degree and precision
+obstructions, the fixed-density cross floor, the equal-cloud obstruction, the
+exact one-step order-16 Hadamard lift, the conference eigenspace formula,
 the Paley Fourier-leakage identity and its least-nonresidue construction, and
 the values through order fourteen materially
 narrow the search.  They do not prove existence or nonexistence of the
@@ -3521,6 +3663,12 @@ C.~Borell,
 \emph{Positivity improving operators and hypercontractivity},
 Math. Z. \textbf{180} (1982), 225--234.
 \url{https://doi.org/10.1007/BF01318906}
+
+\bibitem{borwein-erdelyi-kos}
+P.~Borwein, T.~Erd\'elyi, and G.~K\'os,
+\emph{Littlewood-type problems on $[0,1]$},
+Proc. London Math. Soc. (3) \textbf{79} (1999), 22--46.
+\url{https://doi.org/10.1112/S0024611599011831}
 
 \bibitem{seidel-two-graphs}
 J.~J.~Seidel,

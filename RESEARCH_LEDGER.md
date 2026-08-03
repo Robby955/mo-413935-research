@@ -1909,13 +1909,30 @@ localizing quadratic form has negative numerator
 $-584163517696745929254421003286532$. Thus higher labeled moments really do
 recover the unique empty fiber missed by variance.
 
-This does not yet scale automatically. The even and odd halves of the
-$\operatorname{Bin}(D+1,1/2)$ multiplicity table have identical moments
-through degree $D$, although the even half has one zero and the odd half none.
-Consequently moments through degree $N-1$ cannot decide vacancy on an abstract
-$2^{N-1}$-point fiber space. A signing-specific degree-$O(N)$ localizing
-estimate, with controlled error after the shell factorization, is the new
-settling target.
+This does not scale automatically.  If there are $z$ empty fibers and the
+localizing polynomial is normalized by $q(0)=1$, its negative form has
+magnitude at most $z/K$.  Filling every zero by one changes every localizing
+matrix by exactly $(z/K)e_0e_0^{\mathsf T}$.  The exact normalized $C_{14}$
+margin is only $7.6390\ldots\,10^{-6}$, below the already exponential scale
+$1/K=1/8192$.  Polynomial-accuracy normalized moments cannot robustly recover
+this sign.
+
+A box-principle collision makes the degree obstruction exponential as well.
+Whenever $(K+1)^{k(k+1)/2}<2^{K+1}$, two $K$-point multisets in
+$\{0,\ldots,K\}$, one vacant and one nonvacant, can be constructed with equal
+moments through degree $k-1$.  Here
+$k=\Omega(\sqrt{K/\log K})$, which is $2^{\Omega(N)}$ for
+$K=2^{N-1}$.  This adapts the restricted-coefficient polynomial construction
+of Borwein--Erd\'elyi--K\'os and remains an abstract, not signing-realizable,
+obstruction.
+
+The other generic hierarchies are equally sharp at this calibration.  A
+Fourier--PSD vacancy witness needs at least 6827 of 8192 characters, the soft
+minimum needs occupancy inverse temperature $\log K=\Theta(N)$, and its exact
+alternating collision expansion first sees the $C_{14}$ hole at degree 87.
+Thus the new settling target is not merely a degree-$O(N)$ moment estimate. It
+must use exact signing-specific shell factorization, prove many good gauges,
+or derive an exact algebraic sign.
 
 ### Exact half-density does not remove the rectangular floor
 
@@ -1972,3 +1989,17 @@ order-four signing $D$ satisfy
 whereas lossless four-fold scaling would give 32. Equality 44 is attained.
 This exhausts only the common-$H$, common-$D$ family and leaves nonuniform
 orthogonal block designs open.
+
+That opening is real at one finite order.  An explicit fixed-half order-16
+signing with six zero-sum order-four Hadamard cross blocks has
+
+\[
+ M(S)=32,\qquad M(S_{\rm cross})=28.
+\]
+
+After a cloud reordering and signed-permutation gauges, the six cross blocks
+share one nonsymmetric oriented Hadamard and their edge signs form an
+order-four optimizer.  Thus $M(S)=4^{3/2}F(4)$ is an exact one-step lift at the
+lossless scale.  The four internal blocks are different and tailored to this
+single construction; no uniform map on arbitrary base signings, iteration
+law, or dense set of reachable orders follows.
