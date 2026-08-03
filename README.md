@@ -175,6 +175,17 @@ The repository now goes substantially beyond those baseline results:
   using a common nonsymmetric oriented Hadamard and four tailored internal
   blocks. It is therefore finite feasibility evidence, not a uniform or
   iterable amplification operator.
+- A sharper framed construction uses one pinned nonsymmetric Hadamard cross
+  block, the same base signs, and alternating order-four internal types. It
+  has exact maximum 30, proving `F(16) <= 30`. A six-state pencil argument
+  proves that 30 is also the minimum over all choices of the four internal
+  signings within this fixed cross frame. The two attaining internal types
+  are switching-permutation equivalent and both have maximum four, but their
+  framed response vectors differ. Repeating one literal internal block has
+  minimum 38. Thus ordinary switching class is not a closed substitution
+  state; orientation relative to the cross frame is essential. This remains
+  a finite restricted-family theorem, not an exact value of `F(16)` or an
+  amplification law.
 - For every odd prime power `m`, the square-order Paley conference matrix of
   order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
   This is the known regular-conference construction, not a new result and not
@@ -308,6 +319,7 @@ python3 verification/verify_labeled_shell_moment_certificate.py
 python3 verification/verify_fixed_density_cross_floor.py
 python3 verification/verify_equal_cloud_blowup.py
 python3 verification/verify_cut_discrepancy_equivalence.py
+python3 verification/verify_framed_hadamard_lift_30.py
 python3 verification/research_order13_certify.py
 ```
 
@@ -327,6 +339,17 @@ cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
   verification/verify_hadamard_cloud_lift.c \
   -o /tmp/verify_hadamard_cloud_lift
 /tmp/verify_hadamard_cloud_lift
+```
+
+The framed order-16 maximum-30 check has independent Python and strict-C
+implementations:
+
+```bash
+python3 verification/verify_framed_hadamard_lift_30.py
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/verify_framed_hadamard_lift_30.c \
+  -o /tmp/verify_framed_hadamard_lift_30
+/tmp/verify_framed_hadamard_lift_30
 ```
 
 The exact cross-block research check requires nauty `geng`, NetworkX, and

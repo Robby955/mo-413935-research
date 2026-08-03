@@ -2003,3 +2003,67 @@ order-four optimizer.  Thus $M(S)=4^{3/2}F(4)$ is an exact one-step lift at the
 lossless scale.  The four internal blocks are different and tailored to this
 single construction; no uniform map on arbitrary base signings, iteration
 law, or dense set of reachable orders follows.
+
+## 28. A sharper framed Hadamard lift and the orientation state
+
+Fix
+
+\[
+ H=\begin{pmatrix}
+ 1&1&1&1\\ 1&1&-1&-1\\ 1&-1&1&-1\\ -1&1&1&-1
+ \end{pmatrix}
+\]
+
+and put the six cloud-edge signs, in order
+$01,02,03,12,13,23$, equal to $(+,+,+,-,+,-)$. For arbitrary order-four
+internal signings $D_0,\ldots,D_3$, use $a_{ij}H$ in upper cross block $ij$
+and its transpose below the diagonal. The minimum maximum over all four
+internal blocks is exactly 30.
+
+The lower bound is a six-state certificate. Write
+$u_0=(1,1,1,1)$, $u_2=(1,1,-1,1)$, and
+$u_3=(1,1,-1,-1)$. Pairing three cross-energy $+28$ states with three
+cross-energy $-28$ states cancels the projective states of clouds 0, 2, and
+3 and gives, under the assumption that the full maximum is at most 28,
+
+\[
+ q_{D_1}(u_0)\le q_{D_1}(u_3)\le q_{D_1}(u_2)
+ \le q_{D_1}(u_0).
+\]
+
+All three values would be equal. But, with internal edge signs $d_{ij}$,
+
+\[
+ q_{D_1}(u_0)-q_{D_1}(u_2)
+ =2(d_{13}+d_{23}+d_{34})\ne0,
+\]
+
+because a sum of three signs cannot vanish. Thus 28 is impossible; parity
+excludes 29. The alternating internal edge patterns
+
+\[
+ P=(1,1,1,-1,1,-1),\qquad
+ R=(-1,-1,1,1,1,-1)
+\]
+
+give maximum 30, proving in particular
+
+\[
+ \boxed{F(16)\le30.}
+\]
+
+Both $P$ and $R$ have maximum four, and a permutation followed by switching
+makes them equivalent as unframed signings. Their framed response vectors in
+the fixed order of the eight projective four-spins are nevertheless
+
+\[
+ (2,0,4,-2,0,2,-2,-4),\qquad
+ (0,-2,2,-4,-2,0,4,2).
+\]
+
+Exact exhaustion of the 64 literal common internal blocks gives minimum 38,
+whereas the alternating pattern $(P,R,P,R)$ gives 30. Thus neither the
+internal maximum nor the ordinary switching class is a closed substitution
+state. A finite type for this lift must retain orientation relative to $H$,
+at least through its framed response vector. This is not an exact evaluation
+of $F(16)$ and gives no iterable amplification theorem.

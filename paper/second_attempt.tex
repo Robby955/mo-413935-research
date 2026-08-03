@@ -111,9 +111,13 @@ polynomial collision produces abstract vacant and nonvacant laws agreeing
 through $2^{\Omega(N)}$ moments, closing a generic low-moment shortcut.
 Exact fixed-density and equal-cloud estimates also close separate cross-norm
 control and ordinary complete/empty blow-up repair, but leave joint labeled
-cancellation open.  Conversely, an exact fixed-half $4$-to-$16$ Hadamard lift
-attains the lossless scale $32=4^{3/2}F(4)$ by using tailored internal block
-types; it is a finite feasibility result, not an iterable amplification law.
+cancellation open.  An exact fixed-half $4$-to-$16$ Hadamard lift attains the
+lossless scale 32. A sharper completion of one common oriented-Hadamard frame
+has maximum 30, proving $F(16)\le30$. A six-state argument proves that 30 is
+optimal within that fixed frame. The attaining internal blocks are equivalent
+as unframed signings but have different framed response vectors, so ordinary
+switching class is not a closed substitution state. These are finite
+feasibility results, not an iterable amplification law.
 We also record the known
 regular Paley construction: square-order Paley conference matrices have
 Boolean eigenvectors attaining their spectral ceiling, a statement about
@@ -3063,6 +3067,91 @@ arbitrary base signings nor an iteration law.  Even such a fixed-factor map
 would still require dense reachability or a compatible truncation/composition
 theorem to control all orders.
 
+The same oriented cross frame admits a sharper completion and a short exact
+lower certificate.
+
+\begin{theorem}[Sharp completion of a fixed oriented Hadamard frame]
+\label{thm:framed-hadamard-30}
+Let
+\[
+ H=\begin{pmatrix}
+ 1&1&1&1\\ 1&1&-1&-1\\ 1&-1&1&-1\\ -1&1&1&-1
+ \end{pmatrix},
+ \qquad (a_{01},a_{02},a_{03},a_{12},a_{13},a_{23})
+ =(1,1,1,-1,1,-1).
+\]
+For arbitrary symmetric zero-diagonal order-four signings
+$D_0,D_1,D_2,D_3$, let $L(D_0,D_1,D_2,D_3)$ have diagonal blocks $D_i$,
+upper cross block $ij$ equal to $a_{ij}H$, and transpose blocks below the
+diagonal. Then
+\[
+ \min_{D_0,D_1,D_2,D_3}M(L(D_0,D_1,D_2,D_3))=30.
+\]
+In particular,
+\begin{equation}
+ \boxed{F(16)\le30.}                                  \label{eq:F16-upper}
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Put
+\[
+ u_0=(1,1,1,1),\quad u_1=(1,1,1,-1),\quad
+ u_2=(1,1,-1,1),\quad u_3=(1,1,-1,-1).
+\]
+Direct multiplication gives the following six cross-only energies:
+\[
+\begin{array}{c|c|c}
+ & (x_0,x_1,x_2,x_3)&Q_{\rm cross}\\ \hline
+1+&(u_0,u_0,-u_0,u_1)&28\\
+1-&(u_0,-u_3,-u_0,-u_1)&-28\\
+2+&(u_3,u_3,-u_3,u_2)&28\\
+2-&(u_3,-u_2,-u_3,-u_2)&-28\\
+3+&(u_3,u_2,-u_3,u_2)&28\\
+3-&(u_3,-u_0,-u_3,-u_2)&-28.
+\end{array}
+\]
+The two states in each pair have equal projective spins on clouds 0, 2,
+and 3, so their three internal contributions agree. If the full maximum were
+at most 28, comparison of each $+28$ row with the paired $-28$ row would give
+\[
+ q_{D_1}(u_0)\le q_{D_1}(u_3)\le q_{D_1}(u_2)
+ \le q_{D_1}(u_0).
+\]
+Thus the three values would be equal. But
+\[
+ q_{D_1}(u_0)-q_{D_1}(u_2)
+ =2(d_{13}+d_{23}+d_{34})\ne0,
+\]
+because the sum of three signs cannot vanish. Hence 28 is impossible, and
+order-16 parity makes the restricted lower bound 30.
+
+For attainment, in edge order $01,02,03,12,13,23$, take
+\[
+ P=(1,1,1,-1,1,-1),\qquad
+ R=(-1,-1,1,1,1,-1)
+\]
+and $(D_0,D_1,D_2,D_3)=(P,R,P,R)$. Independent direct and blockwise
+evaluation of all $2^{15}$ projective spins gives maximum 30.
+\end{proof}
+
+Both $P$ and $R$ have maximum four. The zero-based permutation
+$(1,0,3,2)$ followed by switching $(1,-1,-1,-1)$ sends $P$ to $R$, so they
+are equivalent as unframed signings. Their framed response vectors are
+nevertheless
+\[
+ (2,0,4,-2,0,2,-2,-4),\qquad
+ (0,-2,2,-4,-2,0,4,2).
+\]
+Exhaustion of the 64 literal common internal blocks gives
+\[
+ \min_D M(L(D,D,D,D))=38.
+\]
+Thus orientation relative to the cross frame is essential: the internal
+maximum and ordinary switching class are not closed substitution states. The
+theorem is restricted to this frame and neither proves $F(16)=30$ nor gives
+an iterable lift.
+
 \section{Conference alignment as an \texorpdfstring{$\ell_1$}{l1}-eigenspace problem}
 
 For every symmetric conference matrix, Boolean spectral alignment has an
@@ -3596,7 +3685,8 @@ conditional-alignment state, the microcanonical profile composition theorem,
 the quadratic-cumulant profile barrier, the labeled Parseval and complete
 integer-moment vacancy hierarchy, its exponential generic degree and precision
 obstructions, the fixed-density cross floor, the equal-cloud obstruction, the
-exact one-step order-16 Hadamard lift, the conference eigenspace formula,
+exact order-16 Hadamard lifts including $F(16)\le30$, the conference
+eigenspace formula,
 the Paley Fourier-leakage identity and its least-nonresidue construction, and
 the values through order fourteen materially
 narrow the search.  They do not prove existence or nonexistence of the

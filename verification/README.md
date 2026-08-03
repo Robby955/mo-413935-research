@@ -478,6 +478,70 @@ tailored internal blocks, two of them deliberately nonoptimal. It is not a
 uniform or iterable amplification theorem. The stored-orientation template
 profile is only a coordinate-level diagnostic.
 
+`verify_framed_hadamard_lift_30.py` checks the sharper completion of that
+common oriented frame:
+
+```bash
+python3 verification/verify_framed_hadamard_lift_30.py
+```
+
+Expected output:
+
+```text
+order=16
+cross_frame=common_oriented_H4
+base_signs=+,+,+,-,+,-
+internal_pattern=P,R,P,R
+internal_maxima=4,4,4,4
+P_R_switching_permutation_equivalent=TRUE
+projective_spins_checked=32768
+cross_only_maximum=28
+lift_maximum=30
+projective_maximizers=38
+full_maximizers=76
+matrix_sha256=352392c57458568ddbf2920d4cb487f67d21fb491ab8c75c6862e9c7fc6a9181
+energy_histogram_sha256=875e4f931630501ec7730abad70df7ab029602f7a48b4b10d56df9de1e319388
+six_state_obstruction_cycle=0->3->2->0
+fixed_H_arbitrary_internal_minimum=30
+common_literal_internal_minimum=38
+common_literal_internal_profile=M38:6,M40:18,M42:32,M46:8
+corruption_controls=hadamard_entry,transpose,six_state_pair
+framed_hadamard_lift_30_verification=PASSED
+```
+
+The upper bound is an admissible order-16 signing evaluated independently by
+direct and blockwise formulas. The fixed-frame lower bound is a separate
+six-state certificate: maximum at most 28 would force a directed cycle of
+three framed response inequalities, hence equality of response values whose
+difference is twice a sum of three signs. The script also recomputes `F(4)`,
+checks the switching-permutation equivalence of the two internal blocks,
+exhausts the 64 literal common-internal completions, pins the full energy
+histogram, and exercises deterministic corruption controls. This proves
+`F(16) <= 30` and the fixed-frame minimum 30; it does not prove `F(16) = 30`.
+
+An independent strict-C reconstruction checks the same matrix, complete
+histogram, six-state obstruction, and common-internal profile:
+
+```bash
+cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
+  verification/verify_framed_hadamard_lift_30.c \
+  -o /tmp/verify_framed_hadamard_lift_30
+/tmp/verify_framed_hadamard_lift_30
+```
+
+Expected output:
+
+```text
+projective_spins_checked=32768
+direct_block_histogram_match=TRUE
+lift_maximum=30
+projective_maximizers=38
+cross_only_maximum=28
+six_state_obstruction=PASSED
+common_literal_internal_minimum=38
+strict_c_framed_hadamard_lift_30_verification=PASSED
+```
+
 The new exact identity checker also needs only the standard library:
 
 ```bash

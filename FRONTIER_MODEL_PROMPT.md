@@ -1556,10 +1556,13 @@ Do not simply repeat any of the following:
     repair changes this only by $O(N)$.  Orthogonal blocks evade that specific
     quotient bound, but the uniform order-four symmetric-Hadamard test already
     has sharp maximum 44 rather than the lossless value 32.
-34. Inferring an iterable amplification theorem from the exact order-16
-    Hadamard lift.  That signing has $M=32=4^{3/2}F(4)$, but it uses four
-    tailored internal blocks with maxima $6,6,4,4$.  No uniform map, iteration
-    law, or dense reachability statement is known.
+34. Inferring an iterable amplification theorem from either exact order-16
+    Hadamard lift.  The first has $M=32=4^{3/2}F(4)$. A sharper fixed-frame
+    completion has $M=30$ and proves $F(16)\le30$, but only at one order.
+    Its alternating internal types are switching-permutation equivalent and
+    both have maximum four, while repeating one literal type has minimum 38.
+    Ordinary switching class is therefore not a closed substitution state.
+    No uniform map, iteration law, or dense reachability statement is known.
 
 A route using one of these ideas is valid only if it supplies a genuinely new
 mechanism that removes the displayed leading error.
@@ -1717,6 +1720,25 @@ try a Pareto/substitution recursion for the internal block types.  Do not
 claim iteration until the type system closes with summable normalized error.
 Even then, supply dense reachability or a compatible truncation/composition
 argument; one fixed geometric subsequence does not force the full limit.
+
+A sharper construction pins
+
+\[
+H=\begin{pmatrix}
+1&1&1&1\\1&1&-1&-1\\1&-1&1&-1\\-1&1&1&-1
+\end{pmatrix}
+\]
+
+on every upper cross block, with base signs $(+,+,+,-,+,-)$, and alternates
+two order-four internal types $P,R$. It has exact maximum 30, so
+$F(16)\le30$. A six-state proof shows 30 is the minimum over all four internal
+completions in that fixed frame. Both $P,R$ have maximum four and are
+switching-permutation equivalent, but their eight-entry framed response
+vectors differ; the common-literal-internal subfamily has minimum 38. The
+next legitimate finite-type question is therefore whether a bounded or
+controlled family of framed response vectors closes under substitution with
+a summable defect. A recursion using only $M(D)$, spectrum, or unframed
+switching class is already falsified at this first step.
 
 A particularly sharp scalar target is to prove, for some $\delta>0$,
 

@@ -5036,3 +5036,101 @@ up to sign.  The construction therefore proves local feasibility only.  It
 does not give a uniform operator on arbitrary base signings, an iteration
 law, or the dense reachability/truncation theorem additionally needed to force
 convergence.
+
+### Theorem 45 (sharp completion of one oriented Hadamard frame)
+
+Let
+
+\[
+ H=\begin{pmatrix}
+ 1&1&1&1\\ 1&1&-1&-1\\ 1&-1&1&-1\\ -1&1&1&-1
+ \end{pmatrix},
+ \qquad (a_{01},a_{02},a_{03},a_{12},a_{13},a_{23})
+ =(1,1,1,-1,1,-1).
+\]
+
+For arbitrary symmetric zero-diagonal order-four signings
+$D_0,D_1,D_2,D_3$, form the order-16 signing $L(D_0,D_1,D_2,D_3)$ with
+diagonal blocks $D_i$, upper cross block $ij$ equal to $a_{ij}H$, and the
+transpose block below the diagonal. Then
+
+\[
+ \boxed{\min_{D_0,D_1,D_2,D_3}M(L(D_0,D_1,D_2,D_3))=30.}       \tag{45.1}
+\]
+
+Consequently $F(16)\le30$.
+
+**Proof.** Put
+
+\[
+ u_0=(1,1,1,1),\quad u_1=(1,1,1,-1),\quad
+ u_2=(1,1,-1,1),\quad u_3=(1,1,-1,-1).
+\]
+
+The following table lists three pairs of four-cloud spin states. Direct
+multiplication by $H$ gives the displayed cross-only energies.
+
+\[
+\begin{array}{c|c|c}
+ & (x_0,x_1,x_2,x_3)&Q_{\rm cross}\\ \hline
+1+&(u_0,u_0,-u_0,u_1)&28\\
+1-&(u_0,-u_3,-u_0,-u_1)&-28\\
+2+&(u_3,u_3,-u_3,u_2)&28\\
+2-&(u_3,-u_2,-u_3,-u_2)&-28\\
+3+&(u_3,u_2,-u_3,u_2)&28\\
+3-&(u_3,-u_0,-u_3,-u_2)&-28
+\end{array}                                                    \tag{45.2}
+\]
+
+The two rows in each pair have the same projective spin on clouds 0, 2,
+and 3. Since a quadratic internal energy is unchanged by negating its entire
+cloud spin, those three internal contributions cancel in the comparison.
+If the full maximum were at most 28, a row with cross energy 28 would force
+the sum of its internal energies to be nonpositive, while a row with cross
+energy $-28$ would force that sum to be nonnegative. The three pairs therefore
+give
+
+\[
+ q_{D_1}(u_0)\le q_{D_1}(u_3),\qquad
+ q_{D_1}(u_3)\le q_{D_1}(u_2),\qquad
+ q_{D_1}(u_2)\le q_{D_1}(u_0).
+\]
+
+All three values would be equal. If the six upper-triangular entries of
+$D_1$ are denoted by $d_{ij}$, then
+
+\[
+ q_{D_1}(u_0)-q_{D_1}(u_2)
+ =2(d_{13}+d_{23}+d_{34}),
+\]
+
+which is nonzero because it is twice a sum of three signs. Hence maximum 28
+is impossible. Every order-16 energy is even. Thus the restricted minimum is
+at least 30.
+
+For the reverse inequality, in edge order $01,02,03,12,13,23$ put
+
+\[
+ P=(1,1,1,-1,1,-1),\qquad
+ R=(-1,-1,1,1,1,-1),
+\]
+
+and take $(D_0,D_1,D_2,D_3)=(P,R,P,R)$. Direct and blockwise exhaustion of
+all $2^{15}$ projective spins gives maximum 30. This proves (45.1). $\square$
+
+Both $P$ and $R$ have maximum $4=F(4)$. They are switching-permutation
+equivalent: in zero-based coordinates, the permutation $(1,0,3,2)$ followed
+by switching $(1,-1,-1,-1)$ sends $P$ to $R$. Yet their ordered framed
+response vectors are
+
+\[
+ \mathcal V_H(P)=(2,0,4,-2,0,2,-2,-4),\qquad
+ \mathcal V_H(R)=(0,-2,2,-4,-2,0,4,2).
+\]
+
+Exhausting the 64 literal choices in the common-internal subfamily
+$D_0=D_1=D_2=D_3=D$ gives minimum 38. Therefore the internal maximum and
+ordinary switching class do not close the substitution state: the orientation
+of an internal block relative to the common cross frame matters by eight
+energy units in this first step. The theorem is restricted to the pinned
+frame and does not prove $F(16)=30$ or an iterable lift.
