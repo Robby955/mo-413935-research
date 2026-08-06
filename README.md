@@ -3,398 +3,185 @@
 Research notes, exact computations, and reproducible verification for Paata
 Ivanisvili's [MathOverflow question](https://mathoverflow.net/questions/413935/min-max-of-a-quadratic-form-of-plus-minus-ones).
 
-## Current frontier
-
-The question asks whether `F(n) / n^(3/2)` converges. The limit remains open,
-with the following audited bounds and identities:
+For a symmetric zero-diagonal sign matrix `A`, define
 
 ```text
-1/π ≤ liminf F(n)/n^(3/2) ≤ limsup F(n)/n^(3/2) ≤ 1/2
-F(n) = choose(n, 2) - 2ρ(D_n)
-F(n) ≤ F(n + 1) ≤ F(n) + n
+Q_A(x) = sum_{1 <= i < j <= n} a_ij x_i x_j,
+M(A)   = max_{x in {+-1}^n} |Q_A(x)|,
+F(n)   = min_A M(A).
 ```
 
-The repository now goes substantially beyond those baseline results:
+The question is whether `F(n) / n^(3/2)` converges. The limit remains open.
 
-- The direct coupling-cube relaxation has the unique optimizer zero and a
-  leading-order integrality gap. It cannot be rounded into a solution.
-- The adversarial elliptope relaxation has the exact normalized limit `1/2`.
-- The augmented cut code is linear. Its dual consists of even-cardinality
-  Eulerian subgraphs, producing an exact signed MacWilliams formula.
-- Ordinary graphon and empirical spectral limits provably erase the relevant
-  `n^(3/2)` information.
-- Up to an explicit additive `O(n)` error, the minimax problem is exactly the
-  minimum density-`1/2` cut discrepancy of a graph with
-  `floor(choose(n,2)/2)` edges, as close to half as parity permits. If `H(n)`
-  denotes that graph parameter, then
-  `-1 <= 4H(n) - F(n) <= sqrt(choose(n,2)) + 2`. Known dense cut-discrepancy
-  bounds recover the correct scale but neither a sharp constant nor a relation
-  between different orders.
-- Exact finite computation gives
-  `F(2), ..., F(14) = 1, 3, 4, 4, 5, 9, 10, 12, 13, 17, 18, 20, 21`.
-  The order-11 lower certificate scans all 12,005,168 unlabeled residual
-  graphs and exactly filters 2,153,606 eligible classes for cut evaluation.
-  Direct generation of that reduced stream reproduces the zero-survivor result
-  with the same evaluator.
-  This is a computer-assisted theorem whose completeness trusts nauty. The
-  order-12 upper bound is an explicit signing; its lower bound follows from
-  order 11 by puncturing and parity.
-- The order-13 lower certificate hashes and scans all 1,018,997,864 unlabeled
-  residual graphs on eleven vertices in eight fail-closed nauty shards. Exactly
-  two rooted records survive the order-12 threshold; direct enumeration gives
-  maximum 18 and one-vertex extension minimum 24 for both. All other records
-  have maximum at least 20. A principal submatrix of the order-14 Paley matrix
-  supplies the matching upper bound, and parity then gives `F(14) = 21`.
-  Completeness has the same explicit nauty trust boundary as the order-11
-  certificate. This also makes the order-14 conference matrix optimal, but
-  the certificate alone does not establish uniqueness.
-- Exact hereditary cavity inequalities strengthen the induced-submatrix lower
-  bounds through Walsh orthogonality and block pairing. Their universal gains
-  are subleading, so they do not settle convergence.
-- Retaining the nonlinear term in the Gaussian arcsine argument gives an
-  exact trace-four bound. A parity theorem for its Gram defect gives the new
-  finite consequences `F(20) ≥ 30` and `F(21) ≥ 32`. Optimizing the full
-  one-parameter certificate still has universal asymptotic constant exactly
-  `1/π`, so this entire Gaussian mechanism cannot settle convergence by
-  itself.
-- Exact obstruction results rule out several natural composition mechanisms,
-  including edge-separable saturation, near-saturated cross blocks,
-  bounded-rank local lifts, and canonical Seidel/Kronecker amplification.
-- Complete cross-block optimization exposes finite non-heredity. No optimal
-  order-10 signing contains an optimal order-8 principal submatrix: completing
-  optimal blocks of sizes 2 and 8 forces maximum 15, although `F(10) = 13`.
-  Allowing the order-8 block maximum to rise from 10 to 12 is necessary and
-  sufficient to recover 13.
-- One-vertex extension has an exact energy-weighted projective
-  covering-radius formula and Bellman identity. The ordinary covering radius
-  of the exact maximizers explains every order-9 and order-10 extension class,
-  while two order-7 classes prove that lower energy layers cannot generally be
-  discarded. Complete Bellman Pareto frontiers through residual order 8 show
-  exact trades between internal energy and covering deficit.
-- Two optimal order-9 classes have the same complete absolute-energy
-  histogram, hence identical scalar partition functions at every temperature,
-  but extension values 13 and 15. Scalar free energy alone is therefore not a
-  closed cavity state.
-- The one-vertex Bellman identity extends exactly to arbitrary two-block
-  composition as a weighted covering radius of the projective rank-one code.
-  The associated weighted union bound is now proved incapable of reaching
-  the required composition constant. Retaining the switching-orbit
-  dependence gives an exact weighted sumset noncoverage formulation instead.
-- A complete pass over all 12,346 root-normalized order-9 signings gives the
-  full Bellman frontier `{(12, 0)}`. A stronger collision proves that the
-  energy histogram plus the pair-distance law of exact maximizers still does
-  not determine extension. The complete energy-coloured two-point law does
-  separate all deficits at order 9, a finite result only.
-- The complete order-10 catalogue has an exact three-phase finite-temperature
-  minimizer: a conference signing at high temperature, an intermediate
-  non-ground-state signing, and an `F(10)=13` signing at low temperature.
-  Thus the adversarial optimizer genuinely changes with temperature.
-- The annealed-normalized negative replica is exactly supermultiplicative at
-  fixed exponent and temperature. Boolean reverse hypercontractivity follows
-  the parameter curve needed by block composition, but the proposed
-  power-saving reverse comparison is false: at
-  `(beta, theta) = (4, 8)` its defect has rigorous liminf at least
-  `sqrt(2) - 2 log(2) = 0.027919...` after division by `n^2`.
-- The transport defect has an exact entropy-production integral and a
-  quantitative stability remainder. The full block law instead factors
-  through a conditional relative-switching alignment term. Its
-  zero-temperature slope is exactly
-  `F(n) + F(k) + B_square(n,k) - F(n+k)`, so it is provably a leading-order
-  state, not an entropy correction that can be dropped.
-- The first alignment Hamiltonian is an explicit mixed four-cycle trace.
-  Exact `2 + 4` examples have identical graph and rectangular scalar
-  partition curves but different conditional alignment moments. Thus even all
-  three local scalar free-energy curves do not close the composition state.
-  The exceptional twofold gauge redundancy at block size 2 is explicitly
-  accounted for in the verifier.
-- The relative-gauge law is an exact convolution of three local Gibbs laws.
-  At zero temperature this yields a deterministic microcanonical composition
-  theorem: the `2^(n+k-1)`-st smallest sum of the three local energy deficits
-  is a guaranteed composition gain. This guarantee is optimal if the additive
-  labels are discarded. It replaces optimizer-count heuristics by a precise
-  near-maximal-profile large-deviation target and has no known analogue of the
-  failed weighted union bound's universal leading floor.
-- The equivalent scalar cumulant criterion is exact, but every centered
-  quadratic or Gaussian cumulant majorant has normalized certificate floor
-  `sqrt(log(2)/2) = 0.588705...`, above the global upper constant `1/2`.
-  Ordinary degree-two hypercontractivity gives only
-  `exp(-Theta(sqrt(n)))` tails where the theorem needs `exp(-Theta(n))`.
-  These close those shortcuts, not the full microcanonical profile.
-- Exact calibration over every balanced split of four stored optimal
-  witnesses at orders 12 through 14 finds scalar-to-true composition bonuses
-  of `6..8`, `8..10`, and `10..12`. The scalar profile misses the exact
-  near-subadditive target in every tested split, but by only an `O(n)`-sized
-  energy excess. This is finite evidence and does not close the scalar route.
-- The scalar profile has a strict labeled Fourier refinement. If `b(g)` is
-  the number of subthreshold triples in gauge fiber `g`, its nonconstant
-  Fourier mass bounds `min b(g)`. This certifies two extra energy units in the
-  exact `2+4` collision. At the tested `C14` target, the generic variance bound
-  is too weak even though the full labeled occupancy has empty fibers; a
-  higher-moment or low-tail theorem is needed.
-- That higher-moment mechanism is now explicit. A degree-19 integer polynomial
-  in the labeled occupancy certifies the unique empty fiber in the balanced
-  `C14` target shell. But the normalized sign has magnitude only
-  `7.64e-6`: filling one hole changes every localizing matrix by exactly
-  `1/8192`. The negative-moment test needs occupancy inverse temperature
-  `Theta(N)`, its collision expansion first certifies this hole at degree 87,
-  and any Fourier-PSD witness needs at least 6827 of 8192 characters.
-- A box-principle construction gives a stronger universal obstruction. On
-  `K=2^(N-1)` abstract fibers, a vacant and a nonvacant occupancy law can have
-  identical moments through degree `Omega(sqrt(K/log K))`, exponential in
-  `N`. These laws are not claimed realizable by signing shells. The remaining
-  route must use exact shell labels, prove many good gauges, or obtain an exact
-  character-sum sign; generic low moments and polynomial-precision estimates
-  are closed.
-- A second scalar convention, using projective `|Q|` graph states and signed
-  full-spin cross states, also has equal relative-gauge fibers. Its fiber
-  maximum only dominates the full signing maximum, so it gives a valid
-  one-sided order-statistic bound but not the exact max-plus identity. The two
-  conventions are verified and reported separately.
-- The raw alternate statistic has a universal balanced floor. It cannot prove
-  power-saving composition unless `liminf F(n)/n^(3/2) >= 0.436377...`.
-  This is compatible with the current `1/2` hypothesis, so it is a conditional
-  obstruction, not closure. The canonical exponential relaxations of the
-  alternate and exact profiles differ by only `O(sqrt(n))` when their
-  independent ceiling is `O(n^(3/2))`; the raw exact augmented order statistic
-  remains outside this no-go.
-- Exact half-density balancing changes the optimum rectangular cross norm by
-  only `O(sqrt(nk))`, but a leading `max(n mu_k, k mu_n)` cross floor remains.
-  Thus fixed density does not repair composition arguments that control the
-  cross block separately; only dependence-sensitive cancellation can.
-- Complete/empty equal-cloud blow-ups retain exactly the base cut deviation
-  multiplied by `k^2` on cloud-union cuts, and `O(N)` fixed-density repair does
-  not remove the resulting `sqrt(k)` normalized loss. Orthogonal blocks evade
-  that quotient argument, but an exhaustive common `4 x 4` symmetric-Hadamard
-  lift of the order-five optimum still has maximum at least 44, versus the
-  lossless target 32. This is a finite family obstruction, not a general
-  Hadamard no-go.
-- Conversely, an explicit fixed-half order-16 signing assembled from six
-  zero-sum `4 x 4` Hadamard cross blocks has exact maximum 32, the lossless
-  factor-four scale benchmark from `F(4)=4`; its cross-only maximum is 28.
-  After cloud reordering it is an exact one-step lift of an `F(4)` optimizer
-  using a common nonsymmetric oriented Hadamard and four tailored internal
-  blocks. It is therefore finite feasibility evidence, not a uniform or
-  iterable amplification operator.
-- A sharper framed construction uses one pinned nonsymmetric Hadamard cross
-  block, the same base signs, and alternating order-four internal types. It
-  has exact maximum 30, proving `F(16) <= 30`. A six-state pencil argument
-  proves that 30 is also the minimum over all choices of the four internal
-  signings within this fixed cross frame. The two attaining internal types
-  are switching-permutation equivalent and both have maximum four, but their
-  framed response vectors differ. Repeating one literal internal block has
-  minimum 38. Thus ordinary switching class is not a closed substitution
-  state; orientation relative to the cross frame is essential. This remains
-  a finite restricted-family theorem, not an exact value of `F(16)` or an
-  amplification law.
-- For every odd prime power `m`, the square-order Paley conference matrix of
-  order `m^2+1` has a Boolean eigenvector and attains its spectral ceiling.
-  This is the known regular-conference construction, not a new result and not
-  a statement about `F(m^2+1)`. Already `F(10)=13` while that Paley matrix has
-  maximum 15.
-- For every symmetric Paley order `q+1`, an exact Fourier-leakage identity
-  reduces Boolean spectral alignment to finding an asymptotically balanced
-  sign function whose additive Fourier energy has `o(q)` mass in one
-  quadratic-character half. For prime `p`, a half-interval sign function has
-  leakage at most `2p/(ell(p)-1)`, where `ell(p)` is the least quadratic
-  nonresidue. The prime number theorem in fixed progressions produces a
-  multiplicatively dense prime sequence with `ell(p) -> infinity`, proving
-  asymptotic Paley spectral alignment on that sequence. Exact zero leakage is
-  impossible for nonconstant Boolean functions at prime order. Source-built
-  exhaustive scans give `M(C_6), M(C_14), M(C_18), M(C_30) = 5, 21, 33, 75`.
-  The Paley alignment theorem is still only about a selected matrix family.
-  A separate dense-order minimax rigidity lower bound is required to say
-  anything decisive about the limit of `F(n)/n^(3/2)`.
-- Every symmetric conference matrix has the exact eigenspace formula
-  `2M(C)/(n sqrt(n-1)) = max(2 alpha_+^2 - 1, 2 alpha_-^2 - 1)`, where
-  `alpha_+` and `alpha_-` are the maximal normalized `l1` norms in its two
-  eigenspaces. This exposes a precise flat-vector obstruction. On the dense
-  aligned Paley sequence, the proposed minimax rigidity estimate is
-  equivalent to the full limit being `1/2`; it is not an easier lemma.
-- Density-one control of Bellman-optimal predecessors is not the decisive
-  scalar wall. An explicit nonconvergent countermodel satisfies all current
-  scalar cross-order inequalities even with `O(sqrt(n))` Bellman cost at every
-  order. The precise one-vertex target is stabilization of the normalized
-  dyadic Bellman cost, or a corresponding Bellman-Cesaro law.
+## Focused outputs
 
-## Main open routes
+The project is now split into two narrower manuscripts:
 
-The finite-temperature route is existence of the extensive minimax
-free-energy limit. Scalar negative-replica parameter transport is now closed:
-its defect is leading order in a rigorous parameter range. The surviving
-state is the conditional distribution on relative block switchings. A useful
-next theorem must control that alignment free energy with a summable defect;
-simply writing the required almost-superadditivity in alignment coordinates
-does not make it weaker.
+- [Finite structure in a min-max quadratic sign problem](paper/mo-413935-finite-results.pdf)
+  covers the exact values through order 14, computational certificate
+  boundaries, optimizer non-heredity, the weighted Bellman identity, and the
+  pinned framed-Hadamard theorem proving `F(16) <= 30`.
+- [Relative-gauge composition for quadratic sign discrepancy](paper/mo-413935-composition-framework.pdf)
+  gives the exact labeled block-composition law, its finite-temperature
+  alignment form, the audited scalar obstructions, and the precise sufficient
+  cross-order theorem that remains open.
 
-The ground-state route is a power-saving near-subadditivity theorem for
-`H(n) = F(n)^(2/3)`. The finite non-heredity result shows that the construction
-must use a composable family of near-optimal blocks rather than arbitrary
-exact minimizers. A uniform defect of order `O((n + m)^(1 - δ))`, for some
-positive `δ`, would force `H(n) / n` and therefore `F(n) / n^(3/2)` to
-converge.
+The [complete research note](paper/mo-413935-second-attempt.pdf) and its
+[source](paper/second_attempt.tex) remain the broad archive. The tag
+`research-frontier-2026-08-05` freezes the exploration frontier before this
+publication split. Failed approaches have not been deleted.
 
-The present wall is optimizer-sensitive composition. Internal block energy
-and the cross field can cancel for the same spin assignment, while bounding
-them separately costs the full leading order.
+The active research scope is in [ACTIVE_RESEARCH.md](ACTIVE_RESEARCH.md). A
+self-contained prompt for a public frontier model is in
+[COMPOSITION_FRONTIER_PROMPT.md](COMPOSITION_FRONTIER_PROMPT.md). The earlier
+[broad prompt](FRONTIER_MODEL_PROMPT.md) is retained for provenance.
 
-For one-vertex growth, the exact state is now known: the Pareto profile of the
-internal maximum and its energy-weighted covering deficit. The next question
-is whether that profile has a uniform asymptotic law over the near-optimal
-energy window. Exact ground states alone are provably insufficient.
+## Current rigorous frontier
 
-The exact multivertex state sharpens this route, but its weighted-entropy
-union bound has a universal balanced floor
-`2 sqrt(log 2) N^(3/2)`, strictly above the required asymptotic ceiling
-`sqrt(2) N^(3/2)`. The live replacement is a weighted noncoverage theorem for
-the row-and-column switching orbit of a low-norm cross seed. This is a
-max-plus convolution problem on the projective rank-one group and retains the
-higher-order dependence lost by first moment estimates.
+The audited universal bounds are
 
-The scalar intermediate target is the full microcanonical profile theorem:
-construct near-optimal graph blocks and a cross seed for which fewer than
-`2^(n+k-1)` product triples lie below the deficit needed for power-saving
-near-subadditivity. Constantly many exact maximizers do not suffice; the
-entire leading-scale near-maximal profile must be thin. If this quantile is
-too small, the additive labels in the exact relative-gauge convolution are
-the remaining geometric fallback.
+```text
+1/pi <= liminf F(n)/n^(3/2)
+     <= limsup F(n)/n^(3/2) <= 1/2.
+```
 
-Variance, Gaussian cumulant bounds, ordinary degree-two hypercontractivity,
-and operator norm alone are now audited walls for this target. The precise
-remaining scalar question is a large-deviation law for the complete
-near-maximal deficit shells at probability `2^(-Theta(n))`. The order-12 to
-order-14 calibration does not decide whether its composition defect is
-`O(n)` or leading order.
+The exact finite sequence is
 
-A separate value-specific route has an exact candidate mechanism but no
-logical shortcut. The
-least-nonresidue interval theorem supplies an asymptotically balanced Paley
-sign function with Fourier leakage `o(p)` on a multiplicatively dense prime
-sequence. What remains is minimax rigidity
-`F(p+1) >= (1-o(1)) M(C_{p+1})` on that sequence. The finite optimality of
-`C_6` and `C_14` does not establish this lower bound, and `F(10)<M(C_10)`
-shows that exact conference optimality is false at some orders. Proving the
-dense rigidity statement would already prove the full limit and its value
-`1/2`.
+```text
+n:     2  3  4  5  6  7   8   9  10  11  12  13  14
+F(n):  1  3  4  4  5  9  10  12  13  17  18  20  21
+```
 
-## Research package
+The lower certificates at orders 11 and 13 are computer-assisted. Their
+completeness trusts nauty's isomorph-free graph generation; all stream counts,
+digests, producer exits, surviving records, and explicit witnesses are checked
+separately. The order-16 result is only
 
-- [Frontier-model research prompt](FRONTIER_MODEL_PROMPT.md)
-- [Continued proof search](RESEARCH_CONTINUATION.md)
-- [Main research note](paper/mo-413935-second-attempt.pdf)
-- [Main note source](paper/second_attempt.tex)
-- [Independent claim audit](AUDIT.md)
+```text
+F(16) <= 30.
+```
+
+No exact value of `F(15)` or `F(16)` is claimed here.
+
+Other banked results include:
+
+- `F(n) <= F(n+1) <= F(n)+n` and the parity-refined puncturing bound;
+- the exact augmented cut-code identity
+  `F(n) = choose(n,2) - 2 rho(D_n)`;
+- the Gaussian lower bound `F(n) >= n sqrt(n-1) / pi`;
+- an exact fixed-density cut-discrepancy equivalence up to `O(n)`;
+- an exact energy-weighted covering-radius formula for one-vertex extension;
+- finite optimizer non-heredity, including the complete `2+8` obstruction;
+- the exact relative-gauge max-plus convolution for arbitrary two-block
+  composition;
+- an exact finite-temperature conditional-alignment chain whose
+  zero-temperature slope is the optimizer-compatible composition gain;
+- the framed order-16 construction and matching lower bound 30 inside its
+  pinned oriented-Hadamard family.
+
+The broad archive also records the cube and elliptope relaxations, linear cut
+code and signed MacWilliams identity, graphon and spectral losses, negative
+replica transport obstruction, scalar microcanonical profile, labeled Fourier
+occupancy hierarchy, Paley alignment, Hadamard lifts, and all failed
+amplification attempts.
+
+## The active wall
+
+Set
+
+```text
+H(n) = F(n)^(2/3).
+```
+
+A uniform estimate
+
+```text
+H(n+k) <= H(n) + H(k) + O((n+k)^(1-delta))
+```
+
+for some `delta > 0` would force convergence. The missing theorem is not a
+separate bound on the internal blocks and the rectangular cross block. Such a
+bound loses the full leading scale because both contributions can cancel on
+the same spin assignment.
+
+The surviving exact state is the labeled relative-switching fiber. For a
+deficit threshold `s`, let `b_s(g)` count subthreshold product states in gauge
+fiber `g`. Then
+
+```text
+b_s(g) = 0
+```
+
+is exactly the assertion that gauge `g` achieves the desired composition
+gain. The next useful result must prove an empty fiber, preferably an
+abundance of good fibers, at the power-saving threshold. The complete Fourier
+factorization of `b_s` and the mixed four-cycle alignment Hamiltonian are the
+current starting points.
+
+Scalar energy profiles, low moments, the weighted Hamming union bound, scalar
+negative-replica transport, and graph-plus-rectangular transport have audited
+leading-order obstructions. The Paley route still lacks a minimax rigidity
+lower bound; on the known dense aligned sequence that lower bound is
+equivalent to proving the full limit is `1/2`.
+
+## Repository map
+
+- [Active research program](ACTIVE_RESEARCH.md)
+- [Composition-only frontier prompt](COMPOSITION_FRONTIER_PROMPT.md)
+- [Finite-results source](paper/finite_results.tex)
+- [Composition-framework source](paper/composition_framework.tex)
+- [Broad research note](paper/mo-413935-second-attempt.pdf)
+- [Independent audit](AUDIT.md)
 - [Literature and concept map](LITERATURE.md)
+- [Continued proof search](RESEARCH_CONTINUATION.md)
 - [Proof-search ledger](RESEARCH_LEDGER.md)
-- [Original proof-search ledger](STATUS.md)
-- [Original research note](paper/mo-413935-ai-attempt.pdf)
+- [Original ledger](STATUS.md)
 - [Verification guide](verification/README.md)
 
-Failed routes are retained with their exact obstruction rather than removed
-from the research record.
+## Reproduce the focused checks
 
-## Reproduce the checks
-
-Use Python 3.10 or newer. The core checks use only the standard library.
+Use Python 3.10 or newer. The following checks use exact integer or rational
+arithmetic for their pass/fail decisions:
 
 ```bash
 python3 verification/verify_attempt.py
-python3 verification/check_conference_examples.py
-python3 verification/verify_new_results.py
-python3 verification/verify_continuation.py
-python3 verification/verify_coding_continuation.py
-python3 verification/verify_amplification_obstructions.py
-python3 verification/verify_cavity_hereditary.py
-python3 verification/verify_nonlinear_bellman.py
-python3 verification/verify_frontier_walls.py
-python3 verification/verify_paley_subfield.py
-python3 verification/verify_negative_replica_transport_obstruction.py
-python3 verification/verify_negative_replica_alignment.py
-python3 verification/verify_relative_profile_composition.py
-python3 verification/verify_paley_least_nonresidue.py
-python3 verification/research_relative_profile_calibration.py
-python3 verification/verify_swapped_profile_injection.py
-python3 verification/verify_swapped_profile_floor.py
-python3 verification/verify_labeled_shell_parseval.py
-python3 verification/verify_labeled_shell_moment_certificate.py
-python3 verification/verify_fixed_density_cross_floor.py
-python3 verification/verify_equal_cloud_blowup.py
-python3 verification/verify_cut_discrepancy_equivalence.py
-python3 verification/verify_framed_hadamard_lift_30.py
+python3 verification/research_exact_small_n.py --max-n 10
+python3 verification/research_order11_certify.py
 python3 verification/research_order13_certify.py
-```
-
-The order-30 Paley alignment scan is a self-contained C check:
-
-```bash
-cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
-  verification/research_paley_alignment.c -lm \
-  -o /tmp/research_paley_alignment
-/tmp/research_paley_alignment
-```
-
-The uniform Hadamard-cloud check is also self-contained C:
-
-```bash
-cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
-  verification/verify_hadamard_cloud_lift.c \
-  -o /tmp/verify_hadamard_cloud_lift
-/tmp/verify_hadamard_cloud_lift
-```
-
-The framed order-16 maximum-30 check has independent Python and strict-C
-implementations:
-
-```bash
+python3 verification/research_cross_block_composition.py
+python3 verification/verify_nonlinear_bellman.py
+python3 verification/verify_relative_profile_composition.py
+python3 verification/verify_labeled_shell_parseval.py
+python3 verification/verify_negative_replica_alignment.py
 python3 verification/verify_framed_hadamard_lift_30.py
+```
+
+Some exhaustive checks require nauty, NetworkX, NumPy, or `z3-solver`; the
+order-13 full-stream scan is expensive. The verification guide gives exact
+dependencies, expected output, deterministic seeds, stream digests,
+corruption controls, and trust boundaries.
+
+The framed order-16 construction also has an independent strict-C verifier:
+
+```bash
 cc -std=c11 -O3 -Wall -Wextra -Wpedantic -Wconversion -Wshadow -Werror \
   verification/verify_framed_hadamard_lift_30.c \
   -o /tmp/verify_framed_hadamard_lift_30
 /tmp/verify_framed_hadamard_lift_30
 ```
 
-The exact cross-block research check requires nauty `geng`, NetworkX, and
-`z3-solver`. The order-9 geometry check requires nauty, NetworkX, and NumPy;
-the order-10 temperature check requires nauty and NumPy.
+Build the two focused manuscripts with:
 
 ```bash
-python3 verification/research_cross_block_composition.py
-python3 verification/research_order9_weighted_geometry.py
-python3 verification/research_order10_temperature.py
-python3 verification/research_negative_replica_transport.py
-python3 verification/research_order11_certify.py
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -jobname=mo-413935-finite-results \
+  -output-directory=paper paper/finite_results.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -jobname=mo-413935-composition-framework \
+  -output-directory=paper paper/composition_framework.tex
 ```
-
-The full order-13 lower certificate scans 1,018,997,864 residual graphs and
-requires nauty `geng`:
-
-```bash
-python3 verification/research_order13_certify.py \
-  --full-stream --jobs 8 --geng /absolute/path/to/geng
-```
-
-The exhaustive search through order 10 requires nauty `geng`; NetworkX adds
-independent decoding and switching-class checks.
-
-```bash
-python3 verification/research_exact_small_n.py \
-  --max-n 10 \
-  --networkx-crosscheck \
-  --classify-switching-optima \
-  --strict-stream-digests
-```
-
-The independent trusted-solver check for orders 7, 8, and 9 requires
-`z3-solver`.
-
-```bash
-python3 verification/research_z3_certify.py
-```
-
-See the [verification guide](verification/README.md) for expected output,
-certificate boundaries, dependencies, seeds, and the order-10 Z3 timeout.
 
 ## Provenance
 
-Rob Sneiderman directs and preserves the project. The research notes,
-proof-search records, and verification code retain exact nonclaims and are
-designed for independent replay.
+Rob Sneiderman directs and preserves the project. Proofs, computational
+certificates, nonclaims, and failed routes are retained for independent audit.
