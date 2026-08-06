@@ -5,10 +5,12 @@ Ivanisvili's [MathOverflow question](https://mathoverflow.net/questions/413935/m
 
 For a symmetric zero-diagonal sign matrix `A`, define
 
-```text
-Q_A(x) = sum_{1 <= i < j <= n} a_ij x_i x_j,
-M(A)   = max_{x in {+-1}^n} |Q_A(x)|,
-F(n)   = min_A M(A).
+```math
+Q_A(x)=\sum_{1\le i<j\le n}a_{ij}x_ix_j,
+\qquad
+M(A)=\max_{x\in\{-1,1\}^n}|Q_A(x)|,
+\qquad
+F(n)=\min_A M(A).
 ```
 
 The question is whether `F(n) / n^(3/2)` converges. The limit remains open.
@@ -40,25 +42,26 @@ self-contained prompt for a public frontier model is in
 
 The audited universal bounds are
 
-```text
-1/pi <= liminf F(n)/n^(3/2)
-     <= limsup F(n)/n^(3/2) <= 1/2.
+```math
+\frac1\pi
+\le \liminf_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\le \limsup_{n\to\infty}\frac{F(n)}{n^{3/2}}
+\le \frac12.
 ```
 
 The exact finite sequence is
 
-```text
-n:     2  3  4  5  6  7   8   9  10  11  12  13  14
-F(n):  1  3  4  4  5  9  10  12  13  17  18  20  21
-```
+| `n` | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| `F(n)` | 1 | 3 | 4 | 4 | 5 | 9 | 10 | 12 | 13 | 17 | 18 | 20 | 21 |
 
 The lower certificates at orders 11 and 13 are computer-assisted. Their
 completeness trusts nauty's isomorph-free graph generation; all stream counts,
 digests, producer exits, surviving records, and explicit witnesses are checked
 separately. The order-16 result is only
 
-```text
-F(16) <= 30.
+```math
+F(16)\le 30.
 ```
 
 No exact value of `F(15)` or `F(16)` is claimed here.
@@ -89,14 +92,14 @@ amplification attempts.
 
 Set
 
-```text
-H(n) = F(n)^(2/3).
+```math
+H(n)=F(n)^{2/3}.
 ```
 
 A uniform estimate
 
-```text
-H(n+k) <= H(n) + H(k) + O((n+k)^(1-delta))
+```math
+H(n+k)\le H(n)+H(k)+O\!\left((n+k)^{1-\delta}\right)
 ```
 
 for some `delta > 0` would force convergence. The missing theorem is not a
@@ -108,8 +111,8 @@ The surviving exact state is the labeled relative-switching fiber. For a
 deficit threshold `s`, let `b_s(g)` count subthreshold product states in gauge
 fiber `g`. Then
 
-```text
-b_s(g) = 0
+```math
+b_s(g)=0
 ```
 
 is exactly the assertion that gauge `g` achieves the desired composition
