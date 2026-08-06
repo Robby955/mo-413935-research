@@ -1,4 +1,10 @@
-# Frontier-model research prompt: MathOverflow 413935
+# Broad frontier-model research prompt: MathOverflow 413935
+
+> **Archive notice.** This prompt preserves the full exploration frontier.
+> New research runs should use
+> [`COMPOSITION_FRONTIER_PROMPT.md`](COMPOSITION_FRONTIER_PROMPT.md), which
+> restricts work to the labeled relative-gauge composition problem and its
+> power-saving cross-order target.
 
 You are being asked to make a serious, independent attempt at MathOverflow
 Question 413935, “Min max of a quadratic form of plus-minus ones.”  The goal is

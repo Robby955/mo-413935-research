@@ -1,0 +1,358 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\eps}{\{\!-1,1\!\}}
+\newcommand{\F}{F}
+\newcommand{\M}{M}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\R}{\mathbb R}
+\newcommand{\T}{\mathsf T}
+\DeclareMathOperator{\dist}{dist}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Finite structure in a min--max quadratic sign problem}
+\author{Rob Sneiderman}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For a symmetric zero-diagonal sign matrix, let $M(A)$ be the largest absolute
+value of its quadratic form on the Boolean cube, and put
+$F(n)=\min_A M(A)$.  We give an auditable account of the exact values through
+order fourteen, including explicit computational trust boundaries.  We also
+prove an exact energy-weighted covering formula for one-vertex extension,
+record finite non-heredity of optimizers, and give a sharp completion theorem
+for one fixed oriented-Hadamard frame which implies $F(16)\le30$.
+The asymptotic question whether $F(n)/n^{3/2}$ converges remains open.
+\end{abstract}
+
+\begin{center}
+\fbox{\parbox{0.91\linewidth}{\textbf{Status.}
+This is a focused manuscript draft.  Every unconditional analytic statement
+is proved below.  Claims labelled computer-assisted depend on the stated
+enumeration boundary.  No result here proves convergence or nonconvergence.}}
+\end{center}
+
+\section{Problem and elementary structure}
+
+Let $A=(a_{ij})$ range over symmetric zero-diagonal matrices with
+$a_{ij}\in\eps$.  Define
+\[
+ Q_A(x)=\sum_{1\le i<j\le n}a_{ij}x_ix_j,
+ \qquad M(A)=\max_{x\in\eps^n}|Q_A(x)|,
+ \qquad F(n)=\min_A M(A).
+\]
+Switching by $z\in\eps^n$ sends $A$ to $D_zAD_z$ and leaves $M(A)$
+unchanged.  Vertex permutation and global negation also preserve $M(A)$.
+
+\begin{lemma}[Puncturing and parity]
+For every $n\ge2$,
+\[
+ F(n)\le F(n+1)\le F(n)+n,
+ \qquad
+ F(n)\equiv\binom n2\pmod2,
+\]
+and consequently
+\[
+ F(n)\ge F(n-1)+((n-1)\bmod2).
+\]
+\end{lemma}
+
+\begin{proof}
+Restrict an order-$(n+1)$ signing to its first $n$ vertices.  For every old
+spin $x$, its restricted energy is the average of the two full energies
+obtained by setting the new spin to $1$ and $-1$.  This gives
+$F(n)\le F(n+1)$.  Extending an optimal order-$n$ signing by arbitrary
+incident signs changes every energy by at most $n$, proving the upper bound.
+Every energy is a sum of $\binom n2$ signs and therefore has that parity; the
+maximum and its minimum over signings have the same parity.  When $n-1$ is
+odd, the parities at consecutive orders differ, so monotonicity improves by
+one.
+\end{proof}
+
+There is also a useful exact coding formulation.  Put $E_n=\binom n2$ and
+\[
+ D_n=\{(x_ix_j)_{i<j}:x\in\eps^n\}
+      \cup\{-(x_ix_j)_{i<j}:x\in\eps^n\}.
+\]
+If $\rho(D_n)$ denotes its covering radius in the Hamming cube, then
+\begin{equation}
+ F(n)=E_n-2\rho(D_n).                                      \label{eq:cover}
+\end{equation}
+Indeed, correlation with a sign word is $E_n-2$ times Hamming distance, and
+adjoining the negatives converts absolute correlation to nearest-codeword
+distance.  This identity is exact but does not by itself control the
+second-order deficit of size $n^{3/2}$.
+
+\section{Exact values through order fourteen}
+
+\begin{theorem}[Exact finite sequence]
+The exact values from order two through order fourteen are
+\[
+\begin{array}{c|rrrrrrrrrrrrr}
+n&2&3&4&5&6&7&8&9&10&11&12&13&14\\ \hline
+F(n)&1&3&4&4&5&9&10&12&13&17&18&20&21.
+\end{array}
+\]
+The lower bounds at orders eleven and thirteen are computer-assisted with
+the nauty completeness boundary described below.
+\end{theorem}
+
+\begin{proof}[Certificate architecture]
+For orders at most ten, switching makes every edge incident with a chosen
+root positive.  The remaining signing is an ordinary graph on $n-1$
+vertices.  Isomorph-free generation, exact Gray-code energy evaluation, and
+independent decoding reproduce
+\[
+ 1,3,4,4,5,9,10,12,13.
+\]
+All energy and threshold decisions use integers.
+
+For order eleven, the certificate scans all $12{,}005{,}168$ unlabeled
+graphs on ten residual vertices.  Exact degree and energy filters leave
+$2{,}153{,}606$ eligible classes; none admits maximum at most fifteen.  An
+explicit order-eleven signing has maximum seventeen.  Parity excludes
+sixteen, hence $F(11)=17$.  The independently checked one-vertex extension
+then gives an order-twelve signing with maximum eighteen.  Puncturing and
+parity give $F(12)\ge18$.
+
+For order thirteen, eight fail-closed nauty shards together contain exactly
+$1{,}018{,}997{,}864$ unlabeled graphs on eleven residual vertices.  The
+certificate pins each producer's exit status, byte count, record count, and
+SHA-256 stream digest.  Exactly two rooted records survive the order-twelve
+threshold; direct evaluation gives internal maximum eighteen and minimum
+one-vertex extension value twenty-four for both.  Therefore an order-thirteen
+signing of maximum eighteen cannot exist.  Parity excludes nineteen.  Every
+thirteen-vertex principal submatrix of the order-fourteen Paley conference
+matrix has maximum twenty, so $F(13)=20$.  Monotonicity and parity give
+$F(14)\ge21$, while direct evaluation of that conference matrix gives
+maximum twenty-one.
+
+The exhaustive lower certificates trust nauty's completeness and canonical
+isomorph-free generation.  They do not infer infeasibility from a solver
+timeout.  The explicit upper witnesses and all their complete energy scans
+are independently reproducible without that trust boundary.
+\end{proof}
+
+\begin{remark}
+The order-thirteen scan finds two \emph{rooted records}, not a theorem that
+there are only two unrooted optimal switching classes.  Likewise, the
+certificate proves that the order-fourteen conference matrix is optimal but
+does not by itself prove uniqueness.
+\end{remark}
+
+\section{The exact one-vertex state}
+
+For an order-$n$ signing $B$, let $E(B)$ be the smallest maximum obtainable
+by adjoining one vertex with arbitrary incident sign vector.  Write
+\[
+ \PP_n=\eps^n/\{x\sim-x\},
+ \qquad d_\pm([u],[v])=\min\{d_H(u,v),d_H(u,-v)\}.
+\]
+Put $M=M(B)$ and define
+\[
+ w_B([x])=\frac{M-|Q_B(x)|}{2},
+ \qquad
+ \rho_{\rm w}(B)=\max_{[b]\in\PP_n}\min_{[x]\in\PP_n}
+ \bigl(d_\pm([b],[x])+w_B([x])\bigr).
+\]
+The weights are nonnegative integers because all order-$n$ energies have the
+same parity.
+
+\begin{theorem}[Weighted Bellman identity]
+For every order-$n$ signing $B$,
+\begin{equation}
+ E(B)=M(B)+n-2\rho_{\rm w}(B).                            \label{eq:bellman}
+\end{equation}
+Equivalently, with
+$\delta_{\rm w}(B)=\lfloor n/2\rfloor-\rho_{\rm w}(B)$,
+\begin{equation}
+ F(n+1)=\min_B\bigl(M(B)+(n\bmod2)+2\delta_{\rm w}(B)\bigr).
+                                                               \label{eq:bellman2}
+\end{equation}
+Only configurations satisfying
+$|Q_B(x)|\ge M(B)-2\lfloor n/2\rfloor$ can affect the inner covering
+minimum.
+\end{theorem}
+
+\begin{proof}
+Let $b\in\eps^n$ be the incident signs and $t$ the new spin.  Pairing the two
+values of $t$ gives
+\[
+ \max_{t\in\eps}|Q_B(x)+t\,b\cdot x|
+   =|Q_B(x)|+|b\cdot x|.
+\]
+Since $|b\cdot x|=n-2d_\pm([b],[x])$, the maximum over old spins for fixed
+$b$ equals
+\[
+ M+n-2\min_{[x]\in\PP_n}
+       \bigl(w_B([x])+d_\pm([b],[x])\bigr).
+\]
+Minimizing over $[b]$ proves \eqref{eq:bellman}.  Minimizing over $B$ and
+using $n-2\lfloor n/2\rfloor=n\bmod2$ proves \eqref{eq:bellman2}.
+If $w_B([x])>\lfloor n/2\rfloor$, that state loses to an exact maximizer at
+projective distance at most $\lfloor n/2\rfloor$, proving the final claim.
+\end{proof}
+
+The formula explains why exact optimizers need not be valid predecessors.
+It also shows why a scalar energy is not a closed state: the spatial
+placement of every energy layer in the projective cube matters.
+
+\section{Finite optimizer non-heredity}
+
+For fixed internal blocks $A$ and $B$, define
+\[
+ J(A,B)=\min_{C\in\eps^{s\times k}}
+ M\begin{pmatrix}A&C\\C^{\T}&B\end{pmatrix}.
+\]
+
+\begin{proposition}[A complete $2+8$ obstruction]
+Among optimal blocks of orders two and eight,
+\[
+ \min_{M(A)=F(2),\,M(B)=F(8)}J(A,B)=15>F(10)=13.
+\]
+Consequently no optimal order-ten signing contains an optimal order-eight
+principal submatrix.  The smallest internal maximum among order-eight blocks
+admitting a $2+8$ completion of maximum thirteen is twelve.
+\end{proposition}
+
+This is a finite exhaustive proposition.  The verifier enumerates every
+relevant switching-permutation class, every rectangular cross block modulo
+the valid symmetries, and every projective full spin.  It establishes an
+``internal sacrifice'' phenomenon: minimizing the blocks separately can make
+their joint optimum worse.
+
+There is a second exact failure of scalar state.  Two optimal order-nine
+classes have the same complete projective absolute-energy histogram
+\[
+ \#\{|Q_B|=0,4,8,12\}=(60,111,60,25),
+\]
+so all their scalar partition functions agree at every temperature, but their
+minimum one-vertex extension values are thirteen and fifteen.  Their weighted
+covering geometry, not their energy multiset, distinguishes them.
+
+\section{A sharp oriented-Hadamard completion}
+
+Let
+\[
+H=\begin{pmatrix}
+1&1&1&1\\1&1&-1&-1\\1&-1&1&-1\\-1&1&1&-1
+\end{pmatrix},
+\quad
+(a_{01},a_{02},a_{03},a_{12},a_{13},a_{23})
+=(1,1,1,-1,1,-1).
+\]
+For arbitrary symmetric zero-diagonal order-four signings
+$D_0,D_1,D_2,D_3$, let $L(D_0,D_1,D_2,D_3)$ have diagonal blocks $D_i$,
+upper cross block $ij$ equal to $a_{ij}H$, and transpose blocks below.
+
+\begin{theorem}[Sharp completion of the pinned frame]
+\begin{equation}
+ \min_{D_0,D_1,D_2,D_3}M(L(D_0,D_1,D_2,D_3))=30.          \label{eq:frame30}
+\end{equation}
+In particular, $F(16)\le30$.
+\end{theorem}
+
+\begin{proof}
+Put
+\[
+u_0=(1,1,1,1),\quad u_1=(1,1,1,-1),\quad
+u_2=(1,1,-1,1),\quad u_3=(1,1,-1,-1).
+\]
+Direct multiplication gives the following cross-only energies:
+\[
+\begin{array}{c|c|r}
+& (x_0,x_1,x_2,x_3)&Q_{\rm cross}\\ \hline
+1+&(u_0,u_0,-u_0,u_1)&28\\
+1-&(u_0,-u_3,-u_0,-u_1)&-28\\
+2+&(u_3,u_3,-u_3,u_2)&28\\
+2-&(u_3,-u_2,-u_3,-u_2)&-28\\
+3+&(u_3,u_2,-u_3,u_2)&28\\
+3-&(u_3,-u_0,-u_3,-u_2)&-28.
+\end{array}
+\]
+Within each pair the projective spins on clouds zero, two, and three agree,
+so their internal contributions cancel in the comparison.  If the full
+maximum were at most twenty-eight, the three comparisons would force
+\[
+ q_{D_1}(u_0)\le q_{D_1}(u_3)\le q_{D_1}(u_2)
+ \le q_{D_1}(u_0).
+\]
+All three values would be equal.  But
+\[
+ q_{D_1}(u_0)-q_{D_1}(u_2)
+ =2(d_{13}+d_{23}+d_{34})\ne0,
+\]
+because a sum of three signs cannot vanish.  Order-sixteen energies are even,
+so the restricted minimum is at least thirty.
+
+For attainment, list the six internal edges in order
+$01,02,03,12,13,23$ and take
+\[
+ P=(1,1,1,-1,1,-1),\qquad
+ R=(-1,-1,1,1,1,-1),\qquad
+ (D_0,D_1,D_2,D_3)=(P,R,P,R).
+\]
+An exhaustive exact scan of all $2^{15}$ projective spins gives maximum
+thirty.  Independent direct and blockwise implementations reproduce the
+complete energy histogram.
+\end{proof}
+
+Both $P$ and $R$ have maximum four and are switching-permutation equivalent.
+Nevertheless their ordered response vectors to this frame are
+\[
+ (2,0,4,-2,0,2,-2,-4),\qquad
+ (0,-2,2,-4,-2,0,4,2).
+\]
+Using one literal common internal block in all four clouds has minimum
+thirty-eight.  Thus neither $M(D)$ nor the unframed switching class is a
+closed substitution state; orientation relative to the cross frame is
+essential.  The theorem is restricted to one frame.  It neither proves
+$F(16)=30$ nor supplies an iterable amplification law.
+
+\section{Reproducibility and scope}
+
+The repository contains source-built verifiers for all statements above.
+The principal commands are:
+\begin{verbatim}
+python3 verification/research_exact_small_n.py --max-n 10
+python3 verification/research_order11_certify.py
+python3 verification/research_order13_certify.py --full-stream --jobs 8
+python3 verification/research_cross_block_composition.py
+python3 verification/verify_nonlinear_bellman.py
+python3 verification/verify_framed_hadamard_lift_30.py
+\end{verbatim}
+The order-eleven and order-thirteen complete lower scans require nauty and
+are much more expensive than witness verification.  Exact commands, pinned
+counts, expected outputs, corruption controls, and the producer trust boundary
+are recorded in \texttt{verification/README.md}.
+
+These finite results identify optimizer-sensitive composition as the main
+structural difficulty.  They do not determine an asymptotic constant and do
+not constitute an answer to the MathOverflow limit question.  The companion
+manuscript \texttt{composition\_framework.tex} isolates the remaining
+cross-order theorem.
+
+\begin{thebibliography}{9}
+\bibitem{mo}
+P. Ivanisvili,
+\emph{Min-max of a quadratic form of plus-minus ones},
+MathOverflow question 413935, 2022.
+
+\bibitem{nauty}
+B. D. McKay and A. Piperno,
+\emph{Practical graph isomorphism, II},
+Journal of Symbolic Computation 60 (2014), 94--112.
+\end{thebibliography}
+
+\end{document}

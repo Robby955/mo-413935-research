@@ -1,0 +1,488 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,booktabs,microtype}
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\eps}{\{\!-1,1\!\}}
+\newcommand{\E}{\mathbb E}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\T}{\mathsf T}
+\newcommand{\cG}{\mathcal G}
+\newcommand{\cA}{\mathcal A}
+\newcommand{\tr}{\operatorname{tr}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\title{Relative-gauge composition for quadratic sign discrepancy}
+\author{Rob Sneiderman}
+\date{August 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+For a symmetric zero-diagonal sign matrix $A$, put
+$Q_A(x)=\frac12x^{\T}Ax$, $M(A)=\max_x|Q_A(x)|$, and
+$F(n)=\min_A M(A)$.  The unresolved question is whether
+$F(n)/n^{3/2}$ converges.  We isolate a sufficient power-saving
+near-subadditivity theorem and derive an exact block-composition law on the
+group of relative switchings.  The law has both a zero-temperature max-plus
+form and a finite-temperature conditional-alignment form.  It shows precisely
+why separate scalar bounds on the two internal blocks and the rectangular
+cross block lose the leading order.  Unlabeled energy profiles give a sharp
+order-statistic relaxation, while labeled Fourier shells retain the missing
+optimizer alignment.  The remaining problem is a quantitative empty-fiber or
+good-fiber theorem at the power-saving threshold.
+\end{abstract}
+
+\begin{center}
+\fbox{\parbox{0.91\linewidth}{\textbf{Status.}
+The central identities and reduction statements are proved below; the closed-
+route table summarizes proofs in the accompanying archive.  The labeled fiber
+estimate in Section~\ref{sec:target} is explicitly conjectural.  The
+MathOverflow limit question remains open.}}
+\end{center}
+
+\section{The problem and a convergence criterion}
+
+Let
+\[
+ Q_A(x)=\sum_{1\le i<j\le n}a_{ij}x_ix_j,
+ \qquad M(A)=\max_{x\in\eps^n}|Q_A(x)|,
+ \qquad F(n)=\min_A M(A).
+\]
+The audited global bounds are
+\[
+ \frac1\pi\le\liminf_n\frac{F(n)}{n^{3/2}}
+ \le\limsup_n\frac{F(n)}{n^{3/2}}\le\frac12.
+\]
+Neither bound compares optimizers at different orders.
+
+The correct scalar for a composition theorem is
+\[
+ H(n)=F(n)^{2/3}.
+\]
+
+\begin{theorem}[Power-saving near-subadditivity settles convergence]
+\label{thm:near-subadd}
+Suppose there are constants $C<\infty$ and $\delta>0$ such that for all
+$n,m\ge1$,
+\begin{equation}
+ H(n+m)\le H(n)+H(m)+C(n+m)^{1-\delta}.                 \label{eq:near-subadd}
+\end{equation}
+Then $H(n)/n$ converges, and therefore $F(n)/n^{3/2}$ converges.
+\end{theorem}
+
+\begin{proof}
+Replace $\delta$ by $\min(\delta,1)$.  The known upper bound gives
+$H(n)=O(n)$.  Fix a block length $k$ and combine $q$ copies along a balanced
+binary tree.  At the level where a subtree has at most $2^j$ leaves, there
+are at most $\lceil q/2^j\rceil$ merges, each with defect
+$O((2^jk)^{1-\delta})$.  Summing levels gives
+\[
+ H(qk)\le qH(k)+O(qk^{1-\delta}),
+\]
+uniformly in $q$; the geometric factor is
+$\sum_{j\ge1}2^{-j\delta}<\infty$, while the incomplete-tree remainder is
+no larger.
+
+For $N=qk+r$, $0\le r<k$, one final merge and $H(r)=O(k)$ give
+\[
+ \limsup_{N\to\infty}\frac{H(N)}N
+ \le\frac{H(k)}k+O(k^{-\delta}).
+\]
+Choose $k\to\infty$ along a sequence on which $H(k)/k$ approaches its
+liminf.  The limsup is then no larger than the liminf.  Finally
+$F(n)/n^{3/2}=(H(n)/n)^{3/2}$.
+\end{proof}
+
+Using $F(t)=\Theta(t^{3/2})$, a sufficient equivalent-scale target is
+\begin{equation}
+ F(n+m)\le
+ \left(F(n)^{2/3}+F(m)^{2/3}\right)^{3/2}
+ +O((n+m)^{3/2-\delta}).                                \label{eq:Ftarget}
+\end{equation}
+The power saving, or another dyadically summable modulus, is essential.
+
+\section{Cut discrepancy is equivalent but not compositional}
+
+Put $e_n=\binom n2$.  For a graph $G$ on $[n]$, define
+\[
+ \operatorname{cdisc}_{1/2}(G)=
+ \max_{S\subseteq[n]}
+ \left|e_G(S,S^{\rm c})-\frac12|S||S^{\rm c}|\right|
+\]
+and let
+\[
+ D(n)=\min\left\{\operatorname{cdisc}_{1/2}(G):
+ e(G)=\left\lfloor\frac{e_n}{2}\right\rfloor\right\}.
+\]
+
+\begin{theorem}[Fixed-density equivalence]
+For every $n\ge2$,
+\begin{equation}
+ -1\le4D(n)-F(n)\le\sqrt{\binom n2}+2.                 \label{eq:cut-equivalence}
+\end{equation}
+Thus the two normalized sequences converge together and have the same limit.
+\end{theorem}
+
+\begin{proof}
+For a signing $A$, let $G_A$ contain its negative edges and let
+$t=\sum_{i<j}a_{ij}$.  If $x_S$ is positive on $S$ and negative on its
+complement and $r=|S|(n-|S|)$, then
+\[
+ Q_A(x_S)=t-2r+4e_{G_A}(S,S^{\rm c}).
+\]
+On the fixed-density layer $t=t_0\in\{0,1\}$, this gives
+$|4\operatorname{cdisc}_{1/2}(G_A)-M(A)|\le1$.
+
+For an optimal $A$, a uniform switch $z$ replaces $t$ by $Q_A(z)$.
+Walsh orthogonality gives $\E Q_A(z)=0$ and
+$\E Q_A(z)^2=e_n$, so some switch has $|t|\le\sqrt{e_n}$.  Flipping
+$|t-t_0|/2$ edges reaches the fixed-density layer and increases every
+absolute energy by at most $|t-t_0|$.  Combining the two estimates proves
+\eqref{eq:cut-equivalence}.
+\end{proof}
+
+This reformulation identifies the problem with dense cut discrepancy at the
+right scale, but ordinary graph products and dense graph limits do not retain
+the $n^{3/2}$ optimizer correlations needed in \eqref{eq:Ftarget}.
+
+\section{Exact max-plus composition}
+
+Fix internal signings $A$ and $B$ of orders $n$ and $k$, a rectangular
+signing $C\in\eps^{n\times k}$, and $N=n+k$.  Write
+\[
+ \PP_r=\eps^r/\{\pm\mathbf1\},
+ \qquad G_{n,k}=\PP_n\times\PP_k\times\eps,
+ \qquad |G_{n,k}|=2^{N-1}.
+\]
+Define augmented graph state spaces
+\[
+ \Omega_A=\eps\times\PP_n,
+ \quad e_A(\sigma,[x])=\sigma Q_A(x),
+\]
+and analogously $\Omega_B,e_B$.  Let
+\[
+ \overline{\mathcal R}_{n,k}
+ =\{[xy^{\T}]:x\in\eps^n,y\in\eps^k\},
+ \qquad e_C([R])=|\langle C,R\rangle|,
+\]
+where $R$ and $-R$ are identified.
+
+There is a balanced homomorphism
+\begin{equation}
+ \pi((\sigma,[z]),(\eta,[w]),[xy^{\T}])
+ =([zx],[wy],\sigma\eta)                                \label{eq:pi}
+\end{equation}
+onto $G_{n,k}$.  Its domain has $2^{2N-2}$ elements, hence every fiber has
+$2^{N-1}$ elements.
+
+Put
+\[
+ M_A=M(A),\quad M_B=M(B),\quad
+ B_C=\max_{x,y}|x^{\T}Cy|,\quad L=M_A+M_B+B_C,
+\]
+and define deficits
+\[
+ d_A=M_A-e_A,\qquad d_B=M_B-e_B,\qquad d_C=B_C-e_C.
+\]
+For $g=(\alpha,\beta,\tau)\in G_{n,k}$, set
+\[
+ Y_g=\begin{pmatrix}
+ D_\alpha AD_\alpha&C\\ C^{\T}&\tau D_\beta BD_\beta
+ \end{pmatrix}.
+\]
+
+\begin{theorem}[Relative-gauge max-plus identity]
+\label{thm:maxplus}
+For every $g\in G_{n,k}$,
+\begin{equation}
+ L-M(Y_g)=
+ \min_{\pi(a,b,r)=g}\bigl(d_A(a)+d_B(b)+d_C(r)\bigr).   \label{eq:maxplus}
+\end{equation}
+If all $2^{2N-2}$ product-triple deficit sums are listed with multiplicity as
+$\lambda_1\le\cdots\le\lambda_{2^{2N-2}}$ and
+$\Lambda=\lambda_{2^{N-1}}$, then
+\begin{equation}
+ F(N)\le\min_gM(Y_g)\le L-\Lambda.                      \label{eq:scalar-profile}
+\end{equation}
+Equivalently, if fewer than $2^{N-1}$ triples have total deficit strictly
+below $s$, some gauge has $M(Y_g)\le L-s$.
+\end{theorem}
+
+\begin{proof}
+Choose representatives $a=(\sigma,[z])$, $b=(\eta,[w])$, and
+$r=[xy^{\T}]$, orienting $R=xy^{\T}$ so that its cross energy has sign
+$\sigma$.  Evaluating $Y_{\pi(a,b,r)}$ at $(x,y)$ and multiplying by the
+appropriate global sign gives
+$e_A(a)+e_B(b)+e_C(r)$.  Conversely, every augmented full spin determines
+such a triple; replacing its signed cross value by its absolute value can only
+increase the local sum.  Therefore
+\[
+ M(Y_g)=\max_{\pi(a,b,r)=g}(e_A(a)+e_B(b)+e_C(r)),
+\]
+which is \eqref{eq:maxplus} after subtracting from $L$.
+
+Choose one minimizing triple from each of the $2^{N-1}$ fibers.  They are
+distinct, so the largest selected minimum is at least the
+$2^{N-1}$-st global order statistic.  This proves
+\eqref{eq:scalar-profile}.
+\end{proof}
+
+The order statistic is optimal if all additive labels are discarded: one can
+place the $2^{N-1}$ smallest deficits one per equal fiber.  It is therefore a
+sharp scalar relaxation, not the complete composition state.
+
+\section{Labeled occupancy and Fourier factorization}
+
+For a threshold $s$, define the exact fiber occupancy
+\begin{equation}
+ b_s(g)=\#\{(a,b,r):\pi(a,b,r)=g,\ d_A(a)+d_B(b)+d_C(r)<s\}.
+                                                               \label{eq:occupancy}
+\end{equation}
+By Theorem~\ref{thm:maxplus}, $b_s(g)=0$ if and only if
+$M(Y_g)\le L-s$.
+
+Characters of $G_{n,k}$ are indexed by even sets
+$I\subseteq[n]$, $J\subseteq[k]$, and $\epsilon\in\{0,1\}$.  For a deficit
+value $d$, put
+\begin{align*}
+ A_d(I,\epsilon)&=\sum_{d_A(\sigma,[z])=d}\sigma^\epsilon z_I,\\
+ B_d(J,\epsilon)&=\sum_{d_B(\eta,[w])=d}\eta^\epsilon w_J,\\
+ C_d(I,J)&=\sum_{d_C([xy^{\T}])=d}x_Iy_J.
+\end{align*}
+
+\begin{proposition}[Exact labeled-shell factorization]
+Let $K=2^{N-1}$ and normalize Fourier coefficients by
+$\widehat b(\chi)=K^{-1}\sum_gb(g)\chi(g)$.  Then
+\begin{equation}
+ \widehat b_s(I,J,\epsilon)=\frac1K
+ \sum_{d_A+d_B+d_C<s}
+ A_{d_A}(I,\epsilon)B_{d_B}(J,\epsilon)C_{d_C}(I,J).    \label{eq:fourier-shell}
+\end{equation}
+If $\mu_s=K^{-1}\sum_gb_s(g)$ and
+$V_s=\sum_{\chi\ne1}|\widehat b_s(\chi)|^2$, then
+\begin{equation}
+ \min_gb_s(g)\le\mu_s-\sqrt{\frac{V_s}{K-1}}.          \label{eq:parseval}
+\end{equation}
+In particular, a right side smaller than one certifies an empty fiber.
+\end{proposition}
+
+\begin{proof}
+The character $(I,J,\epsilon)$ pulls back under \eqref{eq:pi} to
+$\sigma^\epsilon z_I\eta^\epsilon w_Jx_Iy_J$.  Summing independently over
+the three labeled shells proves \eqref{eq:fourier-shell}.
+
+For \eqref{eq:parseval}, put $h=b_s-\mu_s$ and
+$m=-\min h$.  Since $h\ge-m$ and $\sum_gh(g)=0$, also
+$h\le(K-1)m$.  Averaging
+$(h+m)(h-(K-1)m)\le0$ gives
+$V_s=K^{-1}\sum_gh(g)^2\le(K-1)m^2$.
+\end{proof}
+
+This proposition already improves the scalar order statistic in exact small
+examples.  At the balanced order-fourteen Paley split and the threshold
+corresponding to energy twenty-seven, however,
+\[
+ K=8192,qquad \sum_gb_s(g)=304908,qquad
+ \min_gb_s(g)=0,qquad\max_gb_s(g)=87.
+\]
+There is exactly one empty fiber, while the variance bound remains above one.
+The good gauge is real but exponentially isolated.  Generic moment or
+polynomial-precision methods cannot reliably detect this signal without
+using the exact shell labels; the repository contains explicit matching-
+moment and Fourier-support obstructions.
+
+\section{Finite-temperature alignment}
+
+The same state appears at finite temperature.  Define the augmented partition
+function and its annealed normalization by
+\[
+ Z_A(t)=\sum_{x\in\eps^n,\,\sigma\in\eps}e^{t\sigma Q_A(x)},
+ \qquad
+ f_{n,t}(A)=\frac{Z_A(t)}{2^{n+1}(\cosh t)^{\binom n2}},
+\]
+and
+\[
+ \cG_n(q,t)=\log\E_Af_{n,t}(A)^{-q}.
+\]
+For the rectangular block use
+\[
+ Z_C^\square(t)=\sum_{x,y}e^{t x^{\T}Cy},\qquad
+ f_{n,k,t}^\square(C)=
+ \frac{Z_C^\square(t)}{2^N(\cosh t)^{nk}},
+\]
+with reverse moment $\cG_{n,k}^\square$.
+
+\begin{theorem}[Conditional-alignment chain]
+For $n,k\ge3$,
+\begin{equation}
+ \cG_N(q,t)=\cG_n(q,t)+\cG_k(q,t)
+ +\cG_{n,k}^\square(q,t)+\cA_{n,k}(q,t),               \label{eq:alignment-chain}
+\end{equation}
+where $\cA_{n,k}(q,t)\ge0$ is the reverse moment of the conditional density
+on the $2^{N-1}$ relative-switching states.
+\end{theorem}
+
+\begin{proof}
+The global cut code is a subcode of the direct sum of the two internal cut
+codes and the rectangular row-column switching code.  Their quotient fiber
+has size $2^{N-1}$.  A coarse state $(A,B,C)$ has fine representatives
+\[
+ Y_{\alpha,\beta,\tau}=\begin{pmatrix}
+ D_\alpha AD_\alpha&C\\C^{\T}&\tau D_\beta BD_\beta
+ \end{pmatrix}.
+\]
+Direct spin changes give
+\[
+ \E_{\alpha,\beta,\tau}Z_Y(t)
+ =\frac{Z_A(t)Z_B(t)Z_C^\square(t)}{2^{N+1}}.
+\]
+Thus the conditional density relative to the uniform fiber is
+\[
+ r_{A,B,C}(\alpha,\beta,\tau)=
+ \frac{2^{N+1}Z_Y(t)}{Z_A(t)Z_B(t)Z_C^\square(t)},
+ \qquad\E_{\rm fiber}r=1.
+\]
+Grouping the fine negative moment first by coarse states gives
+\eqref{eq:alignment-chain}; convexity of $z\mapsto z^{-q}$ gives the
+nonnegativity of the logarithmic correction.
+\end{proof}
+
+The correction is leading order.  Let $\cA_{n,k}^{\infty}(t)$ denote its
+$q\to\infty$ slope, and put
+\[
+ B_\square(n,k)=\min_C\max_{x,y}|x^{\T}Cy|.
+\]
+Finite-space Laplace limits give
+\begin{equation}
+ \lim_{t\to\infty}\frac{\cA_{n,k}^{\infty}(t)}t
+ =F(n)+F(k)+B_\square(n,k)-F(n+k).                     \label{eq:alignment-slope}
+\end{equation}
+Moreover
+\[
+ \liminf_n\frac{2F(n)+B_\square(n,n)-F(2n)}{n^{3/2}}
+ \ge\frac2\pi+\sqrt{\frac2\pi}-\sqrt2>0.
+\]
+Therefore negative replicas do not bypass optimizer-compatible composition;
+they recover its exact finite-temperature state.
+
+The first nonconstant term of the conditional log-density is already mixed.
+Writing $P=D_\alpha AD_\alpha$ and $Q=D_\beta BD_\beta$, its order-four
+Eulerian Hamiltonian is
+\begin{equation}
+ \mathcal H_4=\frac12\left[
+ \tr(P^2CC^{\T})+\tr(Q^2C^{\T}C)
+ +\tau\tr(PCQC^{\T})-nk(N-2)\right].                  \label{eq:H4}
+\end{equation}
+This depends on relative eigenvector and row-correlation geometry, not merely
+on the spectra or scalar partition functions of the three blocks.
+
+\section{Closed shortcuts}
+
+The following conclusions concern specific mechanisms, not the original
+problem.
+\begin{center}
+\begin{tabular}{p{0.29\linewidth}p{0.61\linewidth}}
+\toprule
+Mechanism & Audited obstruction \\
+\midrule
+Cube relaxation & The unique optimizer is the zero coupling; the sign
+integrality gap is $\Theta(n^{3/2})$.\\
+Hamming union bound & Its balanced certificate has normalized floor
+$\sqrt{\log2/2}>1/2$.\\
+Scalar negative-replica transport & Reverse hypercontractivity follows the
+correct parameter curve but its defect is $\Omega(n^2)$ in a rigorous
+parameter range.\\
+Graph plus rectangular transport & The rectangular marginal cannot pay that
+defect in the zero-temperature regime; the alignment term is leading.\\
+Scalar energy profiles & They give the sharp unlabeled order statistic but
+finite collisions and the order-fourteen calibration show that additive
+labels can carry the required gain.\\
+Low moments and generic vacancy tests & An isolated empty fiber can be hidden
+to exponentially high moment degree in the abstract occupancy problem.\\
+Graphons and empirical spectra & Their dense normalizations erase the
+$n^{3/2}$ fluctuation scale.\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This list is a reason to narrow the state, not a claim that every analytic or
+probabilistic approach is impossible.
+
+\section{The settling target}
+\label{sec:target}
+
+For fixed $A,B,C$, define the desired composition ceiling
+\[
+ T_{n,k}=\left(F(n)^{2/3}+F(k)^{2/3}\right)^{3/2}
+ +C_0N^{3/2-\delta}
+\]
+and the required deficit $s=L-T_{n,k}$.  Theorem~\ref{thm:maxplus} turns the
+entire asymptotic problem into the following precise target.
+
+\begin{definition}[Labeled good-fiber target]
+There exist $C_0<\infty$, $\delta>0$, and a rule assigning to every pair
+$n,k$ internal signings $A,B$ and a rectangular signing $C$ such that
+\begin{equation}
+ \min_{g\in G_{n,k}}b_{L-T_{n,k}}(g)=0.                \label{eq:empty-target}
+\end{equation}
+An abundance version requires at least $2^{cN}$ gauges satisfying the same
+inequality for some $c>0$ over proportional splits.
+\end{definition}
+
+\begin{proposition}[Why this target settles the question]
+If \eqref{eq:empty-target} holds uniformly for all $n,k$, then
+\eqref{eq:Ftarget} holds and $F(n)/n^{3/2}$ converges.  The same conclusion
+follows from any abundance theorem with the stated energy threshold.
+\end{proposition}
+
+\begin{proof}
+An empty fiber gives $M(Y_g)\le L-(L-T_{n,k})=T_{n,k}$ by
+Theorem~\ref{thm:maxplus}.  Hence $F(N)\le T_{n,k}$.  This is
+\eqref{eq:Ftarget}, so Theorem~\ref{thm:near-subadd} applies.
+\end{proof}
+
+The proposition is a reduction, not a proof of the missing estimate.  Its
+value is that every future invariant can be tested against one exact object:
+the labeled occupancy $b_s$ and its factorization \eqref{eq:fourier-shell}.
+The strongest immediate research targets are:
+\begin{enumerate}
+\item a character-sum sign theorem forcing one empty fiber at the required
+threshold;
+\item a large-deviation theorem producing exponentially many good gauges;
+\item a variational limit for the full relative-switching law with a
+power-saving, dyadically summable composition defect.
+\end{enumerate}
+
+Further exact values of $F(n)$ are useful only when they identify or falsify
+a candidate labeled state.  The companion finite-results manuscript records
+the current exact table and finite structural theorems; the broad research
+archive preserves all other routes and counterexamples.
+
+\begin{thebibliography}{9}
+\bibitem{mo}
+P. Ivanisvili,
+\emph{Min-max of a quadratic form of plus-minus ones},
+MathOverflow question 413935, 2022.
+
+\bibitem{borell}
+C. Borell,
+\emph{Positivity improving operators and hypercontractivity},
+Mathematische Zeitschrift 180 (1982), 225--234.
+
+\bibitem{nauty}
+B. D. McKay and A. Piperno,
+\emph{Practical graph isomorphism, II},
+Journal of Symbolic Computation 60 (2014), 94--112.
+\end{thebibliography}
+
+\end{document}

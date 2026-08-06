@@ -1,5 +1,29 @@
 # Verification guide
 
+## Focused manuscript builds
+
+The focused finite-results and composition-framework manuscripts are built
+independently of the broad research archive:
+
+```bash
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -jobname=mo-413935-finite-results \
+  -output-directory=paper paper/finite_results.tex
+latexmk -pdf -interaction=nonstopmode -halt-on-error \
+  -jobname=mo-413935-composition-framework \
+  -output-directory=paper paper/composition_framework.tex
+```
+
+Expected artifacts:
+
+```text
+paper/mo-413935-finite-results.pdf
+paper/mo-413935-composition-framework.pdf
+```
+
+The broad archival manuscript remains `paper/second_attempt.tex` and is not
+generated from either focused source.
+
 All pass/fail decisions in the new identity checker and exhaustive search use
 integer or rational arithmetic. Floating point is used only for displayed
 normalized values and for the original Gaussian sampling check.
