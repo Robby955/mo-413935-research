@@ -352,6 +352,24 @@ maxima is $27,29,31,33,35$ with multiplicities $28,1820,4732,1456,156$, so
 $E(C)=27$ and $F(15)\le27$.  Hence $F(15)=27$.
 \end{proof}
 
+\begin{corollary}[Order sixteen]\label{cor:16}
+$F(16)\in\{28,30\}$.
+\end{corollary}
+
+\begin{proof}
+Lemma \ref{lem:punct} gives $F(16)\ge F(15)=27$, and Lemma \ref{lem:parity}
+with $\binom{16}2=120$ even gives $F(16)\ge28$.  The pinned oriented-Hadamard
+completion of Section \ref{sec:hadamard} gives $F(16)\le30$.
+\end{proof}
+
+\begin{remark}
+Deciding between the two values needs $\mathcal B_{15}(27)$, the complete set
+of order-fifteen minimisers, which sits one threshold above the tower of
+Proposition \ref{prop:15}.  The level sizes at order fourteen for thresholds
+$21$, $23$ and $25$ are $1$, $4$ and $1{,}313{,}164$, so the next threshold is
+not a small step.
+\end{remark}
+
 \begin{remark}[Cost and independent recheck]\label{rem:15cost}
 The three extension levels are the only expensive step, and the last one is
 cheap: a sign row can be rejected as soon as it violates the threshold on any
@@ -515,7 +533,7 @@ so all their scalar partition functions agree at every temperature, but their
 minimum one-vertex extension values are thirteen and fifteen.  Their weighted
 covering geometry, not their energy multiset, distinguishes them.
 
-\section{A sharp oriented-Hadamard completion}
+\section{A sharp oriented-Hadamard completion}\label{sec:hadamard}
 
 Let
 \[

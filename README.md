@@ -77,7 +77,15 @@ The order-16 result is only
 F(16) <= 30.
 ```
 
-No exact value of `F(16)` is claimed here.
+Combined with `F(15) = 27` this pins order 16 to two values: monotonicity gives
+`F(16) >= 27`, and `choose(16,2) = 120` is even, so
+
+```text
+F(16) is 28 or 30.
+```
+
+Deciding between them needs the complete set of order-15 minimisers, which is
+one threshold above the order-15 tower and well beyond its cost.
 
 Up to switching and permutation the minimiser is unique at orders 12, 13 and
 14. The unique minimiser at order 14 is the Paley conference matrix, and at
@@ -150,6 +158,7 @@ equivalent to proving the full limit is `1/2`.
 ## Repository map
 
 - [Active research program](ACTIVE_RESEARCH.md)
+- [Spectral numerics behind the active route](SPECTRAL_NUMERICS.md)
 - [Composition-only frontier prompt](COMPOSITION_FRONTIER_PROMPT.md)
 - [Finite-results source](paper/finite_results.tex)
 - [Composition-framework source](paper/composition_framework.tex)

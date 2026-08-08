@@ -8,82 +8,84 @@ broad frontier.
 
 ## Objective
 
-Prove that
+The long-term question is whether
 
 ```text
 F(n) / n^(3/2)
 ```
 
-converges, or isolate a comparably decisive obstruction. The limit is not
-currently known to exist.
+converges. That remains open, and this phase does not target it directly. The
+reason is recorded in the archive: a divergent profile satisfies every value
+inequality proved so far, so no local estimate can decide convergence, and the
+standard existence machinery for a limit of this kind averages over disorder,
+whereas here the minimum over signings selects the disorder adversarially.
 
-The convergence target used in this phase is
-
-```text
-H(n + m) <= H(n) + H(m) + O((n + m)^(1 - delta)),
-H(n) = F(n)^(2/3),
-```
-
-for some fixed `delta > 0`. This power-saving near-subadditivity would force
-the convergence of `H(n) / n`, and hence of `F(n) / n^(3/2)`.
-
-## Only active asymptotic route
-
-The active route is the exact labeled relative-gauge composition law.
-
-For fixed internal signings `A`, `B`, and rectangular cross signing `C`, the
-product of their local state spaces maps onto a relative-switching group with
-equal fibers. The maximum of the full signing in each gauge is exactly the
-maximum local energy in the corresponding fiber. Equivalently, its gain below
-the independent ceiling is the minimum total local deficit in that fiber.
-
-At a proposed target deficit `s`, let `b_s(g)` count subthreshold product
-triples in the gauge fiber `g`. The exact task is to prove that a suitable
-choice of near-optimal blocks and cross seed has
+The active target is instead the strict inequality
 
 ```text
-min_g b_s(g) = 0
+limsup F(n)/n^(3/2) < 1/2.
 ```
 
-at the deficit needed for the power-saving inequality above. A stronger and
-more stable theorem would prove that exponentially many fibers are empty or
-good.
+It admits partial credit: any explicit `delta > 0` would be the first movement
+on the interval `[1/pi, 1/2]` since the question was posed. It is also the side
+where the obstruction is now precisely located, which the previous target was
+not.
 
-The next acceptable theorem must therefore be one of the following:
+## Why this target, and where it is blocked
 
-1. A direct character-sum or Fourier argument proving an empty relative-gauge
-   fiber at the required threshold.
-2. A quantitative abundance theorem for good fibers, strong enough to survive
-   repeated proportional composition with a summable error.
-3. A closed variational limit for the full relative-switching distribution
-   that implies the same power-saving composition inequality.
+`SPECTRAL_NUMERICS.md` records the measurements. In outline:
 
-The first mixed four-cycle Hamiltonian and the complete labeled-shell Fourier
-factorization are concrete starting states. They are useful only if they lead
-to a cross-order estimate.
+- The bound `1/2` is exactly the spectral ceiling `n*sqrt(n-1)/2`, which is
+  also the value of the semidefinite relaxation for a conference matrix. No
+  spectral or relaxation argument can go below it.
+- A flat-spectrum matrix with no arithmetic structure reaches only about
+  `0.93` of that ceiling, and a first-moment count caps it at
+  `sqrt(15)/4 = 0.9682`. Realising that behaviour with `+-1` entries would give
+  a constant near `0.484`.
+- A `+-1` matrix with a flat spectrum is a conference matrix, and the
+  constructible conference matrices are arithmetic. Paley reaches at least
+  `0.978` of its ceiling at order 102 and tends to `1`, so it **violates** the
+  generic cap rather than obeying it.
 
-## Acceptance test for new work
+So the quasirandom heuristic that predicts a sub-`1/2` constant fails on the
+only family that can be written down. That is the wall.
+
+## Acceptable next results
 
 A new result belongs in the active program only if it does at least one of the
 following:
 
-- proves or quantitatively advances the displayed near-subadditivity bound;
-- proves a nontrivial uniform bound on the labeled fiber minimum or on the
-  abundance of good gauges;
-- supplies an iterable invariant with a proved composition rule and
-  `o(N^(3/2))` loss;
-- proves nonconvergence by matching infinite-family upper and lower bounds.
+1. Exhibits an explicit infinite family of signings with
+   `M(A) <= (1/2 - delta) n^(3/2)` for a fixed `delta > 0`, with the upper
+   bound proved rather than searched. Local search cannot supply this: an
+   incomplete maximisation understates `M`, which is the wrong direction.
+2. Proves an alignment bound `m(A) <= 1 - delta` for an explicit conference
+   family other than Paley, for instance a Mathon family, where the
+   least-nonresidue mechanism that drives Paley to its ceiling is absent.
+3. Proves that near-flat signings, with spectral norm `(1+eps)sqrt(n)` and
+   suppressed alignment, beat the flat ones asymptotically. The order-10
+   optimum does exactly this at finite order: norm `1.311*sqrt(n-1)`,
+   alignment `0.661` against the Nesterov floor `0.6366`, beating the
+   conference matrix 13 to 15.
+4. Improves the lower bound above `1/pi`, which means beating Nesterov
+   rounding on flat-spectrum instances.
 
-Finite computation remains useful when it distinguishes candidate labeled
-states or tests a proposed theorem. Growing the exact-value table by itself is
-not an active asymptotic objective.
+Finite computation remains useful when it tests a proposed family or supplies
+a counterexample. Growing the exact-value table by itself is not an active
+asymptotic objective.
 
 ## Banked, not active
 
 The following are retained as proved results, finite models, or closed routes,
 but are not independent research programs in this phase:
 
-- exact values through order 14 and the order-16 upper bound `F(16) <= 30`;
+- the power-saving near-subadditivity target
+  `H(n+m) <= H(n)+H(m)+O((n+m)^(1-delta))` for `H(n) = F(n)^(2/3)`, together
+  with the labeled relative-gauge composition law and the empty-fiber
+  condition `min_g b_s(g) = 0` that would have delivered it. The law is exact
+  and is written up in `paper/composition_framework.tex`; what is banked is the
+  attempt to close it, after a long sequence of leading-order obstructions;
+- exact values through order 15, and `F(16)` in `{28, 30}`;
 - the weighted Bellman identities and finite optimizer non-heredity;
 - scalar cube, elliptope, graphon, spectral, cumulant, and moment relaxations;
 - scalar negative-replica transport and graph-plus-rectangular transport;
@@ -93,7 +95,7 @@ but are not independent research programs in this phase:
 
 These results are documented in the archive and in the focused finite-results
 manuscript. They should not be reproved unless a materially different mechanism
-feeds the active cross-order target.
+feeds the active target.
 
 ## Publication split
 
