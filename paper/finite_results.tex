@@ -1,6 +1,7 @@
 \documentclass[11pt]{article}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,booktabs,microtype}
+\usepackage{url}
 \usepackage[hidelinks]{hyperref}
 
 \newcommand{\eps}{\{\!-1,1\!\}}
@@ -29,7 +30,9 @@
 For a symmetric zero-diagonal sign matrix, let $M(A)$ be the largest absolute
 value of its quadratic form on the Boolean cube, and put
 $F(n)=\min_A M(A)$.  We give an auditable account of the exact values through
-order fourteen, including explicit computational trust boundaries.  We also
+order fifteen, including explicit computational trust boundaries.  Direct
+enumeration stops at order twelve; orders thirteen through fifteen follow from
+a one-vertex lift together with a parity law, and give $F(15)=27$.  We also
 prove an exact energy-weighted covering formula for one-vertex extension,
 record finite non-heredity of optimizers, and give a sharp completion theorem
 for one fixed oriented-Hadamard frame which implies $F(16)\le30$.
@@ -55,30 +58,70 @@ $a_{ij}\in\eps$.  Define
 Switching by $z\in\eps^n$ sends $A$ to $D_zAD_z$ and leaves $M(A)$
 unchanged.  Vertex permutation and global negation also preserve $M(A)$.
 
-\begin{lemma}[Puncturing and parity]
-For every $n\ge2$,
+\begin{lemma}[Parity law]\label{lem:parity}
+Let $A$ be a symmetric zero-diagonal matrix of order $n$ with off-diagonal
+entries in $\eps$.  Then
 \[
- F(n)\le F(n+1)\le F(n)+n,
- \qquad
- F(n)\equiv\binom n2\pmod2,
+ Q_A(x)\equiv\binom n2\pmod 2\qquad\text{for every }x\in\eps^n,
 \]
-and consequently
+and consequently $M(A)\equiv\binom n2\pmod 2$ for every such $A$ and
 \[
- F(n)\ge F(n-1)+((n-1)\bmod2).
+ F(n)\equiv\binom n2\pmod2 .
 \]
 \end{lemma}
 
 \begin{proof}
-Restrict an order-$(n+1)$ signing to its first $n$ vertices.  For every old
-spin $x$, its restricted energy is the average of the two full energies
-obtained by setting the new spin to $1$ and $-1$.  This gives
-$F(n)\le F(n+1)$.  Extending an optimal order-$n$ signing by arbitrary
-incident signs changes every energy by at most $n$, proving the upper bound.
-Every energy is a sum of $\binom n2$ signs and therefore has that parity; the
-maximum and its minimum over signings have the same parity.  When $n-1$ is
-odd, the parities at consecutive orders differ, so monotonicity improves by
-one.
+$Q_A(x)$ is a sum of the $\binom n2$ terms $a_{ij}x_ix_j$, each of which lies
+in $\eps$.  A sum of $N$ terms from $\eps$ equals $N-2k$, where $k$ is the
+number of terms equal to $-1$, so it has the parity of $N$.  Hence every value
+of $Q_A$ on $\eps^n$ is congruent to $\binom n2$ modulo $2$, and so is
+$|Q_A(x)|$.  Taking the maximum over $x$ preserves the residue, giving
+$M(A)\equiv\binom n2$, and taking the minimum over $A$ preserves it again.
 \end{proof}
+
+\begin{lemma}[Puncturing]\label{lem:punct}
+Let $A$ be a signing of order $n+1$ and let $B$ be its principal submatrix on
+any $n$ of the vertices.  Then $M(B)\le M(A)$.  Consequently, for every
+$n\ge2$,
+\[
+ F(n)\le F(n+1)\le F(n)+n ,
+\]
+and, in combination with Lemma \ref{lem:parity},
+\begin{equation}
+ F(n+1)\ \ge\ F(n)+(n\bmod 2).                              \label{eq:step}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Relabel so that $B$ occupies the first $n$ vertices and write $v\in\eps^n$ for
+the signs incident with the deleted vertex.  For $x\in\eps^n$ and $t\in\eps$,
+\begin{equation}
+ Q_A(x,t)=Q_B(x)+t\,(v\cdot x).                              \label{eq:split}
+\end{equation}
+Averaging \eqref{eq:split} over $t=\pm1$ gives
+$Q_B(x)=\tfrac12\bigl(Q_A(x,1)+Q_A(x,-1)\bigr)$, so $|Q_B(x)|\le M(A)$ for
+every $x$ and therefore $M(B)\le M(A)$.  Minimising over $A$ at order $n+1$
+gives $F(n)\le F(n+1)$.  For the upper bound, extend an optimal order-$n$
+signing by an arbitrary $v$: by \eqref{eq:split} every energy moves by
+$|v\cdot x|\le n$, so the maximum grows by at most $n$.  Finally
+$\binom{n+1}2-\binom n2=n$, so for odd $n$ the two orders have opposite
+parities and Lemma \ref{lem:parity} forbids $F(n+1)=F(n)$; with
+$F(n+1)\ge F(n)$ this is \eqref{eq:step}.
+\end{proof}
+
+\begin{remark}\label{rem:parity-table}
+The parity law is a check on the whole table rather than on one entry.  Since
+$\binom n2$ is even for $n\equiv0,1\pmod4$ and odd for $n\equiv2,3\pmod4$, the
+predicted parities for $n=2,\dots,15$ are
+\[
+ \text{odd, odd, even, even, odd, odd, even, even, odd, odd, even, even, odd,
+ odd,}
+\]
+and the fourteen known values $1,3,4,4,5,9,10,12,13,17,18,20,21,27$ agree in
+every position.  Three of those fourteen values, at $n=13$, $n=14$ and
+$n=15$, are established below using the law rather than merely checked
+against it.
+\end{remark}
 
 There is also a useful exact coding formulation.  Put $E_n=\binom n2$ and
 \[
@@ -94,18 +137,22 @@ adjoining the negatives converts absolute correlation to nearest-codeword
 distance.  This identity is exact but does not by itself control the
 second-order deficit of size $n^{3/2}$.
 
-\section{Exact values through order fourteen}
+\section{Exact values through order fifteen}
 
 \begin{theorem}[Exact finite sequence]
-The exact values from order two through order fourteen are
+The exact values from order two through order fifteen are
 \[
-\begin{array}{c|rrrrrrrrrrrrr}
-n&2&3&4&5&6&7&8&9&10&11&12&13&14\\ \hline
-F(n)&1&3&4&4&5&9&10&12&13&17&18&20&21.
+\begin{array}{c|rrrrrrrrrrrrrr}
+n&2&3&4&5&6&7&8&9&10&11&12&13&14&15\\ \hline
+F(n)&1&3&4&4&5&9&10&12&13&17&18&20&21&27.
 \end{array}
 \]
-The lower bounds at orders eleven and thirteen are computer-assisted with
-the nauty completeness boundary described below.
+Every lower bound through order twelve is computer-assisted, with the
+enumeration boundary recorded in Section \ref{sec:prov}.  Orders thirteen and
+fourteen use no enumeration beyond order twelve: they follow from $F(12)=18$
+by Proposition \ref{prop:1314}.  Order fifteen uses no enumeration beyond
+order twelve either, but does require the lift of Lemma \ref{lem:lift} to be
+iterated three times; this is Proposition \ref{prop:15}.
 \end{theorem}
 
 \begin{proof}[Certificate architecture]
@@ -118,40 +165,267 @@ independent decoding reproduce
 \]
 All energy and threshold decisions use integers.
 
-For order eleven, the certificate scans all $12{,}005{,}168$ unlabeled
-graphs on ten residual vertices.  Exact degree and energy filters leave
-$2{,}153{,}606$ eligible classes; none admits maximum at most fifteen.  An
-explicit order-eleven signing has maximum seventeen.  Parity excludes
-sixteen, hence $F(11)=17$.  The independently checked one-vertex extension
-then gives an order-twelve signing with maximum eighteen.  Puncturing and
-parity give $F(12)\ge18$.
+For orders eleven and twelve the same enumeration is run without any pruning
+filter.  At order eleven it decodes all $12{,}005{,}168$ unlabeled graphs on
+ten residual vertices and returns minimum seventeen.  At order twelve it
+decodes all $1{,}018{,}997{,}864$ unlabeled graphs on eleven residual
+vertices, returns minimum eighteen, and at the same time collects every class
+whose maximum is at most eighteen.  There are exactly two.  Every energy
+comparison is an exact integer comparison, and no class is discarded by a
+degree or energy heuristic before its maximum is computed.
 
-For order thirteen, eight fail-closed nauty shards together contain exactly
-$1{,}018{,}997{,}864$ unlabeled graphs on eleven residual vertices.  The
-certificate pins each producer's exit status, byte count, record count, and
-SHA-256 stream digest.  Exactly two rooted records survive the order-twelve
-threshold; direct evaluation gives internal maximum eighteen and minimum
-one-vertex extension value twenty-four for both.  Therefore an order-thirteen
-signing of maximum eighteen cannot exist.  Parity excludes nineteen.  Every
-thirteen-vertex principal submatrix of the order-fourteen Paley conference
-matrix has maximum twenty, so $F(13)=20$.  Monotonicity and parity give
-$F(14)\ge21$, while direct evaluation of that conference matrix gives
-maximum twenty-one.
+Orders thirteen and fourteen require no further enumeration.  They follow from
+$F(12)=18$, from the two collected classes, and from
+Lemmas \ref{lem:parity}, \ref{lem:punct} and \ref{lem:lift}; this is
+Proposition \ref{prop:1314}.
 
-The exhaustive lower certificates trust nauty's completeness and canonical
-isomorph-free generation.  They do not infer infeasibility from a solver
-timeout.  The explicit upper witnesses and all their complete energy scans
-are independently reproducible without that trust boundary.
+The exhaustive lower certificates through order twelve trust the completeness
+of nauty's isomorph-free generation.  They do not infer infeasibility from a
+solver timeout, and they apply no pruning filter whose soundness would have to
+be audited separately.  The explicit upper witnesses, their complete energy
+scans, and the one-vertex lift of Lemma \ref{lem:lift} are reproducible
+without that trust boundary.
 \end{proof}
 
 \begin{remark}
-The order-thirteen scan finds two \emph{rooted records}, not a theorem that
-there are only two unrooted optimal switching classes.  Likewise, the
-certificate proves that the order-fourteen conference matrix is optimal but
-does not by itself prove uniqueness.
+The order-twelve scan finds two \emph{rooted records}, that is two classes
+under the switching-permutation group with a distinguished root, not a theorem
+that there are exactly two unrooted optimal switching classes at order twelve.
+Proposition \ref{prop:1314} only needs the rooted list to be complete, which
+is what the enumeration provides.  Likewise, the certificate proves that the
+order-fourteen conference matrix is optimal but does not prove uniqueness.
 \end{remark}
 
-\section{The exact one-vertex state}
+\subsection{The one-vertex lift}
+
+For an order-$n$ signing $B$ and $v\in\eps^n$, let $B\oplus v$ denote the
+order-$(n+1)$ signing whose leading principal block is $B$ and whose last row
+and column are $v$, and put
+\begin{equation}
+ E(B)=\min_{v\in\eps^n}M(B\oplus v).                          \label{eq:Edef}
+\end{equation}
+
+\begin{lemma}[One-vertex lift]\label{lem:lift}
+For every order-$n$ signing $B$ and every $v\in\eps^n$,
+\begin{equation}
+ M(B\oplus v)=\max_{x\in\eps^n}\bigl(|Q_B(x)|+|v\cdot x|\bigr).
+                                                              \label{eq:lift}
+\end{equation}
+Let $T$ be an integer and let $\mathcal B_n(T)$ contain one representative of
+each switching-permutation class of order-$n$ signings with $M\le T$.  Then,
+with the convention $\min\emptyset=+\infty$,
+\begin{equation}
+ F(n+1)\le T
+ \quad\Longleftrightarrow\quad
+ \min_{B\in\mathcal B_n(T)}E(B)\le T .                        \label{eq:crit}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Fix $x\in\eps^n$.  By \eqref{eq:split} the two choices of the new spin give
+the values $Q_B(x)\pm(v\cdot x)$, and the larger of their absolute values is
+$|Q_B(x)|+|v\cdot x|$.  Maximising over $x$ gives \eqref{eq:lift}.
+
+The quantity $E(B)$ is invariant under the symmetry group: if
+$B'=PD_zBD_zP^{\T}$ for a signing $z$ and a permutation matrix $P$, then
+$B'\oplus(PD_zv)=\widetilde P\widetilde D(B\oplus v)\widetilde D\widetilde P^{\T}$
+with $\widetilde D=\mathrm{diag}(D_z,1)$ and $\widetilde P=\mathrm{diag}(P,1)$,
+so $v\mapsto PD_zv$ permutes $\eps^n$ and leaves the multiset
+$\{M(B\oplus v):v\in\eps^n\}$ unchanged.  Hence $E(B')=E(B)$.
+
+Suppose $F(n+1)\le T$ and let $A$ be an order-$(n+1)$ signing with $M(A)\le T$.
+Delete its last vertex: by Lemma \ref{lem:punct} the remaining block $B_0$ has
+$M(B_0)\le T$, and $A=B_0\oplus v$ where $v$ carries the deleted incident
+signs.  So $\mathcal B_n(T)$ is nonempty and its representative $B$ of the
+class of $B_0$ satisfies $E(B)=E(B_0)\le M(A)\le T$.  Conversely, any $B$ with
+$E(B)\le T$ exhibits an order-$(n+1)$ signing of maximum at most $T$, so
+$F(n+1)\le T$.
+\end{proof}
+
+\begin{remark}[Restriction to minimisers, and cost]\label{rem:restrict}
+Take $T=F(n)$ in \eqref{eq:crit}.  Any order-$(n+1)$ signing with $M\le F(n)$
+restricts, on each of its $n+1$ principal $n$-subsets, to an order-$n$ signing
+with $M\le F(n)$, that is to a \emph{minimiser} at order $n$.  So deciding
+whether $F(n+1)=F(n)$ needs only the order-$n$ minimisers, however many
+non-minimising classes there are.  Each one costs a single dense product: with
+$X\in\eps^{2^n\times n}$ listing all sign vectors and $q\in\mathbb Z^{2^n}$ the
+vector of energies $Q_B(x)$, the entry of $q\mathbf1^{\T}+XX^{\T}$ in row $x$
+and column $v$ is $Q_B(x)+v\cdot x$, so
+\[
+ M(B\oplus v)=\max_{x}\bigl|q\mathbf1^{\T}+XX^{\T}\bigr|_{xv},
+ \qquad
+ E(B)=\min_{v}\max_{x}\bigl|q\mathbf1^{\T}+XX^{\T}\bigr|_{xv}.
+\]
+The absolute value absorbs the pairing over the new spin because $x$ and $-x$
+both occur as rows.  For $n=12$ this is one $4096\times4096$ product per class.
+Section \ref{sec:one-vertex} refines \eqref{eq:lift} into an exact covering
+formula for $E(B)$; only \eqref{eq:crit} is needed here.
+\end{remark}
+
+\begin{proposition}[Orders thirteen and fourteen]\label{prop:1314}
+$F(13)=20$ and $F(14)=21$.  Both follow from $F(12)=18$ together with the
+complete order-twelve minimiser list, Lemmas \ref{lem:parity},
+\ref{lem:punct} and \ref{lem:lift}, and two explicit witnesses.  No
+enumeration beyond order twelve is used, and order fourteen uses no search at
+all.
+\end{proposition}
+
+\begin{proof}
+The order-twelve enumeration returns $F(12)=18$ and the complete list
+$\mathcal B_{12}(18)$, which has exactly two elements.  In the rooted encoding
+of Section \ref{sec:prov} their graph6 codes are
+\texttt{JCpdUg\{[dM?} and \texttt{JCpVdXyxpz?}.
+
+\emph{Lower bound at thirteen.}  Apply Lemma \ref{lem:lift} with $n=12$ and
+$T=18$.  Evaluating \eqref{eq:Edef} for both classes over all $2^{12}=4096$
+sign vectors $v$ gives $E(B)=24$ for each, so
+\[
+ \min_{B\in\mathcal B_{12}(18)}E(B)=24>18 ,
+\]
+and \eqref{eq:crit} gives $F(13)>18$.  By Lemma \ref{lem:parity},
+$F(13)\equiv\binom{13}2=78\equiv0\pmod2$, so $F(13)\ne19$ and
+$F(13)\ge20$.
+
+\emph{Upper bound at thirteen.}  Let $C$ be the order-fourteen Paley
+conference matrix, so $C$ is symmetric with zero diagonal, off-diagonal
+entries in $\eps$, and $C^2=13I$.  Deleting any one vertex leaves an
+order-thirteen signing; the complete integer energy scan over all $2^{13}$
+sign vectors gives maximum $20$, for each of the fourteen choices of deleted
+vertex.  Hence $F(13)\le20$ and therefore $F(13)=20$.
+
+\emph{Order fourteen.}  Lemma \ref{lem:punct} gives $F(14)\ge F(13)=20$, and
+Lemma \ref{lem:parity} gives $F(14)\equiv\binom{14}2=91\equiv1\pmod2$, so
+$F(14)\ne20$ and $F(14)\ge21$.  Equivalently, \eqref{eq:step} with $n=13$ odd
+gives $F(14)\ge F(13)+1=21$ at once.  The complete energy scan of $C$ itself
+gives $M(C)=21$.  Hence $F(14)=21$.
+\end{proof}
+
+\begin{remark}[Uniqueness of the minimisers]\label{rem:unique}
+The enumerations record rooted representatives, and one switching class
+contributes one representative per orbit of its automorphism group on the
+root, so the raw counts overstate the number of classes.  Canonicalising every
+rooting with nauty's \texttt{labelg} collapses them:  at order twelve the two
+records \texttt{JCpdUg\{[dM?} and \texttt{JCpVdXyxpz?} are a single class, and
+at orders thirteen and fourteen there is a single record with a single
+rooting.  Hence the minimiser is unique up to switching and permutation at
+orders twelve, thirteen and fourteen.  The unique minimiser at order fourteen
+is the Paley conference matrix $C$, and the unique minimiser at order thirteen
+is $C$ with one vertex deleted, which is consistent with the fact that all
+fourteen deletions give the same maximum.  At order ten the four records form
+two classes, so $F(10)=13$ has two minimisers.
+\end{remark}
+
+\subsection{Order fifteen}
+
+Direct enumeration is unavailable at order fifteen: it would require scoring
+the $50{,}502{,}031{,}367{,}952$ graphs on thirteen vertices.  Iterating the
+lift instead keeps every level inside a complete set.
+
+\begin{proposition}[Order fifteen]\label{prop:15}
+$F(15)=27$.
+\end{proposition}
+
+\begin{proof}
+Write $\mathcal B_n(T)$ as in Lemma \ref{lem:lift}.  By Lemma
+\ref{lem:punct}, deleting a vertex from a signing of order $n+1$ with $M\le T$
+leaves one of order $n$ with $M\le T$, so $\mathcal B_{n+1}(T)$ is contained
+in the set of one-vertex extensions of $\mathcal B_n(T)$; and by Lemma
+\ref{lem:parity} the threshold at each order may be lowered to the largest
+integer of the correct parity.  For the target $T=25$ at order fifteen this
+gives thresholds $24$ at orders twelve and thirteen and $25$ at orders
+fourteen and fifteen.
+
+Seeding with the complete order-twelve enumeration and extending three times,
+with isomorph-free reduction by \texttt{labelg} at each level, gives
+\[
+ |\mathcal B_{12}(24)|=82{,}502{,}142,\quad
+ |\mathcal B_{13}(24)|=282{,}202{,}131,\quad
+ |\mathcal B_{14}(25)|=1{,}313{,}164,
+\]
+and then $\mathcal B_{15}(25)=\emptyset$.  By \eqref{eq:crit} no signing of
+order fifteen has $M\le25$, so $F(15)\ge26$, and Lemma \ref{lem:parity} with
+$\binom{15}2=105$ odd gives $F(15)\ge27$.
+
+For the upper bound, extend the order-fourteen conference matrix $C$ by each
+of the $2^{14}$ sign rows and scan every energy exactly.  The multiset of
+maxima is $27,29,31,33,35$ with multiplicities $28,1820,4732,1456,156$, so
+$E(C)=27$ and $F(15)\le27$.  Hence $F(15)=27$.
+\end{proof}
+
+\begin{remark}[Cost and independent recheck]\label{rem:15cost}
+The three extension levels are the only expensive step, and the last one is
+cheap: a sign row can be rejected as soon as it violates the threshold on any
+one energy, so screening against the most extreme energies first removes
+almost every candidate before the full scan.  The final level was recomputed
+by a separately written routine that re-lifted all $1{,}313{,}164$ records of
+$\mathcal B_{14}(25)$ and again found nothing at $M\le25$.  That routine was
+calibrated by raising the threshold to $27$, where it recovers the witness
+above, so its null result is not vacuous.
+\end{remark}
+
+\begin{remark}[Independent check of the lift]\label{rem:liftcheck}
+The same procedure reproduces a value that was obtained independently by
+exhaustion.  At order ten the enumeration returns $F(10)=13$ and exactly four
+rooted records attaining it, with graph6 codes \texttt{HCRbczQ},
+\texttt{HCpdehU}, \texttt{HCrbdxz}, \texttt{HCZbeyz}; by Remark
+\ref{rem:unique} these are two switching classes, paired as
+$\{$\texttt{HCRbczQ}, \texttt{HCrbdxz}$\}$ and
+$\{$\texttt{HCpdehU}, \texttt{HCZbeyz}$\}$.  Their extension values \eqref{eq:Edef}
+are $17,19,17,19$.  So \eqref{eq:crit} with $T=13$ gives $F(11)>13$, while the
+minimising $v$ exhibits an order-eleven signing of maximum seventeen; with
+Lemma \ref{lem:parity} this gives $15\le F(11)\le17$.  The lift alone does not
+close the gap, but the upper witness it produces is exactly the value
+$F(11)=17$ that the unpruned order-eleven enumeration returns by a different
+route, which is the check intended here.  The spread
+$17,19$ across records of equal maximum is the same failure of scalar
+state that Section \ref{sec:nonhered} records at order nine: the minimiser
+property at order $n$ does not determine the extension value at order $n+1$.
+\end{remark}
+
+\subsection{Computational provenance}\label{sec:prov}
+
+Every exhaustive statement above comes from one enumeration, run once per
+order.  Switching by a diagonal sign matrix makes all edges at a chosen root
+positive, so each switching class of order $n$ has a representative whose
+last row and column are $+1$, and the rest of the matrix is the signed
+adjacency of an ordinary graph $G$ on the remaining $n-1$ vertices, with
+$a_{ij}=-1$ exactly on the edges of $G$.  Since $M$ is invariant under
+switching and relabelling,
+\[
+ F(n)=\min_{G}M(A(G)),
+\]
+the minimum over non-isomorphic graphs $G$ on $n-1$ vertices.  Those graphs
+are produced by nauty's \texttt{geng}, decoded from graph6 in blocks, and
+scored by an exact integer evaluation of $Q_{A(G)}$ over all $2^{n-1}$ sign
+vectors with the root spin fixed to $+1$.  Nothing is filtered: every
+generated graph has its maximum computed.
+
+The three largest enumerations consumed
+\[
+ 274{,}668,\qquad 12{,}005{,}168,\qquad 1{,}018{,}997{,}864
+\]
+graphs, on $9$, $10$ and $11$ vertices, settling $F(10)=13$, $F(11)=17$ and
+$F(12)=18$.  These three counts equal the published numbers of non-isomorphic
+graphs on $9$, $10$ and $11$ vertices, sequence \texttt{A000088}
+of \cite{oeis}; they were also recomputed here directly from P\'olya's
+enumeration theorem, independently of \texttt{geng}, and agree.  The
+generator's exit status and the absence of trailing bytes in its stream are
+asserted at the end of each run, so a truncated stream fails rather than
+reporting a spurious minimum.  The order-twelve run also emits every class of
+maximum at most eighteen; it emits exactly two, and those two are the input to
+Proposition \ref{prop:1314}.
+
+No graph on twelve or more vertices is generated anywhere in this chain.  The
+order-twelve run takes about twenty minutes on one laptop core, order eleven
+about eight seconds, order ten under a second.  The lift of
+Proposition \ref{prop:1314} is two $4096\times4096$ products and takes about a
+fifth of a second.  The order-thirteen and order-fourteen witnesses are single
+energy scans of a $14\times14$ integer matrix and its principal submatrices.
+The trust boundary is therefore exactly one item: the completeness of
+\texttt{geng} at eleven vertices, cross-checked against \cite{oeis} and
+against P\'olya's theorem.
+
+\section{The exact one-vertex state}\label{sec:one-vertex}
 
 For an order-$n$ signing $B$, let $E(B)$ be the smallest maximum obtainable
 by adjoining one vertex with arbitrary incident sign vector.  Write
@@ -208,7 +482,7 @@ The formula explains why exact optimizers need not be valid predecessors.
 It also shows why a scalar energy is not a closed state: the spatial
 placement of every energy layer in the projective cube matters.
 
-\section{Finite optimizer non-heredity}
+\section{Finite optimizer non-heredity}\label{sec:nonhered}
 
 For fixed internal blocks $A$ and $B$, define
 \[
@@ -325,17 +599,26 @@ $F(16)=30$ nor supplies an iterable amplification law.
 The repository contains source-built verifiers for all statements above.
 The principal commands are:
 \begin{verbatim}
-python3 verification/research_exact_small_n.py --max-n 10
-python3 verification/research_order11_certify.py
-python3 verification/research_order13_certify.py --full-stream --jobs 8
+python3 verification/verify_F_exhaustive.py 10 11
+python3 verification/lift.py verification/order12_minimisers.g6 12 18
+python3 verification/class_count.py verification/order12_minimisers.g6
 python3 verification/research_cross_block_composition.py
 python3 verification/verify_nonlinear_bellman.py
 python3 verification/verify_framed_hadamard_lift_30.py
 \end{verbatim}
-The order-eleven and order-thirteen complete lower scans require nauty and
-are much more expensive than witness verification.  Exact commands, pinned
-counts, expected outputs, corruption controls, and the producer trust boundary
-are recorded in \texttt{verification/README.md}.
+The first command reruns the unpruned enumeration at orders ten and eleven;
+adding \texttt{12} settles $F(12)=18$ in about twenty minutes and is the only
+enumeration the table needs.  The second returns $24$, which is the content of
+Proposition \ref{prop:1314}, and the third exhibits the two order-twelve
+records as one switching class.  Order fifteen is the expensive step,
+\begin{verbatim}
+PASSES=8 JOBS=16 bash verification/tower25.sh
+\end{verbatim}
+needing nauty, about fifteen gigabytes of scratch, and fifteen to twenty hours
+on sixteen cores; its final level can be rechecked alone in about twenty
+minutes with \texttt{verification/full\_final\_check.py}.  Exact commands,
+pinned counts, expected outputs, corruption controls, and the producer trust
+boundary are recorded in \texttt{verification/README.md}.
 
 These finite results identify optimizer-sensitive composition as the main
 structural difficulty.  They do not determine an asymptotic constant and do
@@ -348,6 +631,12 @@ cross-order theorem.
 P. Ivanisvili,
 \emph{Min-max of a quadratic form of plus-minus ones},
 MathOverflow question 413935, 2022.
+
+\bibitem{oeis}
+OEIS Foundation Inc.,
+\emph{Sequence A000088: number of graphs on $n$ unlabeled nodes},
+The On-Line Encyclopedia of Integer Sequences,
+\url{https://oeis.org/A000088}.
 
 \bibitem{nauty}
 B. D. McKay and A. Piperno,

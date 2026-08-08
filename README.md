@@ -18,7 +18,7 @@ The question is whether `F(n) / n^(3/2)` converges. The limit remains open.
 The project is now split into two narrower manuscripts:
 
 - [Finite structure in a min-max quadratic sign problem](paper/mo-413935-finite-results.pdf)
-  covers the exact values through order 14, computational certificate
+  covers the exact values through order 15, computational certificate
   boundaries, optimizer non-heredity, the weighted Bellman identity, and the
   pinned framed-Hadamard theorem proving `F(16) <= 30`.
 - [Relative-gauge composition for quadratic sign discrepancy](paper/mo-413935-composition-framework.pdf)
@@ -48,20 +48,43 @@ The audited universal bounds are
 The exact finite sequence is
 
 ```text
-n:     2  3  4  5  6  7   8   9  10  11  12  13  14
-F(n):  1  3  4  4  5  9  10  12  13  17  18  20  21
+n:     2  3  4  5  6  7   8   9  10  11  12  13  14  15
+F(n):  1  3  4  4  5  9  10  12  13  17  18  20  21  27
 ```
 
-The lower certificates at orders 11 and 13 are computer-assisted. Their
+Direct enumeration stops at order 12, where all 1,018,997,864 graphs on 11
+vertices are scored without any pruning filter. Orders 13, 14 and 15 need no
+enumeration beyond that. They follow from `F(12) = 18` by a one-vertex lift
+and the parity law `F(n) = choose(n,2) mod 2`, which forces every value to
+have the parity of the number of terms in the form. Order 15 iterates the lift
+three times, through level sizes
+
+```text
+|B_12(24)| = 82,502,142   |B_13(24)| = 282,202,131   |B_14(25)| = 1,313,164
+```
+
+and an empty level at order 15, so no order-15 signing has maximum at most 25;
+the order-14 conference matrix extends to one of maximum 27.
+
+The lower certificates through order 12 are computer-assisted. Their
 completeness trusts nauty's isomorph-free graph generation; all stream counts,
 digests, producer exits, surviving records, and explicit witnesses are checked
-separately. The order-16 result is only
+separately. The three enumeration sizes 274,668, 12,005,168 and 1,018,997,864
+equal the published counts of non-isomorphic graphs on 9, 10 and 11 vertices.
+The order-16 result is only
 
 ```text
 F(16) <= 30.
 ```
 
-No exact value of `F(15)` or `F(16)` is claimed here.
+No exact value of `F(16)` is claimed here.
+
+Up to switching and permutation the minimiser is unique at orders 12, 13 and
+14. The unique minimiser at order 14 is the Paley conference matrix, and at
+order 13 it is that matrix with one vertex deleted. Order 10 has two
+minimisers. Record counts in the raw enumeration output are larger than these,
+because one switching class contributes one rooted record per orbit of its
+automorphism group on the root.
 
 Other banked results include:
 
@@ -160,6 +183,31 @@ Some exhaustive checks require nauty, NetworkX, NumPy, or `z3-solver`; the
 order-13 full-stream scan is expensive. The verification guide gives exact
 dependencies, expected output, deterministic seeds, stream digests,
 corruption controls, and trust boundaries.
+
+The exact values through order 15 have a separate, cheaper chain. It needs
+nauty and NumPy only:
+
+```bash
+python3 verification/verify_F_exhaustive.py 10 11
+python3 verification/lift.py verification/order12_minimisers.g6 12 18
+python3 verification/class_count.py verification/order12_minimisers.g6
+```
+
+The first reruns the unpruned enumeration at orders 10 and 11, in seconds and
+minutes respectively; adding `12` costs about 20 minutes and settles
+`F(12) = 18`. The second lifts the order-12 minimisers and returns 24, which
+is what gives `F(13) = 20`. The third shows the two order-12 records are a
+single switching class.
+
+Order 15 is the expensive one. It reruns with
+
+```bash
+PASSES=8 JOBS=16 bash verification/tower25.sh
+```
+
+which needs about 15 GB of scratch and 15 to 20 hours on 16 cores, and prints
+an empty level at order 15. Its last level can be rechecked on its own, in
+about 20 minutes single-core, with `verification/full_final_check.py`.
 
 The framed order-16 construction also has an independent strict-C verifier:
 

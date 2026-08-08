@@ -308,6 +308,45 @@ classes of signings and relate coset leaders to the line index of imbalance
   global negation.  The 1994 paper treats the ordinary cocycle code and does
   not derive the order-\(n^{3/2}\) deficit in its covering radius.
 
+### The one-sided problem is a solved frustration question
+
+Every term of \(Q_A\) is \(\pm1\), so if \(k\) of them are violated by \(x\)
+then \(Q_A(x)=\binom n2-2k\).  Minimising \(k\) over \(x\) is the line index of
+balance, or frustration index, \(l(K_n,\sigma)\) of the signed complete graph
+whose negative edges are the \(-1\) entries.  Hence
+
+\[
+ \max_{x}Q_A(x)=\binom n2-2\,l(K_n,\sigma),
+ \qquad
+ \min_A\max_x Q_A(x)=\binom n2-2\max_\sigma l(K_n,\sigma),
+\]
+
+so the **one-sided** version of the MO question is exactly the problem of the
+most frustrated signing of \(K_n\).  That problem is solved: the maximum is
+\(\lfloor(n-1)^2/4\rfloor\), attained by the all-negative signing, which gives
+\(\min_A\max_xQ_A(x)=\lfloor n/2\rfloor\) for both parities.
+
+* Source: M. Petersdorf, *Einige Bemerkungen über vollständige Bigraphen*,
+  Wiss. Z. Techn. Hochsch. Ilmenau 12 (1966), 257--260.
+* Citation status: the original was not consulted here.  The statement and the
+  attribution are taken from two independent secondary sources that agree on
+  author, title, journal, volume, year and content, namely Zaslavsky's dynamic
+  survey [DS8](https://www.combinatorics.org/files/Surveys/ds8/ds8v9-2018.pdf)
+  and Aref, Mason and Wilson,
+  [*Computing the line index of balance using integer programming
+  optimisation*](https://arxiv.org/abs/1710.09876).  Zaslavsky's
+  [problem list](https://people.math.binghamton.edu/zaslav/Bsg/sgbgprobs.html)
+  states it as "\(-K_n\) is the unique maximally frustrated signing of
+  \(K_n\)".
+* Gives here: the correct attribution for the \(\lfloor n/2\rfloor\) value.
+  That value is Petersdorf's theorem restated, not a folklore observation, and
+  should be cited as such.
+* Does not give: anything about \(F(n)\).  The absolute value changes the
+  quantity to \(\binom n2-2\max_\sigma\min\{l(\sigma),l(-\sigma)\}\), which is
+  the covering radius of the augmented code above.  The all-negative signing
+  is maximally frustrated but its negation is balanced, so it is far from
+  optimal for \(F\); the two problems have different extremal signings.
+
 The same authors determine covering radii of **cycle** codes through minimum
 \(T\)-joins for several graph classes.
 
